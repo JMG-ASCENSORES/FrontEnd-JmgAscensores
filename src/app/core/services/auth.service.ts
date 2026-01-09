@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { AuthResponse, LoginRequest, Admin, Worker } from '../models/auth.models';
 
 import { StorageService } from './storage.service';
@@ -14,8 +15,8 @@ export class AuthService {
   private storageService = inject(StorageService);
   private router = inject(Router);
 
-  // TODO: Create environments file. For now hardcoded.
-  private apiUrl = 'http://localhost:5079/api';
+  // Use environment variable
+  private apiUrl = environment.apiUrl;
 
   // State
   private currentUserSig = signal<Admin | Worker | null>(this.storageService.getUser());
