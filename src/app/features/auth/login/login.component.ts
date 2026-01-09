@@ -18,7 +18,6 @@ export class LoginComponent {
 
   loginForm = this.fb.group({
     dni: ['', [Validators.required, Validators.minLength(8)]],
-    correo: ['', [Validators.required, Validators.email]],
     contrasena: ['', [Validators.required]]
   });
 
@@ -34,13 +33,13 @@ export class LoginComponent {
       
       // Determine role based on email for SIMULATION purpose
       let mockRole: 'admin' | 'trabajador' = 'trabajador';
-      if (formValue.correo?.includes('admin')) {
+      if (formValue.dni?.includes('admin')) {
         mockRole = 'admin';
       }
 
       // Payload matching interface
       const payload: any = { 
-        correo: formValue.correo, 
+        dni: formValue.dni, 
         contrasena: formValue.contrasena, 
         rol: mockRole // In real app, backend determines role or verifies it
       }; 
