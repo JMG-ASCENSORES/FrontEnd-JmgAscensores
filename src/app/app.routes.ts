@@ -1,3 +1,28 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/guards/auth.guard'; // Will define next
 
-export const routes: Routes = [];
+export const routes: Routes = [
+  {
+    path: 'auth',
+    loadChildren: () => import('./features/auth/auth.routes').then(m => m.authRoutes)
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('./features/admin/admin.routes').then(m => m.adminRoutes),
+    // canActivate: [authGuard] // Uncomment when guard is ready
+  },
+  {
+    path: 'worker',
+    loadChildren: () => import('./features/worker/worker.routes').then(m => m.workerRoutes),
+    // canActivate: [authGuard] // Uncomment when guard is ready
+  },
+  {
+    path: '',
+    redirectTo: 'auth',
+    pathMatch: 'full'
+  },
+  {
+    path: '**',
+    redirectTo: 'auth'
+  }
+];

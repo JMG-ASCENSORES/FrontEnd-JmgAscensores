@@ -1,0 +1,27 @@
+<div class="min-h-screen bg-slate-100 flex flex-col">
+  <!-- Mobile Header -->
+  <header class="bg-blue-600 text-white p-4 shadow-md sticky top-0 z-50">
+    <div class="flex justify-between items-center">
+      <h1 class="font-bold text-lg">JMG Técnico</h1>
+      <button (click)="logout()" class="text-xs bg-blue-700 px-3 py-1 rounded-full">Salir</button>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <main class="flex-1 p-4 pb-20"> <!-- pb-20 for bottom nav space -->
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav class="bg-white border-t border-slate-200 fixed bottom-0 left-0 right-0 h-16 flex justify-around items-center px-2">
+    <a routerLink="/worker/home" routerLinkActive="text-blue-600" class="flex flex-col items-center p-2 text-slate-500">
+      <span class="text-xs mt-1">Inicio</span>
+    </a>
+    <a routerLink="/worker/routes" routerLinkActive="text-blue-600" class="flex flex-col items-center p-2 text-slate-500">
+      <span class="text-xs mt-1">Rutas</span>
+    </a>
+    <a routerLink="/worker/profile" routerLinkActive="text-blue-600" class="flex flex-col items-center p-2 text-slate-500">
+      <span class="text-xs mt-1">Perfil</span>
+    </a>
+  </nav>
+</div>
