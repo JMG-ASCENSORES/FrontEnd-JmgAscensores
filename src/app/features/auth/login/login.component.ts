@@ -75,7 +75,7 @@ export class LoginComponent {
          dni: formValue.dni || '00000000',
          nombre: 'Usuario',
          apellido: 'Prueba',
-         correo: formValue.correo || 'test@test.com',
+         correo: 'test@test.com',
          activo: true,
          fecha_creacion: new Date().toISOString()
        },

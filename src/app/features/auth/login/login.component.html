@@ -14,13 +14,7 @@
 
     <!-- Logo/Branding Overlay -->
     <div class="relative z-40 text-left p-10">
-       <!-- Placeholder for Logo if image not available -->
-       <div class="text-blue-500 font-extrabold text-6xl tracking-tighter flex items-center mb-2">
-         <span class="text-blue-600">J</span>
-         <span class="text-blue-600">M</span>
-         <span class="text-blue-600">G</span>
-       </div>
-       <div class="text-green-500 font-bold text-xl tracking-[0.3em] uppercase">Ascensores</div>
+       <img src="/images/jmg_logo.png" alt="JMG Ascensores Logo" class="w-80 h-auto object-contain">
     </div>
   </div>
 
@@ -46,21 +40,6 @@
           >
           <div *ngIf="loginForm.get('dni')?.touched && loginForm.get('dni')?.invalid" class="text-red-500 text-xs">
             DNI es requerido.
-          </div>
-        </div>
-
-        <!-- Email Field -->
-        <div class="space-y-2">
-          <label for="email" class="block text-sm font-medium text-gray-500">Email</label>
-          <input 
-            id="email" 
-            type="email" 
-            formControlName="correo"
-            class="w-full px-4 py-3 bg-gray-200 border-none rounded-lg text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-green-500 outline-none transition-all"
-            placeholder="Enter your Email here"
-          >
-           <div *ngIf="loginForm.get('correo')?.touched && loginForm.get('correo')?.invalid" class="text-red-500 text-xs">
-            Email válido requerida.
           </div>
         </div>
 
