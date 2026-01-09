@@ -31,67 +31,29 @@ export class LoginComponent {
       
       const formValue = this.loginForm.value;
       
-      // Determine role based on email for SIMULATION purpose
-      let mockRole: 'admin' | 'trabajador' = 'trabajador';
-      if (formValue.dni?.includes('admin')) {
-        mockRole = 'admin';
-      }
-
-      // Payload matching interface
-      const payload: any = { 
-        dni: formValue.dni, 
-        contrasena: formValue.contrasena, 
-        rol: mockRole // In real app, backend determines role or verifies it
+      const payload = { 
+        dni: formValue.dni || '', 
+        contrasena: formValue.contrasena || ''
       }; 
 
-      // Simulate network delay for effect
-      setTimeout(() => {
-        this.authService.login(payload).subscribe({
-          next: (response) => {
-            // Override local role with response role if backend sends it
-            // For now assuming the auth service handles the state update
-            if (response.rol === 'admin') {
-              this.router.navigate(['/admin/dashboard']);
-            } else {
-              this.router.navigate(['/worker/home']);
-            }
-          },
-          error: (err) => {
-             // Fallback for simulation if backend is offline
-             console.warn('Backend unavailable, using mock login for demo');
-             this.handleMockLogin(mockRole, formValue);
+      this.authService.login(payload).subscribe({
+        next: (user) => {
+          this.isLoading = false;
+          if (user.rol === 'ADMIN') {
+            this.router.navigate(['/admin/dashboard']);
+          } else if (user.rol === 'TECNICO') {
+            this.router.navigate(['/worker/home']);
+          } else {
+             this.router.navigate(['/']); 
           }
-        });
-      }, 1000);
+        },
+        error: (err) => {
+           this.isLoading = false;
+           this.errorMessage = err.message || 'Credenciales inválidas o error de conexión';
+           console.error('Login error:', err);
+        }
+      });
     }
-  }
-
-  // Helper for dev without backend
-  private handleMockLogin(role: 'admin' | 'trabajador', formValue: any) {
-     const mockUser = {
-       token: 'mock-jwt-token-123',
-       usuario: {
-         admin_id: 1, // or trabajador_id
-         dni: formValue.dni || '00000000',
-         nombre: 'Usuario',
-         apellido: 'Prueba',
-         correo: 'test@test.com',
-         activo: true,
-         fecha_creacion: new Date().toISOString()
-       },
-       rol: role
-     };
-
-     // Manually saving to storage since we bypassed the service typical flow
-     localStorage.setItem('auth_token', mockUser.token);
-     localStorage.setItem('auth_user', JSON.stringify(mockUser.usuario));
-
-     this.isLoading = false;
-     if (role === 'admin') {
-       this.router.navigate(['/admin/dashboard']);
-     } else {
-       this.router.navigate(['/worker/home']);
-     }
   }
 }
 

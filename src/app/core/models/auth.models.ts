@@ -1,35 +1,25 @@
-export interface Admin {
-  admin_id: number;
+export interface User {
+  id: number;
   dni: string;
   nombre: string;
   apellido: string;
   correo: string;
-  activo: boolean;
-  fecha_creacion: string; // ISO Date
-}
-
-export interface Worker {
-  trabajador_id: number;
-  dni: string;
-  nombre: string;
-  apellido: string;
-  edad: number;
-  correo: string;
-  telefono: string;
-  especialidad: string;
-  foto_perfil?: string;
-  estado_activo: boolean;
-  fecha_creacion: string;
+  rol: 'ADMIN' | 'TECNICO' | 'CLIENTE';
+  tipo: 'administrador' | 'trabajador' | 'cliente';
 }
 
 export interface LoginRequest {
-  correo: string;
+  dni: string;
   contrasena: string;
-  rol: 'admin' | 'trabajador';
 }
 
 export interface AuthResponse {
-  token: string;
-  usuario: Admin | Worker;
-  rol: 'admin' | 'trabajador';
+  success: boolean;
+  message: string;
+  data: {
+    user: User;
+    accessToken: string;
+    refreshToken: string;
+  };
 }
+

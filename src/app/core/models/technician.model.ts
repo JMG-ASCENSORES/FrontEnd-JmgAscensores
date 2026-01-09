@@ -1,4 +1,4 @@
-import { Worker } from './auth.models';
+
 
 export interface RouteDetail {
   detalle_ruta_id: number;

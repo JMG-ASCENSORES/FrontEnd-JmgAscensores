@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { AuthResponse, LoginRequest, Admin, Worker } from '../models/auth.models';
+import { AuthResponse, LoginRequest, User } from '../models/auth.models';
 
 import { StorageService } from './storage.service';
 
@@ -19,7 +19,7 @@ export class AuthService {
   private apiUrl = environment.apiUrl;
 
   // State
-  private currentUserSig = signal<Admin | Worker | null>(this.storageService.getUser());
+  private currentUserSig = signal<User | null>(this.storageService.getUser());
   
   // Computed
   public currentUser = computed(() => this.currentUserSig());
@@ -31,12 +31,17 @@ export class AuthService {
     return user && 'admin_id' in user;
   });
 
-  login(credentials: LoginRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/Auth/login`, credentials).pipe(
-      tap(response => {
-        this.storageService.saveToken(response.token);
-        this.storageService.saveUser(response.usuario);
-        this.currentUserSig.set(response.usuario);
+  login(credentials: LoginRequest): Observable<User> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/auth/login`, credentials).pipe(
+      map(response => {
+        if (response.success && response.data) {
+           this.storageService.saveToken(response.data.accessToken);
+           this.storageService.saveUser(response.data.user);
+           this.currentUserSig.set(response.data.user);
+           return response.data.user;
+        } else {
+           throw new Error(response.message || 'Login failed');
+        }
       })
     );
   }
