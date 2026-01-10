@@ -1,0 +1,22 @@
+:host {
+  display: block;
+  height: 100vh;
+}
+
+.active-link {
+  background-color: #16a34a !important; // Green-600
+  color: white !important;
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
+
+  i {
+    color: white !important;
+  }
+}
+
+aside {
+  will-change: width;
+}
+
+span {
+  transition: opacity 0.2s ease, width 0.3s ease;
+}

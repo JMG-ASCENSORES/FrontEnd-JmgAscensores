@@ -1,19 +1,64 @@
 import { Component } from '@angular/core';
 import { Routes } from '@angular/router';
 import { AdminLayoutComponent } from './layout/admin-layout.component';
+import { PlaceholderPageComponent } from '../../shared/components/placeholder-page/placeholder-page.component';
 
-// Placeholder components for the router
-@Component({ template: `<h2 class="text-2xl font-bold mb-4">Dashboard General</h2><p>Bienvenido al panel de administración.</p>`, standalone: true })
+// Specialized components
+@Component({ 
+  template: `<app-placeholder-page title="Dashboard General" icon="bi bi-grid-fill"></app-placeholder-page>`, 
+  standalone: true,
+  imports: [PlaceholderPageComponent]
+})
 export class AdminDashboardComponent {}
 
-@Component({ template: `<h2 class="text-2xl font-bold mb-4">Gestión de Clientes</h2><p>Tabla de clientes...</p>`, standalone: true })
+@Component({ 
+  template: `<app-placeholder-page title="Gestión de Clientes" icon="bi bi-people"></app-placeholder-page>`, 
+  standalone: true,
+  imports: [PlaceholderPageComponent]
+})
 export class ClientsComponent {}
 
-@Component({ template: `<h2 class="text-2xl font-bold mb-4">Gestión de Ascensores</h2><p>Tabla de ascensores...</p>`, standalone: true })
+@Component({ 
+  template: `<app-placeholder-page title="Gestión de Ascensores" icon="bi bi-briefcase"></app-placeholder-page>`, 
+  standalone: true,
+  imports: [PlaceholderPageComponent]
+})
 export class ElevatorsComponent {}
 
-@Component({ template: `<h2 class="text-2xl font-bold mb-4">Gestión de Técnicos</h2><p>Tabla de técnicos...</p>`, standalone: true })
+@Component({ 
+  template: `<app-placeholder-page title="Gestión de Técnicos" icon="bi bi-person-gear"></app-placeholder-page>`, 
+  standalone: true,
+  imports: [PlaceholderPageComponent]
+})
 export class TechniciansComponent {}
+
+@Component({ 
+  template: `<app-placeholder-page title="Documentos" icon="bi bi-file-earmark-text"></app-placeholder-page>`, 
+  standalone: true,
+  imports: [PlaceholderPageComponent]
+})
+export class DocumentsComponent {}
+
+@Component({ 
+  template: `<app-placeholder-page title="Reportes" icon="bi bi-bar-chart-line"></app-placeholder-page>`, 
+  standalone: true,
+  imports: [PlaceholderPageComponent]
+})
+export class ReportsComponent {}
+
+@Component({ 
+  template: `<app-placeholder-page title="Asistente IA" icon="bi bi-robot"></app-placeholder-page>`, 
+  standalone: true,
+  imports: [PlaceholderPageComponent]
+})
+export class AIAssistantComponent {}
+
+@Component({ 
+  template: `<app-placeholder-page title="Configuración" icon="bi bi-gear"></app-placeholder-page>`, 
+  standalone: true,
+  imports: [PlaceholderPageComponent]
+})
+export class SettingsComponent {}
 
 
 export const adminRoutes: Routes = [
@@ -25,6 +70,10 @@ export const adminRoutes: Routes = [
       { path: 'clients', component: ClientsComponent },
       { path: 'elevators', component: ElevatorsComponent },
       { path: 'technicians', component: TechniciansComponent },
+      { path: 'documents', component: DocumentsComponent },
+      { path: 'reports', component: ReportsComponent },
+      { path: 'ai-assistant', component: AIAssistantComponent },
+      { path: 'settings', component: SettingsComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   }
