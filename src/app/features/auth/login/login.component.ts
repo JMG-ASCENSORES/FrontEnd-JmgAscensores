@@ -29,31 +29,43 @@ export class LoginComponent {
       this.isLoading = true;
       this.errorMessage = '';
       
+      // Get values before disabling the form
       const formValue = this.loginForm.value;
+      this.loginForm.disable();
       
       const payload = { 
         dni: formValue.dni || '', 
         contrasena: formValue.contrasena || ''
       }; 
 
-      this.authService.login(payload).subscribe({
-        next: (user) => {
-          this.isLoading = false;
-          if (user.rol === 'ADMIN') {
-            this.router.navigate(['/admin/dashboard']);
-          } else if (user.rol === 'TECNICO') {
-            this.router.navigate(['/worker/home']);
-          } else {
-             this.router.navigate(['/']); 
+      this.authService.login(payload)
+        .subscribe({
+          next: (user) => {
+            this.isLoading = false;
+            this.loginForm.enable();
+            
+            if (user.rol === 'ADMIN') {
+              this.router.navigate(['/admin/dashboard']);
+            } else if (user.rol === 'TECNICO') {
+              this.router.navigate(['/worker/home']);
+            } else {
+               this.router.navigate(['/']); 
+            }
+          },
+          error: (err) => {
+             this.isLoading = false;
+             this.loginForm.enable();
+             console.error('Login error:', err);
+             
+             if (err.error && err.error.message) {
+               this.errorMessage = err.error.message;
+             } else {
+               this.errorMessage = 'Credenciales inválidas o error de conexión';
+             }
           }
-        },
-        error: (err) => {
-           this.isLoading = false;
-           this.errorMessage = err.message || 'Credenciales inválidas o error de conexión';
-           console.error('Login error:', err);
-        }
-      });
+        });
     }
   }
 }
+
 
