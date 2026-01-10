@@ -17,7 +17,7 @@ export class LoginComponent {
   private router = inject(Router);
 
   loginForm = this.fb.group({
-    dni: ['', [Validators.required, Validators.minLength(8)]],
+    dni: ['', [Validators.required, Validators.pattern(/^\d{8}$/)]],
     contrasena: ['', [Validators.required]]
   });
 
