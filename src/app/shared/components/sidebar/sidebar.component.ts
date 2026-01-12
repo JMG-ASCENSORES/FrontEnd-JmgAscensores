@@ -16,7 +16,7 @@ interface MenuItem {
   styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent {
-  isCollapsed = false;
+  isExpanded = false;
 
   @Input() menuItems: MenuItem[] = [
     { label: 'Programación', icon: 'bi bi-grid-fill', route: '/admin/dashboard' },
@@ -29,8 +29,12 @@ export class SidebarComponent {
     { label: 'Configuración', icon: 'bi bi-gear', route: '/admin/settings' }
   ];
 
-  toggleSidebar() {
-    this.isCollapsed = !this.isCollapsed;
+  onMouseEnter() {
+    this.isExpanded = true;
+  }
+
+  onMouseLeave() {
+    this.isExpanded = false;
   }
 
   logout() {

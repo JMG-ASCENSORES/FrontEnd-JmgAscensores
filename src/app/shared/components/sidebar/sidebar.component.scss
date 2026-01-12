@@ -7,6 +7,7 @@
   background-color: #16a34a !important; // Green-600
   color: white !important;
   box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
+  transform: translateX(2px);
 
   i {
     color: white !important;
@@ -15,8 +16,43 @@
 
 aside {
   will-change: width;
+  
+  &:hover {
+    box-shadow: 2px 0 20px rgba(0, 0, 0, 0.08);
+  }
 }
 
+// Smooth transitions for text
 span {
-  transition: opacity 0.2s ease, width 0.3s ease;
+  transition: opacity 0.25s ease, width 0.3s ease;
+}
+
+// Tooltip styling for collapsed state
+[title] {
+  position: relative;
+  
+  &:hover::after {
+    content: attr(title);
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 12px;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    border-radius: 8px;
+    font-size: 13px;
+    white-space: nowrap;
+    z-index: 1000;
+    pointer-events: none;
+    opacity: 0;
+    animation: fadeInTooltip 0.2s ease forwards 0.5s;
+  }
+}
+
+@keyframes fadeInTooltip {
+  to {
+    opacity: 1;
+  }
 }
