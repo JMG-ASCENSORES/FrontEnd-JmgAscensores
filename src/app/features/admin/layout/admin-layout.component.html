@@ -1,9 +1,18 @@
 <div class="flex h-screen bg-[#F8FAFC]">
   <!-- Reusable Sidebar -->
-  <app-sidebar class="hidden md:block transition-all duration-300"></app-sidebar>
+  <app-sidebar #sidebar class="hidden md:block transition-all duration-300"></app-sidebar>
 
   <!-- Main Content -->
   <main class="flex-1 overflow-auto flex flex-col">
+    <!-- Desktop Header with Hamburger -->
+    <header class="hidden md:flex bg-white px-6 py-4 items-center border-b border-gray-100 shadow-sm sticky top-0 z-40">
+      <button (click)="sidebar.toggleSidebar()" 
+              class="flex items-center justify-center w-10 h-10 rounded-xl hover:bg-gray-100 transition-colors text-gray-600 hover:text-green-600 mr-4">
+        <i class="bi bi-list text-2xl"></i>
+      </button>
+      <h1 class="text-xl font-bold text-gray-800">Panel de Administración</h1>
+    </header>
+
     <!-- Mobile Header -->
     <header class="bg-white px-6 py-4 flex justify-between items-center md:hidden border-b border-gray-100 shadow-sm">
       <div class="flex items-center">

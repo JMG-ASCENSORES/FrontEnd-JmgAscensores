@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
 
 interface MenuItem {
   label: string;
@@ -16,7 +17,9 @@ interface MenuItem {
   styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent {
-  isExpanded = false;
+  private authService = inject(AuthService);
+  
+  isCollapsed = true; // Start collapsed by default
 
   @Input() menuItems: MenuItem[] = [
     { label: 'Programación', icon: 'bi bi-grid-fill', route: '/admin/dashboard' },
@@ -29,15 +32,11 @@ export class SidebarComponent {
     { label: 'Configuración', icon: 'bi bi-gear', route: '/admin/settings' }
   ];
 
-  onMouseEnter() {
-    this.isExpanded = true;
-  }
-
-  onMouseLeave() {
-    this.isExpanded = false;
+  toggleSidebar() {
+    this.isCollapsed = !this.isCollapsed;
   }
 
   logout() {
-    console.log('Logging out...');
+    this.authService.logout();
   }
 }

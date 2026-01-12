@@ -36,6 +36,7 @@ export class AuthService {
       map(response => {
         if (response.success && response.data) {
            this.storageService.saveToken(response.data.accessToken);
+           this.storageService.saveRefreshToken(response.data.refreshToken);
            this.storageService.saveUser(response.data.user);
            this.currentUserSig.set(response.data.user);
            return response.data.user;
@@ -47,6 +48,30 @@ export class AuthService {
   }
 
   logout(): void {
+    const refreshToken = this.storageService.getRefreshToken();
+    
+    if (refreshToken) {
+      // Call backend to invalidate the refresh token
+      this.http.post(`${this.apiUrl}/auth/logout`, { refreshToken })
+        .subscribe({
+          next: () => {
+            console.log('Sesión cerrada en el servidor');
+          },
+          error: (err) => {
+            console.error('Error al cerrar sesión en el servidor:', err);
+          },
+          complete: () => {
+            // Always clear local storage and redirect, even if API call fails
+            this.clearSessionAndRedirect();
+          }
+        });
+    } else {
+      // No refresh token, just clear and redirect
+      this.clearSessionAndRedirect();
+    }
+  }
+
+  private clearSessionAndRedirect(): void {
     this.storageService.clear();
     this.currentUserSig.set(null);
     this.router.navigate(['/auth/login']);
