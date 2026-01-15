@@ -16,7 +16,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const token = storageService.getToken();
   let authReq = req;
 
-  if (token) {
+  if (token && token !== 'undefined' && token !== 'null') {
     authReq = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`

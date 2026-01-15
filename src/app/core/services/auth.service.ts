@@ -33,11 +33,16 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.apiUrl}/auth/login`, credentials).pipe(
       map(response => {
         if (response.success && response.data) {
-           this.storageService.saveToken(response.data.accessToken);
-           this.storageService.saveRefreshToken(response.data.refreshToken);
-           this.storageService.saveUser(response.data.user);
-           this.currentUserSig.set(response.data.user);
-           return response.data.user;
+           const { accessToken, refreshToken, user } = response.data;
+           
+           if (accessToken) this.storageService.saveToken(accessToken);
+           if (refreshToken) this.storageService.saveRefreshToken(refreshToken);
+           if (user) {
+             this.storageService.saveUser(user);
+             this.currentUserSig.set(user);
+           }
+           
+           return user;
         } else {
            throw new Error(response.message || 'Login failed');
         }

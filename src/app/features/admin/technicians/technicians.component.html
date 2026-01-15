@@ -86,8 +86,20 @@
     </button>
   </div>
 
+  <!-- Loading State -->
+  <div *ngIf="isLoading()" class="flex flex-col items-center justify-center py-20">
+    <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#003B73] mb-4"></div>
+    <p class="text-slate-500 font-medium animate-pulse">Cargando técnicos...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error()" class="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-xl flex items-center gap-3">
+    <i class="bi bi-exclamation-triangle-fill text-xl"></i>
+    <span>{{ error() }}</span>
+  </div>
+
   <!-- Grid -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+  <div *ngIf="!isLoading()" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
     <div *ngFor="let tech of filteredTechnicians()" class="bg-white rounded-2xl shadow-md border border-gray-200 p-8 relative hover:shadow-xl hover:border-blue-200 transition-all duration-300 group">
       <!-- Edit/Details Icon -->
       <button class="absolute top-5 right-5 text-emerald-600 hover:text-emerald-800 p-2 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors" title="Editar Técnico">
@@ -157,7 +169,7 @@
   </div>
   
   <!-- Empty State -->
-  <div *ngIf="filteredTechnicians().length === 0" class="text-center py-20 bg-white rounded-3xl shadow-sm border border-dashed border-gray-300">
+  <div *ngIf="!isLoading() && filteredTechnicians().length === 0" class="text-center py-20 bg-white rounded-3xl shadow-sm border border-dashed border-gray-300">
     <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
       <i class="bi bi-search text-gray-300 text-4xl"></i>
     </div>
