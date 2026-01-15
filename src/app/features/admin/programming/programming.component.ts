@@ -84,6 +84,8 @@ export class ProgrammingComponent {
     contentHeight: 'auto',
     locale: 'es', 
     firstDay: 0, // Sunday
+    fixedWeekCount: false, // Hide extra rows if not needed
+    showNonCurrentDates: true, // Show next/prev month dates (opaque)
     
     dayHeaderContent: (arg) => {
         const days = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
