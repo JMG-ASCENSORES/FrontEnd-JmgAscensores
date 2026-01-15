@@ -9,12 +9,12 @@ export const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () => import('./features/admin/admin.routes').then(m => m.adminRoutes),
-    // canActivate: [authGuard] // Uncomment when guard is ready
+    canActivate: [authGuard]
   },
   {
     path: 'worker',
     loadChildren: () => import('./features/worker/worker.routes').then(m => m.workerRoutes),
-    // canActivate: [authGuard] // Uncomment when guard is ready
+    canActivate: [authGuard]
   },
   {
     path: '',

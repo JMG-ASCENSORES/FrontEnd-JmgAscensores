@@ -26,9 +26,7 @@ export class AuthService {
   public isAuthenticated = computed(() => !!this.currentUserSig());
   public isAdmin = computed(() => {
     const user = this.currentUserSig();
-    // Simple check based on properties or stored role. 
-    // Ideally we store the role in a separate signal or inspect the structure.
-    return user && 'admin_id' in user;
+    return user?.rol === 'ADMIN';
   });
 
   login(credentials: LoginRequest): Observable<User> {
@@ -56,12 +54,10 @@ export class AuthService {
         .subscribe({
           next: () => {
             console.log('Sesión cerrada en el servidor');
+            this.clearSessionAndRedirect();
           },
           error: (err) => {
             console.error('Error al cerrar sesión en el servidor:', err);
-          },
-          complete: () => {
-            // Always clear local storage and redirect, even if API call fails
             this.clearSessionAndRedirect();
           }
         });
