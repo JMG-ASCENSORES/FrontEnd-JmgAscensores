@@ -2,14 +2,9 @@ import { Component } from '@angular/core';
 import { Routes } from '@angular/router';
 import { AdminLayoutComponent } from './layout/admin-layout.component';
 import { PlaceholderPageComponent } from '../../shared/components/placeholder-page/placeholder-page.component';
+import { ProgrammingComponent } from './programming/programming.component';
 
 // Specialized components
-@Component({ 
-  template: `<app-placeholder-page title="Dashboard General" icon="bi bi-grid-fill"></app-placeholder-page>`, 
-  standalone: true,
-  imports: [PlaceholderPageComponent]
-})
-export class AdminDashboardComponent {}
 
 @Component({ 
   template: `<app-placeholder-page title="Gestión de Clientes" icon="bi bi-people"></app-placeholder-page>`, 
@@ -66,7 +61,7 @@ export const adminRoutes: Routes = [
     path: '',
     component: AdminLayoutComponent,
     children: [
-      { path: 'dashboard', component: AdminDashboardComponent },
+      { path: 'dashboard', component: ProgrammingComponent },
       { path: 'clients', component: ClientsComponent },
       { path: 'elevators', component: ElevatorsComponent },
       { path: 'technicians', component: TechniciansComponent },
