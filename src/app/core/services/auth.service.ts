@@ -45,6 +45,20 @@ export class AuthService {
     );
   }
 
+  refreshToken(): Observable<any> {
+    const refreshToken = this.storageService.getRefreshToken();
+    return this.http.post<any>(`${this.apiUrl}/auth/refresh`, { refreshToken }).pipe(
+      map(response => {
+        if (response.success && response.data && response.data.accessToken) {
+          this.storageService.saveToken(response.data.accessToken);
+          return response.data.accessToken;
+        } else {
+          throw new Error('No se pudo renovar el token');
+        }
+      })
+    );
+  }
+
   logout(): void {
     const refreshToken = this.storageService.getRefreshToken();
     
@@ -67,9 +81,15 @@ export class AuthService {
     }
   }
 
+  // Helper public method for the interceptor to trigger logout
+  public forceLogout(): void {
+    this.clearSessionAndRedirect();
+  }
+
   private clearSessionAndRedirect(): void {
     this.storageService.clear();
     this.currentUserSig.set(null);
     this.router.navigate(['/auth/login']);
   }
 }
+
