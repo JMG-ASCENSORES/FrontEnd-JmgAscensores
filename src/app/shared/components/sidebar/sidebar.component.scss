@@ -4,9 +4,9 @@
 }
 
 .active-link {
-  background-color: #16a34a !important; // Green-600
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important; // Emerald gradient
   color: white !important;
-  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4), 0 0 0 1px rgba(16, 185, 129, 0.2);
   transform: translateX(2px);
 
   i {
@@ -18,7 +18,7 @@ aside {
   will-change: width;
   
   &:hover {
-    box-shadow: 2px 0 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5);
   }
 }
 
