@@ -1,0 +1,94 @@
+/* Custom styles to supplement Tailwind */
+.stat-card-icon-client {
+    background-color: #1e5a5a; /* Dark teal */
+}
+
+.stat-card-icon-equip {
+    background-color: #4a5568;
+}
+
+/* FullCalendar Customization */
+::ng-deep .fc {
+    font-family: inherit;
+    --fc-border-color: transparent;
+    --fc-today-bg-color: transparent;
+}
+
+/* Header */
+::ng-deep .fc-toolbar-title {
+    font-size: 1.25rem !important; /* text-xl */
+    font-weight: 800 !important;
+    color: #1e293b; /* slate-800 */
+    text-transform: capitalize;
+}
+
+::ng-deep .fc-toolbar {
+    margin-bottom: 1.5rem !important;
+}
+
+/* Day Headers (S, M, T...) */
+::ng-deep .fc-col-header-cell-cushion {
+    text-decoration: none;
+    color: #64748b; /* slate-500 */
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 600;
+    text-transform: uppercase;
+    padding-bottom: 1rem;
+}
+
+/* Day Cells */
+::ng-deep .fc-daygrid-day-number {
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #334155; /* slate-700 */
+    padding: 0 !important;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    border-radius: 0.5rem; /* Rounded corners */
+    z-index: 10;
+    position: relative;
+}
+
+/* Highlighted Blue Day */
+::ng-deep .fc-day.blue-day .fc-daygrid-day-number {
+    background-color: #2563eb; /* blue-600 */
+    color: white !important;
+    font-weight: bold;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3);
+}
+
+/* Highlighted Red Day (if needed for urgent) */
+::ng-deep .fc-day.red-day .fc-daygrid-day-number {
+    background-color: #dc2626; /* red-600 */
+    color: white !important;
+}
+
+/* Clean up grid borders */
+::ng-deep .fc-theme-standard td, 
+::ng-deep .fc-theme-standard th,
+::ng-deep .fc-scrollgrid {
+    border: none !important;
+}
+
+::ng-deep .fc-daygrid-day-events {
+    display: none; /* Hide standard events since we style the cell numbers */
+}
+
+/* Navigation Buttons */
+::ng-deep .fc-button-primary {
+    background-color: transparent !important;
+    border: none !important;
+    color: #1e293b !important;
+    padding: 0 !important;
+}
+::ng-deep .fc-button-primary:hover {
+    color: #2563eb !important; /* Blue highlight on hover */
+}
+::ng-deep .fc-icon {
+    font-size: 1.25rem !important;
+}
