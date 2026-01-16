@@ -80,10 +80,16 @@
 
   <!-- Actions -->
   <div class="flex justify-end">
-    <button (click)="openCreateModal()" class="bg-[#003B73] hover:bg-[#002a52] text-white font-bold rounded-xl px-6 py-4 text-base inline-flex items-center gap-3 transition-all shadow-lg hover:shadow-blue-900/30 transform hover:-translate-y-0.5">
+    <div class="flex gap-4">
+      <button (click)="openRestoreModal()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl px-6 py-4 text-base inline-flex items-center gap-3 transition-all transform hover:-translate-y-0.5">
+        <i class="bi bi-arrow-counterclockwise text-xl"></i>
+        Restaurar Técnicos
+      </button>
+      <button (click)="openCreateModal()" class="bg-[#003B73] hover:bg-[#002a52] text-white font-bold rounded-xl px-6 py-4 text-base inline-flex items-center gap-3 transition-all shadow-lg hover:shadow-blue-900/30 transform hover:-translate-y-0.5">
       <i class="bi bi-plus-circle-fill text-xl"></i>
       Registrar Nuevo Técnico
-    </button>
+      </button>
+    </div>
   </div>
 
   <!-- Loading State -->
@@ -201,5 +207,12 @@
     (close)="closeDeleteModal()"
     (technicianDeleted)="onTechnicianDeleted()">
   </app-technician-delete>
+
+  <!-- Restore Modal -->
+  <app-technician-restore
+    *ngIf="showRestoreModal()"
+    (close)="closeRestoreModal()"
+    (technicianRestored)="onTechnicianRestored()">
+  </app-technician-restore>
 
 </div>

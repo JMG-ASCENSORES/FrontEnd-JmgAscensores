@@ -5,11 +5,12 @@ import { TechnicianService, Technician } from '../../services/technician.service
 import { TechnicianCreateComponent } from '../create/technician-create.component';
 import { TechnicianEditComponent } from '../edit/technician-edit.component';
 import { TechnicianDeleteComponent } from '../delete/technician-delete.component';
+import { TechnicianRestoreComponent } from '../restore/technician-restore.component';
 
 @Component({
   selector: 'app-technician-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, TechnicianCreateComponent, TechnicianEditComponent, TechnicianDeleteComponent],
+  imports: [CommonModule, FormsModule, TechnicianCreateComponent, TechnicianEditComponent, TechnicianDeleteComponent, TechnicianRestoreComponent],
   templateUrl: './technician-list.component.html',
   styleUrl: './technician-list.component.scss'
 })
@@ -30,6 +31,9 @@ export class TechnicianListComponent implements OnInit {
   // Delete State
   showDeleteModal = signal(false);
   technicianToDelete = signal<Technician | null>(null);
+
+  // Restore State
+  showRestoreModal = signal(false);
 
   specialties = [
     'Técnico General',
@@ -152,6 +156,18 @@ export class TechnicianListComponent implements OnInit {
   }
 
   onTechnicianDeleted() {
+    this.loadTechnicians();
+  }
+  
+  openRestoreModal() {
+    this.showRestoreModal.set(true);
+  }
+
+  closeRestoreModal() {
+    this.showRestoreModal.set(false);
+  }
+
+  onTechnicianRestored() {
     this.loadTechnicians();
   }
 }
