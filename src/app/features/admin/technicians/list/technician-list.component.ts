@@ -1,16 +1,17 @@
 import { Component, computed, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TechnicianService, Technician } from '../services/technician.service';
+import { TechnicianService, Technician } from '../../services/technician.service';
+import { TechnicianCreateComponent } from '../create/technician-create.component';
 
 @Component({
-  selector: 'app-technicians',
+  selector: 'app-technician-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './technicians.component.html',
-  styleUrl: './technicians.component.scss'
+  imports: [CommonModule, FormsModule, TechnicianCreateComponent],
+  templateUrl: './technician-list.component.html',
+  styleUrl: './technician-list.component.scss'
 })
-export class TechniciansComponent implements OnInit {
+export class TechnicianListComponent implements OnInit {
   private technicianService = inject(TechnicianService);
 
   // Signals for state
@@ -18,6 +19,7 @@ export class TechniciansComponent implements OnInit {
   selectedSpecialty = signal('');
   isLoading = signal(true);
   error = signal<string | null>(null);
+  showCreateModal = signal(false);
 
   specialties = [
     'Técnico General',
@@ -101,8 +103,16 @@ export class TechniciansComponent implements OnInit {
     }
   }
 
-  openRequestModal() {
-    console.log('Open modal to add technician');
-    // To be implemented
+  openCreateModal() {
+    this.showCreateModal.set(true);
+  }
+
+  closeCreateModal() {
+    this.showCreateModal.set(false);
+  }
+
+  onTechnicianCreated() {
+    this.loadTechnicians(); // Refresh list
+    // Optional: Show success toast/notification
   }
 }

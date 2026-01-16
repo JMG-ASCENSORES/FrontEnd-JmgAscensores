@@ -61,7 +61,7 @@ export const adminRoutes: Routes = [
       { path: 'elevators', component: ElevatorsComponent },
       { 
         path: 'technicians', 
-        loadComponent: () => import('./technicians/technicians.component').then(m => m.TechniciansComponent) 
+        loadComponent: () => import('./technicians/list/technician-list.component').then(m => m.TechnicianListComponent) 
       },
       { path: 'documents', component: DocumentsComponent },
       { path: 'reports', component: ReportsComponent },
