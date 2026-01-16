@@ -1,0 +1,161 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+  <!-- Backdrop -->
+  <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" (click)="onClose()"></div>
+
+  <!-- Modal Panel -->
+  <div class="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden ring-1 ring-black/5 transform transition-all animate-fadeInUp">
+    
+    <!-- Header -->
+    <div class="px-6 py-4 border-b border-gray-100 bg-[#003B73] flex items-center justify-between text-white">
+      <div>
+        <h2 class="text-xl font-bold tracking-wide">Editar Cliente</h2>
+        <p class="text-xs text-blue-100 mt-1">Modifica los datos del cliente.</p>
+      </div>
+      <button (click)="onClose()" class="p-2 rounded-full hover:bg-white/10 text-blue-100 hover:text-white transition-colors">
+        <i class="bi bi-x-lg text-lg"></i>
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="p-6">
+      <form *ngIf="clientForm" [formGroup]="clientForm" (ngSubmit)="onSubmit()" class="space-y-6">
+        
+        <!-- Error Alert -->
+        <div *ngIf="errorMessage()" class="bg-red-50 border-l-4 border-red-500 p-4 rounded-md">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <i class="bi bi-exclamation-circle text-red-500"></i>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm text-red-700">{{ errorMessage() }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- Tipo Cliente -->
+          <div class="col-span-full">
+            <label for="edit_tipo_cliente" class="block text-xs font-bold text-slate-500 uppercase mb-2">Tipo de Cliente</label>
+            <select 
+              id="edit_tipo_cliente"
+              formControlName="tipo_cliente"
+              class="w-full p-3 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all"
+            >
+              <option *ngFor="let type of types" [value]="type">{{ type }}</option>
+            </select>
+          </div>
+
+          <!-- DNI -->
+          <div>
+            <label for="edit_dni" class="block text-xs font-bold text-slate-500 uppercase mb-2">DNI</label>
+            <input 
+              type="text" 
+              id="edit_dni"
+              formControlName="dni"
+              class="w-full p-3 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all"
+              [class.border-red-300]="clientForm.get('dni')?.invalid && clientForm.get('dni')?.touched"
+              placeholder="DNI del cliente"
+            >
+            <p *ngIf="clientForm.get('dni')?.invalid && clientForm.get('dni')?.touched" class="mt-1 text-xs text-red-500">
+               DNI inválido (requerido, 8 dígitos).
+            </p>
+          </div>
+
+          <!-- RUC -->
+          <div>
+            <label for="edit_ruc" class="block text-xs font-bold text-slate-500 uppercase mb-2">RUC (Opcional)</label>
+            <input 
+              type="text" 
+              id="edit_ruc"
+              formControlName="ruc"
+              class="w-full p-3 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all"
+              placeholder="RUC de la empresa"
+            >
+          </div>
+
+          <!-- Nombre Comercial -->
+
+
+           <!-- Contacto Nombre -->
+          <div>
+            <label for="edit_contacto_nombre" class="block text-xs font-bold text-slate-500 uppercase mb-2">Nombre Contacto</label>
+            <input 
+              type="text" 
+              id="edit_contacto_nombre"
+              formControlName="contacto_nombre"
+              class="w-full p-3 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all"
+              placeholder="Nombre del contacto"
+            >
+          </div>
+          <div>
+            <label for="edit_contacto_apellido" class="block text-xs font-bold text-slate-500 uppercase mb-2">Apellido Contacto</label>
+            <input 
+              type="text" 
+              id="edit_contacto_apellido"
+              formControlName="contacto_apellido"
+              class="w-full p-3 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all"
+              placeholder="Apellido del contacto"
+            >
+          </div>
+
+          <!-- Correo -->
+          <div>
+            <label for="edit_contacto_correo" class="block text-xs font-bold text-slate-500 uppercase mb-2">Correo Electrónico</label>
+            <input 
+              type="email" 
+              id="edit_contacto_correo"
+              formControlName="contacto_correo"
+              class="w-full p-3 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all"
+              placeholder="correo@ejemplo.com"
+            >
+          </div>
+
+           <!-- Telefono -->
+          <div>
+            <label for="edit_telefono" class="block text-xs font-bold text-slate-500 uppercase mb-2">Teléfono</label>
+            <input 
+              type="text" 
+              id="edit_telefono"
+              formControlName="contacto_telefono"
+              class="w-full p-3 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all"
+              placeholder="Número de teléfono"
+            >
+          </div>
+
+          <!-- Ubicación -->
+          <div class="col-span-full">
+            <label for="edit_ubicacion" class="block text-xs font-bold text-slate-500 uppercase mb-2">Dirección / Ubicación</label>
+            <input 
+              type="text" 
+              id="edit_ubicacion"
+              formControlName="ubicacion"
+              class="w-full p-3 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all"
+              placeholder="Dirección completa"
+            >
+          </div>
+
+        </div>
+
+        <!-- Actions -->
+        <div class="flex items-center justify-end gap-3 pt-6 border-t border-gray-100">
+           <button 
+            type="button" 
+            (click)="onClose()"
+            class="px-5 py-2.5 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors focus:ring-4 focus:ring-gray-100"
+          >
+            Cancelar
+          </button>
+          <button 
+            type="submit" 
+            [disabled]="clientForm.invalid || isSubmitting()"
+            class="px-5 py-2.5 rounded-lg bg-[#003B73] text-white font-medium hover:bg-[#002a52] transition-colors shadow-lg hover:shadow-blue-900/20 focus:ring-4 focus:ring-blue-100 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+          >
+             <span *ngIf="isSubmitting()" class="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></span>
+            Guardar Cambios
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -94,5 +94,11 @@ export class ClientService {
     return this.http.post(this.apiUrl, client, { headers: this.getHeaders() });
   }
 
-  // TODO: Add update and delete methods when API endpoints are confirmed
+  updateClient(id: number, client: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, client, { headers: this.getHeaders() });
+  }
+
+  deleteClient(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
+  }
 }

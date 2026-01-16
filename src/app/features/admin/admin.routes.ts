@@ -54,7 +54,7 @@ export const adminRoutes: Routes = [
       { path: 'dashboard', component: ProgrammingComponent },
       { 
         path: 'clients', 
-        loadComponent: () => import('./clients/clients.component').then(m => m.ClientsComponent) 
+        loadComponent: () => import('./clients/list/client-list.component').then(m => m.ClientListComponent) 
       },
       { path: 'elevators', component: ElevatorsComponent },
       { 

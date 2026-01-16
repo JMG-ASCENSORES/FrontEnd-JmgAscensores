@@ -1,0 +1,41 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+  <!-- Backdrop -->
+  <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" (click)="onClose()"></div>
+
+  <!-- Modal Panel -->
+  <div class="relative w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden ring-1 ring-black/5 transform transition-all animate-fadeInUp">
+    
+    <div class="p-6 text-center">
+      <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <i class="bi bi-trash-fill text-2xl text-red-600"></i>
+      </div>
+      
+      <h3 class="text-xl font-bold text-gray-900 mb-2">¿Eliminar Cliente?</h3>
+      <p class="text-gray-500 mb-6">
+        ¿Estás seguro que deseas eliminar a <strong>{{ client.nombre_comercial || client.contacto_nombre }}</strong>? Esta acción no se puede deshacer.
+      </p>
+
+      <!-- Error Alert -->
+      <div *ngIf="errorMessage()" class="bg-red-50 text-red-700 p-3 rounded-lg mb-4 text-sm">
+        {{ errorMessage() }}
+      </div>
+
+      <div class="flex gap-3 justify-center">
+        <button 
+          (click)="onClose()" 
+          class="px-5 py-2.5 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors w-1/2"
+        >
+          Cancelar
+        </button>
+        <button 
+          (click)="onDelete()" 
+          [disabled]="isDeleting()"
+          class="px-5 py-2.5 rounded-lg bg-red-600 text-white font-medium hover:bg-red-700 transition-colors shadow-lg shadow-red-600/20 w-1/2 flex items-center justify-center gap-2"
+        >
+          <span *ngIf="isDeleting()" class="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></span>
+          {{ isDeleting() ? 'Eliminando...' : 'Eliminar' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
