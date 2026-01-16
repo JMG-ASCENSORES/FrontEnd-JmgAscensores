@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TechnicianService, Technician } from '../../services/technician.service';
 import { TechnicianCreateComponent } from '../create/technician-create.component';
+import { TechnicianEditComponent } from '../edit/technician-edit.component';
 
 @Component({
   selector: 'app-technician-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, TechnicianCreateComponent],
+  imports: [CommonModule, FormsModule, TechnicianCreateComponent, TechnicianEditComponent],
   templateUrl: './technician-list.component.html',
   styleUrl: './technician-list.component.scss'
 })
@@ -20,6 +21,10 @@ export class TechnicianListComponent implements OnInit {
   isLoading = signal(true);
   error = signal<string | null>(null);
   showCreateModal = signal(false);
+  
+  // Edit State
+  showEditModal = signal(false);
+  selectedTechnician = signal<Technician | null>(null);
 
   specialties = [
     'Técnico General',
@@ -114,5 +119,19 @@ export class TechnicianListComponent implements OnInit {
   onTechnicianCreated() {
     this.loadTechnicians(); // Refresh list
     // Optional: Show success toast/notification
+  }
+
+  openEditModal(technician: Technician) {
+    this.selectedTechnician.set(technician);
+    this.showEditModal.set(true);
+  }
+
+  closeEditModal() {
+    this.showEditModal.set(false);
+    this.selectedTechnician.set(null);
+  }
+
+  onTechnicianUpdated() {
+    this.loadTechnicians();
   }
 }

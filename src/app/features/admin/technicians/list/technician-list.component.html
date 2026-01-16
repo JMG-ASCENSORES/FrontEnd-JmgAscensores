@@ -102,7 +102,7 @@
   <div *ngIf="!isLoading()" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
     <div *ngFor="let tech of filteredTechnicians()" class="bg-white rounded-2xl shadow-md border border-gray-200 p-8 relative hover:shadow-xl hover:border-blue-200 transition-all duration-300 group">
       <!-- Edit/Details Icon -->
-      <button class="absolute top-5 right-5 text-emerald-600 hover:text-emerald-800 p-2 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors" title="Editar Técnico">
+      <button (click)="openEditModal(tech)" class="absolute top-5 right-5 text-emerald-600 hover:text-emerald-800 p-2 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors z-20" title="Editar Técnico">
         <i class="bi bi-pencil-square text-xl"></i>
       </button>
       
@@ -185,5 +185,13 @@
     (close)="closeCreateModal()" 
     (technicianCreated)="onTechnicianCreated()">
   </app-technician-create>
+
+  <!-- Edit Modal -->
+  <app-technician-edit
+    *ngIf="showEditModal() && selectedTechnician()"
+    [technician]="selectedTechnician()!"
+    (close)="closeEditModal()"
+    (technicianUpdated)="onTechnicianUpdated()">
+  </app-technician-edit>
 
 </div>
