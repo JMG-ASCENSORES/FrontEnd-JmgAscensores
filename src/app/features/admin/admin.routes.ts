@@ -6,12 +6,7 @@ import { ProgrammingComponent } from './programming/programming.component';
 
 // Specialized components
 
-@Component({ 
-  template: `<app-placeholder-page title="Gestión de Clientes" icon="bi bi-people"></app-placeholder-page>`, 
-  standalone: true,
-  imports: [PlaceholderPageComponent]
-})
-export class ClientsComponent {}
+
 
 @Component({ 
   template: `<app-placeholder-page title="Gestión de Ascensores" icon="bi bi-briefcase"></app-placeholder-page>`, 
@@ -57,7 +52,10 @@ export const adminRoutes: Routes = [
     component: AdminLayoutComponent,
     children: [
       { path: 'dashboard', component: ProgrammingComponent },
-      { path: 'clients', component: ClientsComponent },
+      { 
+        path: 'clients', 
+        loadComponent: () => import('./clients/clients.component').then(m => m.ClientsComponent) 
+      },
       { path: 'elevators', component: ElevatorsComponent },
       { 
         path: 'technicians', 

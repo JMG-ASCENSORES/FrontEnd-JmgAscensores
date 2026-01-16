@@ -1,0 +1,98 @@
+import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, catchError, map, of, throwError } from 'rxjs';
+import { environment } from '../../../../environments/environment';
+
+export interface Client {
+  cliente_id: number;
+  tipo_cliente?: string; // e.g., 'corporativo', 'residencial'
+  dni?: string;
+  ruc?: string; // Keeping for compatibility if API adds it later
+  ubicacion?: string;
+  ciudad?: string;
+  distrito?: string;
+  telefono?: string;
+  contacto_correo?: string;
+  contacto_nombre?: string;
+  contacto_apellido?: string;
+  contacto_telefono?: string;
+  estado_activo?: boolean;
+  fecha_creacion?: string;
+  fecha_actualizacion?: string;
+  nombre_comercial?: string; // Mapped from response or fallback
+
+  // UI helpers
+  ascensores_count?: number; // Calculated from elevators API
+}
+
+export interface Elevator {
+    ascensor_id: number;
+    cliente_id: number;
+    tipo_equipo: string;
+    marca: string;
+    modelo: string;
+    numero_serie: string;
+    estado: string;
+    // Add other fields if needed for other views, but this is enough for counting
+}
+
+export interface ApiResponse {
+  success: boolean;
+  message: string;
+  data: Client[];
+  timestamp?: string;
+}
+
+export interface ElevatorApiResponse {
+  success: boolean;
+  message: string;
+  data: Elevator[];
+  timestamp?: string;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ClientService {
+  private http = inject(HttpClient);
+  private apiUrl = 'http://localhost:3000/api/clientes';
+  private elevatorsUrl = 'http://localhost:3000/api/ascensores';
+
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  }
+
+  getClients(): Observable<Client[]> {
+    return this.http.get<ApiResponse>(this.apiUrl, { headers: this.getHeaders() })
+      .pipe(
+        map(response => response.data || []), // Unwrap the data property
+        catchError(error => {
+          console.error('Error fetching clients:', error);
+          if (error.status === 401) {
+             return throwError(() => new Error('No autorizado. Por favor inicie sesión nuevamente.'));
+          }
+          return throwError(() => new Error('Error al cargar clientes.'));
+        })
+      );
+  }
+
+  getElevators(): Observable<Elevator[]> {
+      return this.http.get<ElevatorApiResponse>(this.elevatorsUrl, { headers: this.getHeaders() })
+        .pipe(
+          map(response => response.data || []),
+          catchError(error => {
+            console.error('Error fetching elevators:', error);
+            return of([]); // Return empty array on error to not block client loading
+          })
+        );
+  }
+
+  createClient(client: any): Observable<any> {
+    return this.http.post(this.apiUrl, client, { headers: this.getHeaders() });
+  }
+
+  // TODO: Add update and delete methods when API endpoints are confirmed
+}
