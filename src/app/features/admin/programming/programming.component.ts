@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router'; // Import RouterModule for routerLink
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import { TechnicianService, Technician } from '../services/technician.service';
 
 interface Worker {
   id: number;
@@ -32,25 +34,24 @@ interface TimelineItem {
 @Component({
   selector: 'app-programming',
   standalone: true,
-  imports: [CommonModule, FullCalendarModule],
+  imports: [CommonModule, FullCalendarModule, RouterModule],
   templateUrl: './programming.component.html',
   styleUrls: ['./programming.component.css']
 })
-export class ProgrammingComponent {
+export class ProgrammingComponent implements OnInit {
+  private technicianService = inject(TechnicianService);
+  private cdr = inject(ChangeDetectorRef);
+  
   currentDate = new Date();
   
   // Mock Data
   clientCount = 78;
   equipmentCount = 106;
 
-  workers: Worker[] = [
-    { id: 1, name: 'Nombre del personal - 1', role: 'Supervisor Técnico', roleColor: 'bg-blue-100 text-blue-600', icon: 'bi-person-fill-gear' },
-    { id: 2, name: 'Nombre del personal - 2', role: 'Personal Técnico', roleColor: 'bg-blue-100 text-blue-600', icon: 'bi-person-badge' },
-    { id: 3, name: 'Nombre del personal - 3', role: 'Personal Técnico', roleColor: 'bg-blue-100 text-blue-600', icon: 'bi-person-badge' },
-    { id: 4, name: 'Nombre del personal - 4', role: 'Técnico de Reparaciones', roleColor: 'bg-orange-100 text-orange-600', icon: 'bi-hammer' },
-    { id: 5, name: 'Nombre del personal - 5', role: 'Técnico de mantenimientos', roleColor: 'bg-teal-100 text-teal-600', icon: 'bi-gear-wide-connected' },
-    { id: 6, name: 'Nombre del personal - 6', role: 'Técnico de emergencias', roleColor: 'bg-red-100 text-red-600', icon: 'bi-medical-cross' },
-  ];
+  workers: Worker[] = [];
+  isLoading = true;
+
+  // ... (keeping schedules and timeline as they are in file, but we can't match them easily if we replace the whole block. Better to replace just the methods)
 
   schedules: Schedule[] = [
     { id: 1, clientName: 'Cliente - 1', type: 'Mantenimiento', technicianName: 'Técnico asignado', time: '08:00 AM', address: 'Dirección', avatarColor: 'bg-yellow-400' },
@@ -111,4 +112,54 @@ export class ProgrammingComponent {
   };
 
   constructor() {}
+
+  ngOnInit(): void {
+    this.loadWorkers();
+  }
+
+  loadWorkers() {
+    this.isLoading = true;
+    console.log('Loading workers...');
+    // Removed filter to ensure we get data if any exists (even if inactive)
+    this.technicianService.getTechnicians().subscribe({
+      next: (data) => {
+        console.log('Workers loaded:', data);
+        // Take first 5 or so for the list
+        this.workers = data.slice(0, 5).map(tech => ({
+          id: tech.id,
+          name: `${tech.nombre} ${tech.apellido}`,
+          role: tech.especialidad,
+          roleColor: this.getRoleColor(tech.especialidad),
+          icon: this.getRoleIcon(tech.especialidad)
+        }));
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error loading workers for summary', err);
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  getRoleColor(specialty: string): string {
+    switch (specialty) {
+      case 'Supervisor Técnico': return 'bg-purple-100 text-purple-600';
+      case 'Técnico de Mantenimiento': return 'bg-teal-100 text-teal-600';
+      case 'Técnico de Reparaciones': return 'bg-orange-100 text-orange-600';
+      case 'Técnico General': return 'bg-blue-100 text-blue-600';     
+      default: return 'bg-slate-100 text-slate-600';
+    }
+  }
+
+  getRoleIcon(specialty: string): string {
+    switch (specialty) {
+      case 'Supervisor Técnico': return 'bi-person-fill-gear';
+      case 'Técnico de Mantenimiento': return 'bi-gear-wide-connected';
+      case 'Técnico de Reparaciones': return 'bi-hammer';
+      case 'Técnico General': return 'bi-person-badge';
+      default: return 'bi-person';
+    }
+  }
 }

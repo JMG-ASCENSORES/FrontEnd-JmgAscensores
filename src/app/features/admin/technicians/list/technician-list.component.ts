@@ -1,16 +1,20 @@
 import { Component, computed, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TechnicianService, Technician } from '../services/technician.service';
+import { TechnicianService, Technician } from '../../services/technician.service';
+import { TechnicianCreateComponent } from '../create/technician-create.component';
+import { TechnicianEditComponent } from '../edit/technician-edit.component';
+import { TechnicianDeleteComponent } from '../delete/technician-delete.component';
+import { TechnicianRestoreComponent } from '../restore/technician-restore.component';
 
 @Component({
-  selector: 'app-technicians',
+  selector: 'app-technician-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './technicians.component.html',
-  styleUrl: './technicians.component.scss'
+  imports: [CommonModule, FormsModule, TechnicianCreateComponent, TechnicianEditComponent, TechnicianDeleteComponent, TechnicianRestoreComponent],
+  templateUrl: './technician-list.component.html',
+  styleUrl: './technician-list.component.scss'
 })
-export class TechniciansComponent implements OnInit {
+export class TechnicianListComponent implements OnInit {
   private technicianService = inject(TechnicianService);
 
   // Signals for state
@@ -18,6 +22,18 @@ export class TechniciansComponent implements OnInit {
   selectedSpecialty = signal('');
   isLoading = signal(true);
   error = signal<string | null>(null);
+  showCreateModal = signal(false);
+  
+  // Edit State
+  showEditModal = signal(false);
+  selectedTechnician = signal<Technician | null>(null);
+
+  // Delete State
+  showDeleteModal = signal(false);
+  technicianToDelete = signal<Technician | null>(null);
+
+  // Restore State
+  showRestoreModal = signal(false);
 
   specialties = [
     'Técnico General',
@@ -27,7 +43,7 @@ export class TechniciansComponent implements OnInit {
   ];
 
   // Data
-  technicians = signal<Technician[]>([]);
+  technicians = signal<Technician[]>([]); // ... (rest of the file content)
 
   ngOnInit(): void {
     this.loadTechnicians();
@@ -36,7 +52,8 @@ export class TechniciansComponent implements OnInit {
   loadTechnicians(): void {
     this.isLoading.set(true);
     this.error.set(null); // Reset error
-    this.technicianService.getTechnicians().subscribe({
+    // Fetch only active technicians
+    this.technicianService.getTechnicians({ estado_activo: true }).subscribe({
       next: (data) => {
         this.technicians.set(data);
         this.isLoading.set(false);
@@ -101,8 +118,56 @@ export class TechniciansComponent implements OnInit {
     }
   }
 
-  openRequestModal() {
-    console.log('Open modal to add technician');
-    // To be implemented
+  openCreateModal() {
+    this.showCreateModal.set(true);
+  }
+
+  closeCreateModal() {
+    this.showCreateModal.set(false);
+  }
+
+  onTechnicianCreated() {
+    this.loadTechnicians(); // Refresh list
+    // Optional: Show success toast/notification
+  }
+
+  openEditModal(technician: Technician) {
+    this.selectedTechnician.set(technician);
+    this.showEditModal.set(true);
+  }
+
+  closeEditModal() {
+    this.showEditModal.set(false);
+    this.selectedTechnician.set(null);
+  }
+
+  onTechnicianUpdated() {
+    this.loadTechnicians();
+  }
+
+  openDeleteModal(technician: Technician) {
+    this.technicianToDelete.set(technician);
+    this.showDeleteModal.set(true);
+  }
+
+  closeDeleteModal() {
+    this.showDeleteModal.set(false);
+    this.technicianToDelete.set(null);
+  }
+
+  onTechnicianDeleted() {
+    this.loadTechnicians();
+  }
+  
+  openRestoreModal() {
+    this.showRestoreModal.set(true);
+  }
+
+  closeRestoreModal() {
+    this.showRestoreModal.set(false);
+  }
+
+  onTechnicianRestored() {
+    this.loadTechnicians();
   }
 }
