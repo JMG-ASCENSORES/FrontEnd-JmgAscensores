@@ -105,7 +105,7 @@
   </div>
 
   <!-- Grid -->
-  <div *ngIf="!isLoading()" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+  <div *ngIf="!isLoading()" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
     <div *ngFor="let tech of filteredTechnicians()" class="bg-white rounded-2xl shadow-md border border-gray-200 p-8 relative hover:shadow-xl hover:border-blue-200 transition-all duration-300 group">
       <!-- Edit/Details Icon -->
       <button (click)="openEditModal(tech)" class="absolute top-5 right-5 text-emerald-600 hover:text-emerald-800 p-2 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors z-20" title="Editar Técnico">
