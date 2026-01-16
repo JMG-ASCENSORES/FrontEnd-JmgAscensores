@@ -117,20 +117,32 @@
                 </div>
 
                 <div class="flex flex-col gap-5">
-                    <div *ngFor="let worker of workers" class="flex items-center justify-between group">
-                         <div class="flex items-center gap-4">
-                             <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0 transition-transform group-hover:scale-110" [ngClass]="worker.roleColor ? worker.roleColor : 'bg-white text-slate-500 shadow-sm'">
-                                 <i class="bi" [ngClass]="worker.icon"></i>
-                             </div>
-                             <div>
-                                 <h3 class="font-bold text-slate-800 text-sm leading-tight group-hover:text-[#003B73] transition-colors">{{worker.name}}</h3>
-                                 <p class="text-xs text-slate-500 leading-tight font-medium">{{worker.role}}</p>
-                             </div>
-                         </div>
-                         <button class="text-slate-400 hover:text-[#003B73] transition-colors">
-                             <i class="bi bi-pencil-square text-lg"></i>
-                         </button>
+                    <!-- Loading State -->
+                    <div *ngIf="isLoading" class="flex flex-col items-center justify-center py-6">
+                        <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-600 mb-2"></div>
+                        <p class="text-xs text-slate-400 animate-pulse">Cargando...</p>
                     </div>
+
+                    <ng-container *ngIf="!isLoading">
+                        <div *ngIf="workers.length === 0" class="text-center py-4 text-slate-400 text-sm">
+                            No hay personal registrado.
+                        </div>
+
+                        <div *ngFor="let worker of workers" class="flex items-center justify-between group">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0 transition-transform group-hover:scale-110" [ngClass]="worker.roleColor ? worker.roleColor : 'bg-white text-slate-500 shadow-sm'">
+                                    <i class="bi" [ngClass]="worker.icon"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-slate-800 text-sm leading-tight group-hover:text-[#003B73] transition-colors">{{worker.name}}</h3>
+                                    <p class="text-xs text-slate-500 leading-tight font-medium">{{worker.role}}</p>
+                                </div>
+                            </div>
+                            <button class="text-slate-400 hover:text-[#003B73] transition-colors">
+                                <i class="bi bi-pencil-square text-lg"></i>
+                            </button>
+                        </div>
+                    </ng-container>
                 </div>
             </div>
 
