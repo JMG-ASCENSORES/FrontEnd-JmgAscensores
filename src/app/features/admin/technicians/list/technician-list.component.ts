@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { TechnicianService, Technician } from '../../services/technician.service';
 import { TechnicianCreateComponent } from '../create/technician-create.component';
 import { TechnicianEditComponent } from '../edit/technician-edit.component';
+import { TechnicianDeleteComponent } from '../delete/technician-delete.component';
 
 @Component({
   selector: 'app-technician-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, TechnicianCreateComponent, TechnicianEditComponent],
+  imports: [CommonModule, FormsModule, TechnicianCreateComponent, TechnicianEditComponent, TechnicianDeleteComponent],
   templateUrl: './technician-list.component.html',
   styleUrl: './technician-list.component.scss'
 })
@@ -26,6 +27,10 @@ export class TechnicianListComponent implements OnInit {
   showEditModal = signal(false);
   selectedTechnician = signal<Technician | null>(null);
 
+  // Delete State
+  showDeleteModal = signal(false);
+  technicianToDelete = signal<Technician | null>(null);
+
   specialties = [
     'Técnico General',
     'Técnico de Mantenimiento',
@@ -34,7 +39,7 @@ export class TechnicianListComponent implements OnInit {
   ];
 
   // Data
-  technicians = signal<Technician[]>([]);
+  technicians = signal<Technician[]>([]); // ... (rest of the file content)
 
   ngOnInit(): void {
     this.loadTechnicians();
@@ -43,7 +48,8 @@ export class TechnicianListComponent implements OnInit {
   loadTechnicians(): void {
     this.isLoading.set(true);
     this.error.set(null); // Reset error
-    this.technicianService.getTechnicians().subscribe({
+    // Fetch only active technicians
+    this.technicianService.getTechnicians({ estado_activo: true }).subscribe({
       next: (data) => {
         this.technicians.set(data);
         this.isLoading.set(false);
@@ -132,6 +138,20 @@ export class TechnicianListComponent implements OnInit {
   }
 
   onTechnicianUpdated() {
+    this.loadTechnicians();
+  }
+
+  openDeleteModal(technician: Technician) {
+    this.technicianToDelete.set(technician);
+    this.showDeleteModal.set(true);
+  }
+
+  closeDeleteModal() {
+    this.showDeleteModal.set(false);
+    this.technicianToDelete.set(null);
+  }
+
+  onTechnicianDeleted() {
     this.loadTechnicians();
   }
 }

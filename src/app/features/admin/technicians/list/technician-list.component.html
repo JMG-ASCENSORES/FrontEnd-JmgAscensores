@@ -161,7 +161,7 @@
       
       <!-- Delete Action -->
       <div class="absolute bottom-5 right-5 opacity-0 group-hover:opacity-100 transition-opacity">
-        <button class="text-red-400 hover:text-red-600 hover:bg-red-50 p-2 rounded-lg transition-colors border border-transparent hover:border-red-100" title="Eliminar Técnico">
+        <button (click)="openDeleteModal(tech)" class="text-red-400 hover:text-red-600 hover:bg-red-50 p-2 rounded-lg transition-colors border border-transparent hover:border-red-100" title="Eliminar Técnico">
            <i class="bi bi-trash-fill text-lg"></i>
         </button>
       </div>
@@ -193,5 +193,13 @@
     (close)="closeEditModal()"
     (technicianUpdated)="onTechnicianUpdated()">
   </app-technician-edit>
+
+  <!-- Delete Confirmation Modal -->
+  <app-technician-delete
+    *ngIf="showDeleteModal() && technicianToDelete()"
+    [technician]="technicianToDelete()!"
+    (close)="closeDeleteModal()"
+    (technicianDeleted)="onTechnicianDeleted()">
+  </app-technician-delete>
 
 </div>
