@@ -119,11 +119,9 @@ export class ProgrammingComponent implements OnInit {
 
   loadWorkers() {
     this.isLoading = true;
-    console.log('Loading workers...');
     // Removed filter to ensure we get data if any exists (even if inactive)
     this.technicianService.getTechnicians().subscribe({
       next: (data) => {
-        console.log('Workers loaded:', data);
         // Take first 5 or so for the list
         this.workers = data.slice(0, 5).map(tech => ({
           id: tech.id,
