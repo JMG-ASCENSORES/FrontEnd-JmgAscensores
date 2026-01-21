@@ -1,0 +1,124 @@
+import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, catchError, map, throwError } from 'rxjs';
+
+export interface Elevator {
+  ascensor_id: number;
+  cliente_id: number;
+  tipo_equipo: string;
+  marca: string;
+  modelo?: string;
+  numero_serie?: string;
+  capacidad?: string;
+  piso_cantidad?: number;
+  fecha_ultimo_mantenimiento?: string;
+  estado?: string;
+  observaciones?: string;
+  fecha_creacion?: string;
+  fecha_actualizacion?: string;
+}
+
+export interface ElevatorApiResponse {
+  success: boolean;
+  message: string;
+  data: Elevator[] | Elevator;
+  timestamp?: string;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ElevatorService {
+  private http = inject(HttpClient);
+  private apiUrl = 'http://localhost:3000/api/ascensores';
+
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  }
+
+  getElevators(clientId?: number, tipoEquipo?: string): Observable<Elevator[]> {
+    let url = this.apiUrl;
+    const params: string[] = [];
+    
+    if (clientId) params.push(`cliente_id=${clientId}`);
+    if (tipoEquipo) params.push(`tipo_equipo=${tipoEquipo}`);
+    
+    if (params.length > 0) {
+      url += '?' + params.join('&');
+    }
+
+    return this.http.get<ElevatorApiResponse>(url, { headers: this.getHeaders() })
+      .pipe(
+        map(response => Array.isArray(response.data) ? response.data : [response.data]),
+        catchError(error => {
+          console.error('Error fetching elevators:', error);
+          return throwError(() => new Error('Error al cargar equipos.'));
+        })
+      );
+  }
+
+  getElevatorById(id: number): Observable<Elevator> {
+    return this.http.get<ElevatorApiResponse>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() })
+      .pipe(
+        map(response => response.data as Elevator),
+        catchError(error => {
+          console.error('Error fetching elevator:', error);
+          if (error.status === 404) {
+            return throwError(() => new Error('Equipo no encontrado.'));
+          }
+          return throwError(() => new Error('Error al cargar equipo.'));
+        })
+      );
+  }
+
+  createElevator(elevator: Partial<Elevator>): Observable<Elevator> {
+    return this.http.post<ElevatorApiResponse>(this.apiUrl, elevator, { headers: this.getHeaders() })
+      .pipe(
+        map(response => response.data as Elevator),
+        catchError(error => {
+          console.error('Error creating elevator:', error);
+          if (error.status === 400) {
+            return throwError(() => new Error(error.error?.message || 'Datos inválidos.'));
+          }
+          if (error.status === 404) {
+            return throwError(() => new Error('Cliente no encontrado.'));
+          }
+          return throwError(() => new Error('Error al crear equipo.'));
+        })
+      );
+  }
+
+  updateElevator(id: number, elevator: Partial<Elevator>): Observable<Elevator> {
+    return this.http.put<ElevatorApiResponse>(`${this.apiUrl}/${id}`, elevator, { headers: this.getHeaders() })
+      .pipe(
+        map(response => response.data as Elevator),
+        catchError(error => {
+          console.error('Error updating elevator:', error);
+          if (error.status === 404) {
+            return throwError(() => new Error('Equipo no encontrado.'));
+          }
+          if (error.status === 400) {
+            return throwError(() => new Error(error.error?.message || 'Datos inválidos.'));
+          }
+          return throwError(() => new Error('Error al actualizar equipo.'));
+        })
+      );
+  }
+
+  deleteElevator(id: number): Observable<void> {
+    return this.http.delete<ElevatorApiResponse>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() })
+      .pipe(
+        map(() => void 0),
+        catchError(error => {
+          console.error('Error deleting elevator:', error);
+          if (error.status === 404) {
+            return throwError(() => new Error('Equipo no encontrado.'));
+          }
+          return throwError(() => new Error('Error al eliminar equipo.'));
+        })
+      );
+  }
+}

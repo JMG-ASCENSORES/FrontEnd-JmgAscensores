@@ -1,0 +1,105 @@
+<div class="fixed inset-0 z-[60] flex items-center justify-center p-4 overflow-y-auto">
+  <!-- Backdrop -->
+  <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm" (click)="onClose()"></div>
+
+  <!-- Modal Panel -->
+  <div class="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl overflow-hidden ring-1 ring-black/5">
+    
+    <!-- Header -->
+    <div class="px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white flex items-center justify-between">
+      <div>
+        <h2 class="text-xl font-bold text-gray-900">Agregar Nuevo Equipo</h2>
+        <p class="text-sm text-gray-500 mt-1">Complete los datos del equipo</p>
+      </div>
+      <button (click)="onClose()" class="p-2 rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors">
+        <i class="bi bi-x-lg text-lg"></i>
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="p-6">
+      <form [formGroup]="equipmentForm" (ngSubmit)="onSubmit()" class="space-y-6">
+        
+        <!-- Error Alert -->
+        <div *ngIf="errorMessage()" class="bg-red-50 border-l-4 border-red-500 p-4 rounded-md">
+          <div class="flex">
+            <i class="bi bi-exclamation-circle text-red-500 mr-3"></i>
+            <p class="text-sm text-red-700">{{ errorMessage() }}</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- Tipo Equipo -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Tipo de Equipo *</label>
+            <select formControlName="tipo_equipo" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+              <option *ngFor="let type of equipmentTypes" [value]="type">{{ type }}</option>
+            </select>
+          </div>
+
+          <!-- Marca -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Marca *</label>
+            <input type="text" formControlName="marca" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Ej. Otis">
+          </div>
+
+          <!-- Modelo -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Modelo</label>
+            <input type="text" formControlName="modelo" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Ej. Gen2">
+          </div>
+
+          <!-- Número Serie -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Número de Serie</label>
+            <input type="text" formControlName="numero_serie" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Ej. OT-2024-001">
+          </div>
+
+          <!-- Capacidad -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Capacidad</label>
+            <input type="text" formControlName="capacidad" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Ej. 630 kg">
+          </div>
+
+          <!-- Cantidad Pisos -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Cantidad de Pisos</label>
+            <input type="number" formControlName="piso_cantidad" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Ej. 8">
+          </div>
+
+          <!-- Fecha Último Mantenimiento -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Último Mantenimiento</label>
+            <input type="date" formControlName="fecha_ultimo_mantenimiento" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+          </div>
+
+          <!-- Estado -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Estado *</label>
+            <select formControlName="estado" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+              <option *ngFor="let estado of estados" [value]="estado">{{ estado }}</option>
+            </select>
+          </div>
+
+          <!-- Observaciones -->
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Observaciones</label>
+            <textarea formControlName="observaciones" rows="3" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Notas adicionales..."></textarea>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex items-center justify-end gap-3 pt-6 border-t border-gray-100">
+          <button type="button" (click)="onClose()" class="px-5 py-2.5 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors">
+            Cancelar
+          </button>
+          <button type="submit" [disabled]="equipmentForm.invalid || isSubmitting()" class="px-5 py-2.5 rounded-lg bg-[#003B73] text-white font-medium hover:bg-[#002a52] transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+            <span *ngIf="isSubmitting()" class="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></span>
+            Crear Equipo
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
