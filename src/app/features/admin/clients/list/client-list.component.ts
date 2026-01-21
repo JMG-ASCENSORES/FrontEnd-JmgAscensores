@@ -7,11 +7,12 @@ import { forkJoin } from 'rxjs';
 import { ClientCreateComponent } from '../create/client-create.component';
 import { ClientEditComponent } from '../edit/client-edit.component';
 import { ClientDeleteComponent } from '../delete/client-delete.component';
+import { EquipmentListModalComponent } from '../equipment/equipment-list-modal.component';
 
 @Component({
   selector: 'app-client-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, ClientCreateComponent, ClientEditComponent, ClientDeleteComponent],
+  imports: [CommonModule, FormsModule, ClientCreateComponent, ClientEditComponent, ClientDeleteComponent, EquipmentListModalComponent],
   templateUrl: './client-list.component.html',
 })
 export class ClientListComponent implements OnInit {
@@ -33,6 +34,10 @@ export class ClientListComponent implements OnInit {
 
   selectedClient = signal<Client | null>(null);
 
+  // Equipment Modal State
+  showEquipmentModal = signal(false);
+  selectedEquipmentType = signal<string>('');
+
   // Mock Data for filters
   districts = ['San Isidro', 'Miraflores', 'Surco', 'Lima'];
 
@@ -49,17 +54,28 @@ export class ClientListComponent implements OnInit {
       elevators: this.clientService.getElevators()
     }).subscribe({
       next: ({ clients, elevators }) => {
-        // Map elevators to clients to get the count
+        // Map elevators to clients and count each equipment type
         const enhancedData = clients.map(client => {
-          // Flexible matching for "ascensor" type content
-          const clientElevators = elevators.filter(e => 
-            e.cliente_id === client.cliente_id && 
+          const clientEquipment = elevators.filter(e => e.cliente_id === client.cliente_id);
+          
+          // Count each type separately
+          const ascensores = clientEquipment.filter(e => 
             e.tipo_equipo?.toLowerCase().includes('ascensor')
-          );
+          ).length;
+          
+          const montacargas = clientEquipment.filter(e => 
+            e.tipo_equipo?.toLowerCase().includes('montacarga')
+          ).length;
+          
+          const plataformas = clientEquipment.filter(e => 
+            e.tipo_equipo?.toLowerCase().includes('plataforma')
+          ).length;
           
           return {
             ...client,
-            ascensores_count: clientElevators.length
+            ascensores_count: ascensores,
+            montacargas_count: montacargas,
+            plataforma_count: plataformas
           };
         });
 
@@ -91,7 +107,18 @@ export class ClientListComponent implements OnInit {
   });
 
   totalClients = computed(() => this.clients().length);
-  totalEquipments = computed(() => this.clients().reduce((acc, curr) => acc + (curr.ascensores_count || 0), 0));
+  
+  totalAscensores = computed(() => 
+    this.clients().reduce((acc, curr) => acc + (curr.ascensores_count || 0), 0)
+  );
+  
+  totalMontacargas = computed(() => 
+    this.clients().reduce((acc, curr) => acc + (curr.montacargas_count || 0), 0)
+  );
+  
+  totalPlataformas = computed(() => 
+    this.clients().reduce((acc, curr) => acc + (curr.plataforma_count || 0), 0)
+  );
 
   // Accessors for Template logic
   getInitials(name: string | undefined | null): string {
@@ -137,5 +164,22 @@ export class ClientListComponent implements OnInit {
 
   onClientDeleted() {
     this.loadClients();
+  }
+
+  // Equipment Modal Actions
+  openEquipmentModal(client: Client, equipmentType: string) {
+    this.selectedClient.set(client);
+    this.selectedEquipmentType.set(equipmentType);
+    this.showEquipmentModal.set(true);
+  }
+
+  closeEquipmentModal() {
+    this.showEquipmentModal.set(false);
+    this.selectedClient.set(null);
+    this.selectedEquipmentType.set('');
+  }
+
+  onEquipmentChanged() {
+    this.loadClients(); // Reload to update counts
   }
 }

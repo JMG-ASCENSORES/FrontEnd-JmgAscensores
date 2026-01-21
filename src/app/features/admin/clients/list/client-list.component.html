@@ -6,14 +6,29 @@
     </div>
 
     <!-- Top Stats -->
-    <div class="grid grid-cols-2 gap-6">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Total Clientes -->
         <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 border-t-4 border-t-slate-600 flex flex-col items-center justify-center h-36 transition-transform hover:-translate-y-1">
             <span class="text-5xl font-extrabold text-slate-800">{{ totalClients() }}</span>
             <span class="text-xs font-bold text-slate-500 uppercase tracking-widest text-center mt-2">Total Clientes</span>
         </div>
+
+        <!-- Ascensores -->
         <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 border-t-4 border-t-[#003B73] flex flex-col items-center justify-center h-36 transition-transform hover:-translate-y-1">
-            <span class="text-5xl font-extrabold text-slate-800">{{ totalEquipments() }}</span>
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-widest text-center mt-2">Total Ascensores</span>
+            <span class="text-5xl font-extrabold text-slate-800">{{ totalAscensores() }}</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-widest text-center mt-2">Ascensores</span>
+        </div>
+
+        <!-- Montacargas -->
+        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 border-t-4 border-t-emerald-500 flex flex-col items-center justify-center h-36 transition-transform hover:-translate-y-1">
+            <span class="text-5xl font-extrabold text-slate-800">{{ totalMontacargas() }}</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-widest text-center mt-2">Montacargas</span>
+        </div>
+
+        <!-- Plataformas -->
+        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 border-t-4 border-t-purple-500 flex flex-col items-center justify-center h-36 transition-transform hover:-translate-y-1">
+            <span class="text-5xl font-extrabold text-slate-800">{{ totalPlataformas() }}</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-widest text-center mt-2">Plataformas</span>
         </div>
     </div>
 
@@ -67,7 +82,7 @@
     </div>
 
     <!-- Clients Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         
         <!-- Loading -->
         <div *ngIf="isLoading()" class="col-span-full py-20 flex justify-center">
@@ -97,7 +112,7 @@
                     </div>
                     
                     <div class="pt-1">
-                        <h3 class="font-bold text-slate-900 text-xl leading-tight mb-1">{{ client.nombre_comercial || client.contacto_nombre || 'Cliente Sin Nombre' }}</h3>
+                        <h3 class="font-bold text-slate-900 text-xl leading-tight mb-1">{{ client.nombre_comercial || ((client.contacto_nombre || '') + (client.contacto_apellido ? ' ' + client.contacto_apellido : '')) || 'Cliente Sin Nombre' }}</h3>
                          <div class="mt-3">
                             <span class="inline-block px-4 py-1.5 text-xs font-extrabold uppercase rounded-full tracking-wide shadow-sm bg-blue-50 text-[#003B73]">
                                 {{ client.tipo_cliente || 'Cliente' }}
@@ -108,16 +123,6 @@
 
                 <!-- Info List -->
                 <div class="border-t border-gray-100 pt-5 space-y-4">
-                    <!-- Contacto -->
-                    <div class="flex items-center gap-4 text-slate-700">
-                        <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center shrink-0 text-slate-500">
-                            <i class="bi bi-person-fill"></i>
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Contacto</span>
-                            <span class="font-semibold text-sm">{{ client.contacto_nombre || 'No asignado' }}</span>
-                        </div>
-                    </div>
 
                     <!-- Email -->
                     <div class="flex items-center gap-4 text-slate-700">
@@ -154,10 +159,25 @@
                 </div>
 
                 <!-- Stats Footer -->
-                 <div class="border-t border-gray-100 mt-6 pt-5 flex justify-center text-center">
-                    <div class="flex flex-col items-center group/stats hover:scale-105 transition-transform cursor-default">
-                         <span class="text-4xl font-extrabold text-[#003B73] group-hover/stats:text-blue-600 transition-colors">{{ client.ascensores_count || 0 }}</span>
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Ascensores</span>
+                 <div class="border-t border-gray-100 mt-6 pt-5">
+                    <div class="grid grid-cols-3 gap-3 text-center">
+                        <!-- Ascensores -->
+                        <div (click)="openEquipmentModal(client, 'Ascensor')" class="flex flex-col items-center group/stats hover:scale-105 transition-transform cursor-pointer">
+                            <span class="text-2xl font-extrabold text-[#003B73] group-hover/stats:text-blue-600 transition-colors">{{ client.ascensores_count || 0 }}</span>
+                            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">Ascensores</span>
+                        </div>
+                        
+                        <!-- Montacargas -->
+                        <div (click)="openEquipmentModal(client, 'Montacarga')" class="flex flex-col items-center group/stats hover:scale-105 transition-transform cursor-pointer">
+                            <span class="text-2xl font-extrabold text-emerald-600 group-hover/stats:text-emerald-700 transition-colors">{{ client.montacargas_count || 0 }}</span>
+                            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">Montacargas</span>
+                        </div>
+                        
+                        <!-- Plataformas -->
+                        <div (click)="openEquipmentModal(client, 'Plataforma')" class="flex flex-col items-center group/stats hover:scale-105 transition-transform cursor-pointer">
+                            <span class="text-2xl font-extrabold text-purple-600 group-hover/stats:text-purple-700 transition-colors">{{ client.plataforma_count || 0 }}</span>
+                            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">Plataformas</span>
+                        </div>
                     </div>
                 </div>
 
@@ -202,3 +222,12 @@
   (close)="closeDeleteModal()"
   (clientDeleted)="onClientDeleted()"
 ></app-client-delete>
+
+<!-- Equipment Modal -->
+<app-equipment-list-modal
+  *ngIf="showEquipmentModal() && selectedClient()"
+  [client]="selectedClient()!"
+  [equipmentType]="selectedEquipmentType()"
+  (close)="closeEquipmentModal()"
+  (equipmentChanged)="onEquipmentChanged()"
+></app-equipment-list-modal>

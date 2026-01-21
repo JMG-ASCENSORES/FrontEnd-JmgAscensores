@@ -21,8 +21,10 @@ export interface Client {
   fecha_actualizacion?: string;
   nombre_comercial?: string; // Mapped from response or fallback
 
-  // UI helpers
-  ascensores_count?: number; // Calculated from elevators API
+  // UI helpers - Equipment counts calculated from elevators API
+  ascensores_count?: number;
+  montacargas_count?: number;
+  plataforma_count?: number;
 }
 
 export interface Elevator {

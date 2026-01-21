@@ -1,0 +1,152 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
+  <!-- Backdrop -->
+  <div class="fixed inset-0 bg-gray-900/70 backdrop-blur-sm transition-opacity" (click)="onClose()"></div>
+
+  <!-- Modal Panel -->
+  <div class="relative w-full max-w-6xl bg-white rounded-2xl shadow-2xl overflow-hidden ring-1 ring-black/5 transform transition-all max-h-[90vh] flex flex-col">
+    
+    <!-- Header -->
+    <div class="px-6 py-5 border-b border-gray-100 bg-gradient-to-r from-[#003B73] to-[#005fa3] flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+          <i class="bi bi-building text-2xl text-white"></i>
+        </div>
+        <div>
+          <h2 class="text-2xl font-bold text-white">{{ getEquipmentTypeLabel() }}</h2>
+          <p class="text-sm text-white/80 mt-1">Cliente: {{ client.nombre_comercial || (client.contacto_nombre + ' ' + (client.contacto_apellido || '')) }}</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <button (click)="openCreateModal()" class="bg-white hover:bg-gray-50 text-[#003B73] font-bold rounded-lg px-5 py-2.5 text-sm inline-flex items-center gap-2 transition-all shadow-lg">
+          <i class="bi bi-plus-circle-fill text-lg"></i>
+          Agregar Nuevo
+        </button>
+        <button (click)="onClose()" class="p-2 rounded-full hover:bg-white/20 text-white transition-colors">
+          <i class="bi bi-x-lg text-xl"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="flex-1 overflow-y-auto p-6">
+      <!-- Loading -->
+      <div *ngIf="isLoading()" class="flex flex-col items-center justify-center py-20">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#003B73] mb-4"></div>
+        <p class="text-slate-500 font-medium">Cargando equipos...</p>
+      </div>
+
+      <!-- Error -->
+      <div *ngIf="errorMessage()" class="bg-red-50 border-l-4 border-red-500 p-4 rounded-md">
+        <div class="flex">
+          <i class="bi bi-exclamation-circle text-red-500 text-xl mr-3"></i>
+          <p class="text-sm text-red-700">{{ errorMessage() }}</p>
+        </div>
+      </div>
+
+      <!-- Equipment Grid -->
+      <div *ngIf="!isLoading() && !errorMessage()" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div *ngFor="let equipment of equipments()" class="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-[#003B73] hover:shadow-lg transition-all duration-300 relative group">
+          
+          <!-- Status Badge -->
+          <div class="absolute top-4 right-4">
+            <span 
+              class="px-3 py-1 rounded-full text-xs font-bold uppercase"
+              [ngClass]="{
+                'bg-green-100 text-green-700': equipment.estado === 'Activo',
+                'bg-yellow-100 text-yellow-700': equipment.estado === 'En Mantenimiento',
+                'bg-red-100 text-red-700': equipment.estado === 'Inactivo'
+              }"
+            >
+              {{ equipment.estado || 'N/A' }}
+            </span>
+          </div>
+
+          <!-- Equipment Info -->
+          <div class="space-y-4 mt-8">
+            <div>
+              <h3 class="text-lg font-bold text-slate-900">{{ equipment.marca }} {{ equipment.modelo }}</h3>
+              <p class="text-sm text-slate-500 mt-1">{{ equipment.tipo_equipo }}</p>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex items-center gap-2 text-sm">
+                <i class="bi bi-hash text-slate-400"></i>
+                <span class="text-slate-600">Serie: <strong>{{ equipment.numero_serie || 'N/A' }}</strong></span>
+              </div>
+              
+              <div class="flex items-center gap-2 text-sm">
+                <i class="bi bi-speedometer2 text-slate-400"></i>
+                <span class="text-slate-600">Capacidad: <strong>{{ equipment.capacidad || 'N/A' }}</strong></span>
+              </div>
+              
+              <div class="flex items-center gap-2 text-sm">
+                <i class="bi bi-layers text-slate-400"></i>
+                <span class="text-slate-600">Pisos: <strong>{{ equipment.piso_cantidad || 'N/A' }}</strong></span>
+              </div>
+
+              <div class="flex items-center gap-2 text-sm" *ngIf="equipment.fecha_ultimo_mantenimiento">
+                <i class="bi bi-calendar-check text-slate-400"></i>
+                <span class="text-slate-600">Último mant.: <strong>{{ equipment.fecha_ultimo_mantenimiento | date:'dd/MM/yyyy' }}</strong></span>
+              </div>
+            </div>
+
+            <div *ngIf="equipment.observaciones" class="pt-3 border-t border-gray-100">
+              <p class="text-xs text-slate-500 italic">{{ equipment.observaciones }}</p>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="flex gap-2 mt-6">
+            <button 
+              (click)="openEditModal(equipment)" 
+              class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 rounded-lg text-sm transition-colors flex items-center justify-center gap-2"
+            >
+              <i class="bi bi-pencil"></i>
+              Editar
+            </button>
+            <button 
+              (click)="openDeleteModal(equipment)" 
+              class="flex-1 bg-red-600 hover:bg-red-700 text-white font-medium py-2 rounded-lg text-sm transition-colors flex items-center justify-center gap-2"
+            >
+              <i class="bi bi-trash"></i>
+              Eliminar
+            </button>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div *ngIf="equipments().length === 0" class="col-span-full py-20 text-center">
+          <div class="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="bi bi-inbox text-4xl text-gray-300"></i>
+          </div>
+          <h3 class="text-lg font-bold text-gray-800">No hay equipos registrados</h3>
+          <p class="text-gray-400 text-sm mt-1">Agrega un nuevo equipo para comenzar.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Nested Modals -->
+<app-equipment-create-modal 
+  *ngIf="showCreateModal()"
+  [client]="client"
+  [equipmentType]="equipmentType"
+  (close)="closeCreateModal()"
+  (equipmentCreated)="onEquipmentCreated()"
+></app-equipment-create-modal>
+
+<app-equipment-edit-modal
+  *ngIf="showEditModal() && selectedEquipment()"
+  [equipment]="selectedEquipment()!"
+  (close)="closeEditModal()"
+  (equipmentUpdated)="onEquipmentUpdated()"
+></app-equipment-edit-modal>
+
+<app-equipment-delete-modal
+  *ngIf="showDeleteModal() && selectedEquipment()"
+  [equipment]="selectedEquipment()!"
+  (close)="closeDeleteModal()"
+  (equipmentDeleted)="onEquipmentDeleted()"
+></app-equipment-delete-modal>
+
