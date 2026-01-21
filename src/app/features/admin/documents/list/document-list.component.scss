@@ -1,0 +1,14 @@
+// Custom styles if any not covered by Tailwind
+:host {
+  display: block;
+}
+
+// Tooltip helper (simple implementation)
+.tooltip {
+  @apply relative;
+  
+  &:hover:after {
+    @apply absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-slate-800 text-white text-[10px] rounded opacity-100 whitespace-nowrap z-10;
+    content: attr(title);
+  }
+}

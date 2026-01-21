@@ -1,0 +1,166 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm transition-opacity" (click)="onClose()">
+  <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto transform transition-all" (click)="$event.stopPropagation()">
+    
+    <!-- Header -->
+    <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between sticky top-0 bg-white z-10">
+      <h2 class="text-xl font-bold text-slate-800">Crear Nuevo Documento</h2>
+      <button (click)="onClose()" class="text-slate-400 hover:text-slate-600 transition-colors p-2 rounded-full hover:bg-slate-50">
+        <i class="bi bi-x-lg text-lg"></i>
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="p-6">
+      <form [formGroup]="createForm" (ngSubmit)="onSubmit()" class="space-y-6">
+        
+        <!-- Error Alert -->
+        <div *ngIf="error()" class="p-4 bg-red-50 text-red-700 rounded-xl flex items-start gap-3 text-sm">
+          <i class="bi bi-exclamation-circle-fill mt-0.5"></i>
+          <span>{{ error() }}</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Client Autocomplete -->
+          <div class="space-y-1.5 relative">
+            <label class="text-xs font-bold text-slate-500 uppercase">Cliente <span class="text-red-500">*</span></label>
+            <input 
+              type="text" 
+              [value]="clientSearch()"
+              (input)="onClientSearch($event)"
+              (blur)="closeDropdowns()"
+              placeholder="Buscar cliente..."
+              class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all text-slate-700 bg-white"
+            >
+
+            <!-- Client Dropdown List -->
+            <div *ngIf="showClientDropdown() && filteredClients().length > 0" class="absolute z-50 w-full mt-1 bg-white border border-gray-100 rounded-lg shadow-xl max-h-60 overflow-y-auto">
+              <div 
+                *ngFor="let client of filteredClients()" 
+                (mousedown)="selectClient(client)"
+                class="px-4 py-3 hover:bg-slate-50 cursor-pointer border-b border-gray-50 last:border-0 transition-colors"
+              >
+                 <div class="font-bold text-slate-700 text-sm">{{ client.nombre_comercial || client.contacto_nombre }}</div>
+                 <div class="text-xs text-slate-400">{{ client.ruc || client.dni || 'Sin ID' }}</div>
+              </div>
+            </div>
+             
+             <!-- No results -->
+             <div *ngIf="showClientDropdown() && filteredClients().length === 0 && clientSearch()" class="absolute z-50 w-full mt-1 bg-white border border-gray-100 rounded-lg shadow-xl p-4 text-center text-slate-500 text-sm">
+                No se encontraron clientes
+             </div>
+
+            <div *ngIf="createForm.get('cliente_id')?.touched && createForm.get('cliente_id')?.invalid" class="text-red-500 text-xs">
+              Debe seleccionar un cliente de la lista.
+            </div>
+          </div>
+
+          <!-- Elevator -->
+          <div class="space-y-1.5">
+            <label class="text-xs font-bold text-slate-500 uppercase">Ascensor <span class="text-red-500">*</span></label>
+             <div class="relative">
+                <select formControlName="ascensor_id" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all text-slate-700 appearance-none bg-white disabled:bg-slate-50 disabled:text-slate-400">
+                <option value="">{{ clientElevators().length ? 'Seleccionar Ascensor' : 'Seleccione Cliente primero' }}</option>
+                <option *ngFor="let elevator of clientElevators()" [value]="elevator.ascensor_id">
+                    {{ elevator.marca }} - {{ elevator.modelo }} ({{ elevator.numero_serie }})
+                </option>
+                </select>
+                <!-- Loading spinner if needed -->
+            </div>
+            <div *ngIf="createForm.get('ascensor_id')?.touched && createForm.get('ascensor_id')?.invalid" class="text-red-500 text-xs">
+              Debe seleccionar un ascensor.
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+             <!-- Technician Autocomplete -->
+             <div class="space-y-1.5 relative">
+                <label class="text-xs font-bold text-slate-500 uppercase">Técnico Responsable <span class="text-red-500">*</span></label>
+                <input 
+                  type="text" 
+                  [value]="technicianSearch()"
+                  (input)="onTechnicianSearch($event)"
+                  (blur)="closeDropdowns()"
+                  placeholder="Buscar técnico..."
+                  class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all text-slate-700 bg-white"
+                >
+
+                <!-- Technician Dropdown List -->
+                <div *ngIf="showTechnicianDropdown() && filteredTechnicians().length > 0" class="absolute z-50 w-full mt-1 bg-white border border-gray-100 rounded-lg shadow-xl max-h-60 overflow-y-auto">
+                  <div 
+                    *ngFor="let tech of filteredTechnicians()" 
+                    (mousedown)="selectTechnician(tech)"
+                    class="px-4 py-3 hover:bg-slate-50 cursor-pointer border-b border-gray-50 last:border-0 transition-colors flex items-center gap-3"
+                  >
+                     <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs font-bold">
+                        {{ tech.nombre.charAt(0) }}{{ tech.apellido.charAt(0) }}
+                     </div>
+                     <div>
+                        <div class="font-bold text-slate-700 text-sm">{{ tech.nombre }} {{ tech.apellido }}</div>
+                        <div class="text-xs text-slate-400">{{ tech.especialidad }}</div>
+                     </div>
+                  </div>
+                </div>
+
+                <!-- No results -->
+                <div *ngIf="showTechnicianDropdown() && filteredTechnicians().length === 0 && technicianSearch()" class="absolute z-50 w-full mt-1 bg-white border border-gray-100 rounded-lg shadow-xl p-4 text-center text-slate-500 text-sm">
+                   No se encontraron técnicos
+                </div>
+
+                <div *ngIf="createForm.get('trabajador_id')?.touched && createForm.get('trabajador_id')?.invalid" class="text-red-500 text-xs">
+                  Debe asignar un técnico de la lista.
+                </div>
+              </div>
+
+            <!-- Report Type -->
+            <div class="space-y-1.5">
+                <label class="text-xs font-bold text-slate-500 uppercase">Tipo de Informe <span class="text-red-500">*</span></label>
+                <select formControlName="tipo_informe" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all text-slate-700 appearance-none bg-white">
+                  <option value="Técnico">Informe Técnico</option>
+                  <option value="Mantenimiento">Informe de Mantenimiento</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Date & Time -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-1.5">
+                <label class="text-xs font-bold text-slate-500 uppercase">Fecha del Informe <span class="text-red-500">*</span></label>
+                <input type="date" formControlName="fecha_informe" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all text-slate-700">
+            </div>
+             <div class="space-y-1.5">
+                <label class="text-xs font-bold text-slate-500 uppercase">Hora <span class="text-red-500">*</span></label>
+                <input type="time" formControlName="hora_informe" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all text-slate-700">
+            </div>
+        </div>
+
+        <!-- Description -->
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold text-slate-500 uppercase">Descripción del Trabajo <span class="text-red-500">*</span></label>
+          <textarea formControlName="descripcion_trabajo" rows="4" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all text-slate-700 resize-none" placeholder="Detalle el trabajo realizado..."></textarea>
+           <div *ngIf="createForm.get('descripcion_trabajo')?.touched && createForm.get('descripcion_trabajo')?.invalid" class="text-red-500 text-xs">
+              La descripción es requerida (min 10 caracteres).
+            </div>
+        </div>
+
+        <!-- Observations -->
+         <div class="space-y-1.5">
+          <label class="text-xs font-bold text-slate-500 uppercase">Observaciones Adicionales</label>
+          <textarea formControlName="observaciones" rows="2" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all text-slate-700 resize-none" placeholder="Puntos pendientes o notas..."></textarea>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="flex items-center justify-end gap-3 pt-6 border-t border-gray-100">
+            <button type="button" (click)="onClose()" class="px-6 py-2.5 rounded-xl text-slate-600 font-bold hover:bg-slate-100 transition-colors">
+              Cancelar
+            </button>
+            <button type="submit" [disabled]="isSubmitting() || createForm.invalid" class="px-8 py-2.5 rounded-xl bg-[#003B73] text-white font-bold hover:bg-[#002a52] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-blue-900/20">
+              <span *ngIf="!isSubmitting()">Crear Documento</span>
+              <span *ngIf="isSubmitting()"><i class="bi bi-arrow-repeat animate-spin mr-2"></i>Guardando...</span>
+            </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

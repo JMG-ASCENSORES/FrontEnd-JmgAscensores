@@ -17,12 +17,6 @@ export class ElevatorsComponent {}
 
 
 
-@Component({ 
-  template: `<app-placeholder-page title="Documentos" icon="bi bi-file-earmark-text"></app-placeholder-page>`, 
-  standalone: true,
-  imports: [PlaceholderPageComponent]
-})
-export class DocumentsComponent {}
 
 @Component({ 
   template: `<app-placeholder-page title="Reportes" icon="bi bi-bar-chart-line"></app-placeholder-page>`, 
@@ -61,7 +55,10 @@ export const adminRoutes: Routes = [
         path: 'technicians', 
         loadComponent: () => import('./technicians/list/technician-list.component').then(m => m.TechnicianListComponent) 
       },
-      { path: 'documents', component: DocumentsComponent },
+      { 
+        path: 'documents', 
+        loadComponent: () => import('./documents/list/document-list.component').then(m => m.DocumentListComponent) 
+      },
       { path: 'reports', component: ReportsComponent },
       { path: 'ai-assistant', component: AIAssistantComponent },
       { path: 'settings', component: SettingsComponent },
