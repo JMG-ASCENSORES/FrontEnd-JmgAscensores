@@ -35,7 +35,7 @@ export class EquipmentEditModalComponent implements OnInit {
       piso_cantidad: [this.equipment.piso_cantidad || null],
       fecha_ultimo_mantenimiento: [this.equipment.fecha_ultimo_mantenimiento ? this.equipment.fecha_ultimo_mantenimiento.split('T')[0] : ''],
       estado: [this.equipment.estado || 'Activo', Validators.required],
-      observaciones: [this.equipment.observaciones || '']
+      observaciones: [this.equipment.observaciones || ''] // NOT required
     });
   }
 
@@ -60,6 +60,15 @@ export class EquipmentEditModalComponent implements OnInit {
         this.errorMessage.set(err.message || 'Error al actualizar el equipo.');
       }
     });
+  }
+
+  // Check if only required fields are valid
+  isFormValid(): boolean {
+    const tipoEquipo = this.equipmentForm.get('tipo_equipo');
+    const marca = this.equipmentForm.get('marca');
+    const estado = this.equipmentForm.get('estado');
+    
+    return !!(tipoEquipo?.valid && marca?.valid && estado?.valid);
   }
 
   onClose() {
