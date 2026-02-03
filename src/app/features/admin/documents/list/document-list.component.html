@@ -175,7 +175,7 @@
                   {{ report.tipo_informe === 'Mantenimiento' ? 'INF-MANT' : 'INF-TECN' }}-{{ report.fecha_informe | date:'yyyy' }}-{{ report.informe_id | number:'3.0' }}
                 </span>
                 <span class="text-xs text-slate-500 font-semibold mt-0.5">
-                    {{ report.descripcion_trabajo || (report.tipo_informe === 'Mantenimiento' ? 'Mantenimiento Preventivo' : 'Informe técnico') | slice:0:30 }}...
+                    {{ report.descripcion_trabajo || (report.tipo_informe === 'Mantenimiento' ? 'Mantenimiento Preventivo' : 'Informe técnico') | slice:0:50 }}...
                 </span>
               </div>
             </td>
