@@ -1,4 +1,5 @@
 import { Component, computed, inject, signal, OnInit } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReportService } from '../../services/report.service';
@@ -8,11 +9,12 @@ import { TechnicianService, Technician } from '../../services/technician.service
 import { DocumentCreateComponent } from '../create/document-create.component';
 import { DocumentEditComponent } from '../edit/document-edit.component';
 import { DocumentDeleteComponent } from '../delete/document-delete.component';
+import { PdfPreviewComponent } from '../preview/pdf-preview.component';
 
 @Component({
   selector: 'app-document-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, DocumentCreateComponent, DocumentEditComponent, DocumentDeleteComponent],
+  imports: [CommonModule, FormsModule, DocumentCreateComponent, DocumentEditComponent, DocumentDeleteComponent, PdfPreviewComponent],
   templateUrl: './document-list.component.html',
   styleUrl: './document-list.component.scss'
 })
@@ -20,6 +22,7 @@ export class DocumentListComponent implements OnInit {
   private reportService = inject(ReportService);
   private clientService = inject(ClientService);
   private technicianService = inject(TechnicianService);
+  private sanitizer = inject(DomSanitizer);
 
   // Signals
   searchQuery = signal('');
@@ -39,6 +42,13 @@ export class DocumentListComponent implements OnInit {
   showCreateModal = signal(false);
   showEditModal = signal(false);
   showDeleteModal = signal(false);
+  
+  // PDF Preview State
+  showPdfModal = signal(false);
+  pdfUrl = signal<SafeResourceUrl | null>(null);
+  pdfDownloadUrl = signal<string | null>(null);
+  pdfFileName = signal('');
+
   selectedReport = signal<Report | null>(null);
 
   // Stats
@@ -158,7 +168,40 @@ export class DocumentListComponent implements OnInit {
   }
 
   downloadReport(report: Report) {
-    console.log('Download', report);
+    this.isLoading.set(true); 
+    this.reportService.downloadReportPdf(report.informe_id).subscribe({
+      next: (blob) => {
+         const url = URL.createObjectURL(blob);
+         this.pdfDownloadUrl.set(url);
+         this.pdfUrl.set(this.sanitizer.bypassSecurityTrustResourceUrl(url));
+         
+         // Generate filename: ID_TIPO_CLIENTE.pdf
+         const cleanString = (str: string) => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9]/g, '');
+         
+         const clientName = cleanString(this.getClientName(report.cliente_id));
+         const tipo = cleanString(report.tipo_informe);
+         
+         this.pdfFileName.set(`${report.informe_id}_${tipo}_${clientName}.pdf`);
+         
+         this.showPdfModal.set(true);
+         this.isLoading.set(false);
+      },
+      error: (err) => {
+        console.error('Error downloading PDF', err);
+        this.error.set('No se pudo generar el PDF. Verifica que el servidor esté activo.');
+        this.isLoading.set(false);
+      }
+    });
+  }
+
+  closePdfModal() {
+     this.showPdfModal.set(false);
+     const url = this.pdfDownloadUrl();
+     if (url) {
+         URL.revokeObjectURL(url);
+         this.pdfDownloadUrl.set(null);
+         this.pdfUrl.set(null);
+     }
   }
 
   formatDate(dateString: string): string {

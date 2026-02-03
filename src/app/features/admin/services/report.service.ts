@@ -74,4 +74,11 @@ export class ReportService {
   deleteReport(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
   }
+
+  downloadReportPdf(id: number): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/${id}/pdf`, {
+      headers: this.getHeaders(),
+      responseType: 'blob'
+    });
+  }
 }

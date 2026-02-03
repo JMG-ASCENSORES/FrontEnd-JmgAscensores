@@ -238,4 +238,13 @@
     (close)="closeDeleteModal()"
     (reportDeleted)="onReportDeleted()">
   </app-document-delete>
+
+  <!-- PDF Preview Modal -->
+  <app-pdf-preview
+    *ngIf="showPdfModal() && pdfUrl()"
+    [pdfUrl]="pdfUrl()!"
+    [downloadUrl]="pdfDownloadUrl()"
+    [fileName]="pdfFileName()"
+    (close)="closePdfModal()">
+  </app-pdf-preview>
 </div>
