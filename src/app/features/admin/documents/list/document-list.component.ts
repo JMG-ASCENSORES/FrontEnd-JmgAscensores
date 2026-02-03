@@ -27,8 +27,15 @@ export class DocumentListComponent implements OnInit {
   // Signals
   searchQuery = signal('');
   selectedType = signal('');
-  selectedDate = signal('');
+  
+  // Date Range Signals
+  selectedDateStart = signal('');
+  selectedDateEnd = signal('');
+
+  // Client Search Signals
   selectedClientId = signal<number | ''>('');
+  clientSearchTerm = signal('');
+  showClientDropdown = signal(false);
   
   isLoading = signal(true);
   error = signal<string | null>(null);
@@ -57,24 +64,70 @@ export class DocumentListComponent implements OnInit {
   technicalReports = computed(() => this.reports().filter(r => r.tipo_informe === 'Técnico' || r.tipo_informe === 'tecnico').length);
 
   // Filtered Data
+  // Client Filtering Logic
+  filteredClients = computed(() => {
+     const term = this.clientSearchTerm().toLowerCase();
+     if (term.length < 2) return []; // Only show if 2+ chars or handled by interaction
+     return this.clients().filter(c => 
+        (c.nombre_comercial?.toLowerCase().includes(term) || 
+         c.contacto_nombre?.toLowerCase().includes(term) ||
+         c.contacto_apellido?.toLowerCase().includes(term))
+     );
+  });
+
+  onClientSearch() {
+     if (this.clientSearchTerm().length >= 2) {
+         this.showClientDropdown.set(true);
+     } else {
+         // If cleared, maybe reset? or keep hidden
+     }
+  }
+
+  selectClient(client: Client | null) {
+      if (client) {
+          this.selectedClientId.set(client.cliente_id);
+          const fullName = client.nombre_comercial || `${client.contacto_nombre || ''} ${client.contacto_apellido || ''}`.trim();
+          this.clientSearchTerm.set(fullName);
+      } else {
+          this.selectedClientId.set('');
+          this.clientSearchTerm.set('');
+      }
+      this.showClientDropdown.set(false);
+  }
+
+  // Filtered Data
   filteredReports = computed(() => {
     const query = this.searchQuery().toLowerCase();
     const type = this.selectedType();
-    const date = this.selectedDate(); // Simple match for now
+    
+    // Date Range
+    const start = this.selectedDateStart();
+    const end = this.selectedDateEnd();
+
     const clientId = this.selectedClientId();
 
     return this.reports().filter(report => {
-      // Search matches ID or maybe Client Name if we had it joined or mapped
-      // For now match ID or type or description
+      // Search matches description only as requested (and maybe ID?)
+      // User said: "el filtro de búsqueda principal... solo funciona para filtrar por descripción del trabajo" 
+      // -> implies they WANT it to act as description filter primarily.
       const matchesSearch = 
-        report.informe_id.toString().includes(query) ||
-        report.tipo_informe.toLowerCase().includes(query) ||
-        report.descripcion_trabajo?.toLowerCase().includes(query);
+        report.descripcion_trabajo?.toLowerCase().includes(query) ||
+        report.informe_id.toString().includes(query); // Keeping ID as usually desired
 
       const matchesType = type ? report.tipo_informe === type : true;
       
-      // Date filter: validation logic depends on date format. Simplified check.
-      const matchesDate = date ? report.fecha_informe.startsWith(date) : true;
+      // Date Range Logic
+      let matchesDate = true;
+      if (start && end) {
+          const reportDate = report.fecha_informe.split('T')[0]; // Assuming ISO string YYYY-MM-DD
+          matchesDate = reportDate >= start && reportDate <= end;
+      } else if (start) {
+          const reportDate = report.fecha_informe.split('T')[0];
+          matchesDate = reportDate >= start;
+      } else if (end) {
+          const reportDate = report.fecha_informe.split('T')[0];
+          matchesDate = reportDate <= end;
+      }
       
       const matchesClient = clientId ? report.cliente_id === Number(clientId) : true;
 
@@ -117,7 +170,8 @@ export class DocumentListComponent implements OnInit {
   // Helpers to get names from IDs
   getClientName(id: number): string {
     const client = this.clients().find(c => c.cliente_id === id);
-    return client ? (client.nombre_comercial || client.contacto_nombre || 'Cliente') : 'Desconocido';
+    if (!client) return 'Desconocido';
+    return client.nombre_comercial || `${client.contacto_nombre || ''} ${client.contacto_apellido || ''}`.trim() || 'Cliente';
   }
 
   getWorkerName(id: number): string {

@@ -38,7 +38,7 @@
           type="text" 
           [(ngModel)]="searchQuery"
           class="block w-full p-3 pl-12 text-base text-slate-900 border-2 border-gray-300 rounded-lg bg-white focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500 outline-none transition-shadow" 
-          placeholder="Ingresar nombre del cliente o ID..." 
+          placeholder="Ingresar descripción del trabajo..." 
         >
       </div>
       <button class="w-full md:w-auto bg-[#003B73] hover:bg-[#002a52] text-white font-bold rounded-lg px-8 py-3 transition-all shadow-md hover:shadow-lg uppercase text-sm tracking-wide">
@@ -68,30 +68,70 @@
       </div>
 
       <!-- Date Filter -->
-      <div>
-        <label class="block text-xs font-bold text-slate-600 uppercase mb-2 ml-1">FECHA</label>
-        <input 
-          type="date" 
-          [(ngModel)]="selectedDate"
-          class="w-full bg-white text-slate-700 text-base font-medium rounded-lg border-2 border-gray-300 focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500 p-3 outline-none"
-        >
+      <!-- Date Range Filter -->
+      <div class="flex gap-2">
+        <div class="w-1/2">
+             <label class="block text-xs font-bold text-slate-600 uppercase mb-2 ml-1">DESDE</label>
+             <input 
+               type="date" 
+               [(ngModel)]="selectedDateStart"
+               class="w-full bg-white text-slate-700 text-base font-medium rounded-lg border-2 border-gray-300 focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500 p-3 outline-none"
+             >
+        </div>
+        <div class="w-1/2">
+            <label class="block text-xs font-bold text-slate-600 uppercase mb-2 ml-1">HASTA</label>
+            <input 
+              type="date" 
+              [(ngModel)]="selectedDateEnd"
+              class="w-full bg-white text-slate-700 text-base font-medium rounded-lg border-2 border-gray-300 focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500 p-3 outline-none"
+            >
+       </div>
       </div>
 
       <!-- Client Filter -->
+      <!-- Client Filter (Searchable) -->
       <div>
         <label class="block text-xs font-bold text-slate-600 uppercase mb-2 ml-1">CLIENTE</label>
         <div class="relative">
-            <select 
-              [(ngModel)]="selectedClientId"
-              class="w-full bg-white text-slate-700 text-base font-medium rounded-lg border-2 border-gray-300 focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500 p-3 outline-none cursor-pointer appearance-none"
+            <input 
+              type="text" 
+              [(ngModel)]="clientSearchTerm"
+              (input)="onClientSearch()"
+              placeholder="Escribe para buscar..."
+              class="w-full bg-white text-slate-700 text-base font-medium rounded-lg border-2 border-gray-300 focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500 p-3 outline-none"
+              [class.rounded-b-none]="showClientDropdown()"
+              (focus)="showClientDropdown.set(true)"
             >
-              <option value="">Todos los clientes</option>
-              <option *ngFor="let client of clients()" [value]="client.cliente_id">
-                {{ client.nombre_comercial || client.contacto_nombre }}
-              </option>
-            </select>
+            <!-- Dropdown Results -->
+            <div *ngIf="showClientDropdown()" class="absolute z-10 w-full bg-white border-x-2 border-b-2 border-gray-300 rounded-b-lg max-h-60 overflow-y-auto shadow-xl">
+                 <div 
+                    (click)="selectClient(null)"
+                    class="p-3 hover:bg-slate-100 cursor-pointer text-slate-500 italic border-b border-gray-100"
+                 >
+                    Todos los clientes
+                 </div>
+                 
+                 <div *ngIf="clientSearchTerm().length < 2" class="p-3 text-slate-400 text-sm italic text-center">
+                    Ingresa al menos 2 letras para buscar...
+                 </div>
+
+                 <ng-container *ngIf="clientSearchTerm().length >= 2">
+                     <div 
+                        *ngFor="let client of filteredClients()" 
+                        (click)="selectClient(client)"
+                        class="p-3 hover:bg-slate-50 cursor-pointer text-slate-700 font-medium border-b border-gray-100 last:border-0"
+                     >
+                        {{ client.nombre_comercial || (client.contacto_nombre + ' ' + (client.contacto_apellido || '')) }}
+                     </div>
+                     <div *ngIf="filteredClients().length === 0" class="p-3 text-red-400 text-sm text-center">
+                        No se encontraron clientes
+                     </div>
+                 </ng-container>
+            </div>
+            
             <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-gray-500">
-                <i class="bi bi-chevron-down"></i>
+                <i *ngIf="!selectedClientId()" class="bi bi-search"></i>
+                <i *ngIf="selectedClientId()" class="bi bi-check-circle-fill text-emerald-500"></i>
             </div>
         </div>
       </div>
