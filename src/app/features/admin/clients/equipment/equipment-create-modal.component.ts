@@ -34,21 +34,38 @@ export class EquipmentCreateModalComponent {
     piso_cantidad: [null],
     fecha_ultimo_mantenimiento: [''],
     estado: ['Activo', Validators.required],
-    observaciones: ['']
+    observaciones: [''] // Optional - can be empty
   });
 
   onSubmit() {
-    if (this.equipmentForm.invalid) {
-      this.equipmentForm.markAllAsTouched();
-      return;
+    // Mark all fields as touched to show validation errors
+    this.equipmentForm.markAllAsTouched();
+    
+    // Only check required fields
+    const tipoEquipo = this.equipmentForm.get('tipo_equipo');
+    const marca = this.equipmentForm.get('marca');
+    const estado = this.equipmentForm.get('estado');
+    
+    if (!tipoEquipo?.valid || !marca?.valid || !estado?.valid) {
+      return; // Don't submit if required fields are invalid
     }
 
     this.isSubmitting.set(true);
     this.errorMessage.set(null);
 
+    // Prepare payload, convert empty strings to null for optional fields
+    const formValue = this.equipmentForm.value;
     const payload = {
       cliente_id: this.client.cliente_id,
-      ...this.equipmentForm.value
+      tipo_equipo: formValue.tipo_equipo,
+      marca: formValue.marca,
+      modelo: formValue.modelo || null,
+      numero_serie: formValue.numero_serie || null,
+      capacidad: formValue.capacidad || null,
+      piso_cantidad: formValue.piso_cantidad || null,
+      fecha_ultimo_mantenimiento: formValue.fecha_ultimo_mantenimiento || null,
+      estado: formValue.estado,
+      observaciones: formValue.observaciones || null // Convert empty string to null
     };
 
     this.elevatorService.createElevator(payload).subscribe({
