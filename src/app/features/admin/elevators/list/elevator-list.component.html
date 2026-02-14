@@ -33,9 +33,9 @@
     </div>
 
     <!-- Filters & Search -->
-    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 flex flex-col md:flex-row gap-6 items-end">
+    <app-filter-container>
         
-        <!-- Filter Client -->
+        <!-- Filter Client (Custom complex component for now, kept inside container) -->
         <div class="w-full md:w-1/4">
           <label class="block text-xs font-bold text-slate-600 uppercase mb-2 ml-1">Cliente</label>
           <div class="relative">
@@ -86,57 +86,36 @@
 
          <!-- Filter Type -->
          <div class="w-full md:w-1/4">
-            <label class="block text-xs font-bold text-slate-600 uppercase mb-2 ml-1">Tipo de Equipo</label>
-            <div class="relative">
-              <select 
-                [ngModel]="selectedType()" 
-                (ngModelChange)="selectedType.set($event)"
-                class="w-full bg-white text-slate-700 text-sm font-medium rounded-lg border-2 border-gray-300 focus:ring-4 focus:ring-blue-100 focus:border-[#003B73] p-3 outline-none cursor-pointer appearance-none"
-              >
-                <option value="">Todos los tipos</option>
-                <option *ngFor="let type of equipmentTypes" [value]="type">{{ type }}</option>
-              </select>
-              <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-gray-500">
-                 <i class="bi bi-chevron-down"></i>
-              </div>
-            </div>
+            <app-filter-select 
+                label="Tipo de Equipo" 
+                placeholder="Todos los tipos" 
+                [options]="equipmentTypes" 
+                [value]="selectedType()"
+                (valueChange)="selectedType.set($event)"
+            ></app-filter-select>
           </div>
 
           <!-- Filter Status -->
          <div class="w-full md:w-1/4">
-            <label class="block text-xs font-bold text-slate-600 uppercase mb-2 ml-1">Estado</label>
-            <div class="relative">
-              <select 
-                [ngModel]="selectedStatus()" 
-                (ngModelChange)="selectedStatus.set($event)"
-                class="w-full bg-white text-slate-700 text-sm font-medium rounded-lg border-2 border-gray-300 focus:ring-4 focus:ring-blue-100 focus:border-[#003B73] p-3 outline-none cursor-pointer appearance-none"
-              >
-                <option value="">Todos los estados</option>
-                <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
-              </select>
-              <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-gray-500">
-                 <i class="bi bi-chevron-down"></i>
-              </div>
-            </div>
+            <app-filter-select 
+                label="Estado" 
+                placeholder="Todos los estados" 
+                [options]="statuses" 
+                [value]="selectedStatus()"
+                (valueChange)="selectedStatus.set($event)"
+            ></app-filter-select>
           </div>
     
         <!-- Search -->
-        <div class="w-full md:w-1/4 flex-1 relative">
-           <label class="block text-xs font-bold text-slate-600 uppercase mb-2 ml-1">Búsqueda</label>
-            <div class="relative w-full">
-                <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                     <i class="bi bi-search text-gray-400 text-lg"></i>
-                 </div>
-                <input 
-                    type="text" 
-                    [ngModel]="searchQuery()"
-                    (ngModelChange)="searchQuery.set($event)"
-                    class="block w-full p-3 pl-12 text-sm text-slate-900 border-2 border-gray-300 rounded-lg bg-white focus:ring-4 focus:ring-blue-100 focus:border-[#003B73] outline-none transition-shadow" 
-                    placeholder="Serie, marca, modelo..." 
-                 />
-            </div>
+        <div class="w-full md:w-1/4 flex-1">
+           <app-filter-input 
+               label="Búsqueda" 
+               placeholder="Serie, marca, modelo..." 
+               [value]="searchQuery()"
+               (valueChange)="searchQuery.set($event)"
+            ></app-filter-input>
         </div>
-    </div>
+    </app-filter-container>
 
     <!-- Actions -->
     <div class="flex justify-end">
@@ -162,56 +141,59 @@
 
         <!-- Cards -->
         <ng-container *ngIf="!isLoading()">
-            <div *ngFor="let elevator of filteredElevators()" class="bg-white rounded-2xl shadow-md border border-gray-200 p-6 relative hover:shadow-xl hover:border-blue-200 transition-all duration-300 group flex flex-col justify-between">
-                
-                <!-- Edit Icon -->
-                <button (click)="openEditModal(elevator)" class="absolute top-4 right-4 text-emerald-600 hover:text-emerald-800 p-2 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors" title="Editar Equipo">
-                    <i class="bi bi-pencil-square text-lg"></i>
-                </button>
-
-                <!-- Content -->
-                <div>
-                     <!-- Header Info -->
-                     <div class="mb-4 pr-10">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">{{ elevator.tipo_equipo }}</span>
-                        <h3 class="font-extrabold text-[#003B73] text-xl leading-tight">{{ elevator.numero_serie }}</h3>
-                        <p class="text-sm font-semibold text-slate-500 mt-1">{{ elevator.marca }} {{ elevator.modelo }}</p>
-                    </div>
-
-                    <!-- Client Badge -->
-                    <div class="mb-4 inline-flex items-center gap-2 px-3 py-1.5 bg-slate-100 text-slate-600 rounded-lg text-xs font-bold uppercase tracking-wide max-w-full">
-                        <i class="bi bi-building-fill text-slate-400"></i>
-                        <span class="truncate">{{ elevator.cliente_nombre }}</span>
-                    </div>
-
-                    <!-- Details Grid -->
-                    <div class="grid grid-cols-2 gap-3 text-sm text-slate-600 mb-4">
-                         <div class="bg-gray-50 p-2 rounded-lg">
-                            <span class="block text-[10px] text-slate-400 uppercase font-bold">Capacidad</span>
-                             <span class="font-semibold">{{ elevator.capacidad || 'N/A' }}</span>
-                         </div>
-                         <div class="bg-gray-50 p-2 rounded-lg">
-                            <span class="block text-[10px] text-slate-400 uppercase font-bold">Pisos</span>
-                             <span class="font-semibold">{{ elevator.piso_cantidad || 'N/A' }}</span>
-                         </div>
-                    </div>
-                </div>
-
-                <!-- Footer Status -->
-                <div class="flex items-center justify-between border-t border-gray-100 pt-4 mt-2">
-                    <span 
-                        class="px-3 py-1 text-xs font-bold uppercase rounded-full border"
-                        [ngClass]="getStatusColor(elevator.estado)"
-                    >
-                        {{ elevator.estado }}
-                    </span>
-
-                    <!-- Delete Icon -->
-                    <button (click)="openDeleteModal(elevator)" class="text-red-400 hover:text-red-600 hover:bg-red-50 p-1.5 rounded-lg transition-colors opacity-0 group-hover:opacity-100" title="Eliminar Equipo">
-                        <i class="bi bi-trash-fill text-lg"></i>
+            <div *ngFor="let elevator of filteredElevators()" class="h-full">
+                <app-entity-card>
+                    
+                    <!-- Edit Action -->
+                    <button action-top (click)="openEditModal(elevator)" class="text-emerald-600 hover:text-emerald-800 p-2 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors shadow-sm" title="Editar Equipo">
+                        <i class="bi bi-pencil-square text-lg"></i>
                     </button>
-                </div>
 
+                    <!-- Main Content -->
+                    <div>
+                         <!-- Header Info -->
+                         <div class="mb-4 pr-10">
+                            <span class="text-[10px] font-extrabold text-slate-500 uppercase tracking-widest block mb-1">{{ elevator.tipo_equipo }}</span>
+                            <h3 class="font-extrabold text-[#003B73] text-2xl leading-tight">{{ elevator.numero_serie }}</h3>
+                            <p class="text-sm font-bold text-slate-700 mt-1">{{ elevator.marca }} {{ elevator.modelo }}</p>
+                        </div>
+
+                        <!-- Client Badge -->
+                        <div class="mb-5 inline-flex items-center gap-2 px-3 py-2 bg-slate-100 text-slate-800 rounded-lg text-xs font-bold uppercase tracking-wide max-w-full border-l-4 border-slate-400 shadow-sm">
+                            <i class="bi bi-building-fill text-slate-500"></i>
+                            <span class="truncate">{{ elevator.cliente_nombre }}</span>
+                        </div>
+
+                        <!-- Details Grid -->
+                        <div class="grid grid-cols-2 gap-3 text-sm text-slate-600 mb-4">
+                             <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                                <span class="block text-[10px] text-slate-500 uppercase font-extrabold mb-1">Capacidad</span>
+                                 <span class="font-bold text-slate-800 text-lg">{{ elevator.capacidad || '--' }}</span>
+                             </div>
+                             <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                                <span class="block text-[10px] text-slate-500 uppercase font-extrabold mb-1">Pisos</span>
+                                 <span class="font-bold text-slate-800 text-lg">{{ elevator.piso_cantidad || '--' }}</span>
+                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <ng-container footer>
+                        <div class="flex items-center justify-between w-full">
+                            <span 
+                                class="px-3 py-1.5 text-xs font-bold uppercase rounded-full border shadow-sm"
+                                [ngClass]="getStatusColor(elevator.estado)"
+                            >
+                                {{ elevator.estado }}
+                            </span>
+
+                            <button (click)="openDeleteModal(elevator)" class="text-red-400 hover:text-red-600 hover:bg-red-50 p-2 rounded-lg transition-colors opacity-0 group-hover:opacity-100" title="Eliminar Equipo">
+                                <i class="bi bi-trash-fill text-lg"></i>
+                            </button>
+                        </div>
+                    </ng-container>
+
+                </app-entity-card>
             </div>
         </ng-container>
 

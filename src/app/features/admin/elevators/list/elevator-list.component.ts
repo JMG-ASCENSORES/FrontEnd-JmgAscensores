@@ -10,11 +10,26 @@ import { Elevator } from '../../../../core/models/elevator.model';
 import { ElevatorCreateComponent } from '../create/elevator-create.component';
 import { ElevatorEditComponent } from '../edit/elevator-edit.component';
 import { ElevatorDeleteComponent } from '../delete/elevator-delete.component';
+import { EntityCardComponent } from '../../../../shared/components/entity-card/entity-card.component';
+
+import { FilterContainerComponent } from '../../../../shared/components/filters/filter-container/filter-container.component';
+import { FilterInputComponent } from '../../../../shared/components/filters/filter-input/filter-input.component';
+import { FilterSelectComponent } from '../../../../shared/components/filters/filter-select/filter-select.component';
 
 @Component({
   selector: 'app-elevator-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, ElevatorCreateComponent, ElevatorEditComponent, ElevatorDeleteComponent],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    ElevatorCreateComponent, 
+    ElevatorEditComponent, 
+    ElevatorDeleteComponent, 
+    EntityCardComponent,
+    FilterContainerComponent,
+    FilterInputComponent,
+    FilterSelectComponent
+  ],
   templateUrl: './elevator-list.component.html',
   styleUrl: './elevator-list.component.scss'
 })

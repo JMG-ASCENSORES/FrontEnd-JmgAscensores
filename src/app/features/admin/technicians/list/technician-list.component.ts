@@ -7,10 +7,27 @@ import { TechnicianEditComponent } from '../edit/technician-edit.component';
 import { TechnicianDeleteComponent } from '../delete/technician-delete.component';
 import { TechnicianRestoreComponent } from '../restore/technician-restore.component';
 
+import { EntityCardComponent } from '../../../../shared/components/entity-card/entity-card.component';
+
+import { FilterContainerComponent } from '../../../../shared/components/filters/filter-container/filter-container.component';
+import { FilterInputComponent } from '../../../../shared/components/filters/filter-input/filter-input.component';
+import { FilterSelectComponent } from '../../../../shared/components/filters/filter-select/filter-select.component';
+
 @Component({
   selector: 'app-technician-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, TechnicianCreateComponent, TechnicianEditComponent, TechnicianDeleteComponent, TechnicianRestoreComponent],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    TechnicianCreateComponent, 
+    TechnicianEditComponent, 
+    TechnicianDeleteComponent,
+    TechnicianRestoreComponent,
+    EntityCardComponent,
+    FilterContainerComponent,
+    FilterInputComponent,
+    FilterSelectComponent
+  ],
   templateUrl: './technician-list.component.html',
   styleUrl: './technician-list.component.scss'
 })

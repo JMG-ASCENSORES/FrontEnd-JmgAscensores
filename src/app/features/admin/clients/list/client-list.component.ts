@@ -8,11 +8,12 @@ import { ClientCreateComponent } from '../create/client-create.component';
 import { ClientEditComponent } from '../edit/client-edit.component';
 import { ClientDeleteComponent } from '../delete/client-delete.component';
 import { EquipmentListModalComponent } from '../equipment/equipment-list-modal.component';
+import { EntityCardComponent } from '../../../../shared/components/entity-card/entity-card.component';
 
 @Component({
   selector: 'app-client-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, ClientCreateComponent, ClientEditComponent, ClientDeleteComponent, EquipmentListModalComponent],
+  imports: [CommonModule, FormsModule, ClientCreateComponent, ClientEditComponent, ClientDeleteComponent, EquipmentListModalComponent, EntityCardComponent],
   templateUrl: './client-list.component.html',
 })
 export class ClientListComponent implements OnInit {
