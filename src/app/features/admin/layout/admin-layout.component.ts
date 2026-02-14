@@ -14,7 +14,18 @@ import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.com
 export class AdminLayoutComponent {
   private authService = inject(AuthService);
   
+  showLogoutModal = false;
+
   logout() {
+    this.showLogoutModal = true;
+  }
+
+  confirmLogout() {
     this.authService.logout();
+    this.showLogoutModal = false;
+  }
+
+  cancelLogout() {
+    this.showLogoutModal = false;
   }
 }

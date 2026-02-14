@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
@@ -32,11 +32,13 @@ export class SidebarComponent {
     { label: 'Configuración', icon: 'bi bi-gear', route: '/admin/settings' }
   ];
 
+  @Output() logoutRequest = new EventEmitter<void>();
+
   toggleSidebar() {
     this.isCollapsed = !this.isCollapsed;
   }
 
   logout() {
-    this.authService.logout();
+    this.logoutRequest.emit();
   }
 }
