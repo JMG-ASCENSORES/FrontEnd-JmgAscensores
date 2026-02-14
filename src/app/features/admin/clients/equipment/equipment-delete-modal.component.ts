@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ElevatorService, Elevator } from '../../services/elevator.service';
+import { ElevatorService } from '../../services/elevator.service';
+import { Elevator } from '../../../../core/models/elevator.model';
 
 @Component({
   selector: 'app-equipment-delete-modal',

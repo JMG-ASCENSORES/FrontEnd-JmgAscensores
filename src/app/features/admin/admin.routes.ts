@@ -8,12 +8,7 @@ import { ProgrammingComponent } from './programming/programming.component';
 
 
 
-@Component({ 
-  template: `<app-placeholder-page title="Gestión de Ascensores" icon="bi bi-briefcase"></app-placeholder-page>`, 
-  standalone: true,
-  imports: [PlaceholderPageComponent]
-})
-export class ElevatorsComponent {}
+
 
 
 
@@ -50,7 +45,10 @@ export const adminRoutes: Routes = [
         path: 'clients', 
         loadComponent: () => import('./clients/list/client-list.component').then(m => m.ClientListComponent) 
       },
-      { path: 'elevators', component: ElevatorsComponent },
+      { 
+        path: 'elevators', 
+        loadComponent: () => import('./elevators/list/elevator-list.component').then(m => m.ElevatorListComponent) 
+      },
       { 
         path: 'technicians', 
         loadComponent: () => import('./technicians/list/technician-list.component').then(m => m.TechnicianListComponent) 

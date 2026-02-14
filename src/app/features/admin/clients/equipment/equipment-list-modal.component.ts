@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ElevatorService, Elevator } from '../../services/elevator.service';
+import { ElevatorService } from '../../services/elevator.service';
+import { Elevator } from '../../../../core/models/elevator.model';
 import { Client } from '../../services/client.service';
 import { EquipmentCreateModalComponent } from './equipment-create-modal.component';
 import { EquipmentEditModalComponent } from './equipment-edit-modal.component';

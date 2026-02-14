@@ -1,22 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, map, throwError } from 'rxjs';
-
-export interface Elevator {
-  ascensor_id: number;
-  cliente_id: number;
-  tipo_equipo: string;
-  marca: string;
-  modelo?: string;
-  numero_serie?: string;
-  capacidad?: string;
-  piso_cantidad?: number;
-  fecha_ultimo_mantenimiento?: string;
-  estado?: string;
-  observaciones?: string;
-  fecha_creacion?: string;
-  fecha_actualizacion?: string;
-}
+import { Elevator } from '../../../core/models/elevator.model';
 
 export interface ElevatorApiResponse {
   success: boolean;
@@ -55,6 +40,9 @@ export class ElevatorService {
         map(response => Array.isArray(response.data) ? response.data : [response.data]),
         catchError(error => {
           console.error('Error fetching elevators:', error);
+          if (error.status === 401) {
+             return throwError(() => new Error('No autorizado.'));
+          }
           return throwError(() => new Error('Error al cargar equipos.'));
         })
       );

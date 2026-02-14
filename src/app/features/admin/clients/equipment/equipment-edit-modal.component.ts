@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ElevatorService, Elevator } from '../../services/elevator.service';
+import { ElevatorService } from '../../services/elevator.service';
+import { Elevator } from '../../../../core/models/elevator.model';
 
 @Component({
   selector: 'app-equipment-edit-modal',
