@@ -1,0 +1,213 @@
+<div class="modal-overlay" (click)="onClose()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <!-- Header -->
+    <div class="modal-header">
+      <h2>
+        <i class="bi bi-calendar-plus"></i>
+        {{ isEditMode ? 'Editar Programación' : 'Nueva Programación' }}
+      </h2>
+      <button class="btn-close" (click)="onClose()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="error-alert">
+      <i class="bi bi-exclamation-triangle"></i>
+      {{ errorMessage }}
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Cargando datos...</p>
+    </div>
+
+    <!-- Form -->
+    <form *ngIf="!isLoading" (ngSubmit)="onSubmit()" class="modal-form">
+      <!-- Título -->
+      <div class="form-group">
+        <label for="titulo">
+          Título <span class="required">*</span>
+        </label>
+        <input
+          type="text"
+          id="titulo"
+          [(ngModel)]="formData.titulo"
+          name="titulo"
+          placeholder="Ej: Mantenimiento Preventivo - Torre A"
+          [class.error]="validationErrors['titulo']"
+        />
+        <span *ngIf="validationErrors['titulo']" class="error-message">
+          {{ validationErrors['titulo'] }}
+        </span>
+      </div>
+
+      <!-- Tipo de Trabajo -->
+      <div class="form-group">
+        <label for="tipo_trabajo">
+          Tipo de Trabajo <span class="required">*</span>
+        </label>
+        <select
+          id="tipo_trabajo"
+          [(ngModel)]="formData.tipo_trabajo"
+          name="tipo_trabajo"
+        >
+          <option *ngFor="let tipo of tipoTrabajoOptions" [value]="tipo.value">
+            {{ tipo.label }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Fecha -->
+      <div class="form-group">
+        <label for="fecha">
+          Fecha <span class="required">*</span>
+        </label>
+        <input
+          type="date"
+          id="fecha"
+          [(ngModel)]="formData.fecha"
+          name="fecha"
+          [class.error]="validationErrors['fecha']"
+        />
+        <span *ngIf="validationErrors['fecha']" class="error-message">
+          {{ validationErrors['fecha'] }}
+        </span>
+      </div>
+
+      <!-- Horas -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="hora_inicio">
+            Hora Inicio <span class="required">*</span>
+          </label>
+          <input
+            type="time"
+            id="hora_inicio"
+            [(ngModel)]="formData.hora_inicio"
+            name="hora_inicio"
+            [class.error]="validationErrors['hora_inicio']"
+          />
+          <span *ngIf="validationErrors['hora_inicio']" class="error-message">
+            {{ validationErrors['hora_inicio'] }}
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="hora_fin">
+            Hora Fin <span class="required">*</span>
+          </label>
+          <input
+            type="time"
+            id="hora_fin"
+            [(ngModel)]="formData.hora_fin"
+            name="hora_fin"
+            [class.error]="validationErrors['hora_fin']"
+          />
+          <span *ngIf="validationErrors['hora_fin']" class="error-message">
+            {{ validationErrors['hora_fin'] }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Trabajador -->
+      <div class="form-group">
+        <label for="trabajador_id">
+          Técnico Asignado <span class="required">*</span>
+        </label>
+        <select
+          id="trabajador_id"
+          [(ngModel)]="formData.trabajador_id"
+          name="trabajador_id"
+          [class.error]="validationErrors['trabajador_id']"
+        >
+          <option [value]="0">Seleccione un técnico</option>
+          <option *ngFor="let trabajador of trabajadores" [value]="trabajador.usuario_id">
+            {{ trabajador.nombre }} {{ trabajador.apellido }}
+            <span *ngIf="trabajador.especialidad"> - {{ trabajador.especialidad }}</span>
+          </option>
+        </select>
+        <span *ngIf="validationErrors['trabajador_id']" class="error-message">
+          {{ validationErrors['trabajador_id'] }}
+        </span>
+      </div>
+
+      <!-- Cliente -->
+      <div class="form-group">
+        <label for="cliente_id">
+          Cliente <span class="required">*</span>
+        </label>
+        <select
+          id="cliente_id"
+          [(ngModel)]="formData.cliente_id"
+          name="cliente_id"
+          (change)="onClienteChange()"
+          [class.error]="validationErrors['cliente_id']"
+        >
+          <option [value]="0">Seleccione un cliente</option>
+          <option *ngFor="let cliente of clientes" [value]="cliente.cliente_id">
+            {{ getClienteNombre(cliente) }}
+          </option>
+        </select>
+        <span *ngIf="validationErrors['cliente_id']" class="error-message">
+          {{ validationErrors['cliente_id'] }}
+        </span>
+      </div>
+
+      <!-- Ascensor -->
+      <div class="form-group">
+        <label for="ascensor_id">
+          Equipo <span class="required">*</span>
+        </label>
+        <select
+          id="ascensor_id"
+          [(ngModel)]="formData.ascensor_id"
+          name="ascensor_id"
+          [disabled]="!formData.cliente_id || formData.cliente_id === 0"
+          [class.error]="validationErrors['ascensor_id']"
+        >
+          <option [value]="0">Seleccione un equipo</option>
+          <option *ngFor="let ascensor of ascensoresFiltered" [value]="ascensor.ascensor_id">
+            {{ getAscensorLabel(ascensor) }}
+          </option>
+        </select>
+        <p *ngIf="(!formData.cliente_id || formData.cliente_id === 0) && !validationErrors['ascensor_id']" class="help-text">
+          Seleccione un cliente primero para ver sus equipos
+        </p>
+        <span *ngIf="validationErrors['ascensor_id']" class="error-message">
+          {{ validationErrors['ascensor_id'] }}
+        </span>
+      </div>
+
+      <!-- Descripción -->
+      <div class="form-group">
+        <label for="descripcion">Descripción (Opcional)</label>
+        <textarea
+          id="descripcion"
+          [(ngModel)]="formData.descripcion"
+          name="descripcion"
+          rows="3"
+          placeholder="Detalles adicionales sobre la programación..."
+        ></textarea>
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" (click)="onClose()" [disabled]="isSaving">
+          Cancelar
+        </button>
+        <button type="submit" class="btn-primary" [disabled]="isSaving">
+          <span *ngIf="!isSaving">
+            <i class="bi bi-check-circle"></i>
+            {{ isEditMode ? 'Actualizar' : 'Crear' }}
+          </span>
+          <span *ngIf="isSaving">
+            <i class="bi bi-hourglass-split"></i>
+            Guardando...
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
