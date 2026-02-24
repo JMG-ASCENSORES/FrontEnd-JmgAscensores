@@ -1,0 +1,24 @@
+<!-- Bottom Navigation Bar — Mobile-first, sticky al fondo -->
+<nav class="bottom-nav">
+  <!-- Logo JMG (izquierda) -->
+  <div class="bottom-nav__logo">
+    <div class="logo-mark">
+      <span class="logo-j">J</span><span class="logo-mg">MG</span>
+    </div>
+    <span class="logo-sub">ASCENSORES</span>
+  </div>
+
+  <!-- Items de navegación -->
+  <a
+    *ngFor="let item of navItems"
+    [routerLink]="item.path"
+    routerLinkActive="active"
+    class="bottom-nav__item"
+    #rla="routerLinkActive">
+
+    <i class="bi"
+       [ngClass]="rla.isActive ? item.iconActive : item.icon"
+       class="bottom-nav__icon bi"></i>
+    <span class="bottom-nav__label">{{ item.label }}</span>
+  </a>
+</nav>

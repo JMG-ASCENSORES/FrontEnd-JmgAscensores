@@ -1,0 +1,205 @@
+<div class="profile-page">
+
+  <!-- Hero: foto de fondo + avatar -->
+  <div class="profile-hero">
+    <div class="profile-hero__bg"></div>
+    <div class="profile-hero__avatar">
+      <ng-container *ngIf="profile()?.foto_perfil; else initialsAvatar">
+        <img [src]="profile()!.foto_perfil" alt="Foto de perfil" class="avatar-img">
+      </ng-container>
+      <ng-template #initialsAvatar>
+        <div class="avatar-initials">
+          <span *ngIf="!isLoading()">{{ initials }}</span>
+          <i *ngIf="isLoading()" class="bi bi-person-fill text-4xl text-white/50"></i>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- Loading skeleton -->
+  <div *ngIf="isLoading()" class="profile-body skeleton-mode">
+    <div class="skeleton-line w-40 h-6 mx-auto mb-1"></div>
+    <div class="skeleton-line w-24 h-4 mx-auto mb-8"></div>
+    <div *ngFor="let i of [1,2,3,4,5]" class="field-group">
+      <div class="skeleton-line w-20 h-3 mb-1"></div>
+      <div class="skeleton-line w-full h-11"></div>
+    </div>
+  </div>
+
+  <!-- Contenido del perfil -->
+  <div *ngIf="!isLoading()" class="profile-body">
+
+    <!-- Nombre y especialidad (solo lectura como presentación) -->
+    <div class="profile-identity">
+      <h1 class="profile-identity__name">{{ profile()?.nombre }} {{ profile()?.apellido }}</h1>
+      <span class="profile-identity__role">
+        <i class="bi bi-tools"></i>
+        {{ profile()?.especialidad || 'Técnico' }}
+      </span>
+    </div>
+
+    <!-- Feedback alerts -->
+    <div *ngIf="saveSuccess()" class="alert alert--success">
+      <i class="bi bi-check-circle-fill"></i>
+      Cambios guardados exitosamente.
+    </div>
+    <div *ngIf="errorMessage()" class="alert alert--error">
+      <i class="bi bi-exclamation-circle-fill"></i>
+      {{ errorMessage() }}
+    </div>
+
+    <!-- ── Formulario de datos personales ── -->
+    <form [formGroup]="profileForm" (ngSubmit)="onSaveProfile()" class="profile-form">
+
+      <div class="section-title">Datos personales</div>
+
+      <!-- Nombre -->
+      <div class="field-group">
+        <label class="field-label" for="p_nombre">Nombre</label>
+        <input id="p_nombre" type="text" formControlName="nombre" class="field-input"
+          [class.field-input--error]="profileForm.get('nombre')?.invalid && profileForm.get('nombre')?.touched"
+          placeholder="Tu nombre">
+        <ng-container *ngIf="profileForm.get('nombre')?.touched && profileForm.get('nombre')?.invalid">
+          <p *ngIf="profileForm.get('nombre')?.hasError('required')" class="field-error">
+            <i class="bi bi-exclamation-circle"></i> El nombre es requerido.
+          </p>
+          <p *ngIf="profileForm.get('nombre')?.hasError('pattern')" class="field-error">
+            <i class="bi bi-exclamation-circle"></i> El nombre solo puede contener letras.
+          </p>
+          <p *ngIf="profileForm.get('nombre')?.hasError('minlength')" class="field-error">
+            <i class="bi bi-exclamation-circle"></i> Mínimo 2 caracteres.
+          </p>
+        </ng-container>
+      </div>
+
+      <!-- Apellidos -->
+      <div class="field-group">
+        <label class="field-label" for="p_apellido">Apellidos</label>
+        <input id="p_apellido" type="text" formControlName="apellido" class="field-input"
+          [class.field-input--error]="profileForm.get('apellido')?.invalid && profileForm.get('apellido')?.touched"
+          placeholder="Tus apellidos">
+        <ng-container *ngIf="profileForm.get('apellido')?.touched && profileForm.get('apellido')?.invalid">
+          <p *ngIf="profileForm.get('apellido')?.hasError('required')" class="field-error">
+            <i class="bi bi-exclamation-circle"></i> El apellido es requerido.
+          </p>
+          <p *ngIf="profileForm.get('apellido')?.hasError('pattern')" class="field-error">
+            <i class="bi bi-exclamation-circle"></i> El apellido solo puede contener letras.
+          </p>
+          <p *ngIf="profileForm.get('apellido')?.hasError('minlength')" class="field-error">
+            <i class="bi bi-exclamation-circle"></i> Mínimo 2 caracteres.
+          </p>
+        </ng-container>
+      </div>
+
+      <!-- DNI (solo lectura) -->
+      <div class="field-group">
+        <label class="field-label">DNI</label>
+        <div class="field-readonly">
+          <span>{{ profile()?.dni }}</span>
+          <i class="bi bi-lock-fill field-readonly__lock"></i>
+        </div>
+      </div>
+
+      <!-- Especialidad (solo lectura) -->
+      <div class="field-group">
+        <label class="field-label">Cargo / Especialidad</label>
+        <div class="field-readonly">
+          <span>{{ profile()?.especialidad || 'Técnico General' }}</span>
+          <i class="bi bi-lock-fill field-readonly__lock"></i>
+        </div>
+      </div>
+
+      <!-- Teléfono -->
+      <div class="field-group">
+        <label class="field-label" for="p_telefono">Teléfono</label>
+        <div class="field-input-icon">
+          <span class="field-prefix">+51</span>
+          <input id="p_telefono" type="tel" formControlName="telefono" class="field-input field-input--prefixed"
+            [class.field-input--error]="profileForm.get('telefono')?.invalid && profileForm.get('telefono')?.touched"
+            placeholder="999999999" maxlength="9" inputmode="numeric">
+        </div>
+        <p *ngIf="profileForm.get('telefono')?.hasError('pattern') && profileForm.get('telefono')?.touched"
+          class="field-error">
+          <i class="bi bi-exclamation-circle"></i> Debe tener exactamente 9 dígitos (solo números).
+        </p>
+      </div>
+
+      <!-- Correo -->
+      <div class="field-group">
+        <label class="field-label" for="p_correo">Correo electrónico</label>
+        <input id="p_correo" type="email" formControlName="correo" class="field-input"
+          [class.field-input--error]="profileForm.get('correo')?.invalid && profileForm.get('correo')?.touched"
+          placeholder="tu@correo.com">
+        <p *ngIf="profileForm.get('correo')?.invalid && profileForm.get('correo')?.touched"
+          class="field-error">Ingresa un correo válido.</p>
+      </div>
+
+      <!-- Botón Guardar -->
+      <button type="submit" class="btn btn--primary" [disabled]="profileForm.pristine || profileForm.invalid || isSaving()">
+        <span *ngIf="isSaving()" class="spinner"></span>
+        <i *ngIf="!isSaving()" class="bi bi-check-lg"></i>
+        {{ isSaving() ? 'Guardando...' : 'Guardar cambios' }}
+      </button>
+
+    </form>
+
+    <!-- ── Cambio de contraseña ── -->
+    <div class="password-section">
+      <button type="button" class="btn btn--ghost" (click)="showPasswordSection.set(!showPasswordSection())">
+        <i class="bi" [ngClass]="showPasswordSection() ? 'bi-chevron-up' : 'bi-key-fill'"></i>
+        {{ showPasswordSection() ? 'Cerrar' : 'Cambiar contraseña' }}
+      </button>
+
+      <form *ngIf="showPasswordSection()" [formGroup]="passwordForm" (ngSubmit)="onChangePassword()" class="password-form">
+
+        <!-- Nueva contraseña -->
+        <div class="field-group">
+          <label class="field-label" for="p_nueva">Nueva contraseña</label>
+          <div class="field-input-icon">
+            <input id="p_nueva" [type]="showNuevaPass() ? 'text' : 'password'"
+              formControlName="nueva_contrasena" class="field-input field-input--suffixed"
+              [class.field-input--error]="passwordForm.get('nueva_contrasena')?.invalid && passwordForm.get('nueva_contrasena')?.touched"
+              placeholder="Mín. 6 caracteres">
+            <button type="button" class="field-suffix-btn" (click)="showNuevaPass.set(!showNuevaPass())">
+              <i class="bi" [ngClass]="showNuevaPass() ? 'bi-eye-slash' : 'bi-eye'"></i>
+            </button>
+          </div>
+          <p *ngIf="passwordForm.get('nueva_contrasena')?.invalid && passwordForm.get('nueva_contrasena')?.touched"
+            class="field-error">Mínimo 6 caracteres.</p>
+        </div>
+
+        <!-- Confirmar contraseña -->
+        <div class="field-group">
+          <label class="field-label" for="p_confirma">Confirmar contraseña</label>
+          <div class="field-input-icon">
+            <input id="p_confirma" [type]="showConfirmaPass() ? 'text' : 'password'"
+              formControlName="confirmar_contrasena" class="field-input field-input--suffixed"
+              [class.field-input--error]="passwordForm.hasError('passwordMismatch') && passwordForm.get('confirmar_contrasena')?.touched"
+              placeholder="Repite la contraseña">
+            <button type="button" class="field-suffix-btn" (click)="showConfirmaPass.set(!showConfirmaPass())">
+              <i class="bi" [ngClass]="showConfirmaPass() ? 'bi-eye-slash' : 'bi-eye'"></i>
+            </button>
+          </div>
+          <p *ngIf="passwordForm.hasError('passwordMismatch') && passwordForm.get('confirmar_contrasena')?.touched"
+            class="field-error">Las contraseñas no coinciden.</p>
+        </div>
+
+        <button type="submit" class="btn btn--primary" [disabled]="passwordForm.invalid || isSaving()">
+          <span *ngIf="isSaving()" class="spinner"></span>
+          <i *ngIf="!isSaving()" class="bi bi-shield-lock"></i>
+          {{ isSaving() ? 'Guardando...' : 'Actualizar contraseña' }}
+        </button>
+
+      </form>
+    </div>
+
+    <!-- ── Cerrar sesión ── -->
+    <div class="logout-section">
+      <button type="button" class="btn btn--logout" (click)="logout()">
+        <i class="bi bi-box-arrow-left"></i>
+        Cerrar sesión
+      </button>
+    </div>
+
+  </div>
+</div>
