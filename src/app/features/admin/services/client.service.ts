@@ -9,6 +9,8 @@ export interface Client {
   dni?: string;
   ruc?: string; // Keeping for compatibility if API adds it later
   ubicacion?: string;
+  latitud?: number;
+  longitud?: number;
   ciudad?: string;
   distrito?: string;
   telefono?: string;
