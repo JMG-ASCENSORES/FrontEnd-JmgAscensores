@@ -42,6 +42,10 @@ export const adminRoutes: Routes = [
     children: [
       { path: 'dashboard', component: ProgrammingComponent },
       { 
+        path: 'programation', 
+        loadComponent: () => import('./maintenance-scheduling/maintenance-scheduling.component').then(m => m.MaintenanceSchedulingComponent) 
+      },
+      { 
         path: 'clients', 
         loadComponent: () => import('./clients/list/client-list.component').then(m => m.ClientListComponent) 
       },

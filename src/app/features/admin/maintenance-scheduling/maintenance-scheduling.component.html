@@ -1,0 +1,164 @@
+<div class="maintenance-container">
+  <!-- Header -->
+  <div class="header-section">
+    <div class="header-content">
+      <h1 class="page-title">
+        <i class="bi bi-calendar-check"></i>
+        Programación de Mantenimientos
+      </h1>
+      <button class="btn-primary" (click)="openModal()">
+        <i class="bi bi-plus-circle"></i>
+        Nueva Programación
+      </button>
+    </div>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="error-alert">
+    <i class="bi bi-exclamation-triangle"></i>
+    {{ errorMessage }}
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Lista de Programaciones -->
+    <div class="programaciones-section">
+      <div class="section-header">
+        <h2>Programaciones</h2>
+        <span class="badge">{{ mantenimientos.length }}</span>
+      </div>
+
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="loading-state">
+        <div class="spinner"></div>
+        <p>Cargando programaciones...</p>
+      </div>
+
+      <!-- Lista -->
+      <div *ngIf="!isLoading" class="programaciones-list">
+        <div *ngIf="mantenimientos.length === 0" class="empty-state">
+          <i class="bi bi-calendar-x"></i>
+          <p>No hay mantenimientos registrados</p>
+          <button class="btn-secondary" (click)="openModal()">
+            Crear primer mantenimiento
+          </button>
+        </div>
+
+        <div *ngFor="let mant of mantenimientos" class="programacion-card">
+          <div class="programacion-header">
+            <div class="programacion-info">
+              <div class="programacion-fecha">
+                <i class="bi bi-calendar3"></i>
+                <span>{{ formatFecha(mant.start) }}</span>
+              </div>
+              <div class="programacion-hora">
+                <i class="bi bi-clock"></i>
+                <span>{{ formatHora(mant.start) }}</span>
+              </div>
+            </div>
+            <div class="programacion-actions">
+              <button class="btn-icon" (click)="editMantenimiento(mant)" title="Editar">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="btn-icon btn-danger" (click)="deleteMantenimiento(mant.id)" title="Eliminar">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="programacion-body">
+            <h3 class="programacion-titulo">{{ mant.title }}</h3>
+            
+            <div class="programacion-details">
+              <div class="detail-item">
+                <span class="detail-label">Tipo:</span>
+                <span class="badge" [ngClass]="getTipoTrabajoColor(mant.extendedProps?.tipo_trabajo)">
+                  {{ getTipoTrabajoLabel(mant.extendedProps?.tipo_trabajo) }}
+                </span>
+              </div>
+
+              <div class="detail-item">
+                <span class="detail-label">Trabajador:</span>
+                <span class="detail-value">
+                  <i class="bi bi-person-fill"></i>
+                  {{ getTrabajadorNombre(mant) }}
+                </span>
+              </div>
+
+              <div *ngIf="mant.extendedProps?.cliente" class="detail-item">
+                <span class="detail-label">Cliente:</span>
+                <span class="detail-value">
+                  <i class="bi bi-building"></i>
+                  {{ mant.extendedProps.cliente.nombre_comercial || mant.extendedProps.cliente.contacto_nombre }}
+                </span>
+              </div>
+
+              <div *ngIf="mant.extendedProps?.ascensor" class="detail-item">
+                <span class="detail-label">Equipo:</span>
+                <span class="detail-value">
+                  <i class="bi bi-box"></i>
+                  {{ mant.extendedProps.ascensor.tipo_equipo }} - {{ mant.extendedProps.ascensor.marca }}
+                </span>
+              </div>
+
+              <div *ngIf="mant.extendedProps?.descripcion" class="detail-item full-width">
+                <span class="detail-label">Descripción:</span>
+                <p class="detail-description">{{ mant.extendedProps.descripcion }}</p>
+              </div>
+            </div>
+
+            <div class="programacion-footer">
+              <span class="badge" [ngClass]="getEstadoColor(mant.extendedProps?.estado)">
+                {{ mant.extendedProps?.estado }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Calendario -->
+    <div class="calendario-section">
+      <div class="section-header">
+        <h2>Calendario</h2>
+      </div>
+      
+      <div class="calendario-wrapper">
+        <full-calendar [options]="calendarOptions"></full-calendar>
+      </div>
+
+      <!-- Leyenda -->
+      <div class="calendario-legend">
+        <h3>Tipos de Trabajo</h3>
+        <div class="legend-items">
+          <div class="legend-item">
+            <span class="legend-color" style="background-color: #3b82f6;"></span>
+            <span>Mantenimiento</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color" style="background-color: #f97316;"></span>
+            <span>Reparación</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color" style="background-color: #10b981;"></span>
+            <span>Inspección</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color" style="background-color: #ef4444;"></span>
+            <span>Emergencia</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<!-- Modal -->
+<app-programacion-modal
+  *ngIf="showModal"
+  [mantenimiento]="selectedMantenimiento"
+  [date]="selectedDate"
+  (close)="closeModal()"
+  (saved)="onMantenimientoSaved()"
+></app-programacion-modal>
