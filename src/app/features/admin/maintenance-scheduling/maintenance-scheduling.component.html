@@ -72,8 +72,8 @@
             <div class="programacion-details">
               <div class="detail-item">
                 <span class="detail-label">Tipo:</span>
-                <span class="badge" [ngClass]="getTipoTrabajoColor(mant.extendedProps?.tipo_trabajo)">
-                  {{ getTipoTrabajoLabel(mant.extendedProps?.tipo_trabajo) }}
+                <span class="badge" [ngClass]="getTipoTrabajoColor(mant.extendedProps.tipo_trabajo)">
+                  {{ getTipoTrabajoLabel(mant.extendedProps.tipo_trabajo) }}
                 </span>
               </div>
 
@@ -85,7 +85,7 @@
                 </span>
               </div>
 
-              <div *ngIf="mant.extendedProps?.cliente" class="detail-item">
+              <div *ngIf="mant.extendedProps.cliente" class="detail-item">
                 <span class="detail-label">Cliente:</span>
                 <span class="detail-value">
                   <i class="bi bi-building"></i>
@@ -93,7 +93,7 @@
                 </span>
               </div>
 
-              <div *ngIf="mant.extendedProps?.ascensor" class="detail-item">
+              <div *ngIf="mant.extendedProps.ascensor" class="detail-item">
                 <span class="detail-label">Equipo:</span>
                 <span class="detail-value">
                   <i class="bi bi-box"></i>
@@ -101,15 +101,15 @@
                 </span>
               </div>
 
-              <div *ngIf="mant.extendedProps?.descripcion" class="detail-item full-width">
+              <div *ngIf="mant.extendedProps.descripcion" class="detail-item full-width">
                 <span class="detail-label">Descripción:</span>
                 <p class="detail-description">{{ mant.extendedProps.descripcion }}</p>
               </div>
             </div>
 
             <div class="programacion-footer">
-              <span class="badge" [ngClass]="getEstadoColor(mant.extendedProps?.estado)">
-                {{ mant.extendedProps?.estado }}
+              <span class="badge" [ngClass]="getEstadoColor(mant.extendedProps.estado)">
+                {{ mant.extendedProps.estado }}
               </span>
             </div>
           </div>
