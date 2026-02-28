@@ -1,0 +1,135 @@
+<div class="worker-modal-overlay">
+  <div class="worker-modal-content">
+    
+    <!-- Header -->
+    <div class="worker-modal-header">
+      <button class="worker-btn-back" (click)="onClose()">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+      <h3 class="worker-modal-title">Nuevo Informe</h3>
+      <div class="spacer"></div>
+    </div>
+
+    <!-- Body -->
+    <div class="worker-modal-body">
+      <form [formGroup]="createForm" (ngSubmit)="onSubmit()" class="worker-form">
+        
+        <!-- Cliente Autocomplete -->
+        <div class="worker-form-group">
+          <label>Cliente</label>
+          <div class="autocomplete-wrapper">
+            <div class="input-icon">
+              <i class="bi bi-search"></i>
+              <input 
+                type="text" 
+                class="worker-input" 
+                placeholder="Buscar cliente..." 
+                [value]="clientSearch()"
+                (input)="onClientSearch($event)"
+                (focus)="showClientDropdown.set(true)"
+                (blur)="closeDropdowns()"
+              >
+            </div>
+            
+            <div class="autocomplete-dropdown" *ngIf="showClientDropdown() && filteredClients().length > 0">
+              <div 
+                *ngFor="let client of filteredClients()" 
+                class="dropdown-item" 
+                (click)="selectClient(client)"
+              >
+                <div class="client-name">{{ client.nombre_comercial || client.contacto_nombre }}</div>
+                <div class="client-address" *ngIf="client.ubicacion">{{ client.ubicacion }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="error-text" *ngIf="createForm.get('cliente_id')?.touched && createForm.get('cliente_id')?.invalid">
+             Debes seleccionar un cliente válido.
+          </div>
+        </div>
+
+        <!-- Equipo (Ascensor) -->
+        <div class="worker-form-group">
+          <label>Equipo (Ascensor)</label>
+          <div class="select-wrapper">
+            <select class="worker-input" formControlName="ascensor_id">
+              <option value="">Selecciona un equipo</option>
+              <option *ngFor="let ascensor of clientElevators()" [value]="ascensor.ascensor_id">
+                {{ ascensor.marca }} - {{ ascensor.modelo }} ({{ ascensor.tipo_equipo }})
+              </option>
+            </select>
+            <i class="bi bi-chevron-down select-icon"></i>
+          </div>
+          <div class="error-text" *ngIf="createForm.get('ascensor_id')?.touched && createForm.get('ascensor_id')?.invalid">
+            Selecciona un equipo asociado al cliente.
+          </div>
+        </div>
+
+        <!-- Tipo Informe -->
+        <div class="worker-form-group">
+          <label>Tipo de Informe</label>
+          <div class="select-wrapper">
+            <select class="worker-input" formControlName="tipo_informe">
+              <option value="Técnico">Técnico</option>
+              <option value="Mantenimiento">Mantenimiento</option>
+            </select>
+            <i class="bi bi-chevron-down select-icon"></i>
+          </div>
+        </div>
+
+        <div class="row-group">
+          <!-- Fecha -->
+          <div class="worker-form-group half-width">
+            <label>Fecha</label>
+            <input type="date" class="worker-input" formControlName="fecha_informe">
+          </div>
+          
+          <!-- Hora -->
+          <div class="worker-form-group half-width">
+            <label>Hora</label>
+            <input type="time" class="worker-input" formControlName="hora_informe">
+          </div>
+        </div>
+
+        <!-- Trabajo Realizado -->
+        <div class="worker-form-group">
+          <label>Trabajo Realizado</label>
+          <textarea 
+            class="worker-input" 
+            rows="4" 
+            placeholder="Describe las tareas ejecutadas..."
+            formControlName="descripcion_trabajo"
+          ></textarea>
+          <div class="error-text" *ngIf="createForm.get('descripcion_trabajo')?.touched && createForm.get('descripcion_trabajo')?.invalid">
+            La descripción es requerida (mín. 10 caracteres).
+          </div>
+        </div>
+
+        <!-- Observaciones -->
+        <div class="worker-form-group">
+          <label>Observaciones Adicionales</label>
+          <textarea 
+            class="worker-input" 
+            rows="3" 
+            placeholder="Detalles extra, piezas requeridas, etc."
+            formControlName="observaciones"
+          ></textarea>
+        </div>
+
+        <!-- Error global -->
+        <div class="global-error" *ngIf="error()">
+          <i class="bi bi-exclamation-triangle"></i> {{ error() }}
+        </div>
+
+      </form>
+    </div>
+
+    <!-- Footer -->
+    <div class="worker-modal-footer">
+      <button class="worker-btn-primary" (click)="onSubmit()" [disabled]="isSubmitting()">
+        <span *ngIf="!isSubmitting()"><i class="bi bi-check2-circle"></i> Guardar Informe</span>
+        <span *ngIf="isSubmitting()" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      </button>
+    </div>
+
+  </div>
+</div>

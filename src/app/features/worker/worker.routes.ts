@@ -16,7 +16,7 @@ export const workerRoutes: Routes = [
       },
       {
         path: 'reports',
-        loadComponent: () => import('./reports/worker-reports.component').then(m => m.WorkerReportsComponent)
+        loadComponent: () => import('./reports/list/worker-reports.component').then(m => m.WorkerReportsComponent)
       },
       { path: '', redirectTo: 'profile', pathMatch: 'full' }
     ]
