@@ -83,25 +83,47 @@ export class MantenimientoService {
     );
   }
 
-  // ─── Crear ───────────────────────────────────────────────────────────────────
+  // ─── Helper: convierte fecha + horas al formato start/end que espera /api/programaciones ───
+  private buildStartEnd(data: Partial<CrearMantenimientoDTO>): { start: string; end: string } {
+    const fecha = data.fecha_programada || new Date().toISOString().split('T')[0];
+    const hi    = (data.hora_estimada_inicio || '08:00').substring(0, 5);
+    const hf    = (data.hora_estimada_fin    || '09:00').substring(0, 5);
+    return {
+      start: `${fecha}T${hi}:00`,
+      end:   `${fecha}T${hf}:00`
+    };
+  }
+
+  // ─── Crear ────────────────────────────────────────────────────────────────────
   crear(data: CrearMantenimientoDTO): Observable<any> {
-    // Convertir 0 → null para campos FK (PostgreSQL no acepta 0 como FK)
+    const { start, end } = this.buildStartEnd(data);
     const payload = {
-      ...data,
-      cliente_id:    (!data.cliente_id    || data.cliente_id    === 0) ? null : data.cliente_id,
-      ascensor_id:   (!data.ascensor_id   || data.ascensor_id   === 0) ? null : data.ascensor_id,
-      trabajador_id: (!data.trabajador_id || data.trabajador_id === 0) ? null : data.trabajador_id,
+      titulo:         data.titulo,
+      start,
+      end,
+      tipo_trabajo:   data.tipo_trabajo  || 'mantenimiento',
+      descripcion:    data.descripcion   || null,
+      color:          data.color         || '#3788d8',
+      trabajador_ids: (data.trabajador_ids || []).filter(id => id && id !== 0),
+      cliente_id:     (!data.cliente_id    || data.cliente_id    === 0) ? null : data.cliente_id,
+      ascensor_id:    (!data.ascensor_id   || data.ascensor_id   === 0) ? null : data.ascensor_id,
     };
     return this.http.post(this.apiUrl, payload, { headers: this.getHeaders() });
   }
 
   // ─── Actualizar ──────────────────────────────────────────────────────────────
   actualizar(id: number, data: Partial<CrearMantenimientoDTO>): Observable<any> {
+    const { start, end } = this.buildStartEnd(data);
     const payload = {
-      ...data,
-      cliente_id:    (!data.cliente_id    || data.cliente_id    === 0) ? null : data.cliente_id,
-      ascensor_id:   (!data.ascensor_id   || data.ascensor_id   === 0) ? null : data.ascensor_id,
-      trabajador_id: (!data.trabajador_id || data.trabajador_id === 0) ? null : data.trabajador_id,
+      titulo:         data.titulo,
+      start,
+      end,
+      tipo_trabajo:   data.tipo_trabajo  || 'mantenimiento',
+      descripcion:    data.descripcion   || null,
+      color:          data.color         || '#3788d8',
+      trabajador_ids: (data.trabajador_ids || []).filter(id => id && id !== 0),
+      cliente_id:     (!data.cliente_id    || data.cliente_id    === 0) ? null : data.cliente_id,
+      ascensor_id:    (!data.ascensor_id   || data.ascensor_id   === 0) ? null : data.ascensor_id,
     };
     return this.http.put(`${this.apiUrl}/${id}`, payload, { headers: this.getHeaders() });
   }

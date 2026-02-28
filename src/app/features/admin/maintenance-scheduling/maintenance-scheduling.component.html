@@ -60,7 +60,7 @@
               <button class="btn-icon" (click)="editMantenimiento(mant)" title="Editar">
                 <i class="bi bi-pencil"></i>
               </button>
-              <button class="btn-icon btn-danger" (click)="deleteMantenimiento(mant.id)" title="Eliminar">
+              <button class="btn-icon btn-danger" (click)="requestDelete(mant)" title="Eliminar">
                 <i class="bi bi-trash"></i>
               </button>
             </div>
@@ -77,12 +77,19 @@
                 </span>
               </div>
 
-              <div class="detail-item">
-                <span class="detail-label">Trabajador:</span>
-                <span class="detail-value">
-                  <i class="bi bi-person-fill"></i>
-                  {{ getTrabajadorNombre(mant) }}
-                </span>
+              <!-- Técnicos (array: 1 a 4) -->
+              <div class="detail-item full-width">
+                <span class="detail-label"><i class="bi bi-people-fill"></i> Técnicos:</span>
+                <div class="technician-chips">
+                  <ng-container *ngIf="mant.extendedProps.trabajadores && mant.extendedProps.trabajadores.length > 0; else singleTech">
+                    <span class="tech-chip" *ngFor="let w of mant.extendedProps.trabajadores">
+                      {{ w.nombre }} {{ w.apellido }}
+                    </span>
+                  </ng-container>
+                  <ng-template #singleTech>
+                    <span class="tech-chip">{{ getTrabajadorNombre(mant) }}</span>
+                  </ng-template>
+                </div>
               </div>
 
               <div *ngIf="mant.extendedProps.cliente" class="detail-item">
@@ -153,8 +160,7 @@
   </div>
 </div>
 
-<!-- Modal -->
-<!-- Modal -->
+<!-- Modal Programacion -->
 <app-programacion-modal
   *ngIf="showModal"
   [mantenimiento]="selectedMantenimiento"
@@ -162,3 +168,25 @@
   (close)="closeModal()"
   (saved)="onMantenimientoSaved()"
 ></app-programacion-modal>
+
+<!-- Modal Confirmación Eliminar -->
+<div *ngIf="showDeleteConfirm" class="confirm-overlay" (click)="cancelDelete()">
+  <div class="confirm-dialog" (click)="$event.stopPropagation()">
+    <div class="confirm-icon">
+      <i class="bi bi-trash3"></i>
+    </div>
+    <h3 class="confirm-title">¿Eliminar programación?</h3>
+    <p class="confirm-message">
+      Esta acción no se puede deshacer. Se eliminará permanentemente:
+      <strong>{{ deleteTargetName }}</strong>
+    </p>
+    <div class="confirm-actions">
+      <button class="btn-cancel-confirm" (click)="cancelDelete()">
+        <i class="bi bi-x"></i> Cancelar
+      </button>
+      <button class="btn-delete-confirm" (click)="confirmDelete()">
+        <i class="bi bi-trash3"></i> Eliminar
+      </button>
+    </div>
+  </div>
+</div>

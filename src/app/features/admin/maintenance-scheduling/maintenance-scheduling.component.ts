@@ -26,7 +26,12 @@ export class MaintenanceSchedulingComponent implements OnInit {
   // Modal state
   showModal = false;
   selectedMantenimiento: Mantenimiento | null = null;
-  selectedDate: string | null = null; // For passing clicked date to modal
+  selectedDate: string | null = null;
+
+  // Delete confirmation state
+  showDeleteConfirm = false;
+  deleteTargetId: number | null = null;
+  deleteTargetName = '';
 
   // Calendar
   calendarOptions: CalendarOptions = {
@@ -137,21 +142,35 @@ export class MaintenanceSchedulingComponent implements OnInit {
     this.loadMantenimientos();
   }
 
-  deleteMantenimiento(id: number): void {
-    if (!confirm('¿Está seguro de eliminar este mantenimiento?')) {
-      return;
-    }
+  // Solicita confirmación antes de eliminar
+  requestDelete(mant: Mantenimiento): void {
+    this.deleteTargetId   = mant.id;
+    this.deleteTargetName = mant.title || `Programación #${mant.id}`;
+    this.showDeleteConfirm = true;
+  }
 
-    this.mantenimientoService.eliminar(id).subscribe({
+  confirmDelete(): void {
+    if (!this.deleteTargetId) return;
+    this.mantenimientoService.eliminar(this.deleteTargetId).subscribe({
       next: () => {
+        this.showDeleteConfirm = false;
+        this.deleteTargetId = null;
         this.loadMantenimientos();
       },
       error: (err) => {
-        console.error('Error deleting mantenimiento:', err);
-        alert('Error al eliminar el mantenimiento');
+        console.error('Error deleting:', err);
+        this.errorMessage = 'Error al eliminar la programación';
+        this.showDeleteConfirm = false;
       }
     });
   }
+
+  cancelDelete(): void {
+    this.showDeleteConfirm = false;
+    this.deleteTargetId = null;
+    this.deleteTargetName = '';
+  }
+
 
   // Helpers
   getTipoTrabajoLabel(tipo: string | undefined): string {

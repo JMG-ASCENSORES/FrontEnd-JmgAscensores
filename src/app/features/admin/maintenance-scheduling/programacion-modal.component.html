@@ -111,25 +111,40 @@
         </div>
       </div>
 
-      <!-- Trabajador -->
+      <!-- Técnicos Asignados (multi-select 1–4) -->
       <div class="form-group">
-        <label for="trabajador_id">
-          Técnico Asignado <span class="required">*</span>
+        <label>
+          Técnicos Asignados <span class="required">*</span>
+          <span class="badge-count" [class.max]="maxTecnicosAlcanzado">
+            {{ formData.trabajador_ids.length }}/4
+          </span>
         </label>
-        <select
-          id="trabajador_id"
-          [(ngModel)]="formData.trabajador_id"
-          name="trabajador_id"
-          [class.error]="validationErrors['trabajador_id']"
-        >
-          <option [value]="0">Seleccione un técnico</option>
-          <option *ngFor="let trabajador of trabajadores" [value]="trabajador.usuario_id">
-            {{ trabajador.nombre }} {{ trabajador.apellido }}
-            <span *ngIf="trabajador.especialidad"> - {{ trabajador.especialidad }}</span>
-          </option>
-        </select>
-        <span *ngIf="validationErrors['trabajador_id']" class="error-message">
-          {{ validationErrors['trabajador_id'] }}
+        <p *ngIf="maxTecnicosAlcanzado" class="help-text warn">
+          Máximo 4 técnicos por programación.
+        </p>
+        <div class="technician-list" [class.error-border]="validationErrors['trabajador_ids']">
+          <label
+            *ngFor="let t of trabajadores"
+            class="tech-option"
+            [class.selected]="isTrabajadorSelected(t.usuario_id)"
+            [class.disabled]="maxTecnicosAlcanzado && !isTrabajadorSelected(t.usuario_id)"
+          >
+            <input
+              type="checkbox"
+              [checked]="isTrabajadorSelected(t.usuario_id)"
+              (change)="toggleTrabajador(t.usuario_id)"
+              [disabled]="maxTecnicosAlcanzado && !isTrabajadorSelected(t.usuario_id)"
+            />
+            <div class="tech-info">
+              <span class="tech-name">{{ t.nombre }} {{ t.apellido }}</span>
+              <span *ngIf="t.especialidad" class="tech-specialty">{{ t.especialidad }}</span>
+            </div>
+            <i *ngIf="isTrabajadorSelected(t.usuario_id)" class="bi bi-check-circle-fill check-icon"></i>
+          </label>
+          <p *ngIf="trabajadores.length === 0" class="empty-list">No hay técnicos disponibles</p>
+        </div>
+        <span *ngIf="validationErrors['trabajador_ids']" class="error-message">
+          {{ validationErrors['trabajador_ids'] }}
         </span>
       </div>
 
