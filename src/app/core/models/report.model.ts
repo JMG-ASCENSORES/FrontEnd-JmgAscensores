@@ -25,4 +25,6 @@ export interface Report {
   url_documento?: string; // Generated PDF
   fecha_creacion: string;
   evidencias?: Evidence[];
+  Cliente?: any;
+  Trabajador?: any;
 }

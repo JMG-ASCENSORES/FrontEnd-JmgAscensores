@@ -1,0 +1,109 @@
+<div class="worker-reports-container" *ngIf="!showCreate()">
+  
+  <div class="header-section">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+      <div>
+        <h2 class="page-title">Mis Informes</h2>
+        <p class="page-subtitle" *ngIf="!isLoading()">{{ reports().length }} informe(s) creados por ti</p>
+      </div>
+      <!-- Botón Top (Reemplaza al FAB) -->
+      <button class="btn-header-add" (click)="showCreate.set(true)">
+        <i class="bi bi-plus-lg"></i>
+      </button>
+    </div>
+
+    <!-- Filtros Toggle -->
+    <button class="btn-filter-toggle" [class.active]="showFilters()" (click)="showFilters.set(!showFilters())">
+      <i class="bi" [class.bi-funnel-fill]="showFilters()" [class.bi-funnel]="!showFilters()"></i> 
+      {{ showFilters() ? 'Ocultar Filtros' : 'Buscar y Filtrar' }}
+    </button>
+  </div>
+
+  <!-- Filters Area Expandable -->
+  <div class="filters-container" [class.expanded]="showFilters()">
+     <div class="filters-grid">
+       <div class="filter-group">
+         <label>Tipo</label>
+         <select class="form-select form-select-sm" [ngModel]="filterTipo()" (ngModelChange)="filterTipo.set($event)">
+           <option value="">Todos</option>
+           <option value="Técnico">Técnico</option>
+           <option value="Mantenimiento">Mantenimiento</option>
+         </select>
+       </div>
+
+       <div class="filter-group">
+         <label>Cliente</label>
+         <select class="form-select form-select-sm" [ngModel]="filterCliente()" (ngModelChange)="filterCliente.set($event)">
+           <option value="">Todos</option>
+           <option *ngFor="let c of clients()" [value]="c.cliente_id">{{ c.nombre_comercial || c.contacto_nombre }}</option>
+         </select>
+       </div>
+
+       <div class="filter-group">
+         <label>Desde</label>
+         <input type="date" class="form-control form-control-sm" [ngModel]="filterFechaInicio()" (ngModelChange)="filterFechaInicio.set($event)">
+       </div>
+
+       <div class="filter-group">
+         <label>Hasta</label>
+         <input type="date" class="form-control form-control-sm" [ngModel]="filterFechaFin()" (ngModelChange)="filterFechaFin.set($event)">
+       </div>
+     </div>
+
+     <div class="filters-actions">
+       <button class="btn-clear" (click)="clearFilters()">Limpiar</button>
+       <button class="btn-apply" (click)="applyFilters()">Aplicar Filtros</button>
+     </div>
+  </div>
+
+  <!-- Carga y Vacío -->
+  <div class="loading-state" *ngIf="isLoading()">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="!isLoading() && reports().length === 0">
+    <i class="bi bi-file-earmark-x"></i>
+    <p>No se encontraron informes.</p>
+    <span *ngIf="filterTipo() || filterCliente() || filterFechaInicio() || filterFechaFin()">Prueba ajustando los filtros de búsqueda.</span>
+    <span *ngIf="!filterTipo() && !filterCliente() && !filterFechaInicio() && !filterFechaFin()">Aún no tienes informes. Toca el botón + para registrar uno.</span>
+  </div>
+
+  <!-- Lista Compacta -->
+  <div class="reports-list-compact" *ngIf="!isLoading() && reports().length > 0">
+    <div class="report-item" *ngFor="let report of reports()">
+      
+      <!-- Icono Visualizador del Tipo -->
+      <div class="report-icon" [ngClass]="report.tipo_informe === 'Técnico' ? 'icon-tech' : 'icon-maint'">
+        <i class="bi bi-tools" *ngIf="report.tipo_informe === 'Técnico'"></i>
+        <i class="bi bi-clipboard-check" *ngIf="report.tipo_informe !== 'Técnico'"></i>
+      </div>
+      
+      <!-- Cuerpo Principal -->
+      <div class="report-content">
+        <h4 class="report-title truncate">{{ report.Cliente?.nombre_comercial || report.Cliente?.contacto_nombre || 'Cliente Desconocido' }}</h4>
+        <p class="report-desc truncate-2">{{ report.descripcion_trabajo }}</p>
+        <div class="report-meta">
+          <span class="meta-date"><i class="bi bi-calendar3"></i> {{ report.fecha_informe | date:'dd MMM yy' }}</span>
+          <span class="meta-status status-pending">
+             • Registrado
+          </span>
+        </div>
+      </div>
+
+      <!-- Flecha de Navegación -->
+      <div class="report-action">
+        <i class="bi bi-chevron-right text-muted"></i>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<!-- Modal para Crear Informe -->
+<app-worker-report-create 
+  *ngIf="showCreate()"
+  (close)="showCreate.set(false)"
+  (reportCreated)="onReportCreated()">
+</app-worker-report-create>
