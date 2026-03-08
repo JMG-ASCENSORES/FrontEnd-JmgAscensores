@@ -414,6 +414,12 @@
   background-color: #eff6ff !important; /* Lighter blue for today */
 }
 
+:host ::ng-deep .selected-date-cell {
+  background-color: #e0e7ff !important;
+  box-shadow: inset 0 0 0 2px #4f46e5 !important;
+  transition: all 0.2s ease;
+}
+
 /* Legend */
 .calendario-legend {
   padding-top: 1.5rem;

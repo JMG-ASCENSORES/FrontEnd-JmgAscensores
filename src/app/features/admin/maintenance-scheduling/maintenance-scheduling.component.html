@@ -4,7 +4,7 @@
     <div class="header-content">
       <h1 class="page-title">
         <i class="bi bi-calendar-check"></i>
-        Programación de Mantenimientos
+        Programación de Trabajos
       </h1>
       <button class="btn-primary" (click)="openModal()">
         <i class="bi bi-plus-circle"></i>
@@ -24,8 +24,8 @@
     <!-- Lista de Programaciones -->
     <div class="programaciones-section">
       <div class="section-header">
-        <h2>Programaciones</h2>
-        <span class="badge">{{ mantenimientos.length }}</span>
+        <h2>Programaciones ({{ formatSelectedDate() }})</h2>
+        <span class="badge">{{ filteredMantenimientos.length }}</span>
       </div>
 
       <!-- Loading State -->
@@ -36,15 +36,15 @@
 
       <!-- Lista -->
       <div *ngIf="!isLoading" class="programaciones-list">
-        <div *ngIf="mantenimientos.length === 0" class="empty-state">
+        <div *ngIf="filteredMantenimientos.length === 0" class="empty-state">
           <i class="bi bi-calendar-x"></i>
-          <p>No hay mantenimientos registrados</p>
+          <p>No hay trabajos para la fecha seleccionada</p>
           <button class="btn-secondary" (click)="openModal()">
-            Crear primer mantenimiento
+            Crear programación
           </button>
         </div>
 
-        <div *ngFor="let mant of mantenimientos" class="programacion-card">
+        <div *ngFor="let mant of filteredMantenimientos" class="programacion-card">
           <div class="programacion-header">
             <div class="programacion-info">
               <div class="programacion-fecha">
@@ -81,8 +81,8 @@
               <div class="detail-item full-width">
                 <span class="detail-label"><i class="bi bi-people-fill"></i> Técnicos:</span>
                 <div class="technician-chips">
-                  <ng-container *ngIf="mant.extendedProps.trabajadores && mant.extendedProps.trabajadores.length > 0; else singleTech">
-                    <span class="tech-chip" *ngFor="let w of mant.extendedProps.trabajadores">
+                  <ng-container *ngIf="$any(mant.extendedProps).trabajadores && $any(mant.extendedProps).trabajadores.length > 0; else singleTech">
+                    <span class="tech-chip" *ngFor="let w of $any(mant.extendedProps).trabajadores">
                       {{ w.nombre }} {{ w.apellido }}
                     </span>
                   </ng-container>
@@ -131,7 +131,7 @@
       </div>
       
       <div class="calendario-wrapper">
-        <full-calendar [options]="calendarOptions"></full-calendar>
+        <full-calendar #calendar [options]="calendarOptions"></full-calendar>
       </div>
 
       <!-- Leyenda -->
