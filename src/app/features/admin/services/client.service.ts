@@ -45,6 +45,12 @@ export interface ApiResponse {
   message: string;
   data: Client[];
   timestamp?: string;
+  meta?: {
+    totalItems: number;
+    itemsPerPage: number;
+    currentPage: number;
+    totalPages: number;
+  };
 }
 
 export interface ElevatorApiResponse {
@@ -81,6 +87,16 @@ export class ClientService {
           return throwError(() => new Error('Error al cargar clientes.'));
         })
       );
+  }
+
+  getClientsPaginated(page: number, limit: number, search?: string): Observable<ApiResponse> {
+    let params: any = { page: page.toString(), limit: limit.toString() };
+    if (search) params.search = search;
+    
+    return this.http.get<ApiResponse>(this.apiUrl, { 
+       headers: this.getHeaders(), 
+       params 
+    });
   }
 
   getElevators(): Observable<Elevator[]> {

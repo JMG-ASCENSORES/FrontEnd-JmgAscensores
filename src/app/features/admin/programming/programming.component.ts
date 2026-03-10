@@ -170,7 +170,7 @@ export class ProgrammingComponent implements OnInit {
 
   loadSchedules() {
       // Get all recent/future schedules
-      this.mantenimientoService.listar().subscribe({
+      this.mantenimientoService.listar(undefined, undefined, undefined, true).subscribe({
           next: (data) => {
               this.allMantenimientos = data;
               this.processSchedules();

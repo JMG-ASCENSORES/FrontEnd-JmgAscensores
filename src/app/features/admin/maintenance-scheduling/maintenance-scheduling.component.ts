@@ -65,6 +65,8 @@ export class MaintenanceSchedulingComponent implements OnInit {
     contentHeight: 'auto',
     fixedWeekCount: false,
     showNonCurrentDates: true,
+    dayMaxEvents: 4,
+    eventDisplay: 'block',
     
     dayHeaderContent: (arg) => {
       const days = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
@@ -135,7 +137,7 @@ export class MaintenanceSchedulingComponent implements OnInit {
     this.isLoading = true;
     this.errorMessage = '';
     
-    this.mantenimientoService.listar(start, end).subscribe({
+    this.mantenimientoService.listar(start, end, undefined, true).subscribe({
       next: (data) => {
         console.log('Mantenimientos loaded:', data);
         this.mantenimientos = data;
@@ -155,13 +157,16 @@ export class MaintenanceSchedulingComponent implements OnInit {
 
   filterMantenimientos(): void {
     if (!this.selectedFilterDate) {
-      this.filteredMantenimientos = this.mantenimientos;
+      this.filteredMantenimientos = [...this.mantenimientos];
     } else {
       this.filteredMantenimientos = this.mantenimientos.filter(m => {
         const mantDate = m.start.split('T')[0];
         return mantDate === this.selectedFilterDate;
       });
     }
+    
+    // Sort chronologically by start time (morning to evening)
+    this.filteredMantenimientos.sort((a, b) => a.start.localeCompare(b.start));
     
     // Update calendar options to reflect the selected date class
     this.calendarOptions = {
@@ -180,11 +185,12 @@ export class MaintenanceSchedulingComponent implements OnInit {
   updateCalendarEvents(): void {
     const events: EventInput[] = this.mantenimientos.map(mant => ({
       id: mant.id.toString(),
-      title: mant.title,
+      title: this.getTipoTrabajoLabel(mant.extendedProps?.tipo_trabajo) || mant.title,
       start: mant.start,
       end: mant.end,
-      backgroundColor: mant.color,
-      borderColor: mant.color,
+      backgroundColor: this.getEventColor(mant.extendedProps?.tipo_trabajo),
+      borderColor: this.getEventColor(mant.extendedProps?.tipo_trabajo),
+      textColor: '#ffffff',
       extendedProps: mant.extendedProps
     }));
 
@@ -264,6 +270,17 @@ export class MaintenanceSchedulingComponent implements OnInit {
       'emergencia': 'Emergencia'
     };
     return labels[tipo] || tipo;
+  }
+
+  getEventColor(tipo: string | undefined): string {
+    const typeStr = (tipo || '').toLowerCase();
+    switch (typeStr) {
+      case 'mantenimiento': return '#003B73'; // Azul oscuro sidebar
+      case 'reparacion': return '#C2410C'; // Naranja oscuro reactivo
+      case 'inspeccion': return '#15803D'; // Verde oscuro profesional
+      case 'emergencia': return '#B91C1C'; // Rojo oscuro alerta
+      default: return '#475569'; // Slate 600
+    }
   }
 
   getTipoTrabajoColor(tipo: string | undefined): string {

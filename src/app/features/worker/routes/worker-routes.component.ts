@@ -81,7 +81,7 @@ export class WorkerRoutesComponent implements OnInit {
     const startStr = start.toISOString().split('T')[0];
     const endStr = end.toISOString().split('T')[0];
 
-    this.mantenimientoService.listar(startStr, endStr, user.id).subscribe({
+    this.mantenimientoService.listar(startStr, endStr, user.id, true).subscribe({
       next: (data) => {
         this.allRoutes.set(data);
         this.isLoading.set(false);
