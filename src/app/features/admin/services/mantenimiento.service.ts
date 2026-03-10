@@ -69,10 +69,11 @@ export class MantenimientoService {
   }
 
   // ─── Listar todos ─────────────────────────────────────────────────────────────
-  listar(start?: string, end?: string): Observable<Mantenimiento[]> {
+  listar(start?: string, end?: string, trabajadorId?: number): Observable<Mantenimiento[]> {
     let params = new HttpParams();
     if (start) params = params.set('start', start);
     if (end) params = params.set('end', end);
+    if (trabajadorId) params = params.set('trabajador_id', trabajadorId.toString());
 
     return this.http.get<any>(this.apiUrl, { 
       headers: this.getHeaders(),

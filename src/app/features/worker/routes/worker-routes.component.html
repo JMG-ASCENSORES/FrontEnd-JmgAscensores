@@ -1,0 +1,213 @@
+<div class="flex flex-col h-full bg-slate-50 relative pb-20 pt-6">
+  <!-- Header -->
+  <div class="px-6 mb-6">
+    <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Mis Rutas</h1>
+    <p class="text-slate-500 mt-1 font-medium text-sm">Visualiza tus trabajos asignados</p>
+  </div>
+
+  <!-- Horizontal Date Selector -->
+  <div class="px-6 mb-6 overflow-x-auto hide-scrollbar whitespace-nowrap py-2" style="scroll-snap-type: x mandatory;">
+    <div class="inline-flex gap-3 px-2">
+      <button *ngFor="let dateItem of dates()"
+              (click)="selectDate(dateItem.str)"
+              class="relative flex flex-col items-center justify-center w-20 py-3 rounded-2xl border transition-all"
+              [ngClass]="selectedDateStr() === dateItem.str ? 'bg-[#003B73] border-[#003B73] text-white shadow-md shadow-blue-900/20 translate-y-[-2px]' : 'bg-white border-gray-200 text-slate-600'">
+        <span class="text-xs uppercase font-bold tracking-wider mb-1 opacity-80" 
+              [ngClass]="selectedDateStr() === dateItem.str ? 'text-blue-100' : 'text-slate-400'">
+          {{ dateItem.label }}
+        </span>
+        <span class="text-2xl font-extrabold"
+              [ngClass]="selectedDateStr() === dateItem.str ? 'text-white' : 'text-slate-800'">
+          {{ dateItem.date.getDate() }}
+        </span>
+        <span class="text-[10px] font-semibold tracking-wide uppercase mt-0.5 opacity-80"
+              [ngClass]="selectedDateStr() === dateItem.str ? 'text-blue-200' : 'text-slate-400'">
+          {{ dateItem.date.toLocaleString('es-ES', { month: 'short' }) }}
+        </span>
+        
+        <!-- Indicator Dot if selected -->
+        <span *ngIf="selectedDateStr() === dateItem.str" class="absolute -bottom-1.5 w-1.5 h-1.5 rounded-full bg-blue-300"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Content List -->
+  <div class="px-6 flex-1 overflow-y-auto">
+    <!-- Loading -->
+    <div *ngIf="isLoading()" class="flex flex-col items-center justify-center py-10 opacity-70">
+      <div class="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-[#003B73] mb-4"></div>
+      <span class="text-sm font-semibold text-slate-500">Cargando rutas...</span>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="!isLoading() && error()" class="bg-red-50 text-red-600 p-4 rounded-xl flex items-center gap-3">
+        <i class="bi bi-x-circle-fill text-xl"></i>
+        <span class="text-sm font-medium">{{ error() }}</span>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!isLoading() && !error() && filteredRoutes().length === 0" class="flex flex-col items-center justify-center py-16 opacity-80">
+        <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 mb-4">
+            <i class="bi bi-calendar-x text-2xl"></i>
+        </div>
+        <p class="text-lg font-bold text-slate-700">Día libre</p>
+        <p class="text-sm text-slate-500 mt-1 max-w-[200px] text-center">No tienes trabajos asignados para esta fecha.</p>
+    </div>
+
+    <!-- Job List -->
+    <div *ngIf="!isLoading() && !error() && filteredRoutes().length > 0" class="flex flex-col gap-4 pb-12">
+        
+        <div *ngFor="let route of filteredRoutes()" 
+             (click)="openRouteDetails(route)"
+             class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 active:scale-[0.98] transition-all relative overflow-hidden flex flex-col gap-3">
+            
+            <!-- Left accent line -->
+            <div class="absolute left-0 top-0 bottom-0 w-[5px] bg-blue-500" [style.backgroundColor]="route.color || '#3b82f6'"></div>
+
+            <!-- Header: Time & Status -->
+            <div class="flex items-center justify-between pb-2 border-b border-slate-100 pl-2">
+                <div class="flex items-center gap-2">
+                    <span class="text-slate-800 font-black text-lg tracking-tight">{{ formatTime(route.start) }}</span>
+                    <i class="bi bi-arrow-right text-slate-300 mx-1"></i>
+                    <span class="text-slate-500 font-bold text-sm">{{ formatTime(route.end) }}</span>
+                </div>
+                <div class="flex items-center gap-1.5" [title]="route.extendedProps.estado || 'Desconocido'">
+                    <i class="text-lg" [ngClass]="getStatusIcon(route.extendedProps.estado)"></i>
+                </div>
+            </div>
+
+            <!-- Body: Details -->
+            <div class="flex flex-col gap-1.5 pl-2 pt-1">
+                <h3 class="text-slate-900 font-bold text-base line-clamp-1 leading-tight">{{ route.title }}</h3>
+                
+                <div class="flex items-center gap-2 mt-1">
+                   <div class="shrink-0 w-6 h-6 rounded-md bg-slate-100 flex items-center justify-center">
+                       <i class="bi bi-building text-slate-500 text-xs"></i>
+                   </div>
+                   <p class="text-slate-600 text-sm font-medium line-clamp-1">
+                      {{ route.extendedProps.cliente?.nombre_comercial || 'Sin Cliente Asignado' }}
+                   </p>
+                </div>
+                
+                <div class="flex items-center gap-2">
+                   <div class="shrink-0 w-6 h-6 rounded-md bg-slate-100 flex items-center justify-center">
+                       <i class="bi bi-geo-alt text-slate-500 text-xs"></i>
+                   </div>
+                   <p class="text-slate-500 text-sm line-clamp-1 flex-1">
+                       <span *ngIf="route.extendedProps.ascensor">Ascensor {{ route.extendedProps.ascensor.marca }} • {{ route.extendedProps.ascensor.modelo }}</span>
+                       <span *ngIf="!route.extendedProps.ascensor">Sin Dirección Adjunta</span>
+                   </p>
+                </div>
+            </div>
+
+            <!-- Tags -->
+            <div class="pl-2 pt-2 flex items-center gap-2">
+                <span class="px-2.5 py-1 rounded-md text-[10px] font-extrabold tracking-wider uppercase bg-slate-100 text-slate-600">ID: {{ route.id }}</span>
+                <span class="px-2.5 py-1 rounded-md text-[10px] font-extrabold tracking-wider uppercase" 
+                      [ngClass]="getTypeColor(route.extendedProps.tipo_trabajo)">
+                    {{ getTypeLabel(route.extendedProps.tipo_trabajo) }}
+                </span>
+            </div>
+        </div>
+    </div>
+  </div>
+
+
+  <!-- Detail Modal Drawer (Sub-view) -->
+  <div *ngIf="selectedRoute() as selected" class="fixed inset-0 z-[100] flex flex-col justify-end">
+      <!-- Backdrop -->
+      <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" (click)="closeRouteDetails()"></div>
+      
+      <!-- Drawer Content -->
+      <div class="relative bg-white w-full rounded-t-3xl shadow-2xl flex flex-col transform transition-transform" style="height: 85vh;">
+          
+          <!-- Handle -->
+          <div class="w-full flex justify-center py-3 cursor-pointer" (click)="closeRouteDetails()">
+              <div class="w-12 h-1.5 bg-slate-300 rounded-full"></div>
+          </div>
+
+          <!-- Drawer Body -->
+          <div class="flex-1 overflow-y-auto px-6 pb-20">
+              <!-- Route Title -->
+              <h2 class="text-2xl font-black text-slate-900 leading-tight mb-2">{{ selected.title }}</h2>
+              
+              <!-- Badges -->
+              <div class="flex flex-wrap items-center gap-2 mb-6">
+                <span class="px-3 py-1.5 rounded-lg text-xs font-extrabold uppercase shadow-sm flex items-center gap-1.5"
+                      [ngClass]="getTypeColor(selected.extendedProps.tipo_trabajo)">
+                    <i class="bi bi-tag-fill"></i>
+                    {{ getTypeLabel(selected.extendedProps.tipo_trabajo) }}
+                </span>
+                <span class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 shadow-sm flex items-center gap-1.5">
+                    <i class="bi bi-clock-history"></i>
+                    {{ formatTime(selected.start) }} - {{ formatTime(selected.end) }}
+                </span>
+              </div>
+
+              <!-- Map Section (Top Priority in UI as requested) -->
+              <div class="mb-6 bg-slate-100 rounded-2xl overflow-hidden shadow-inner border border-slate-200">
+                  <div class="relative w-full h-[220px]">
+                      <iframe 
+                          [src]="getSafeMapUrl()" 
+                          width="100%" 
+                          height="100%" 
+                          style="border:0;" 
+                          allowfullscreen="" 
+                          loading="lazy" 
+                          referrerpolicy="no-referrer-when-downgrade"
+                          class="absolute inset-0">
+                      </iframe>
+                  </div>
+                  <!-- Map Action Bar -->
+                  <div class="bg-white p-3 border-t border-slate-200 flex items-center justify-between">
+                      <p class="text-xs font-semibold text-slate-600 px-1 truncate">
+                          {{ getAddressQuery() }}
+                      </p>
+                      <button (click)="openExternalMap()" class="shrink-0 bg-slate-900 text-white rounded-xl px-4 py-2 text-xs font-bold shadow-md hover:bg-slate-800 transition-colors flex items-center gap-2">
+                         <i class="bi bi-cursor-fill"></i> NAVEGAR
+                      </button>
+                  </div>
+              </div>
+
+              <!-- Client Info -->
+              <div class="bg-slate-50 border border-slate-200 p-4 rounded-2xl mb-4">
+                  <h4 class="text-xs font-extrabold uppercase text-slate-400 tracking-wider mb-3">Información del Cliente</h4>
+                  <div class="flex items-center gap-4">
+                      <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-slate-300 shadow-sm shrink-0 font-bold text-xl uppercase border-2 border-slate-100">
+                           {{ (selected.extendedProps.cliente?.nombre_comercial || 'C').charAt(0) }}
+                      </div>
+                      <div class="flex-1">
+                          <p class="text-slate-800 font-bold text-base leading-tight">{{ selected.extendedProps.cliente?.nombre_comercial || 'Sin Cliente' }}</p>
+                          <p class="text-slate-500 text-sm">{{ selected.extendedProps.cliente?.contacto_nombre || '' }} {{ selected.extendedProps.cliente?.contacto_apellido || '' }}</p>
+                      </div>
+                  </div>
+              </div>
+
+              <!-- Equipment Info -->
+              <div class="bg-slate-50 border border-slate-200 p-4 rounded-2xl mb-4">
+                  <h4 class="text-xs font-extrabold uppercase text-slate-400 tracking-wider mb-3">Equipo a Intervenir</h4>
+                  <div class="flex flex-col gap-2">
+                       <p class="text-slate-800 font-bold flex items-center gap-2">
+                           <i class="bi bi-box-seam text-slate-400"></i>
+                           {{ selected.extendedProps.ascensor?.tipo_equipo || 'Ascensor/Equipo' }}
+                       </p>
+                       <p class="text-slate-600 text-sm ml-6"><span class="font-medium text-slate-400">Marca:</span> {{ selected.extendedProps.ascensor?.marca || 'N/A' }}</p>
+                       <p class="text-slate-600 text-sm ml-6"><span class="font-medium text-slate-400">Modelo:</span> {{ selected.extendedProps.ascensor?.modelo || 'N/A' }}</p>
+                       <p class="text-slate-600 text-sm ml-6"><span class="font-medium text-slate-400">Serie N°:</span> {{ selected.extendedProps.ascensor?.numero_serie || 'N/A' }}</p>
+                  </div>
+              </div>
+
+              <!-- Tasks/Description -->
+              <div class="bg-slate-50 border border-slate-200 p-4 rounded-2xl mb-6">
+                  <h4 class="text-xs font-extrabold uppercase text-slate-400 tracking-wider mb-2">Descripción del Trabajo</h4>
+                  <p class="text-slate-700 text-sm leading-relaxed">
+                      {{ selected.extendedProps.descripcion || 'No hay instrucciones adicionales especificadas para este trabajo.' }}
+                  </p>
+              </div>
+
+              <!-- Extra space at bottom -->
+              <div class="h-6"></div>
+          </div>
+      </div>
+  </div>
+</div>
