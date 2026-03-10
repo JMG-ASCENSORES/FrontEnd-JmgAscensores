@@ -1,5 +1,6 @@
 import { Component, OnInit, inject, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 import { FullCalendarModule, FullCalendarComponent } from '@fullcalendar/angular';
 import { CalendarOptions, EventInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -17,6 +18,7 @@ import { ProgramacionModalComponent } from './programacion-modal.component';
 })
 export class MaintenanceSchedulingComponent implements OnInit {
   private mantenimientoService = inject(MantenimientoService);
+  private route = inject(ActivatedRoute);
   private cdr = inject(ChangeDetectorRef);
 
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
@@ -27,6 +29,7 @@ export class MaintenanceSchedulingComponent implements OnInit {
   errorMessage = '';
   
   selectedFilterDate: string = (() => {
+    // Si la inicialización es temporal, se sobrescribirá luego en ngOnInit
     const d = new Date();
     d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
     return d.toISOString().split('T')[0];
@@ -119,7 +122,13 @@ export class MaintenanceSchedulingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // loadMantenimientos is triggered by datesSet event of FullCalendar
+    // Check if there's a specific date requested from another view (like Dashboard)
+    const paramDate = this.route.snapshot.queryParamMap.get('date');
+    if (paramDate) {
+      this.selectedFilterDate = paramDate;
+      // Set the initial date for the calendar so it opens in the requested month/day
+      this.calendarOptions.initialDate = paramDate;
+    }
   }
 
   loadMantenimientos(start?: string, end?: string): void {
