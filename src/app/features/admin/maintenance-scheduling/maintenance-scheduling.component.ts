@@ -1,6 +1,7 @@
-import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FullCalendarModule } from '@fullcalendar/angular';
+import { ActivatedRoute } from '@angular/router';
+import { FullCalendarModule, FullCalendarComponent } from '@fullcalendar/angular';
 import { CalendarOptions, EventInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -17,11 +18,22 @@ import { ProgramacionModalComponent } from './programacion-modal.component';
 })
 export class MaintenanceSchedulingComponent implements OnInit {
   private mantenimientoService = inject(MantenimientoService);
+  private route = inject(ActivatedRoute);
   private cdr = inject(ChangeDetectorRef);
 
+  @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
+
   mantenimientos: Mantenimiento[] = [];
+  filteredMantenimientos: Mantenimiento[] = [];
   isLoading = true;
   errorMessage = '';
+  
+  selectedFilterDate: string = (() => {
+    // Si la inicialización es temporal, se sobrescribirá luego en ngOnInit
+    const d = new Date();
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+    return d.toISOString().split('T')[0];
+  })();
   
   // Modal state
   showModal = false;
@@ -37,20 +49,35 @@ export class MaintenanceSchedulingComponent implements OnInit {
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, interactionPlugin],
     initialView: 'dayGridMonth',
+    customButtons: {
+      miHoy: {
+        text: 'Hoy',
+        click: this.goToToday.bind(this)
+      }
+    },
     headerToolbar: {
       left: 'title',
       center: '',
-      right: 'prev,next today'
+      right: 'prev,next miHoy'
     },
     locale: 'es',
     firstDay: 0,
     contentHeight: 'auto',
     fixedWeekCount: false,
     showNonCurrentDates: true,
+    dayMaxEvents: 4,
+    eventDisplay: 'block',
     
     dayHeaderContent: (arg) => {
       const days = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
       return days[arg.date.getDay()];
+    },
+    
+    dayCellClassNames: (arg: any) => {
+      const d = arg.date as Date;
+      const localDateStr = [d.getFullYear(), String(d.getMonth() + 1).padStart(2, '0'), String(d.getDate()).padStart(2, '0')].join('-');
+      const isSelected = localDateStr === this.selectedFilterDate;
+      return isSelected ? ['selected-date-cell'] : [];
     },
     
     events: [],
@@ -59,29 +86,62 @@ export class MaintenanceSchedulingComponent implements OnInit {
       const id = parseInt(info.event.id);
       const mantenimiento = this.mantenimientos.find(m => m.id === id);
       if (mantenimiento) {
-        this.editMantenimiento(mantenimiento);
+        // Solo actualizamos el día seleccionado al día del evento
+        const eventDate = mantenimiento.start.split('T')[0];
+        if (this.selectedFilterDate !== eventDate) {
+          this.selectedFilterDate = eventDate;
+          this.filterMantenimientos();
+        }
       }
     },
     
     dateClick: (info) => {
-      this.openModalWithDate(info.dateStr);
+      this.selectedFilterDate = info.dateStr;
+      this.filterMantenimientos();
+    },
+    
+    datesSet: (info) => {
+      const start = info.startStr.split('T')[0];
+      const end = info.endStr.split('T')[0];
+      this.loadMantenimientos(start, end);
     }
   };
 
   constructor() {}
 
-  ngOnInit(): void {
-    this.loadMantenimientos();
+  goToToday(): void {
+    if (this.calendarComponent) {
+      const api = this.calendarComponent.getApi();
+      api.today();
+    }
+    
+    // Definimos el día de hoy
+    const d = new Date();
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+    this.selectedFilterDate = d.toISOString().split('T')[0];
+    
+    this.filterMantenimientos();
   }
 
-  loadMantenimientos(): void {
+  ngOnInit(): void {
+    // Check if there's a specific date requested from another view (like Dashboard)
+    const paramDate = this.route.snapshot.queryParamMap.get('date');
+    if (paramDate) {
+      this.selectedFilterDate = paramDate;
+      // Set the initial date for the calendar so it opens in the requested month/day
+      this.calendarOptions.initialDate = paramDate;
+    }
+  }
+
+  loadMantenimientos(start?: string, end?: string): void {
     this.isLoading = true;
     this.errorMessage = '';
     
-    this.mantenimientoService.listar().subscribe({
+    this.mantenimientoService.listar(start, end, undefined, true).subscribe({
       next: (data) => {
         console.log('Mantenimientos loaded:', data);
         this.mantenimientos = data;
+        this.filterMantenimientos();
         this.updateCalendarEvents();
         this.isLoading = false;
         this.cdr.detectChanges();
@@ -95,14 +155,42 @@ export class MaintenanceSchedulingComponent implements OnInit {
     });
   }
 
+  filterMantenimientos(): void {
+    if (!this.selectedFilterDate) {
+      this.filteredMantenimientos = [...this.mantenimientos];
+    } else {
+      this.filteredMantenimientos = this.mantenimientos.filter(m => {
+        const mantDate = m.start.split('T')[0];
+        return mantDate === this.selectedFilterDate;
+      });
+    }
+    
+    // Sort chronologically by start time (morning to evening)
+    this.filteredMantenimientos.sort((a, b) => a.start.localeCompare(b.start));
+    
+    // Update calendar options to reflect the selected date class
+    this.calendarOptions = {
+      ...this.calendarOptions,
+      dayCellClassNames: (arg: any) => {
+        const d = arg.date as Date;
+        const localDateStr = [d.getFullYear(), String(d.getMonth() + 1).padStart(2, '0'), String(d.getDate()).padStart(2, '0')].join('-');
+        const isSelected = localDateStr === this.selectedFilterDate;
+        return isSelected ? ['selected-date-cell'] : [];
+      }
+    };
+    
+    this.cdr.detectChanges();
+  }
+
   updateCalendarEvents(): void {
     const events: EventInput[] = this.mantenimientos.map(mant => ({
       id: mant.id.toString(),
-      title: mant.title,
+      title: this.getTipoTrabajoLabel(mant.extendedProps?.tipo_trabajo) || mant.title,
       start: mant.start,
       end: mant.end,
-      backgroundColor: mant.color,
-      borderColor: mant.color,
+      backgroundColor: this.getEventColor(mant.extendedProps?.tipo_trabajo),
+      borderColor: this.getEventColor(mant.extendedProps?.tipo_trabajo),
+      textColor: '#ffffff',
       extendedProps: mant.extendedProps
     }));
 
@@ -115,7 +203,7 @@ export class MaintenanceSchedulingComponent implements OnInit {
   // Modal methods
   openModal(): void {
     this.selectedMantenimiento = null;
-    this.selectedDate = null;
+    this.selectedDate = this.selectedFilterDate || null;
     this.showModal = true;
   }
 
@@ -184,6 +272,17 @@ export class MaintenanceSchedulingComponent implements OnInit {
     return labels[tipo] || tipo;
   }
 
+  getEventColor(tipo: string | undefined): string {
+    const typeStr = (tipo || '').toLowerCase();
+    switch (typeStr) {
+      case 'mantenimiento': return '#003B73'; // Azul oscuro sidebar
+      case 'reparacion': return '#C2410C'; // Naranja oscuro reactivo
+      case 'inspeccion': return '#15803D'; // Verde oscuro profesional
+      case 'emergencia': return '#B91C1C'; // Rojo oscuro alerta
+      default: return '#475569'; // Slate 600
+    }
+  }
+
   getTipoTrabajoColor(tipo: string | undefined): string {
      if (!tipo) return 'bg-gray-100 text-gray-700';
     const colors: Record<string, string> = {
@@ -204,6 +303,17 @@ export class MaintenanceSchedulingComponent implements OnInit {
       'cancelado': 'bg-red-100 text-red-700'
     };
     return colors[estado] || 'bg-gray-100 text-gray-700';
+  }
+
+  formatSelectedDate(): string {
+    if (!this.selectedFilterDate) return 'fechas seleccionadas';
+    const d = new Date(this.selectedFilterDate + 'T00:00:00');
+    return d.toLocaleDateString('es-ES', { 
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
   }
 
   formatFecha(isoString: string): string {

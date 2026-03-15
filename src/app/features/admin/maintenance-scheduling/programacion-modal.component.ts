@@ -70,6 +70,10 @@ export class ProgramacionModalComponent implements OnInit, OnChanges {
   clientes: Cliente[] = [];
   ascensores: Ascensor[] = [];
   ascensoresFiltered: Ascensor[] = [];
+  
+  // Search state
+  techSearch: string = '';
+  clientSearch: string = '';
 
   tipoTrabajoOptions = [
     { value: 'mantenimiento', label: 'Mantenimiento' },
@@ -138,6 +142,8 @@ export class ProgramacionModalComponent implements OnInit, OnChanges {
         descripcion: ''
       };
       this.ascensoresFiltered = [];
+      this.techSearch = '';
+      this.clientSearch = '';
     }
   }
 
@@ -252,6 +258,27 @@ export class ProgramacionModalComponent implements OnInit, OnChanges {
       this.formData.ascensor_id = 0;
     }
   }
+  
+  // ─── Filtrado de búsquedas ───────────────────────────────────────────────────
+  get filteredTrabajadores(): Trabajador[] {
+    if (!this.techSearch.trim()) return this.trabajadores;
+    const term = this.techSearch.toLowerCase().trim();
+    return this.trabajadores.filter(t => 
+      t.nombre.toLowerCase().includes(term) || 
+      t.apellido.toLowerCase().includes(term) ||
+      (t.especialidad && t.especialidad.toLowerCase().includes(term))
+    );
+  }
+
+  get filteredClientes(): Cliente[] {
+    if (!this.clientSearch.trim()) return this.clientes;
+    const term = this.clientSearch.toLowerCase().trim();
+    return this.clientes.filter(c => 
+      (c.nombre_comercial && c.nombre_comercial.toLowerCase().includes(term)) ||
+      (c.contacto_nombre && c.contacto_nombre.toLowerCase().includes(term)) ||
+      (c.contacto_apellido && c.contacto_apellido.toLowerCase().includes(term))
+    );
+  }
 
   // ─── Validación ──────────────────────────────────────────────────────────────
   validateForm(): boolean {
@@ -287,7 +314,10 @@ export class ProgramacionModalComponent implements OnInit, OnChanges {
 
   // ─── Submit ──────────────────────────────────────────────────────────────────
   onSubmit(): void {
-    if (!this.validateForm()) return;
+    if (!this.validateForm()) {
+      this.errorMessage = 'Por favor, verifique y complete todos los campos obligatorios en rojo.';
+      return;
+    }
 
     this.isSaving = true;
     this.errorMessage = '';
@@ -299,30 +329,49 @@ export class ProgramacionModalComponent implements OnInit, OnChanges {
       hora_estimada_fin:    this.formData.hora_fin,
       trabajador_ids:       this.formData.trabajador_ids,
       tipo_trabajo:         this.formData.tipo_trabajo,
-      descripcion:          this.formData.descripcion.trim() || undefined,
+      descripcion:          this.formData.descripcion?.trim() || undefined,
       cliente_id:           this.formData.cliente_id,
       ascensor_id:          this.formData.ascensor_id
+    };
+
+    const handleError = (err: any) => {
+      console.error('Error saving mantenimiento:', err);
+      let msg = 'Ocurrió un error inesperado al guardar la programación.';
+      
+      if (err.error) {
+        if (err.error.message) {
+          msg = err.error.message;
+        } else if (typeof err.error === 'string') {
+          msg = err.error;
+        }
+
+        if (err.error.errors) {
+          const errors = err.error.errors;
+          if (Array.isArray(errors)) {
+            msg += `: ${errors.join(', ')}`;
+          } else if (typeof errors === 'object') {
+            const detailedErrors = Object.values(errors).flat().join(', ');
+            msg += `: ${detailedErrors}`;
+          }
+        }
+      } else if (err.message) {
+        msg = err.message;
+      }
+      
+      this.errorMessage = msg;
+      this.isSaving = false;
+      this.cdr.detectChanges();
     };
 
     if (this.isEditMode && this.mantenimiento) {
       this.mantenimientoService.actualizar(this.mantenimiento.id, data).subscribe({
         next: () => { this.isSaving = false; this.saved.emit(); },
-        error: (err: any) => {
-          console.error('Error updating mantenimiento:', err);
-          this.errorMessage = err.error?.message || err.message || 'Error al actualizar';
-          this.isSaving = false;
-          this.cdr.detectChanges();
-        }
+        error: handleError
       });
     } else {
       this.mantenimientoService.crear(data).subscribe({
         next: () => { this.isSaving = false; this.saved.emit(); },
-        error: (err: any) => {
-          console.error('Error creating mantenimiento:', err);
-          this.errorMessage = err.error?.message || err.message || 'Error al crear';
-          this.isSaving = false;
-          this.cdr.detectChanges();
-        }
+        error: handleError
       });
     }
   }

@@ -172,6 +172,24 @@ textarea:focus {
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
+.search-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.375rem;
+  font-size: 0.8125rem;
+  background-color: #f8fafc;
+  transition: all 0.2s;
+}
+
+.search-input:focus {
+  background-color: white;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  outline: none;
+}
+
 input.error,
 select.error,
 textarea.error {

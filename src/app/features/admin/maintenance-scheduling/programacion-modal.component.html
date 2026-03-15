@@ -119,12 +119,23 @@
             {{ formData.trabajador_ids.length }}/4
           </span>
         </label>
+        
+        <!-- Search bar para Técnicos -->
+        <input 
+          type="text" 
+          placeholder="Buscar técnico por nombre o especialidad..." 
+          class="search-input"
+          [(ngModel)]="techSearch"
+          name="techSearch"
+          autocomplete="off"
+        />
+
         <p *ngIf="maxTecnicosAlcanzado" class="help-text warn">
           Máximo 4 técnicos por programación.
         </p>
         <div class="technician-list" [class.error-border]="validationErrors['trabajador_ids']">
           <label
-            *ngFor="let t of trabajadores"
+            *ngFor="let t of filteredTrabajadores"
             class="tech-option"
             [class.selected]="isTrabajadorSelected(t.usuario_id)"
             [class.disabled]="maxTecnicosAlcanzado && !isTrabajadorSelected(t.usuario_id)"
@@ -141,7 +152,7 @@
             </div>
             <i *ngIf="isTrabajadorSelected(t.usuario_id)" class="bi bi-check-circle-fill check-icon"></i>
           </label>
-          <p *ngIf="trabajadores.length === 0" class="empty-list">No hay técnicos disponibles</p>
+          <p *ngIf="filteredTrabajadores.length === 0" class="empty-list">No se encontraron técnicos</p>
         </div>
         <span *ngIf="validationErrors['trabajador_ids']" class="error-message">
           {{ validationErrors['trabajador_ids'] }}
@@ -153,6 +164,17 @@
         <label for="cliente_id">
           Cliente <span class="required">*</span>
         </label>
+        
+        <!-- Search bar para Clientes -->
+        <input 
+          type="text" 
+          placeholder="Buscar cliente por empresa o contacto..." 
+          class="search-input"
+          [(ngModel)]="clientSearch"
+          name="clientSearch"
+          autocomplete="off"
+        />
+
         <select
           id="cliente_id"
           [(ngModel)]="formData.cliente_id"
@@ -161,10 +183,13 @@
           [class.error]="validationErrors['cliente_id']"
         >
           <option [value]="0">Seleccione un cliente</option>
-          <option *ngFor="let cliente of clientes" [value]="cliente.cliente_id">
+          <option *ngFor="let cliente of filteredClientes" [value]="cliente.cliente_id">
             {{ getClienteNombre(cliente) }}
           </option>
         </select>
+        <p *ngIf="filteredClientes.length === 0" class="help-text warn" style="margin-top: 5px;">
+          No se encontró ningún cliente.
+        </p>
         <span *ngIf="validationErrors['cliente_id']" class="error-message">
           {{ validationErrors['cliente_id'] }}
         </span>

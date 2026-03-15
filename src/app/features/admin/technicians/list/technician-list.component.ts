@@ -1,6 +1,7 @@
-import { Component, computed, inject, signal, OnInit } from '@angular/core';
+import { Component, computed, inject, signal, OnInit, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { TechnicianService, Technician } from '../../services/technician.service';
 import { TechnicianCreateComponent } from '../create/technician-create.component';
 import { TechnicianEditComponent } from '../edit/technician-edit.component';
@@ -33,6 +34,7 @@ import { FilterSelectComponent } from '../../../../shared/components/filters/fil
 })
 export class TechnicianListComponent implements OnInit {
   private technicianService = inject(TechnicianService);
+  private route = inject(ActivatedRoute);
 
   // Signals for state
   searchQuery = signal('');
@@ -74,6 +76,7 @@ export class TechnicianListComponent implements OnInit {
       next: (data) => {
         this.technicians.set(data);
         this.isLoading.set(false);
+        this.checkQueryParams(); // Check if we need to auto-open someone after data loads
       },
       error: (err) => {
         console.error('Error loading technicians', err);
@@ -85,6 +88,19 @@ export class TechnicianListComponent implements OnInit {
         this.isLoading.set(false);
       }
     });
+  }
+
+  checkQueryParams() {
+    const searchParam = this.route.snapshot.queryParamMap.get('search');
+    if (searchParam) {
+      this.searchQuery.set(searchParam);
+      
+      // Auto-open logic if there's exactly one match, or it exactly matches a DNI
+      const match = this.technicians().find(t => t.dni === searchParam);
+      if (match) {
+        this.openEditModal(match);
+      }
+    }
   }
 
   // Computed Values

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Mantenimiento, CrearMantenimientoDTO } from '../models/mantenimiento.interface';
@@ -59,17 +59,27 @@ export class MantenimientoService {
         ascensor_id:   m.ascensor_id,
         tipo_trabajo:  m.tipo_trabajo,
         estado:        m.estado,
-        descripcion:   m.descripcion || m.observaciones,
-        trabajador:    m.Trabajador || null,
-        cliente:       m.Cliente    || null,
-        ascensor:      m.Ascensor   || null
+        descripcion:   m.descripcion || m.observaciones || '', // Aseguro que haya string
+        trabajador:    m.extendedProps?.trabajador || m.Trabajador || null,
+        trabajadores:  m.extendedProps?.trabajadores || m.trabajadores || null,
+        cliente:       m.extendedProps?.cliente || m.Cliente || null,
+        ascensor:      m.extendedProps?.ascensor || m.Ascensor || null
       }
     };
   }
 
   // ─── Listar todos ─────────────────────────────────────────────────────────────
-  listar(): Observable<Mantenimiento[]> {
-    return this.http.get<any>(this.apiUrl, { headers: this.getHeaders() }).pipe(
+  listar(start?: string, end?: string, trabajadorId?: number, detailed: boolean = false): Observable<Mantenimiento[]> {
+    let params = new HttpParams();
+    if (start) params = params.set('start', start);
+    if (end) params = params.set('end', end);
+    if (trabajadorId) params = params.set('trabajador_id', trabajadorId.toString());
+    if (detailed) params = params.set('detailed', 'true');
+
+    return this.http.get<any>(this.apiUrl, { 
+      headers: this.getHeaders(),
+      params 
+    }).pipe(
       map(response => {
         const raw: any[] = Array.isArray(response)
           ? response
@@ -81,6 +91,23 @@ export class MantenimientoService {
         return of([]);
       })
     );
+  }
+
+  // ─── Obtener por ID ───────────────────────────────────────────────────────────
+  getById(id: number): Observable<Mantenimiento | null> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() })
+      .pipe(
+        map(response => {
+           if (response && response.data) {
+              return this.mapToMantenimiento(response.data);
+           }
+           return null;
+        }),
+        catchError(err => {
+          console.error(`Error obteniendo programación ${id}:`, err);
+          return of(null);
+        })
+      );
   }
 
   // ─── Helper: convierte fecha + horas al formato start/end que espera /api/programaciones ───
