@@ -116,7 +116,7 @@
 
             <div class="programacion-footer">
               <span class="badge" [ngClass]="getEstadoColor(mant.extendedProps.estado)">
-                {{ mant.extendedProps.estado }}
+                {{ getEstadoLabel(mant.extendedProps.estado) }}
               </span>
             </div>
           </div>

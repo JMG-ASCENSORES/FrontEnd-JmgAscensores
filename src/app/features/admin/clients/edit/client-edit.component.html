@@ -36,7 +36,7 @@
               <label for="edit_tipo_cliente" class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Tipo de Cliente</label>
               <select id="edit_tipo_cliente" formControlName="tipo_cliente"
                 class="w-full p-2.5 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-sm">
-                <option *ngFor="let type of types" [value]="type">{{ type }}</option>
+                <option *ngFor="let type of types" [value]="type.value">{{ type.label }}</option>
               </select>
             </div>
 

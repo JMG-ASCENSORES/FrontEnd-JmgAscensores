@@ -19,10 +19,13 @@ export class ClientCreateComponent {
   isSubmitting = signal(false);
   errorMessage = signal<string | null>(null);
 
-  types = ['Corporativo', 'Residencial', 'Gobierno'];
+  types = [
+    { value: 'empresa', label: 'Empresa' },
+    { value: 'persona', label: 'Persona Natural' }
+  ];
 
   clientForm: FormGroup = this.fb.group({
-    tipo_cliente: ['Corporativo', Validators.required],
+    tipo_cliente: ['empresa', Validators.required],
     dni: ['', [Validators.required, Validators.pattern(/^\d{8}$/)]],
     ruc: ['', [Validators.pattern(/^\d{11}$/)]],
     nombre_comercial: ['', [Validators.required, Validators.minLength(2)]],

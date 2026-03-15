@@ -1,3 +1,5 @@
+@use "sass:color";
+
 // ── Design Tokens ────────────────────────────────────────────────────────────
 $blue-dark:    #0b2c56;
 $blue-mid:     #1a4a8a;
@@ -190,7 +192,7 @@ $speed:        0.22s;
         font-weight: 600;
         text-transform: capitalize;
 
-        &.contact { background: rgba($cyan, 0.1); color: darken($cyan, 10%); }
+        &.contact { background: rgba($cyan, 0.1); color: color.adjust($cyan, $lightness: -10%); }
         i { margin-right: 2px; }
       }
     }
@@ -554,9 +556,9 @@ $speed:        0.22s;
     white-space: nowrap;
     flex-shrink: 0;
 
-    &.estado-ok    { background: rgba($ok,    0.12); color: darken($ok,    5%); }
-    &.estado-error { background: rgba($error, 0.12); color: darken($error, 5%); }
-    &.estado-warn  { background: rgba($warn,  0.12); color: darken($warn,  10%); }
+    &.estado-ok    { background: rgba($ok,    0.12); color: color.adjust($ok,    $lightness: -5%); }
+    &.estado-error { background: rgba($error, 0.12); color: color.adjust($error, $lightness: -5%); }
+    &.estado-warn  { background: rgba($warn,  0.12); color: color.adjust($warn,  $lightness: -10%); }
     &.estado-default { background: rgba($default-gray, 0.12); color: $default-gray; }
   }
 }

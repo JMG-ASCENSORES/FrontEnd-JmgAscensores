@@ -305,6 +305,17 @@ export class MaintenanceSchedulingComponent implements OnInit {
     return colors[estado] || 'bg-gray-100 text-gray-700';
   }
 
+  getEstadoLabel(estado: string | undefined): string {
+    if (!estado) return 'Desconocido';
+    const labels: Record<string, string> = {
+      'pendiente': 'Pendiente',
+      'en_progreso': 'En Progreso',
+      'completado': 'Completado',
+      'cancelado': 'Cancelado'
+    };
+    return labels[estado] || estado;
+  }
+
   formatSelectedDate(): string {
     if (!this.selectedFilterDate) return 'fechas seleccionadas';
     const d = new Date(this.selectedFilterDate + 'T00:00:00');

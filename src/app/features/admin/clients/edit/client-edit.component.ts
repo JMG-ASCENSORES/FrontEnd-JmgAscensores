@@ -24,7 +24,10 @@ export class ClientEditComponent implements OnInit {
   copySuccess = signal(false);
   coordParseError = signal(false);
 
-  types = ['Corporativo', 'Residencial', 'Gobierno'];
+  types = [
+    { value: 'empresa', label: 'Empresa' },
+    { value: 'persona', label: 'Persona Natural' }
+  ];
   clientForm!: FormGroup;
 
   // Map state
@@ -54,7 +57,7 @@ export class ClientEditComponent implements OnInit {
 
   initForm() {
     this.clientForm = this.fb.group({
-      tipo_cliente: [this.client.tipo_cliente || 'Corporativo', Validators.required],
+      tipo_cliente: [this.client.tipo_cliente || 'empresa', Validators.required],
       dni: [this.client.dni || '', [Validators.required, Validators.pattern(/^\d{8}$/)]],
       ruc: [this.client.ruc || '', [Validators.pattern(/^\d{11}$/)]],
       ubicacion: [this.client.ubicacion || '', Validators.required],
