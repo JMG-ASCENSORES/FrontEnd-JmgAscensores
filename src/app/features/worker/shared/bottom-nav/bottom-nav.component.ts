@@ -19,6 +19,12 @@ interface NavItem {
 export class BottomNavComponent {
   navItems: NavItem[] = [
     {
+      path: '/worker/equipment',
+      label: 'EQUIPOS',
+      icon: 'bi-gear',
+      iconActive: 'bi-gear-fill'
+    },
+    {
       path: '/worker/reports',
       label: 'INFORMES',
       icon: 'bi-file-earmark-text',

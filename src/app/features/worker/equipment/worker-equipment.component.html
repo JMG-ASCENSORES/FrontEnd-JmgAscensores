@@ -1,0 +1,238 @@
+<div class="equipment-view-container">
+
+  <!-- ===== HEADER & BUSCADOR ===== -->
+  <div class="header-section">
+    <div class="header-text">
+      <h1 class="view-title">
+        <i class="bi bi-gear-wide-connected"></i>
+        Equipos de Clientes
+      </h1>
+      <p class="view-subtitle">Consulte los equipos de cada cliente rápidamente</p>
+    </div>
+
+    <div class="search-wrapper">
+      <i class="bi bi-search search-icon"></i>
+      <input
+        id="worker-equipment-search"
+        type="text"
+        class="search-input"
+        placeholder="Buscar por nombre, dirección o código..."
+        [value]="searchQuery()"
+        (input)="onSearch($event)"
+        autocomplete="off"
+      />
+      <button *ngIf="searchQuery()" class="search-clear-btn" (click)="clearSearch()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <div class="results-count" *ngIf="!loadingClientList()">
+      <span>{{ filteredClientes().length }} cliente(s) encontrado(s)</span>
+    </div>
+  </div>
+
+  <!-- ===== LISTA DE CLIENTES ===== -->
+  <div class="clients-list">
+
+    <!-- Loading skeleton -->
+    <ng-container *ngIf="loadingClientList()">
+      <div class="skeleton-card" *ngFor="let i of [1,2,3,4,5]">
+        <div class="skeleton-avatar"></div>
+        <div class="skeleton-lines">
+          <div class="skeleton-line wide"></div>
+          <div class="skeleton-line narrow"></div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Client cards -->
+    <ng-container *ngIf="!loadingClientList()">
+      <div
+        *ngFor="let cliente of filteredClientes(); trackBy: trackByClienteId"
+        class="client-card"
+        [id]="'client-card-' + cliente.cliente_id"
+        (click)="selectCliente(cliente)"
+      >
+        <div class="card-avatar">
+          <i class="bi bi-building"></i>
+        </div>
+
+        <div class="card-body">
+          <h3 class="client-name">{{ cliente.nombre_comercial || 'Sin nombre comercial' }}</h3>
+          <span class="client-location">
+            <i class="bi bi-geo-alt"></i>
+            {{ cliente.ubicacion || 'Sin dirección registrada' }}
+          </span>
+          <div class="client-meta">
+            <span class="meta-tag" *ngIf="cliente.tipo_cliente">{{ cliente.tipo_cliente }}</span>
+            <span class="meta-tag contact" *ngIf="cliente.contacto_nombre">
+              <i class="bi bi-person"></i>
+              {{ cliente.contacto_nombre }} {{ cliente.contacto_apellido || '' }}
+            </span>
+          </div>
+        </div>
+
+        <div class="card-action">
+          <i class="bi bi-chevron-right"></i>
+        </div>
+      </div>
+
+      <!-- Empty state -->
+      <div *ngIf="filteredClientes().length === 0 && !loadingClientList()" class="empty-state">
+        <i class="bi bi-binoculars empty-icon"></i>
+        <h4>Sin resultados</h4>
+        <p>No se encontraron clientes que coincidan con tu búsqueda.</p>
+        <button class="btn-reset" (click)="clearSearch()">Limpiar búsqueda</button>
+      </div>
+    </ng-container>
+  </div>
+
+
+  <!-- ===== MODAL: EQUIPOS DEL CLIENTE ===== -->
+  <div class="modal-overlay" *ngIf="selectedCliente() !== null" role="dialog" aria-modal="true">
+    <div class="overlay-backdrop" (click)="closeClientModal()"></div>
+
+    <div class="modal-panel bottom-sheet">
+      <div class="modal-header">
+        <div class="drag-handle"></div>
+        <div class="modal-title-block">
+          <h2>{{ selectedCliente()?.nombre_comercial || 'Cliente' }}</h2>
+          <span class="modal-subtitle" *ngIf="selectedCliente()?.ubicacion">
+            <i class="bi bi-geo-alt"></i> {{ selectedCliente()?.ubicacion }}
+          </span>
+        </div>
+        <button class="close-btn" (click)="closeClientModal()" aria-label="Cerrar">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Loading equipos -->
+        <div *ngIf="loadingEquipos()" class="loading-state">
+          <div class="spinner"></div>
+          <span>Cargando equipos...</span>
+        </div>
+
+        <!-- Equipos list -->
+        <ng-container *ngIf="!loadingEquipos()">
+          <div class="section-label" *ngIf="equiposCliente().length > 0">
+            {{ equiposCliente().length }} equipo(s) registrado(s)
+          </div>
+
+          <div class="equipos-list">
+            <div
+              *ngFor="let equipo of equiposCliente(); trackBy: trackByEquipoId"
+              class="equipo-row"
+              [id]="'equipo-row-' + equipo.ascensor_id"
+              (click)="selectEquipo(equipo)"
+            >
+              <div class="equipo-icon-wrap" [ngClass]="getEstadoClass(equipo.estado)">
+                <i class="bi" [ngClass]="getTipoIcon(equipo.tipo_equipo)"></i>
+              </div>
+
+              <div class="equipo-summary">
+                <h4>{{ equipo.tipo_equipo || 'Equipo' }} — {{ equipo.marca || '?' }} {{ equipo.modelo || '' }}</h4>
+                <span class="equipo-serie">S/N: {{ equipo.numero_serie || 'N/A' }}</span>
+              </div>
+
+              <div class="equipo-status">
+                <span class="status-dot" [ngClass]="getEstadoClass(equipo.estado)"></span>
+                <span class="status-label">{{ equipo.estado || 'Desconocido' }}</span>
+              </div>
+
+              <i class="bi bi-chevron-right equipo-arrow"></i>
+            </div>
+          </div>
+
+          <!-- Sin equipos -->
+          <div *ngIf="equiposCliente().length === 0" class="empty-state-modal">
+            <i class="bi bi-tools"></i>
+            <p>Este cliente no tiene equipos registrados.</p>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===== MODAL: DETALLE DE EQUIPO ===== -->
+  <div class="modal-overlay nested-modal" *ngIf="selectedEquipo() !== null" role="dialog" aria-modal="true">
+    <div class="overlay-backdrop" (click)="closeEquipoModal()"></div>
+
+    <div class="modal-panel detail-panel">
+      <div class="modal-header compact">
+        <button class="back-btn" (click)="closeEquipoModal()">
+          <i class="bi bi-arrow-left"></i> Volver
+        </button>
+        <h2>Detalle del Equipo</h2>
+      </div>
+
+      <div class="modal-body">
+        <!-- Hero info -->
+        <div class="detail-hero" [ngClass]="getEstadoClass(selectedEquipo()?.estado || '')">
+          <div class="hero-avatar">
+            <i class="bi" [ngClass]="getTipoIcon(selectedEquipo()?.tipo_equipo || '')"></i>
+          </div>
+          <div class="hero-info">
+            <h3>{{ selectedEquipo()?.marca }} {{ selectedEquipo()?.modelo }}</h3>
+            <p class="hero-sub">{{ selectedEquipo()?.tipo_equipo }}</p>
+          </div>
+          <span class="estado-chip" [ngClass]="getEstadoClass(selectedEquipo()?.estado || '')">
+            {{ selectedEquipo()?.estado || 'Desconocido' }}
+          </span>
+        </div>
+
+        <!-- Detalles técnicos -->
+        <div class="detail-section">
+          <h5 class="section-label-sm">Información técnica</h5>
+          <div class="detail-grid">
+            <div class="detail-item">
+              <span class="detail-label">Número de serie</span>
+              <span class="detail-value">{{ selectedEquipo()?.numero_serie || 'No registrado' }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Capacidad</span>
+              <span class="detail-value">{{ selectedEquipo()?.capacidad || 'No especificada' }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Cantidad de paradas</span>
+              <span class="detail-value">{{ selectedEquipo()?.piso_cantidad ?? 'N/A' }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Último mantenimiento</span>
+              <span class="detail-value">
+                {{ selectedEquipo()?.fecha_ultimo_mantenimiento
+                    ? (selectedEquipo()?.fecha_ultimo_mantenimiento | date:'dd/MM/yyyy')
+                    : 'No registrado' }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Observaciones -->
+        <div class="detail-section" *ngIf="selectedEquipo()?.observaciones">
+          <h5 class="section-label-sm">Observaciones</h5>
+          <div class="observaciones-box">
+            <p>{{ selectedEquipo()?.observaciones }}</p>
+          </div>
+        </div>
+
+        <!-- Información del cliente -->
+        <div class="detail-section client-quick-ref" *ngIf="selectedCliente()">
+          <h5 class="section-label-sm">Cliente asignado</h5>
+          <div class="client-ref-card">
+            <i class="bi bi-building-fill ref-icon"></i>
+            <div>
+              <strong>{{ selectedCliente()?.nombre_comercial }}</strong>
+              <span>{{ selectedCliente()?.ubicacion }}</span>
+              <span *ngIf="selectedCliente()?.telefono">
+                <i class="bi bi-telephone"></i> {{ selectedCliente()?.telefono }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
