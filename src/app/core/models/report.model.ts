@@ -10,7 +10,7 @@ export interface Evidence {
 
 export interface Report {
   informe_id: number;
-  asignacion_id: number;
+  orden_id: number;
   trabajador_id: number;
   cliente_id: number;
   ascensor_id: number;
