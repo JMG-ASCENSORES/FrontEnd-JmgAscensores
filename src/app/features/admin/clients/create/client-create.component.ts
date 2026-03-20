@@ -31,23 +31,30 @@ export class ClientCreateComponent implements OnInit {
     nombre_comercial: ['', [Validators.required, Validators.minLength(2)]],
     distrito: [''],
     ubicacion: ['', Validators.required],
-    contacto_telefono: ['', [Validators.required, Validators.pattern(/^\d{9}$/)]],
+    contacto_telefono: ['', [Validators.required, Validators.pattern(/^9\d{8}$/)]],
     contacto_nombre: ['', [Validators.required, Validators.minLength(2)]],
     contacto_apellido: [''], 
-    contacto_correo: ['', [Validators.required, Validators.email]]
+    contacto_correo: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]]
   });
 
   ngOnInit(): void {
-    // Escuchar cambios de tipo de cliente para manejar el campo RUC dinámicamente
+    // Escuchar cambios de tipo de cliente para manejar campos dinámicamente
     this.clientForm.get('tipo_cliente')?.valueChanges.subscribe(tipo => {
       const rucControl = this.clientForm.get('ruc');
+      const nombreControl = this.clientForm.get('nombre_comercial');
+      
       if (tipo === 'persona') {
         rucControl?.clearValidators();
         rucControl?.setValue(null);
+        
+        nombreControl?.clearValidators();
+        nombreControl?.setValue(null);
       } else {
         rucControl?.setValidators([Validators.required, Validators.pattern(/^\d{11}$/)]);
+        nombreControl?.setValidators([Validators.required, Validators.minLength(2)]);
       }
       rucControl?.updateValueAndValidity();
+      nombreControl?.updateValueAndValidity();
     });
   }
 
@@ -66,6 +73,7 @@ export class ClientCreateComponent implements OnInit {
     const payload = {
       ...formValue,
       ruc: formValue.ruc ? formValue.ruc : null,
+      nombre_comercial: formValue.nombre_comercial ? formValue.nombre_comercial : null,
       distrito: formValue.distrito ? formValue.distrito : null,
       contacto_apellido: formValue.contacto_apellido ? formValue.contacto_apellido : null
     };

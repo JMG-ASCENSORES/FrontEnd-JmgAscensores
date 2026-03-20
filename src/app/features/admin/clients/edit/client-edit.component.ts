@@ -46,23 +46,30 @@ export class ClientEditComponent implements OnInit {
     }
     this.initForm();
 
-    // Dinámica para RUC dependiendo del tipo
-    const updateRucValidators = (tipo: string) => {
+    // Dinámica para RUC y Nombre Comercial
+    const updateValidators = (tipo: string) => {
       const rucControl = this.clientForm.get('ruc');
+      const nombreControl = this.clientForm.get('nombre_comercial');
+
       if (tipo === 'persona') {
         rucControl?.clearValidators();
         rucControl?.setValue(null);
+
+        nombreControl?.clearValidators();
+        nombreControl?.setValue(null);
       } else {
         rucControl?.setValidators([Validators.required, Validators.pattern(/^\d{11}$/)]);
+        nombreControl?.setValidators([Validators.required, Validators.minLength(2)]);
       }
       rucControl?.updateValueAndValidity();
+      nombreControl?.updateValueAndValidity();
     };
 
     // Estado inicial
-    updateRucValidators(this.clientForm.get('tipo_cliente')?.value);
+    updateValidators(this.clientForm.get('tipo_cliente')?.value);
 
     // Suscripción
-    this.clientForm.get('tipo_cliente')?.valueChanges.subscribe(updateRucValidators);
+    this.clientForm.get('tipo_cliente')?.valueChanges.subscribe(updateValidators);
 
     // If client already has coordinates, load them
     const lat = this.client.latitud ? Number(this.client.latitud) : null;
@@ -76,16 +83,17 @@ export class ClientEditComponent implements OnInit {
   initForm() {
     this.clientForm = this.fb.group({
       tipo_cliente: [this.client.tipo_cliente || 'empresa', Validators.required],
+      nombre_comercial: [this.client.nombre_comercial || '', [Validators.required, Validators.minLength(2)]],
       dni: [this.client.dni || '', [Validators.required, Validators.pattern(/^\d{8}$/)]],
       ruc: [this.client.ruc || '', [Validators.required, Validators.pattern(/^\d{11}$/)]],
       ubicacion: [this.client.ubicacion || '', Validators.required],
       distrito: [this.client.distrito || ''],
       latitud: [this.client.latitud ?? null],
       longitud: [this.client.longitud ?? null],
-      contacto_telefono: [this.client.contacto_telefono || '', Validators.required],
+      contacto_telefono: [this.client.contacto_telefono || '', [Validators.required, Validators.pattern(/^9\d{8}$/)]],
       contacto_nombre: [this.client.contacto_nombre || '', Validators.required],
       contacto_apellido: [this.client.contacto_apellido || ''],
-      contacto_correo: [this.client.contacto_correo || '', [Validators.required, Validators.email]],
+      contacto_correo: [this.client.contacto_correo || '', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
     });
   }
 
@@ -175,6 +183,7 @@ export class ClientEditComponent implements OnInit {
       latitud: formValue.latitud !== '' ? formValue.latitud : null,
       longitud: formValue.longitud !== '' ? formValue.longitud : null,
       ruc: formValue.ruc || null,
+      nombre_comercial: formValue.nombre_comercial || null,
       distrito: formValue.distrito || null,
       contacto_apellido: formValue.contacto_apellido || null,
     };

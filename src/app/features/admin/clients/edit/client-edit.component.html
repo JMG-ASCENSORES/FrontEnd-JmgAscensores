@@ -40,6 +40,15 @@
               </select>
             </div>
 
+            <!-- Nombre Comercial -->
+            <div *ngIf="clientForm.get('tipo_cliente')?.value === 'empresa'">
+              <label for="edit_nombre_comercial" class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Razón Social</label>
+              <input type="text" id="edit_nombre_comercial" formControlName="nombre_comercial"
+                class="w-full p-2.5 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-sm"
+                [class.border-red-300]="clientForm.get('nombre_comercial')?.invalid && clientForm.get('nombre_comercial')?.touched">
+              <p *ngIf="clientForm.get('nombre_comercial')?.invalid && clientForm.get('nombre_comercial')?.touched" class="mt-1 text-xs text-red-500">Nombre comercial requerido.</p>
+            </div>
+
             <!-- DNI -->
             <div>
               <label for="edit_dni" class="block text-xs font-bold text-slate-500 uppercase mb-1.5">DNI</label>
