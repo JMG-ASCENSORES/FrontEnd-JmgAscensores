@@ -25,8 +25,8 @@ export class TechnicianCreateComponent {
     apellido: ['', [Validators.required, Validators.minLength(2)]],
     dni: ['', [Validators.required, Validators.pattern(/^\d{8}$/)]], // Strict 8 digits
     edad: ['', [Validators.required, Validators.min(18), Validators.max(80)]],
-    correo: ['', [Validators.required, Validators.email]],
-    telefono: ['', [Validators.required, Validators.pattern(/^\+?[\d\s-]{9,}$/)]],
+    correo: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
+    telefono: ['', [Validators.required, Validators.pattern(/^9\d{8}$/)]],
     password: ['', [Validators.required, Validators.minLength(6)]],
     especialidad: ['Técnico General', Validators.required]
   });

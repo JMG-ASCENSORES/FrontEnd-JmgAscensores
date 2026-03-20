@@ -94,6 +94,7 @@ export class ClientEditComponent implements OnInit {
       contacto_nombre: [this.client.contacto_nombre || '', Validators.required],
       contacto_apellido: [this.client.contacto_apellido || ''],
       contacto_correo: [this.client.contacto_correo || '', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
+      estado_activo: [this.client.estado_activo !== false] // Handle undefined as true just in case
     });
   }
 
@@ -186,6 +187,7 @@ export class ClientEditComponent implements OnInit {
       nombre_comercial: formValue.nombre_comercial || null,
       distrito: formValue.distrito || null,
       contacto_apellido: formValue.contacto_apellido || null,
+      estado_activo: formValue.estado_activo
     };
 
     this.clientService.updateClient(this.client.cliente_id, payload).subscribe({

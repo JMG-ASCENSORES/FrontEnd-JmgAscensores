@@ -96,8 +96,12 @@
                 id="correo" 
                 formControlName="correo"
                 class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                [class.border-red-300]="technicianForm.get('correo')?.invalid && technicianForm.get('correo')?.touched"
               >
             </div>
+            <p *ngIf="technicianForm.get('correo')?.invalid && technicianForm.get('correo')?.touched" class="mt-1 text-xs text-red-500">
+              Correo electrónico inválido.
+            </p>
           </div>
 
           <!-- Phone -->
@@ -112,8 +116,12 @@
                 id="telefono" 
                 formControlName="telefono"
                 class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                [class.border-red-300]="technicianForm.get('telefono')?.invalid && technicianForm.get('telefono')?.touched"
               >
             </div>
+            <p *ngIf="technicianForm.get('telefono')?.invalid && technicianForm.get('telefono')?.touched" class="mt-1 text-xs text-red-500">
+              Celular inválido (requerido, 9 dígitos formato: 9XXXXXXXX).
+            </p>
           </div>
 
           <!-- Specialty -->

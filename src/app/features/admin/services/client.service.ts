@@ -75,8 +75,8 @@ export class ClientService {
     });
   }
 
-  getClients(): Observable<Client[]> {
-    return this.http.get<ApiResponse>(this.apiUrl, { headers: this.getHeaders() })
+  getClients(params?: any): Observable<Client[]> {
+    return this.http.get<ApiResponse>(this.apiUrl, { headers: this.getHeaders(), params })
       .pipe(
         map(response => response.data || []), // Unwrap the data property
         catchError(error => {

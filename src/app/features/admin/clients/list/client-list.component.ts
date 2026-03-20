@@ -7,13 +7,14 @@ import { forkJoin } from 'rxjs';
 import { ClientCreateComponent } from '../create/client-create.component';
 import { ClientEditComponent } from '../edit/client-edit.component';
 import { ClientDeleteComponent } from '../delete/client-delete.component';
+import { ClientRestoreComponent } from '../restore/client-restore.component';
 import { EquipmentListModalComponent } from '../equipment/equipment-list-modal.component';
 import { EntityCardComponent } from '../../../../shared/components/entity-card/entity-card.component';
 
 @Component({
   selector: 'app-client-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, ClientCreateComponent, ClientEditComponent, ClientDeleteComponent, EquipmentListModalComponent, EntityCardComponent],
+  imports: [CommonModule, FormsModule, ClientCreateComponent, ClientEditComponent, ClientDeleteComponent, ClientRestoreComponent, EquipmentListModalComponent, EntityCardComponent],
   templateUrl: './client-list.component.html',
 })
 export class ClientListComponent implements OnInit {
@@ -32,6 +33,7 @@ export class ClientListComponent implements OnInit {
   showCreateModal = signal(false);
   showEditModal = signal(false);
   showDeleteModal = signal(false);
+  showRestoreModal = signal(false);
 
   selectedClient = signal<Client | null>(null);
 
@@ -103,6 +105,9 @@ export class ClientListComponent implements OnInit {
     const district = this.selectedDistrict();
     
     return this.clients().filter(client => {
+      // Hide inactive clients from the main list so they go to the recycle bin (Restore Modal)
+      if (client.estado_activo === false) return false;
+
       // Create a single concatenated, normalized string of all searchable fields
       const searchableText = this.normalizeText(
         `${client.nombre_comercial || ''} ${client.contacto_nombre || ''} ${client.ruc || ''} ${client.dni || ''}`
@@ -117,18 +122,18 @@ export class ClientListComponent implements OnInit {
     });
   });
 
-  totalClients = computed(() => this.clients().length);
+  totalClients = computed(() => this.clients().filter(c => c.estado_activo !== false).length);
   
   totalAscensores = computed(() => 
-    this.clients().reduce((acc, curr) => acc + (curr.ascensores_count || 0), 0)
+    this.clients().filter(c => c.estado_activo !== false).reduce((acc, curr) => acc + (curr.ascensores_count || 0), 0)
   );
   
   totalMontacargas = computed(() => 
-    this.clients().reduce((acc, curr) => acc + (curr.montacargas_count || 0), 0)
+    this.clients().filter(c => c.estado_activo !== false).reduce((acc, curr) => acc + (curr.montacargas_count || 0), 0)
   );
   
   totalPlataformas = computed(() => 
-    this.clients().reduce((acc, curr) => acc + (curr.plataforma_count || 0), 0)
+    this.clients().filter(c => c.estado_activo !== false).reduce((acc, curr) => acc + (curr.plataforma_count || 0), 0)
   );
 
   // Accessors for Template logic
@@ -174,6 +179,18 @@ export class ClientListComponent implements OnInit {
   }
 
   onClientDeleted() {
+    this.loadClients();
+  }
+
+  openRestoreModal() {
+    this.showRestoreModal.set(true);
+  }
+
+  closeRestoreModal() {
+    this.showRestoreModal.set(false);
+  }
+
+  onClientRestored() {
     this.loadClients();
   }
 

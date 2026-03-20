@@ -44,8 +44,8 @@ export class TechnicianEditComponent implements OnInit {
       // Backend doesn't allow DNI update anyway in current schema config shown previously.
       dni: [{ value: this.technician.dni, disabled: true }], 
       edad: [this.technician.edad, [Validators.required, Validators.min(18), Validators.max(80)]],
-      correo: [this.technician.correo, [Validators.required, Validators.email]],
-      telefono: [this.technician.telefono, [Validators.required, Validators.pattern(/^\+?[\d\s-]{9,}$/)]],
+      correo: [this.technician.correo, [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
+      telefono: [this.technician.telefono, [Validators.required, Validators.pattern(/^9\d{8}$/)]],
       password: [''], // Optional for edit, minLength 6 if provided
       especialidad: [this.technician.especialidad, Validators.required],
       estado_activo: [this.technician.estado_activo]

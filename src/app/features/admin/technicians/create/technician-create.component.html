@@ -78,6 +78,9 @@
                 placeholder="12345678"
               >
             </div>
+            <p *ngIf="technicianForm.get('dni')?.invalid && technicianForm.get('dni')?.touched" class="mt-1 text-xs text-red-500">
+              DNI inválido (requerido, 8 dígitos).
+            </p>
           </div>
 
           <!-- Age -->
@@ -107,6 +110,9 @@
                 placeholder="juan.perez@empresa.com"
               >
             </div>
+            <p *ngIf="technicianForm.get('correo')?.invalid && technicianForm.get('correo')?.touched" class="mt-1 text-xs text-red-500">
+              Correo electrónico inválido.
+            </p>
           </div>
 
           <!-- Phone -->
@@ -124,6 +130,9 @@
                 placeholder="+51 999 999 999"
               >
             </div>
+            <p *ngIf="technicianForm.get('telefono')?.invalid && technicianForm.get('telefono')?.touched" class="mt-1 text-xs text-red-500">
+              Celular inválido (requerido, 9 dígitos format: 9XXXXXXXX).
+            </p>
           </div>
 
           <!-- Specialty -->
