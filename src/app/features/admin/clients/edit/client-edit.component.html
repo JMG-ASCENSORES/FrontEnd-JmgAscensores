@@ -50,8 +50,8 @@
             </div>
 
             <!-- RUC -->
-            <div>
-              <label for="edit_ruc" class="block text-xs font-bold text-slate-500 uppercase mb-1.5">RUC <span class="text-slate-400 normal-case font-normal">(Opcional)</span></label>
+            <div *ngIf="clientForm.get('tipo_cliente')?.value === 'empresa'">
+              <label for="edit_ruc" class="block text-xs font-bold text-slate-500 uppercase mb-1.5">RUC</label>
               <input type="text" id="edit_ruc" formControlName="ruc"
                 class="w-full p-2.5 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-sm">
             </div>
@@ -119,6 +119,13 @@
                 <i class="bi bi-info-circle mr-1"></i>
                 En Google Maps: clic derecho sobre el punto → toca las coordenadas que aparecen arriba del menú → pégalas aquí.
               </p>
+            </div>
+
+            <!-- Distrito -->
+            <div>
+              <label for="edit_distrito" class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Distrito / Ciudad</label>
+              <input type="text" id="edit_distrito" formControlName="distrito"
+                class="w-full p-2.5 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-sm">
             </div>
 
             <!-- Dirección Texto -->

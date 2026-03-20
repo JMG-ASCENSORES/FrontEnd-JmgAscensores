@@ -89,8 +89,8 @@
           </div>
 
           <!-- RUC -->
-          <div>
-            <label for="ruc" class="block text-sm font-medium text-gray-700 mb-1">RUC <span class="text-gray-400 font-normal">(Opcional)</span></label>
+          <div *ngIf="clientForm.get('tipo_cliente')?.value === 'empresa'">
+            <label for="ruc" class="block text-sm font-medium text-gray-700 mb-1">RUC</label>
             <div class="relative">
               <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                 <i class="bi bi-postcard"></i>
@@ -213,6 +213,23 @@
                       <p *ngIf="clientForm.get('ubicacion')?.invalid && clientForm.get('ubicacion')?.touched" class="mt-1 text-xs text-red-500">
                         Dirección requerida.
                     </p>
+                </div>
+
+                 <!-- Distrito -->
+                 <div>
+                     <label for="distrito" class="block text-sm font-medium text-gray-700 mb-1">Distrito / Ciudad</label>
+                     <div class="relative">
+                          <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                            <i class="bi bi-pin-map"></i>
+                        </span>
+                         <input 
+                            type="text" 
+                            id="distrito" 
+                            formControlName="distrito"
+                            class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                            placeholder="Ej. San Isidro"
+                         >
+                     </div>
                 </div>
 
             </div>

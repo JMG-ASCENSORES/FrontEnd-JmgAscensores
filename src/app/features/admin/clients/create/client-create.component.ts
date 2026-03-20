@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, inject, signal } from '@angular/core';
+import { Component, EventEmitter, Output, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ClientService } from '../../services/client.service';
@@ -9,7 +9,7 @@ import { ClientService } from '../../services/client.service';
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './client-create.component.html',
 })
-export class ClientCreateComponent {
+export class ClientCreateComponent implements OnInit {
   @Output() close = new EventEmitter<void>();
   @Output() clientCreated = new EventEmitter<void>();
 
@@ -27,14 +27,29 @@ export class ClientCreateComponent {
   clientForm: FormGroup = this.fb.group({
     tipo_cliente: ['empresa', Validators.required],
     dni: ['', [Validators.required, Validators.pattern(/^\d{8}$/)]],
-    ruc: ['', [Validators.pattern(/^\d{11}$/)]],
+    ruc: ['', [Validators.required, Validators.pattern(/^\d{11}$/)]],
     nombre_comercial: ['', [Validators.required, Validators.minLength(2)]],
+    distrito: [''],
     ubicacion: ['', Validators.required],
     contacto_telefono: ['', [Validators.required, Validators.pattern(/^\d{9}$/)]],
     contacto_nombre: ['', [Validators.required, Validators.minLength(2)]],
     contacto_apellido: [''], 
     contacto_correo: ['', [Validators.required, Validators.email]]
   });
+
+  ngOnInit(): void {
+    // Escuchar cambios de tipo de cliente para manejar el campo RUC dinámicamente
+    this.clientForm.get('tipo_cliente')?.valueChanges.subscribe(tipo => {
+      const rucControl = this.clientForm.get('ruc');
+      if (tipo === 'persona') {
+        rucControl?.clearValidators();
+        rucControl?.setValue(null);
+      } else {
+        rucControl?.setValidators([Validators.required, Validators.pattern(/^\d{11}$/)]);
+      }
+      rucControl?.updateValueAndValidity();
+    });
+  }
 
   onSubmit(): void {
     if (this.clientForm.invalid) {
@@ -51,6 +66,7 @@ export class ClientCreateComponent {
     const payload = {
       ...formValue,
       ruc: formValue.ruc ? formValue.ruc : null,
+      distrito: formValue.distrito ? formValue.distrito : null,
       contacto_apellido: formValue.contacto_apellido ? formValue.contacto_apellido : null
     };
 

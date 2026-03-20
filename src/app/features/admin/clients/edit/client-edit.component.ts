@@ -46,6 +46,24 @@ export class ClientEditComponent implements OnInit {
     }
     this.initForm();
 
+    // Dinámica para RUC dependiendo del tipo
+    const updateRucValidators = (tipo: string) => {
+      const rucControl = this.clientForm.get('ruc');
+      if (tipo === 'persona') {
+        rucControl?.clearValidators();
+        rucControl?.setValue(null);
+      } else {
+        rucControl?.setValidators([Validators.required, Validators.pattern(/^\d{11}$/)]);
+      }
+      rucControl?.updateValueAndValidity();
+    };
+
+    // Estado inicial
+    updateRucValidators(this.clientForm.get('tipo_cliente')?.value);
+
+    // Suscripción
+    this.clientForm.get('tipo_cliente')?.valueChanges.subscribe(updateRucValidators);
+
     // If client already has coordinates, load them
     const lat = this.client.latitud ? Number(this.client.latitud) : null;
     const lng = this.client.longitud ? Number(this.client.longitud) : null;
@@ -59,8 +77,9 @@ export class ClientEditComponent implements OnInit {
     this.clientForm = this.fb.group({
       tipo_cliente: [this.client.tipo_cliente || 'empresa', Validators.required],
       dni: [this.client.dni || '', [Validators.required, Validators.pattern(/^\d{8}$/)]],
-      ruc: [this.client.ruc || '', [Validators.pattern(/^\d{11}$/)]],
+      ruc: [this.client.ruc || '', [Validators.required, Validators.pattern(/^\d{11}$/)]],
       ubicacion: [this.client.ubicacion || '', Validators.required],
+      distrito: [this.client.distrito || ''],
       latitud: [this.client.latitud ?? null],
       longitud: [this.client.longitud ?? null],
       contacto_telefono: [this.client.contacto_telefono || '', Validators.required],
@@ -156,6 +175,7 @@ export class ClientEditComponent implements OnInit {
       latitud: formValue.latitud !== '' ? formValue.latitud : null,
       longitud: formValue.longitud !== '' ? formValue.longitud : null,
       ruc: formValue.ruc || null,
+      distrito: formValue.distrito || null,
       contacto_apellido: formValue.contacto_apellido || null,
     };
 

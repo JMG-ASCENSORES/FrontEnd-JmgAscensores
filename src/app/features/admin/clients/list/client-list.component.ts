@@ -91,17 +91,27 @@ export class ClientListComponent implements OnInit {
     });
   }
 
+  // Helper to normalize strings (remove accents and lowercase)
+  normalizeText(text: string | null | undefined): string {
+    return (text || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  }
+
   // Computed Properties for UI
   filteredClients = computed(() => {
-    const query = this.searchQuery().toLowerCase();
+    const rawQuery = this.searchQuery();
+    const queryTokens = this.normalizeText(rawQuery).split(' ').filter(token => token.length > 0);
     const district = this.selectedDistrict();
     
     return this.clients().filter(client => {
-      const matchQuery = (client.nombre_comercial || client.contacto_nombre || '').toLowerCase().includes(query) ||
-                         (client.ruc || '').includes(query) ||
-                         (client.dni || '').includes(query);
+      // Create a single concatenated, normalized string of all searchable fields
+      const searchableText = this.normalizeText(
+        `${client.nombre_comercial || ''} ${client.contacto_nombre || ''} ${client.ruc || ''} ${client.dni || ''}`
+      );
       
-      const matchDistrict = district ? (client.ubicacion || '').includes(district) : true;
+      // Match all query tokens against the searchable text
+      const matchQuery = queryTokens.length === 0 || queryTokens.every(token => searchableText.includes(token));
+      
+      const matchDistrict = district ? (client.ubicacion || '').toLowerCase().includes(district.toLowerCase()) : true;
       
       return matchQuery && matchDistrict;
     });
