@@ -76,7 +76,7 @@
               
               <div class="flex items-center gap-2 text-sm">
                 <i class="bi bi-speedometer2 text-slate-400"></i>
-                <span class="text-slate-600">Capacidad: <strong>{{ equipment.capacidad || 'N/A' }}</strong></span>
+                <span class="text-slate-600">Capacidad: <strong>{{ equipment.capacidad_kg ? equipment.capacidad_kg + ' KG ' : '' }}{{ equipment.capacidad_personas ? '(' + equipment.capacidad_personas + ' Pers)' : '' }} {{ !equipment.capacidad_kg && !equipment.capacidad_personas ? 'N/A' : '' }}</strong></span>
               </div>
               
               <div class="flex items-center gap-2 text-sm">

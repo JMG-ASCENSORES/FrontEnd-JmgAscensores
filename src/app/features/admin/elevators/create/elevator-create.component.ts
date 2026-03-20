@@ -46,6 +46,30 @@ export class ElevatorCreateComponent implements OnInit {
   onSubmit() {
     if (this.isSubmitting()) return;
 
+    // Validación Regex
+    const saneRegex = /^[\w\-\s]+$/; // Alfanuméricos, guiones y espacios
+    if (!this.formData.numero_serie || !saneRegex.test(this.formData.numero_serie)) {
+      this.error.set('El número de serie es obligatorio y solo puede contener letras, números y guiones.');
+      return;
+    }
+    const strictContentRegex = /^[^<>]*$/; // Anti-XSS tags limitados
+    if (this.formData.marca && !strictContentRegex.test(this.formData.marca)) {
+      this.error.set('La marca contiene caracteres inválidos (< >).');
+      return;
+    }
+    if (this.formData.modelo && !strictContentRegex.test(this.formData.modelo)) {
+      this.error.set('El modelo contiene caracteres inválidos (< >).');
+      return;
+    }
+    if (this.formData.capacidad_kg !== undefined && this.formData.capacidad_kg !== null && this.formData.capacidad_kg < 0) {
+      this.error.set('La capacidad en KG no puede ser negativa.');
+      return;
+    }
+    if (this.formData.capacidad_personas !== undefined && this.formData.capacidad_personas !== null && this.formData.capacidad_personas < 0) {
+      this.error.set('La capacidad en personas no puede ser negativa.');
+      return;
+    }
+
     this.isSubmitting.set(true);
     this.error.set(null);
 

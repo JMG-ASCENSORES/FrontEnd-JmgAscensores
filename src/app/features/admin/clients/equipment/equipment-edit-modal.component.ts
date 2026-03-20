@@ -21,8 +21,8 @@ export class EquipmentEditModalComponent implements OnInit {
   isSubmitting = signal(false);
   errorMessage = signal<string | null>(null);
 
-  equipmentTypes = ['Ascensor', 'Montacarga', 'Plataforma'];
-  estados = ['Activo', 'Inactivo', 'En Mantenimiento'];
+  equipmentTypes = ['Ascensor', 'Montacarga', 'Plataforma', 'Escalera Mecánica'];
+  estados = ['Operativo', 'En Mantenimiento', 'Fuera de Servicio', 'En Revisión'];
 
   equipmentForm!: FormGroup;
 
@@ -32,7 +32,8 @@ export class EquipmentEditModalComponent implements OnInit {
       marca: [this.equipment.marca || '', Validators.required],
       modelo: [this.equipment.modelo || ''],
       numero_serie: [this.equipment.numero_serie || ''],
-      capacidad: [this.equipment.capacidad || ''],
+      capacidad_kg: [this.equipment.capacidad_kg !== undefined && this.equipment.capacidad_kg !== null ? this.equipment.capacidad_kg : null],
+      capacidad_personas: [this.equipment.capacidad_personas !== undefined && this.equipment.capacidad_personas !== null ? this.equipment.capacidad_personas : null],
       piso_cantidad: [this.equipment.piso_cantidad || null],
       fecha_ultimo_mantenimiento: [this.equipment.fecha_ultimo_mantenimiento ? this.equipment.fecha_ultimo_mantenimiento.split('T')[0] : ''],
       estado: [this.equipment.estado || 'Activo', Validators.required],
@@ -49,7 +50,18 @@ export class EquipmentEditModalComponent implements OnInit {
     this.isSubmitting.set(true);
     this.errorMessage.set(null);
 
-    this.elevatorService.updateElevator(this.equipment.ascensor_id, this.equipmentForm.value).subscribe({
+    // Limpiar el payload para asegurar que cadenas vacías viajen como null al backend
+    const rawValue = this.equipmentForm.value;
+    const payload = {
+      ...rawValue,
+      modelo: rawValue.modelo || null,
+      numero_serie: rawValue.numero_serie || null,
+      piso_cantidad: rawValue.piso_cantidad || null,
+      fecha_ultimo_mantenimiento: rawValue.fecha_ultimo_mantenimiento || null,
+      observaciones: rawValue.observaciones || null
+    };
+
+    this.elevatorService.updateElevator(this.equipment.ascensor_id, payload).subscribe({
       next: () => {
         this.isSubmitting.set(false);
         this.equipmentUpdated.emit();

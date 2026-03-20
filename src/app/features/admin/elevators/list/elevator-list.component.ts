@@ -1,7 +1,6 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { forkJoin } from 'rxjs';
 
 import { ElevatorService } from '../../services/elevator.service';
 import { ClientService, Client } from '../../services/client.service';
@@ -71,53 +70,39 @@ export class ElevatorListComponent implements OnInit {
     this.isLoading.set(true);
     this.error.set(null);
 
-    forkJoin({
-      elevators: this.elevatorService.getElevators(),
-      clients: this.clientService.getClients()
-    }).subscribe({
-      next: ({ elevators, clients }) => {
-        // Enriched elevators with client names
+    this.elevatorService.getElevators().subscribe({
+      next: (elevators) => {
+        const uniqueClientsMap = new Map<number, any>();
+        
         const enrichedElevators = elevators.map(elevator => {
-          const client = clients.find(c => c.cliente_id === elevator.cliente_id);
+          const c = (elevator as any).Cliente;
+          const name = c ? (c.nombre_comercial || (c.contacto_nombre ? `${c.contacto_nombre} ${c.contacto_apellido || ''}` : 'Sin nombre')) : 'Cliente Desconocido';
+          
+          if (c && !uniqueClientsMap.has(c.cliente_id)) {
+            uniqueClientsMap.set(c.cliente_id, c);
+          }
+
           return {
             ...elevator,
-            cliente_nombre: client?.nombre_comercial || (client?.contacto_nombre ? `${client.contacto_nombre} ${client.contacto_apellido || ''}` : 'Cliente Desconocido')
+            cliente_nombre: name
           };
         });
 
         this.elevators.set(enrichedElevators);
-        this.clients.set(clients);
+        this.clients.set(Array.from(uniqueClientsMap.values()));
         this.isLoading.set(false);
       },
       error: (err) => {
         console.error(err);
-        this.error.set(err.message || 'Error al cargar los datos.');
+        this.error.set(err.message || 'Error al cargar los ascensores.');
         this.isLoading.set(false);
       }
     });
   }
 
-  // Reload just elevators but keep clients
+  // Reload elevators and their mapped clients
   reloadElevators() {
-    this.isLoading.set(true);
-    this.elevatorService.getElevators().subscribe({
-      next: (elevators) => {
-        const clients = this.clients();
-        const enrichedElevators = elevators.map(elevator => {
-            const client = clients.find(c => c.cliente_id === elevator.cliente_id);
-            return {
-              ...elevator,
-              cliente_nombre: client?.nombre_comercial || (client?.contacto_nombre ? `${client.contacto_nombre} ${client.contacto_apellido || ''}` : 'Cliente Desconocido')
-            };
-          });
-        this.elevators.set(enrichedElevators);
-        this.isLoading.set(false);
-      },
-      error: (err) => {
-        this.error.set('Error al actualizar la lista.');
-        this.isLoading.set(false);
-      }
-    });
+    this.loadData();
   }
 
   // Client Filter Logic (Dropdown)
@@ -206,11 +191,11 @@ export class ElevatorListComponent implements OnInit {
   // Helpers
   getStatusColor(status?: string): string {
     switch (status) {
-      case 'Operativo': return 'text-emerald-600 bg-emerald-50 border-emerald-200';
-      case 'En Mantenimiento': return 'text-blue-600 bg-blue-50 border-blue-200';
-      case 'Fuera de Servicio': return 'text-red-600 bg-red-50 border-red-200';
-      case 'En Revisión': return 'text-orange-600 bg-orange-50 border-orange-200';
-      default: return 'text-gray-600 bg-gray-50 border-gray-200';
+      case 'Operativo': return 'text-emerald-500';
+      case 'En Mantenimiento': return 'text-amber-500';
+      case 'Fuera de Servicio': return 'text-red-600';
+      case 'En Revisión': return 'text-blue-500';
+      default: return 'text-slate-400';
     }
   }
 }

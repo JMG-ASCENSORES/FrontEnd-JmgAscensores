@@ -191,8 +191,12 @@
               <span class="detail-value">{{ selectedEquipo()?.numero_serie || 'No registrado' }}</span>
             </div>
             <div class="detail-item">
-              <span class="detail-label">Capacidad</span>
-              <span class="detail-value">{{ selectedEquipo()?.capacidad || 'No especificada' }}</span>
+              <span class="detail-label">Carga Máxima</span>
+              <span class="detail-value">{{ (selectedEquipo()?.capacidad_kg !== null && selectedEquipo()?.capacidad_kg !== undefined) ? selectedEquipo()?.capacidad_kg + ' KG' : 'No especificada' }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Límite de Personas</span>
+              <span class="detail-value">{{ (selectedEquipo()?.capacidad_personas !== null && selectedEquipo()?.capacidad_personas !== undefined) ? selectedEquipo()?.capacidad_personas + ' Personas' : 'No especificada' }}</span>
             </div>
             <div class="detail-item">
               <span class="detail-label">Cantidad de paradas</span>

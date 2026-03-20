@@ -151,44 +151,45 @@
 
                     <!-- Main Content -->
                     <div>
-                         <!-- Header Info -->
-                         <div class="mb-4 pr-10">
-                            <span class="text-[10px] font-extrabold text-slate-500 uppercase tracking-widest block mb-1">{{ elevator.tipo_equipo }}</span>
-                            <h3 class="font-extrabold text-[#003B73] text-2xl leading-tight">{{ elevator.numero_serie }}</h3>
-                            <p class="text-sm font-bold text-slate-700 mt-1">{{ elevator.marca }} {{ elevator.modelo }}</p>
+                         <!-- Premium Header Info -->
+                         <div class="mb-4 pr-10 relative">
+                            <div class="absolute -top-2 -left-6 w-1 h-12 bg-[#003B73] rounded-r-md"></div>
+                            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1 drop-shadow-sm">{{ elevator.tipo_equipo }}</span>
+                            <h3 class="font-black text-slate-800 text-3xl leading-tight tracking-tight drop-shadow-sm">{{ elevator.numero_serie }}</h3>
+                            <p class="text-sm font-bold text-[#003B73] mt-1">{{ elevator.marca }} <span class="font-medium text-slate-500">{{ elevator.modelo }}</span></p>
                         </div>
 
                         <!-- Client Badge -->
-                        <div class="mb-5 inline-flex items-center gap-2 px-3 py-2 bg-slate-100 text-slate-800 rounded-lg text-xs font-bold uppercase tracking-wide max-w-full border-l-4 border-slate-400 shadow-sm">
-                            <i class="bi bi-building-fill text-slate-500"></i>
+                        <div class="mb-5 inline-flex items-center gap-2 px-3 py-2 bg-slate-50/80 backdrop-blur-sm text-slate-800 rounded-lg text-xs font-bold uppercase tracking-wide max-w-full border border-slate-200 shadow-sm">
+                            <i class="bi bi-building-fill text-slate-400"></i>
                             <span class="truncate">{{ elevator.cliente_nombre }}</span>
                         </div>
 
                         <!-- Details Grid -->
-                        <div class="grid grid-cols-2 gap-3 text-sm text-slate-600 mb-4">
-                             <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
-                                <span class="block text-[10px] text-slate-500 uppercase font-extrabold mb-1">Capacidad</span>
-                                 <span class="font-bold text-slate-800 text-lg">{{ elevator.capacidad || '--' }}</span>
+                        <div class="grid grid-cols-2 gap-3 text-sm text-slate-600 mb-4 relative z-10">
+                             <div class="bg-white p-3 rounded-xl border border-slate-100 shadow-[0_2px_8px_-4px_rgba(0,0,0,0.1)] transition-colors hover:border-slate-300">
+                                <span class="block text-[10px] text-slate-400 uppercase font-black mb-1">Carga Máx</span>
+                                 <span class="font-black text-slate-800 text-lg">{{ (elevator.capacidad_kg !== null && elevator.capacidad_kg !== undefined) ? elevator.capacidad_kg + ' KG' : '--' }}</span>
                              </div>
-                             <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
-                                <span class="block text-[10px] text-slate-500 uppercase font-extrabold mb-1">Pisos</span>
-                                 <span class="font-bold text-slate-800 text-lg">{{ elevator.piso_cantidad || '--' }}</span>
+                             <div class="bg-white p-3 rounded-xl border border-slate-100 shadow-[0_2px_8px_-4px_rgba(0,0,0,0.1)] transition-colors hover:border-slate-300">
+                                <span class="block text-[10px] text-slate-400 uppercase font-black mb-1">Personas</span>
+                                 <span class="font-black text-slate-800 text-lg">{{ (elevator.capacidad_personas !== null && elevator.capacidad_personas !== undefined) ? elevator.capacidad_personas : '--' }}</span>
                              </div>
                         </div>
                     </div>
 
                     <!-- Footer -->
                     <ng-container footer>
-                        <div class="flex items-center justify-between w-full">
-                            <span 
-                                class="px-3 py-1.5 text-xs font-bold uppercase rounded-full border shadow-sm"
-                                [ngClass]="getStatusColor(elevator.estado)"
-                            >
-                                {{ elevator.estado }}
-                            </span>
+                        <div class="flex items-center justify-between w-full pt-2">
+                            <div class="flex items-center gap-2" [ngClass]="getStatusColor(elevator.estado)">
+                                <div class="w-2.5 h-2.5 rounded-full shadow-sm animate-pulse bg-current"></div>
+                                <span class="text-xs font-black uppercase tracking-wider">
+                                    {{ elevator.estado }}
+                                </span>
+                            </div>
 
-                            <button (click)="openDeleteModal(elevator)" class="text-red-400 hover:text-red-600 hover:bg-red-50 p-2 rounded-lg transition-colors opacity-0 group-hover:opacity-100" title="Eliminar Equipo">
-                                <i class="bi bi-trash-fill text-lg"></i>
+                            <button (click)="openDeleteModal(elevator)" class="text-slate-300 hover:text-red-500 hover:scale-110 transition-all opacity-0 group-hover:opacity-100" title="Eliminar Equipo">
+                                <i class="bi bi-trash3-fill text-xl drop-shadow-sm"></i>
                             </button>
                         </div>
                     </ng-container>

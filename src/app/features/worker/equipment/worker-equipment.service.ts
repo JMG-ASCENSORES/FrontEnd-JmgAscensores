@@ -26,7 +26,8 @@ export interface EquipoCliente {
   marca: string;
   modelo: string;
   numero_serie: string;
-  capacidad: string;
+  capacidad_kg: number;
+  capacidad_personas: number;
   piso_cantidad: number;
   fecha_ultimo_mantenimiento: string;
   estado: string;

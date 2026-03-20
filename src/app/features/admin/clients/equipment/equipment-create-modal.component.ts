@@ -22,15 +22,16 @@ export class EquipmentCreateModalComponent {
   isSubmitting = signal(false);
   errorMessage = signal<string | null>(null);
 
-  equipmentTypes = ['Ascensor', 'Montacarga', 'Plataforma'];
-  estados = ['Activo', 'Inactivo', 'En Mantenimiento'];
+  equipmentTypes = ['Ascensor', 'Montacarga', 'Plataforma', 'Escalera Mecánica'];
+  estados = ['Operativo', 'En Mantenimiento', 'Fuera de Servicio', 'En Revisión'];
 
   equipmentForm: FormGroup = this.fb.group({
     tipo_equipo: [this.equipmentType || 'Ascensor', Validators.required],
     marca: ['', Validators.required],
     modelo: [''],
     numero_serie: [''],
-    capacidad: [''],
+    capacidad_kg: [null],
+    capacidad_personas: [null],
     piso_cantidad: [null],
     fecha_ultimo_mantenimiento: [''],
     estado: ['Activo', Validators.required],
@@ -61,7 +62,8 @@ export class EquipmentCreateModalComponent {
       marca: formValue.marca,
       modelo: formValue.modelo || null,
       numero_serie: formValue.numero_serie || null,
-      capacidad: formValue.capacidad || null,
+      capacidad_kg: formValue.capacidad_kg || null,
+      capacidad_personas: formValue.capacidad_personas || null,
       piso_cantidad: formValue.piso_cantidad || null,
       fecha_ultimo_mantenimiento: formValue.fecha_ultimo_mantenimiento || null,
       estado: formValue.estado,
