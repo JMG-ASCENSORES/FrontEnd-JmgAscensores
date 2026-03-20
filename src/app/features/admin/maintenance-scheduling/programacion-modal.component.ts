@@ -309,6 +309,26 @@ export class ProgramacionModalComponent implements OnInit, OnChanges {
       this.validationErrors['ascensor_id'] = 'Debe seleccionar un equipo (ascensor)';
       isValid = false;
     }
+
+    // Validación de horas lógicas cruzadas
+    const startStr = `${this.formData.fecha}T${this.formData.hora_inicio}`;
+    const endStr = `${this.formData.fecha}T${this.formData.hora_fin}`;
+    if (new Date(startStr) >= new Date(endStr)) {
+      this.validationErrors['hora_fin'] = 'La hora de fin debe ser posterior a la de inicio';
+      isValid = false;
+    }
+
+    // Sanitización básica Regex
+    const saneRegex = /^[^<>]*$/; // Previene tags HTML básicos
+    if (this.formData.titulo && !saneRegex.test(this.formData.titulo)) {
+      this.validationErrors['titulo'] = 'El título contiene caracteres inválidos (< >)';
+      isValid = false;
+    }
+    if (this.formData.descripcion && !saneRegex.test(this.formData.descripcion)) {
+      this.validationErrors['descripcion'] = 'La descripción contiene caracteres inválidos (< >)';
+      isValid = false;
+    }
+
     return isValid;
   }
 

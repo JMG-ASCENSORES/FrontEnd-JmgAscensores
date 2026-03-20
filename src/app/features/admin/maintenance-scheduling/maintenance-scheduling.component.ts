@@ -137,14 +137,13 @@ export class MaintenanceSchedulingComponent implements OnInit {
     this.isLoading = true;
     this.errorMessage = '';
     
-    this.mantenimientoService.listar(start, end, undefined, true).subscribe({
+    // Carga inicial del mes (ligera, detailed=false para evitar joins masivos de red)
+    this.mantenimientoService.listar(start, end, undefined, false).subscribe({
       next: (data) => {
-        console.log('Mantenimientos loaded:', data);
         this.mantenimientos = data;
-        this.filterMantenimientos();
         this.updateCalendarEvents();
-        this.isLoading = false;
-        this.cdr.detectChanges();
+        // Cargar detalles exhaustivos solo del día seleccionado en el panel lateral
+        this.loadDayDetails(); 
       },
       error: (err) => {
         console.error('Error loading mantenimientos:', err);
@@ -156,18 +155,6 @@ export class MaintenanceSchedulingComponent implements OnInit {
   }
 
   filterMantenimientos(): void {
-    if (!this.selectedFilterDate) {
-      this.filteredMantenimientos = [...this.mantenimientos];
-    } else {
-      this.filteredMantenimientos = this.mantenimientos.filter(m => {
-        const mantDate = m.start.split('T')[0];
-        return mantDate === this.selectedFilterDate;
-      });
-    }
-    
-    // Sort chronologically by start time (morning to evening)
-    this.filteredMantenimientos.sort((a, b) => a.start.localeCompare(b.start));
-    
     // Update calendar options to reflect the selected date class
     this.calendarOptions = {
       ...this.calendarOptions,
@@ -178,8 +165,38 @@ export class MaintenanceSchedulingComponent implements OnInit {
         return isSelected ? ['selected-date-cell'] : [];
       }
     };
-    
     this.cdr.detectChanges();
+
+    // Luego disparamos la carga detallada del día activo
+    this.loadDayDetails();
+  }
+
+  loadDayDetails(): void {
+    if (!this.selectedFilterDate) {
+      this.filteredMantenimientos = [];
+      this.isLoading = false;
+      return;
+    }
+    
+    this.isLoading = true;
+    // Formatear desde las 00:00 hasta las 23:59 del día explicitamente
+    const dayStart = `${this.selectedFilterDate}T00:00:00`;
+    const dayEnd = `${this.selectedFilterDate}T23:59:59`;
+
+    this.mantenimientoService.listar(dayStart, dayEnd, undefined, true).subscribe({
+      next: (data) => {
+        this.filteredMantenimientos = data;
+        // Sort chronologically by start time
+        this.filteredMantenimientos.sort((a, b) => a.start.localeCompare(b.start));
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error al cargar detalle del día:', err);
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   updateCalendarEvents(): void {
@@ -227,7 +244,13 @@ export class MaintenanceSchedulingComponent implements OnInit {
 
   onMantenimientoSaved(): void {
     this.closeModal();
-    this.loadMantenimientos();
+    if (this.calendarComponent) {
+      const api = this.calendarComponent.getApi();
+      const view = api.view;
+      this.loadMantenimientos(view.activeStart.toISOString().split('T')[0], view.activeEnd.toISOString().split('T')[0]);
+    } else {
+      this.loadMantenimientos();
+    }
   }
 
   // Solicita confirmación antes de eliminar
@@ -243,7 +266,13 @@ export class MaintenanceSchedulingComponent implements OnInit {
       next: () => {
         this.showDeleteConfirm = false;
         this.deleteTargetId = null;
-        this.loadMantenimientos();
+        if (this.calendarComponent) {
+          const api = this.calendarComponent.getApi();
+          const view = api.view;
+          this.loadMantenimientos(view.activeStart.toISOString().split('T')[0], view.activeEnd.toISOString().split('T')[0]);
+        } else {
+          this.loadMantenimientos();
+        }
       },
       error: (err) => {
         console.error('Error deleting:', err);
