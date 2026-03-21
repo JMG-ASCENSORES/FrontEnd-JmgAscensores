@@ -26,8 +26,9 @@
                 placeholder="Buscar cliente..." 
                 [value]="clientSearch()"
                 (input)="onClientSearch($event)"
-                (focus)="showClientDropdown.set(true)"
+                (focus)="!prefilledData && showClientDropdown.set(true)"
                 (blur)="closeDropdowns()"
+                [disabled]="!!prefilledData"
               >
             </div>
             

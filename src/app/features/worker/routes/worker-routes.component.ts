@@ -4,11 +4,12 @@ import { AuthService } from '../../../core/services/auth.service';
 import { MantenimientoService } from '../../admin/services/mantenimiento.service';
 import { Mantenimiento } from '../../admin/models/mantenimiento.interface';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { WorkerReportCreateComponent } from '../reports/create/worker-report-create.component';
 
 @Component({
   selector: 'app-worker-routes',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, WorkerReportCreateComponent],
   templateUrl: './worker-routes.component.html',
   styleUrls: ['./worker-routes.component.css'],
   host: {
@@ -33,6 +34,10 @@ export class WorkerRoutesComponent implements OnInit {
   
   // Detail View State
   selectedRoute = signal<Mantenimiento | null>(null);
+
+  // Report Creation State
+  showReportModal = signal(false);
+  reportPrefillData = signal<any>(null);
 
   ngOnInit() {
     this.generateDateSlider();
@@ -111,6 +116,30 @@ export class WorkerRoutesComponent implements OnInit {
 
   closeRouteDetails() {
       this.selectedRoute.set(null);
+  }
+
+  // Report Flow
+  openReportCreation() {
+      const route = this.selectedRoute();
+      if (!route) return;
+
+      const tipo = route.extendedProps?.tipo_trabajo;
+      const descType = (tipo === 'mantenimiento' || tipo === 'inspeccion') ? 'Mantenimiento' : 'Técnico';
+
+      this.reportPrefillData.set({
+          orden_id: route.extendedProps?.orden_id || null,
+          cliente_id: route.extendedProps?.cliente_id || route.extendedProps?.cliente?.cliente_id,
+          cliente_nombre: route.extendedProps?.cliente?.nombre_comercial || route.extendedProps?.cliente?.contacto_nombre,
+          ascensor_id: route.extendedProps?.ascensor_id || route.extendedProps?.ascensor?.ascensor_id,
+          tipo_informe: descType
+      });
+      this.showReportModal.set(true);
+  }
+
+  onReportCreated() {
+      this.showReportModal.set(false);
+      // Optional: reload routes if status updates
+      // this.loadMyRoutes(); 
   }
 
   // Helpers UI

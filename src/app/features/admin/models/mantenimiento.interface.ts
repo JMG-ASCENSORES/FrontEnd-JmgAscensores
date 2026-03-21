@@ -19,6 +19,7 @@ export interface Mantenimiento {
     ascensor?: any;
     trabajador?: any;
     trabajadores?: any[];
+    orden_id?: number;
   };
 }
 

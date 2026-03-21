@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, inject, signal, OnInit, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Output, Input, inject, signal, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ClientService, Client, Elevator } from '../../../admin/services/client.service';
@@ -15,6 +15,7 @@ import { AuthService } from '../../../../core/services/auth.service';
 export class WorkerReportCreateComponent implements OnInit, OnDestroy {
   @Output() close = new EventEmitter<void>();
   @Output() reportCreated = new EventEmitter<void>();
+  @Input() prefilledData: any = null;
 
   private fb = inject(FormBuilder);
   private clientService = inject(ClientService);
@@ -38,6 +39,7 @@ export class WorkerReportCreateComponent implements OnInit, OnDestroy {
     this.createForm = this.fb.group({
       cliente_id: ['', [Validators.required]],
       ascensor_id: ['', [Validators.required]],
+      orden_id: [''],
       tipo_informe: ['Técnico', [Validators.required]],
       descripcion_trabajo: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(5000)]],
       observaciones: ['', [Validators.maxLength(1000)]],
@@ -48,6 +50,19 @@ export class WorkerReportCreateComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    if (this.prefilledData) {
+      this.createForm.patchValue({
+        cliente_id: this.prefilledData.cliente_id,
+        ascensor_id: this.prefilledData.ascensor_id,
+        orden_id: this.prefilledData.orden_id,
+        tipo_informe: this.prefilledData.tipo_informe || 'Técnico'
+      });
+      if (this.prefilledData.cliente_nombre) {
+        this.clientSearch.set(this.prefilledData.cliente_nombre);
+      }
+      this.createForm.get('cliente_id')?.disable();
+      this.createForm.get('ascensor_id')?.disable();
+    }
     this.loadInitialData();
   }
 
@@ -113,7 +128,9 @@ export class WorkerReportCreateComponent implements OnInit, OnDestroy {
     this.clientElevators.set(filtered);
     
     if (filtered.length > 0) {
-        this.createForm.get('ascensor_id')?.enable();
+        if (!this.prefilledData) {
+            this.createForm.get('ascensor_id')?.enable();
+        }
     } else {
         this.createForm.get('ascensor_id')?.disable();
     }
@@ -149,6 +166,9 @@ export class WorkerReportCreateComponent implements OnInit, OnDestroy {
         trabajador_id: selectedWorkerId,
         tipo_informe: rawData.tipo_informe,
     };
+    if (rawData.orden_id) {
+        payload.orden_id = Number(rawData.orden_id);
+    }
     
     this.reportService.createReport(payload).subscribe({
       next: () => {

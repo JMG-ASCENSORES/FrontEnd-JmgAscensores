@@ -205,9 +205,23 @@
                   </p>
               </div>
 
+              <!-- Action Button -->
+              <button class="w-full bg-[#003B73] text-white rounded-2xl py-4 font-bold tracking-wide shadow-lg shadow-blue-900/20 active:scale-[0.98] transition-transform mb-6"
+                      (click)="openReportCreation()">
+                  <i class="bi bi-file-earmark-check mr-2"></i> CREAR INFORME
+              </button>
+
               <!-- Extra space at bottom -->
               <div class="h-6"></div>
           </div>
       </div>
   </div>
 </div>
+
+<!-- Report Creation Modal (Mounted separately) -->
+<app-worker-report-create
+    *ngIf="showReportModal()"
+    [prefilledData]="reportPrefillData()"
+    (close)="showReportModal.set(false)"
+    (reportCreated)="onReportCreated()">
+</app-worker-report-create>
