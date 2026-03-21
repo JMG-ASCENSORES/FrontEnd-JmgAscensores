@@ -20,6 +20,7 @@ export interface Mantenimiento {
     trabajador?: any;
     trabajadores?: any[];
     orden_id?: number;
+    informe_id?: number;
   };
 }
 

@@ -262,3 +262,13 @@ textarea.worker-input {
     cursor: not-allowed;
   }
 }
+
+.signature-canvas-container {
+  touch-action: none;
+  
+  canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}

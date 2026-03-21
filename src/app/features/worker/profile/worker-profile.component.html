@@ -143,6 +143,47 @@
 
     </form>
 
+    <!-- ── Firma Predeterminada ── -->
+    <div class="signature-section bg-slate-50 rounded-2xl p-6 border border-slate-200 mt-6 mb-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-semibold text-slate-800 flex items-center gap-2">
+          <i class="bi bi-pen-fill text-slate-500"></i> Mi Firma Predeterminada
+        </h3>
+        <span *ngIf="profile()?.FirmaPredeterminada" class="px-2 py-1 bg-emerald-100 text-emerald-700 rounded-md text-xs font-medium">Configurada</span>
+        <span *ngIf="!profile()?.FirmaPredeterminada" class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded-md text-xs font-medium">Sin configurar</span>
+      </div>
+
+      <div *ngIf="profile()?.FirmaPredeterminada && !showSignaturePad()" class="mb-4 p-4 bg-white rounded-xl border border-slate-200 text-center">
+        <img [src]="profile()?.FirmaPredeterminada?.base64_data" alt="Firma" class="mx-auto max-h-32 object-contain filter contrast-125" />
+      </div>
+
+      <button *ngIf="!showSignaturePad()" type="button" class="btn btn--ghost w-full" (click)="toggleSignaturePad()">
+        <i class="bi bi-pencil-square"></i>
+        {{ profile()?.FirmaPredeterminada ? 'Actualizar firma' : 'Crear firma ahora' }}
+      </button>
+
+      <div *ngIf="showSignaturePad()" class="signature-editor mt-4 space-y-3">
+        <div class="flex justify-between items-center px-1">
+          <span class="text-xs font-medium text-slate-500">Dibuja tu firma aquí</span>
+          <button type="button" (click)="clearSignature()" class="text-xs font-bold text-red-500 hover:text-red-600 flex items-center gap-1">
+            <i class="bi bi-eraser-fill"></i> Limpiar
+          </button>
+        </div>
+        
+        <div class="border-2 border-slate-300 border-dashed rounded-xl bg-white overflow-hidden aspect-[21/9] relative">
+          <canvas #signatureCanvas class="w-full h-full cursor-crosshair touch-none"></canvas>
+        </div>
+
+        <div class="flex gap-3 pt-2">
+          <button type="button" class="btn btn--ghost flex-1" (click)="toggleSignaturePad()">Cancelar</button>
+          <button type="button" class="btn btn--primary flex-1" (click)="saveSignature()" [disabled]="isSaving()">
+            <span *ngIf="isSaving()" class="spinner"></span> 
+            <i *ngIf="!isSaving()" class="bi bi-check2"></i> Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- ── Cambio de contraseña ── -->
     <div class="password-section">
       <button type="button" class="btn btn--ghost" (click)="showPasswordSection.set(!showPasswordSection())">

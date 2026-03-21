@@ -63,7 +63,9 @@ export class MantenimientoService {
         trabajador:    m.extendedProps?.trabajador || m.Trabajador || null,
         trabajadores:  m.extendedProps?.trabajadores || m.trabajadores || null,
         cliente:       m.extendedProps?.cliente || m.Cliente || null,
-        ascensor:      m.extendedProps?.ascensor || m.Ascensor || null
+        ascensor:      m.extendedProps?.ascensor || m.Ascensor || null,
+        orden_id:      m.extendedProps?.orden_id || m.orden_id || null,
+        informe_id:    m.extendedProps?.informe_id || m.informe_id || null
       }
     };
   }

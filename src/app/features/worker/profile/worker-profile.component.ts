@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { WorkerService, WorkerProfile } from '../services/worker.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import SignaturePad from 'signature_pad';
 
 /** Validador: nuevaContraseña y confirmarContraseña deben coincidir */
 function passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
@@ -40,9 +42,89 @@ export class WorkerProfileComponent implements OnInit {
   profileForm!: FormGroup;
   passwordForm!: FormGroup;
 
+  // Signature Section
+  @ViewChild('signatureCanvas') signatureCanvas!: ElementRef<HTMLCanvasElement>;
+  signaturePad!: SignaturePad;
+  showSignaturePad = signal(false);
+  hasSavedSignature = signal(false);
+
   ngOnInit() {
     this.initForms();
     this.loadProfile();
+  }
+
+  ngAfterViewInit() {
+    // Note: SignaturePad will be initialized when showSignaturePad is true
+  }
+
+  initSignaturePad() {
+    setTimeout(() => {
+      if (this.signatureCanvas) {
+        this.signaturePad = new SignaturePad(this.signatureCanvas.nativeElement, {
+          minWidth: 1,
+          maxWidth: 3,
+          penColor: '#1e293b'
+        });
+        
+        // Handle resize
+        this.resizeCanvas();
+        window.addEventListener('resize', this.resizeCanvas.bind(this));
+      }
+    }, 100);
+  }
+
+  resizeCanvas() {
+    if (this.signatureCanvas && this.signaturePad) {
+      const canvas = this.signatureCanvas.nativeElement;
+      const ratio = Math.max(window.devicePixelRatio || 1, 1);
+      
+      const rect = canvas.parentElement!.getBoundingClientRect();
+      canvas.width = rect.width * ratio;
+      canvas.height = rect.height * ratio;
+      
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.scale(ratio, ratio);
+      }
+      this.signaturePad.clear();
+    }
+  }
+
+  clearSignature() {
+    if (this.signaturePad) {
+      this.signaturePad.clear();
+    }
+  }
+
+  toggleSignaturePad() {
+    this.showSignaturePad.update(v => !v);
+    if (this.showSignaturePad()) {
+      this.initSignaturePad();
+    } else {
+      window.removeEventListener('resize', this.resizeCanvas.bind(this));
+    }
+  }
+
+  saveSignature() {
+    if (this.signaturePad && !this.signaturePad.isEmpty()) {
+      const dataUrl = this.signaturePad.toDataURL('image/png');
+      this.isSaving.set(true);
+      
+      this.workerService.updateMyProfile({ firma_defecto_base64: dataUrl }).subscribe({
+         next: (updated) => {
+            this.profile.set(updated);
+            this.isSaving.set(false);
+            this.saveSuccess.set(true);
+            this.toggleSignaturePad();
+            setTimeout(() => this.saveSuccess.set(false), 3000);
+         },
+         error: (err) => {
+            console.error('Error guardando firma', err);
+            this.isSaving.set(false);
+            this.errorMessage.set('Error guardando firma. Intente nuevamente.');
+         }
+      });
+    }
   }
 
   initForms() {

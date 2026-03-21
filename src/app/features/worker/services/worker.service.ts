@@ -16,6 +16,11 @@ export interface WorkerProfile {
   edad?: number;
   estado_activo?: boolean;
   fecha_creacion?: string;
+  firma_defecto_id?: number;
+  FirmaPredeterminada?: {
+    firma_id: number;
+    base64_data: string;
+  };
 }
 
 export interface UpdateProfilePayload {
@@ -24,6 +29,7 @@ export interface UpdateProfilePayload {
   correo?: string;
   telefono?: string;
   contrasena_hash?: string;
+  firma_defecto_base64?: string;
 }
 
 @Injectable({

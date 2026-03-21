@@ -6,10 +6,6 @@
         <h2 class="page-title">Mis Informes</h2>
         <p class="page-subtitle" *ngIf="!isLoading()">{{ reports().length }} informe(s) creados por ti</p>
       </div>
-      <!-- Botón Top (Reemplaza al FAB) -->
-      <button class="bg-slate-800 hover:bg-slate-700 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-md transition-colors" (click)="showCreate.set(true)">
-        <i class="bi bi-plus-lg text-xl"></i>
-      </button>
     </div>
 
     <!-- Filtros Toggle -->
@@ -33,10 +29,30 @@
 
        <div class="filter-group">
          <label>Cliente</label>
-         <select class="form-select form-select-sm" [ngModel]="filterCliente()" (ngModelChange)="filterCliente.set($event)">
-           <option value="">Todos</option>
-           <option *ngFor="let c of clients()" [value]="c.cliente_id">{{ c.nombre_comercial || c.contacto_nombre }}</option>
-         </select>
+         <div class="autocomplete-wrapper">
+            <div class="input-icon">
+              <i class="bi bi-search"></i>
+              <input 
+                type="text" 
+                class="form-control form-control-sm" 
+                placeholder="Buscar cliente (min. 2 letras)..." 
+                [value]="clientSearch()"
+                (input)="onClientSearch($event)"
+                (blur)="closeDropdowns()"
+              >
+            </div>
+            
+            <div class="autocomplete-dropdown" *ngIf="showClientDropdown() && filteredClients().length > 0">
+              <div 
+                *ngFor="let client of filteredClients()" 
+                class="dropdown-item" 
+                (click)="selectClient(client)"
+              >
+                <div class="client-name">{{ client.nombre_comercial || client.contacto_nombre }}</div>
+                <div class="client-address" *ngIf="client.ubicacion">{{ client.ubicacion }}</div>
+              </div>
+            </div>
+          </div>
        </div>
 
        <div class="filter-group">
@@ -67,7 +83,7 @@
     <i class="bi bi-file-earmark-x"></i>
     <p>No se encontraron informes.</p>
     <span *ngIf="filterTipo() || filterCliente() || filterFechaInicio() || filterFechaFin()">Prueba ajustando los filtros de búsqueda.</span>
-    <span *ngIf="!filterTipo() && !filterCliente() && !filterFechaInicio() && !filterFechaFin()">Aún no tienes informes. Toca el botón + para registrar uno.</span>
+    <span *ngIf="!filterTipo() && !filterCliente() && !filterFechaInicio() && !filterFechaFin()">Aún no tienes informes registrados. Por favor, selecciona una tarea en tus <strong>Rutas Diarias</strong> para iniciar un reporte.</span>
   </div>
 
   <!-- Lista Compacta -->

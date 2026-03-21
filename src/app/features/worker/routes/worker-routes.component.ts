@@ -38,6 +38,7 @@ export class WorkerRoutesComponent implements OnInit {
   // Report Creation State
   showReportModal = signal(false);
   reportPrefillData = signal<any>(null);
+  editingReportId = signal<number | null>(null);
 
   ngOnInit() {
     this.generateDateSlider();
@@ -133,13 +134,22 @@ export class WorkerRoutesComponent implements OnInit {
           ascensor_id: route.extendedProps?.ascensor_id || route.extendedProps?.ascensor?.ascensor_id,
           tipo_informe: descType
       });
+
+      if (route.extendedProps?.informe_id) {
+          this.editingReportId.set(route.extendedProps.informe_id);
+      } else {
+          this.editingReportId.set(null);
+      }
+
       this.showReportModal.set(true);
   }
 
   onReportCreated() {
       this.showReportModal.set(false);
-      // Optional: reload routes if status updates
-      // this.loadMyRoutes(); 
+      this.selectedRoute.set(null); // Close the detail drawer to avoid confusion
+      this.editingReportId.set(null);
+      this.reportPrefillData.set(null);
+      this.loadMyRoutes(); 
   }
 
   // Helpers UI

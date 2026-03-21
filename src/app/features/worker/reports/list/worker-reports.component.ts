@@ -40,6 +40,11 @@ export class WorkerReportsComponent implements OnInit {
   filterFechaFin = signal('');
   showFilters = signal(false);
 
+  // Client Autocomplete in Filter
+  clientSearch = signal('');
+  showClientDropdown = signal(false);
+  filteredClients = signal<Client[]>([]);
+
   // Pagination
   currentPage = signal(1);
   itemsPerPage = signal(10);
@@ -110,9 +115,43 @@ export class WorkerReportsComponent implements OnInit {
     this.showFilters.set(false);
   }
 
+  // Filter Autocomplete Logic
+  onClientSearch(event: Event) {
+    const query = (event.target as HTMLInputElement).value.toLowerCase();
+    this.clientSearch.set(query);
+    this.showClientDropdown.set(true);
+
+    if (query.length < 2) {
+      this.filteredClients.set([]);
+      this.filterCliente.set(''); // Clear ID if search is too short
+      return;
+    }
+
+    const filtered = this.clients().filter(c => 
+      (c.nombre_comercial?.toLowerCase().includes(query) || 
+       c.contacto_nombre?.toLowerCase().includes(query))
+    );
+    this.filteredClients.set(filtered);
+  }
+
+  selectClient(client: Client) {
+    this.filterCliente.set(client.cliente_id.toString());
+    this.clientSearch.set(client.nombre_comercial || client.contacto_nombre || '');
+    this.showClientDropdown.set(false);
+  }
+
+  closeDropdowns() {
+    setTimeout(() => {
+      this.showClientDropdown.set(false);
+      // If no valid client selected and search is not empty, we might want to reset or keep it.
+      // For now, we just close the dropdown.
+    }, 200);
+  }
+
   clearFilters() {
     this.filterTipo.set('');
     this.filterCliente.set('');
+    this.clientSearch.set('');
     this.filterFechaInicio.set('');
     this.filterFechaFin.set('');
     this.currentPage.set(1);
