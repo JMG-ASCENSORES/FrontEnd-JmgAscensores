@@ -30,9 +30,9 @@ export class EquipmentCreateModalComponent {
     marca: ['', Validators.required],
     modelo: [''],
     numero_serie: [''],
-    capacidad_kg: [null],
-    capacidad_personas: [null],
-    piso_cantidad: [null],
+    capacidad_kg: [null, [Validators.min(0)]],
+    capacidad_personas: [null, [Validators.min(0)]],
+    piso_cantidad: [null, [Validators.min(1)]],
     fecha_ultimo_mantenimiento: [''],
     estado: ['Activo', Validators.required],
     observaciones: [''] // Optional - can be empty
@@ -43,12 +43,8 @@ export class EquipmentCreateModalComponent {
     this.equipmentForm.markAllAsTouched();
     
     // Only check required fields
-    const tipoEquipo = this.equipmentForm.get('tipo_equipo');
-    const marca = this.equipmentForm.get('marca');
-    const estado = this.equipmentForm.get('estado');
-    
-    if (!tipoEquipo?.valid || !marca?.valid || !estado?.valid) {
-      return; // Don't submit if required fields are invalid
+    if (this.equipmentForm.invalid) {
+      return; // Don't submit if form is invalid (including min values)
     }
 
     this.isSubmitting.set(true);

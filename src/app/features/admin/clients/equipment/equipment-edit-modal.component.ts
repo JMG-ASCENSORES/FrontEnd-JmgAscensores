@@ -32,9 +32,9 @@ export class EquipmentEditModalComponent implements OnInit {
       marca: [this.equipment.marca || '', Validators.required],
       modelo: [this.equipment.modelo || ''],
       numero_serie: [this.equipment.numero_serie || ''],
-      capacidad_kg: [this.equipment.capacidad_kg !== undefined && this.equipment.capacidad_kg !== null ? this.equipment.capacidad_kg : null],
-      capacidad_personas: [this.equipment.capacidad_personas !== undefined && this.equipment.capacidad_personas !== null ? this.equipment.capacidad_personas : null],
-      piso_cantidad: [this.equipment.piso_cantidad || null],
+      capacidad_kg: [this.equipment.capacidad_kg !== undefined && this.equipment.capacidad_kg !== null ? this.equipment.capacidad_kg : null, [Validators.min(0)]],
+      capacidad_personas: [this.equipment.capacidad_personas !== undefined && this.equipment.capacidad_personas !== null ? this.equipment.capacidad_personas : null, [Validators.min(0)]],
+      piso_cantidad: [this.equipment.piso_cantidad || null, [Validators.min(1)]],
       fecha_ultimo_mantenimiento: [this.equipment.fecha_ultimo_mantenimiento ? this.equipment.fecha_ultimo_mantenimiento.split('T')[0] : ''],
       estado: [this.equipment.estado || 'Activo', Validators.required],
       observaciones: [this.equipment.observaciones || ''] // NOT required
@@ -77,11 +77,7 @@ export class EquipmentEditModalComponent implements OnInit {
 
   // Check if only required fields are valid
   isFormValid(): boolean {
-    const tipoEquipo = this.equipmentForm.get('tipo_equipo');
-    const marca = this.equipmentForm.get('marca');
-    const estado = this.equipmentForm.get('estado');
-    
-    return !!(tipoEquipo?.valid && marca?.valid && estado?.valid);
+    return this.equipmentForm?.valid || false;
   }
 
   onClose() {

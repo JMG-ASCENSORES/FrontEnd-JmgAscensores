@@ -46,10 +46,10 @@ export class ElevatorCreateComponent implements OnInit {
   onSubmit() {
     if (this.isSubmitting()) return;
 
-    // Validación Regex
-    const saneRegex = /^[\w\-\s]+$/; // Alfanuméricos, guiones y espacios
+    // Validación Regex Relaxed (permitir puntos, slashes y otros caracteres comunes en series)
+    const saneRegex = /^[\w\-\s./#]+$/; 
     if (!this.formData.numero_serie || !saneRegex.test(this.formData.numero_serie)) {
-      this.error.set('El número de serie es obligatorio y solo puede contener letras, números y guiones.');
+      this.error.set('El número de serie es obligatorio y solo puede contener letras, números, guiones, puntos y slashes.');
       return;
     }
     const strictContentRegex = /^[^<>]*$/; // Anti-XSS tags limitados

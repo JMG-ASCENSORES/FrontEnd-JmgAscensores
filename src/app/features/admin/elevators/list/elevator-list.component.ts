@@ -15,6 +15,12 @@ import { FilterContainerComponent } from '../../../../shared/components/filters/
 import { FilterInputComponent } from '../../../../shared/components/filters/filter-input/filter-input.component';
 import { FilterSelectComponent } from '../../../../shared/components/filters/filter-select/filter-select.component';
 
+export interface ClientGroup {
+  cliente_id: number;
+  cliente_nombre: string;
+  elevators: Elevator[];
+}
+
 @Component({
   selector: 'app-elevator-list',
   standalone: true,
@@ -155,6 +161,26 @@ export class ElevatorListComponent implements OnInit {
 
       return matchQuery && matchClient && matchType && matchStatus;
     });
+  });
+
+  groupedElevators = computed<ClientGroup[]>(() => {
+    const filtered = this.filteredElevators();
+    const groups = new Map<number, ClientGroup>();
+    
+    for (const elevator of filtered) {
+       const cid = elevator.cliente_id;
+       if (!groups.has(cid)) {
+           groups.set(cid, {
+               cliente_id: cid,
+               cliente_nombre: elevator.cliente_nombre || 'Cliente Desconocido',
+               elevators: []
+           });
+       }
+       groups.get(cid)!.elevators.push(elevator);
+    }
+    
+    // Sort clients alphabetically
+    return Array.from(groups.values()).sort((a,b) => a.cliente_nombre.localeCompare(b.cliente_nombre));
   });
 
   // Stats
