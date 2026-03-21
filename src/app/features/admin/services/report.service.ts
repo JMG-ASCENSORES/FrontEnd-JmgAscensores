@@ -22,10 +22,13 @@ export class ReportService {
 
   getReports(filters?: { 
     tipo_informe?: string; 
-    cliente_id?: number; 
+    cliente_id?: number | string; 
     fecha_inicio?: string; 
     fecha_fin?: string;
-  }): Observable<Report[]> {
+    search?: string;
+    page?: number;
+    limit?: number;
+  }): Observable<{ informes: Report[], meta: any }> {
     let params = new HttpParams();
     
     if (filters?.tipo_informe) {
@@ -44,11 +47,27 @@ export class ReportService {
         params = params.set('fecha_fin', filters.fecha_fin);
     }
 
+    if (filters?.search) {
+        params = params.set('search', filters.search);
+    }
+    if (filters?.page) {
+        params = params.set('page', filters.page.toString());
+    }
+    if (filters?.limit) {
+        params = params.set('limit', filters.limit.toString());
+    }
+
     return this.http.get<any>(this.apiUrl, { params, headers: this.getHeaders() }).pipe(
       map(response => {
-        // Adapt backend response to frontend model if necessary
-        // Assuming response.data contains the list
-        return response.data || [];
+        // Adaptamos al nuevo envelope de paginación {data: { informes, meta }}
+        if (response.data && response.data.informes) {
+            return {
+                informes: response.data.informes,
+                meta: response.data.meta || {}
+            };
+        }
+        // Fallbacks
+        return { informes: response.data || [], meta: {} };
       })
     );
   }

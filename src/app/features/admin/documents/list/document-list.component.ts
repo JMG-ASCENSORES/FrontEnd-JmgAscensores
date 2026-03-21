@@ -24,19 +24,25 @@ export class DocumentListComponent implements OnInit {
   private technicianService = inject(TechnicianService);
   private sanitizer = inject(DomSanitizer);
 
-  // Signals
+  // Filters Signals
   searchQuery = signal('');
   selectedType = signal('');
-  
-  // Date Range Signals
   selectedDateStart = signal('');
   selectedDateEnd = signal('');
-
-  // Client Search Signals
   selectedClientId = signal<number | ''>('');
+  
+  // Client Search Auto-Complete Signals
   clientSearchTerm = signal('');
   showClientDropdown = signal(false);
   
+  // Pagination Signals
+  currentPage = signal(1);
+  itemsPerPage = signal(10);
+  totalPages = signal(1);
+  totalDocuments = signal(0);
+  maintenanceReports = signal(0);
+  technicalReports = signal(0);
+
   isLoading = signal(true);
   error = signal<string | null>(null);
 
@@ -58,16 +64,10 @@ export class DocumentListComponent implements OnInit {
 
   selectedReport = signal<Report | null>(null);
 
-  // Stats
-  totalDocuments = computed(() => this.reports().length);
-  maintenanceReports = computed(() => this.reports().filter(r => r.tipo_informe === 'Mantenimiento' || r.tipo_informe === 'mantenimiento').length);
-  technicalReports = computed(() => this.reports().filter(r => r.tipo_informe === 'Técnico' || r.tipo_informe === 'tecnico').length);
-
-  // Filtered Data
   // Client Filtering Logic
   filteredClients = computed(() => {
      const term = this.clientSearchTerm().toLowerCase();
-     if (term.length < 2) return []; // Only show if 2+ chars or handled by interaction
+     if (term.length < 2) return []; 
      return this.clients().filter(c => 
         (c.nombre_comercial?.toLowerCase().includes(term) || 
          c.contacto_nombre?.toLowerCase().includes(term) ||
@@ -78,8 +78,6 @@ export class DocumentListComponent implements OnInit {
   onClientSearch() {
      if (this.clientSearchTerm().length >= 2) {
          this.showClientDropdown.set(true);
-     } else {
-         // If cleared, maybe reset? or keep hidden
      }
   }
 
@@ -93,59 +91,19 @@ export class DocumentListComponent implements OnInit {
           this.clientSearchTerm.set('');
       }
       this.showClientDropdown.set(false);
+      
+      // Trigger API fetch
+      this.applyFilters();
   }
-
-  // Filtered Data
-  filteredReports = computed(() => {
-    const query = this.searchQuery().toLowerCase();
-    const type = this.selectedType();
-    
-    // Date Range
-    const start = this.selectedDateStart();
-    const end = this.selectedDateEnd();
-
-    const clientId = this.selectedClientId();
-
-    return this.reports().filter(report => {
-      // Search matches description only as requested (and maybe ID?)
-      // User said: "el filtro de búsqueda principal... solo funciona para filtrar por descripción del trabajo" 
-      // -> implies they WANT it to act as description filter primarily.
-      const matchesSearch = 
-        report.descripcion_trabajo?.toLowerCase().includes(query) ||
-        report.informe_id.toString().includes(query); // Keeping ID as usually desired
-
-      const matchesType = type ? report.tipo_informe === type : true;
-      
-      // Date Range Logic
-      let matchesDate = true;
-      if (start && end) {
-          const reportDate = report.fecha_informe.split('T')[0]; // Assuming ISO string YYYY-MM-DD
-          matchesDate = reportDate >= start && reportDate <= end;
-      } else if (start) {
-          const reportDate = report.fecha_informe.split('T')[0];
-          matchesDate = reportDate >= start;
-      } else if (end) {
-          const reportDate = report.fecha_informe.split('T')[0];
-          matchesDate = reportDate <= end;
-      }
-      
-      const matchesClient = clientId ? report.cliente_id === Number(clientId) : true;
-
-      return matchesSearch && matchesType && matchesDate && matchesClient;
-    });
-  });
 
   ngOnInit(): void {
-    this.loadData();
+    // Load metadata first, then initial page of reports
+    this.loadMetadata();
   }
 
-  loadData() {
-    this.isLoading.set(true);
-    // ForkJoin or sequential
+  loadMetadata() {
     this.clientService.getClients().subscribe({
-      next: (clients) => {
-        this.clients.set(clients);
-      },
+      next: (clients) => this.clients.set(clients),
       error: (err) => console.error('Error loading clients', err)
     });
 
@@ -154,9 +112,30 @@ export class DocumentListComponent implements OnInit {
       error: (err) => console.error('Error loading technicians', err)
     });
 
-    this.reportService.getReports().subscribe({
-      next: (data) => {
-        this.reports.set(data);
+    this.fetchReports();
+  }
+
+  fetchReports() {
+    this.isLoading.set(true);
+    
+    const filters: any = {
+      page: this.currentPage(),
+      limit: this.itemsPerPage()
+    };
+
+    if (this.selectedType()) filters.tipo_informe = this.selectedType();
+    if (this.selectedClientId()) filters.cliente_id = this.selectedClientId();
+    if (this.selectedDateStart()) filters.fecha_inicio = this.selectedDateStart();
+    if (this.selectedDateEnd()) filters.fecha_fin = this.selectedDateEnd();
+    if (this.searchQuery()) filters.search = this.searchQuery();
+
+    this.reportService.getReports(filters).subscribe({
+      next: (response) => {
+        this.reports.set(response.informes);
+        this.totalDocuments.set(response.meta.total || 0);
+        this.maintenanceReports.set(response.meta.totalMaintenance || 0);
+        this.technicalReports.set(response.meta.totalTechnical || 0);
+        this.totalPages.set(response.meta.totalPages || 1);
         this.isLoading.set(false);
       },
       error: (err) => {
@@ -167,7 +146,28 @@ export class DocumentListComponent implements OnInit {
     });
   }
 
-  // Helpers to get names from IDs
+  // Se llama cuando se cambian filtros explícitos como inputs
+  applyFilters() {
+      this.currentPage.set(1);
+      this.fetchReports();
+  }
+
+  // Paginación UI Controls
+  nextPage() {
+      if (this.currentPage() < this.totalPages()) {
+          this.currentPage.set(this.currentPage() + 1);
+          this.fetchReports();
+      }
+  }
+
+  prevPage() {
+      if (this.currentPage() > 1) {
+          this.currentPage.set(this.currentPage() - 1);
+          this.fetchReports();
+      }
+  }
+
+  // Helpers
   getClientName(id: number): string {
     const client = this.clients().find(c => c.cliente_id === id);
     if (!client) return 'Desconocido';
@@ -180,70 +180,70 @@ export class DocumentListComponent implements OnInit {
   }
 
   // Actions
-  openCreateModal() {
-    this.showCreateModal.set(true);
-  }
-  
-  closeCreateModal() {
-    this.showCreateModal.set(false);
-  }
-  
-  onReportCreated() {
-    this.loadData();
-    // Could add a toast here
-  }
+  openCreateModal() { this.showCreateModal.set(true); }
+  closeCreateModal() { this.showCreateModal.set(false); }
+  onReportCreated() { this.applyFilters(); }
 
   openEditModal(report: Report) {
     this.selectedReport.set(report);
     this.showEditModal.set(true);
   }
-  
   closeEditModal() {
     this.showEditModal.set(false);
     this.selectedReport.set(null);
   }
-  
-  onReportUpdated() {
-    this.loadData();
-  }
+  onReportUpdated() { this.fetchReports(); }
 
   openDeleteModal(report: Report) {
     this.selectedReport.set(report);
     this.showDeleteModal.set(true);
   }
-  
   closeDeleteModal() {
     this.showDeleteModal.set(false);
     this.selectedReport.set(null);
   }
-  
   onReportDeleted() {
-    this.loadData();
+    // Si borró el último de la página y hay anteriores, volver atrás
+    if (this.reports().length === 1 && this.currentPage() > 1) {
+       this.currentPage.set(this.currentPage() - 1);
+    }
+    this.fetchReports();
   }
 
   downloadReport(report: Report) {
     this.isLoading.set(true); 
     this.reportService.downloadReportPdf(report.informe_id).subscribe({
       next: (blob) => {
-         const url = URL.createObjectURL(blob);
-         this.pdfDownloadUrl.set(url);
-         this.pdfUrl.set(this.sanitizer.bypassSecurityTrustResourceUrl(url));
-         
-         // Generate filename: ID_TIPO_CLIENTE.pdf
-         const cleanString = (str: string) => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9]/g, '');
-         
-         const clientName = cleanString(this.getClientName(report.cliente_id));
-         const tipo = cleanString(report.tipo_informe);
-         
-         this.pdfFileName.set(`${report.informe_id}_${tipo}_${clientName}.pdf`);
-         
-         this.showPdfModal.set(true);
-         this.isLoading.set(false);
+          // Aseguramos que el blob sea tratado como el nombre correcto si el navegador lo soporta
+          const url = URL.createObjectURL(blob);
+          this.pdfDownloadUrl.set(url);
+          this.pdfUrl.set(this.sanitizer.bypassSecurityTrustResourceUrl(url));
+          
+          this.pdfFileName.set(`${this.getReportDisplayName(report)}.pdf`);
+          
+          this.showPdfModal.set(true);
+          this.isLoading.set(false);
       },
       error: (err) => {
         console.error('Error downloading PDF', err);
         this.error.set('No se pudo generar el PDF. Verifica que el servidor esté activo.');
         this.isLoading.set(false);
+      }
+    });
+  }
+
+  downloadPdfDirectly(report: Report, event?: Event) {
+    if (event) event.stopPropagation();
+    this.reportService.downloadReportPdf(report.informe_id).subscribe({
+      next: (blob) => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${this.getReportDisplayName(report)}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 100);
       }
     });
   }
@@ -261,5 +261,12 @@ export class DocumentListComponent implements OnInit {
   formatDate(dateString: string): string {
       if (!dateString) return '';
       return new Date(dateString).toLocaleDateString('es-ES');
+  }
+
+  getReportDisplayName(report: Report): string {
+    const typePrefix = report.tipo_informe === 'Mantenimiento' ? 'MAN' : 'TEC';
+    const reportNum = report.informe_id.toString().padStart(6, '0');
+    const clientName = this.getClientName(report.cliente_id);
+    return `${typePrefix} - ${reportNum} - ${clientName}`;
   }
 }

@@ -48,8 +48,8 @@ export class DocumentEditComponent implements OnInit {
       ascensor_id: ['', [Validators.required]],
       trabajador_id: ['', [Validators.required]],
       tipo_informe: ['', [Validators.required]],
-      descripcion_trabajo: ['', [Validators.required, Validators.minLength(10)]],
-      observaciones: [''],
+      descripcion_trabajo: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(5000)]],
+      observaciones: ['', [Validators.maxLength(1000)]],
       fecha_informe: ['', [Validators.required]],
       hora_informe: ['', [Validators.required]]
     });

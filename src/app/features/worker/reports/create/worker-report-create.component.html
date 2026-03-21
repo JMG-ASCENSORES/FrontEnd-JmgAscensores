@@ -99,8 +99,15 @@
             placeholder="Describe las tareas ejecutadas..."
             formControlName="descripcion_trabajo"
           ></textarea>
-          <div class="error-text" *ngIf="createForm.get('descripcion_trabajo')?.touched && createForm.get('descripcion_trabajo')?.invalid">
-            La descripción es requerida (mín. 10 caracteres).
+          <div class="flex justify-between items-center mt-1 px-1">
+            <div class="error-text" *ngIf="createForm.get('descripcion_trabajo')?.touched && createForm.get('descripcion_trabajo')?.invalid">
+              <span *ngIf="createForm.get('descripcion_trabajo')?.errors?.['required']">La descripción es obligatoria.</span>
+              <span *ngIf="createForm.get('descripcion_trabajo')?.errors?.['minlength']">Mínimo 10 caracteres.</span>
+              <span *ngIf="createForm.get('descripcion_trabajo')?.errors?.['maxlength']">Máximo 5000 caracteres.</span>
+            </div>
+            <div class="text-[10px] text-slate-400 font-bold ml-auto opacity-70">
+               {{ createForm.get('descripcion_trabajo')?.value?.length || 0 }}/5000
+            </div>
           </div>
         </div>
 
@@ -113,6 +120,14 @@
             placeholder="Detalles extra, piezas requeridas, etc."
             formControlName="observaciones"
           ></textarea>
+          <div class="flex justify-between items-center mt-1 px-1">
+            <div class="error-text" *ngIf="createForm.get('observaciones')?.touched && createForm.get('observaciones')?.invalid">
+                <span *ngIf="createForm.get('observaciones')?.errors?.['maxlength']">Máximo 1000 caracteres.</span>
+            </div>
+            <div class="text-[10px] text-slate-400 font-bold ml-auto opacity-70">
+              {{ createForm.get('observaciones')?.value?.length || 0 }}/1000
+            </div>
+          </div>
         </div>
 
         <!-- Error global -->

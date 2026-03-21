@@ -49,8 +49,8 @@ export class DocumentCreateComponent implements OnInit {
       ascensor_id: ['', [Validators.required]],
       trabajador_id: ['', [Validators.required]],
       tipo_informe: ['Técnico', [Validators.required]],
-      descripcion_trabajo: ['', [Validators.required, Validators.minLength(10)]],
-      observaciones: [''],
+      descripcion_trabajo: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(5000)]],
+      observaciones: ['', [Validators.maxLength(1000)]],
       fecha_informe: [new Date().toISOString().split('T')[0], [Validators.required]],
       hora_informe: ['12:00', [Validators.required]] // Optional usually, but let's have it
     });
