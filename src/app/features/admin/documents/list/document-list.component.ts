@@ -6,15 +6,14 @@ import { ReportService } from '../../services/report.service';
 import { Report } from '../../../../core/models/report.model';
 import { ClientService, Client } from '../../services/client.service';
 import { TechnicianService, Technician } from '../../services/technician.service';
-import { DocumentCreateComponent } from '../create/document-create.component';
-import { DocumentEditComponent } from '../edit/document-edit.component';
+import { DocumentFormComponent } from '../form/document-form.component';
 import { DocumentDeleteComponent } from '../delete/document-delete.component';
 import { PdfPreviewComponent } from '../preview/pdf-preview.component';
 
 @Component({
   selector: 'app-document-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, DocumentCreateComponent, DocumentEditComponent, DocumentDeleteComponent, PdfPreviewComponent],
+  imports: [CommonModule, FormsModule, DocumentFormComponent, DocumentDeleteComponent, PdfPreviewComponent],
   templateUrl: './document-list.component.html',
   styleUrl: './document-list.component.scss'
 })
@@ -52,8 +51,8 @@ export class DocumentListComponent implements OnInit {
   technicians = signal<Technician[]>([]);
   
   // Modal State
-  showCreateModal = signal(false);
-  showEditModal = signal(false);
+  showFormModal = signal(false);
+  formMode = signal<'create' | 'edit'>('create');
   showDeleteModal = signal(false);
   
   // PDF Preview State
@@ -181,19 +180,21 @@ export class DocumentListComponent implements OnInit {
   }
 
   // Actions
-  openCreateModal() { this.showCreateModal.set(true); }
-  closeCreateModal() { this.showCreateModal.set(false); }
-  onReportCreated() { this.applyFilters(); }
-
+  openCreateModal() {
+    this.selectedReport.set(null);
+    this.formMode.set('create');
+    this.showFormModal.set(true);
+  }
   openEditModal(report: Report) {
     this.selectedReport.set(report);
-    this.showEditModal.set(true);
+    this.formMode.set('edit');
+    this.showFormModal.set(true);
   }
-  closeEditModal() {
-    this.showEditModal.set(false);
+  closeFormModal() {
+    this.showFormModal.set(false);
     this.selectedReport.set(null);
   }
-  onReportUpdated() { this.fetchReports(); }
+  onReportSaved() { this.fetchReports(); }
 
   openDeleteModal(report: Report) {
     this.selectedReport.set(report);

@@ -300,20 +300,14 @@
     </div>
   </div>
 
-  <!-- Create Modal -->
-  <app-document-create 
-    *ngIf="showCreateModal()" 
-    (close)="closeCreateModal()" 
-    (reportCreated)="onReportCreated()">
-  </app-document-create>
-
-  <!-- Edit Modal -->
-  <app-document-edit
-    *ngIf="showEditModal() && selectedReport()"
-    [report]="selectedReport()!"
-    (close)="closeEditModal()"
-    (reportUpdated)="onReportUpdated()">
-  </app-document-edit>
+  <!-- Form Modal (Create & Edit) -->
+  <app-document-form
+    *ngIf="showFormModal()"
+    [mode]="formMode()"
+    [report]="selectedReport() ?? undefined"
+    (close)="closeFormModal()"
+    (saved)="onReportSaved()">
+  </app-document-form>
 
   <!-- Delete Modal -->
   <app-document-delete

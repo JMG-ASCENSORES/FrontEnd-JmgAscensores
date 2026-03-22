@@ -1,10 +1,10 @@
 <app-modal-wrapper
-  title="Crear Nuevo Documento"
+  [title]="mode === 'create' ? 'Técnico: Nuevo Documento' : 'Técnico: Editar Documento'"
   variant="primary"
   size="lg"
   (close)="onClose()"
 >
-  <form [formGroup]="createForm" (ngSubmit)="onSubmit()" class="space-y-6">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6">
         
         <!-- Error Alert -->
         <div *ngIf="error()" class="p-4 bg-red-50 text-red-700 rounded-xl flex items-start gap-3 text-sm">
@@ -35,7 +35,7 @@
                 </select>
                 <!-- Loading spinner if needed -->
             </div>
-            <div *ngIf="createForm.get('ascensor_id')?.touched && createForm.get('ascensor_id')?.invalid" class="text-red-500 text-xs">
+            <div *ngIf="form.get('ascensor_id')?.touched && form.get('ascensor_id')?.invalid" class="text-red-500 text-xs">
               Debe seleccionar un ascensor.
             </div>
           </div>
@@ -75,31 +75,31 @@
         </div>
 
         <!-- Description (Hidden for Maintenance) -->
-        <div class="space-y-1.5" *ngIf="createForm.get('tipo_informe')?.value !== 'Mantenimiento'">
+        <div class="space-y-1.5" *ngIf="form.get('tipo_informe')?.value !== 'Mantenimiento'">
           <label class="text-xs font-bold text-slate-500 uppercase">Descripción del Trabajo <span class="text-red-500">*</span></label>
           <textarea formControlName="descripcion_trabajo" rows="4" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all text-slate-700 resize-none" placeholder="Detalle el trabajo realizado..."></textarea>
           <div class="flex justify-between items-center mt-1">
-            <div *ngIf="createForm.get('descripcion_trabajo')?.touched && createForm.get('descripcion_trabajo')?.invalid" class="text-red-500 text-xs">
-              <span *ngIf="createForm.get('descripcion_trabajo')?.errors?.['required']">La descripción es requerida.</span>
-              <span *ngIf="createForm.get('descripcion_trabajo')?.errors?.['minlength']">Mínimo 10 caracteres requeridos.</span>
-              <span *ngIf="createForm.get('descripcion_trabajo')?.errors?.['maxlength']">Máximo 5000 caracteres permitidos.</span>
+            <div *ngIf="form.get('descripcion_trabajo')?.touched && form.get('descripcion_trabajo')?.invalid" class="text-red-500 text-xs">
+              <span *ngIf="form.get('descripcion_trabajo')?.errors?.['required']">La descripción es requerida.</span>
+              <span *ngIf="form.get('descripcion_trabajo')?.errors?.['minlength']">Mínimo 10 caracteres requeridos.</span>
+              <span *ngIf="form.get('descripcion_trabajo')?.errors?.['maxlength']">Máximo 5000 caracteres permitidos.</span>
             </div>
             <div class="text-[10px] text-slate-400 font-medium uppercase ml-auto">
-              {{ createForm.get('descripcion_trabajo')?.value?.length || 0 }} / 5000
+              {{ form.get('descripcion_trabajo')?.value?.length || 0 }} / 5000
             </div>
           </div>
         </div>
 
         <!-- Maintenance Checklist Component -->
         <app-maintenance-checklist
-          *ngIf="maintenanceChecklist().length > 0 && createForm.get('tipo_informe')?.value === 'Mantenimiento'"
+          *ngIf="maintenanceChecklist().length > 0 && form.get('tipo_informe')?.value === 'Mantenimiento'"
           [items]="maintenanceChecklist()"
           [loading]="loadingChecklist()"
           (taskToggle)="toggleTask($event)"
           (categoryToggle)="toggleCategory($event.group, $event.checked)"
         ></app-maintenance-checklist>
 
-        <div *ngIf="!loadingChecklist() && maintenanceChecklist().length === 0 && createForm.get('tipo_informe')?.value === 'Mantenimiento'" 
+        <div *ngIf="!loadingChecklist() && maintenanceChecklist().length === 0 && form.get('tipo_informe')?.value === 'Mantenimiento'" 
              class="py-10 text-center text-slate-400 italic text-sm">
           Seleccione un ascensor para cargar las tareas.
         </div>
@@ -109,11 +109,11 @@
           <label class="text-xs font-bold text-slate-500 uppercase">Observaciones Adicionales</label>
           <textarea formControlName="observaciones" rows="2" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all text-slate-700 resize-none" placeholder="Puntos pendientes o notas..."></textarea>
           <div class="flex justify-between items-center mt-1">
-            <div *ngIf="createForm.get('observaciones')?.touched && createForm.get('observaciones')?.invalid" class="text-red-500 text-xs">
-              <span *ngIf="createForm.get('observaciones')?.errors?.['maxlength']">Máximo 1000 caracteres permitidos.</span>
+            <div *ngIf="form.get('observaciones')?.touched && form.get('observaciones')?.invalid" class="text-red-500 text-xs">
+              <span *ngIf="form.get('observaciones')?.errors?.['maxlength']">Máximo 1000 caracteres permitidos.</span>
             </div>
             <div class="text-[10px] text-slate-400 font-medium uppercase ml-auto">
-              {{ createForm.get('observaciones')?.value?.length || 0 }} / 1000
+              {{ form.get('observaciones')?.value?.length || 0 }} / 1000
             </div>
           </div>
         </div>
@@ -123,7 +123,7 @@
             <button type="button" (click)="onClose()" class="px-6 py-2.5 rounded-xl text-slate-600 font-bold hover:bg-slate-100 transition-colors">
               Cancelar
             </button>
-            <button type="submit" [disabled]="isSubmitting() || createForm.invalid" class="px-8 py-2.5 rounded-xl bg-[#003B73] text-white font-bold hover:bg-[#002a52] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-blue-900/20">
+            <button type="submit" [disabled]="isSubmitting() || form.invalid" class="px-8 py-2.5 rounded-xl bg-[#003B73] text-white font-bold hover:bg-[#002a52] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-blue-900/20">
               <span *ngIf="!isSubmitting()">Crear Documento</span>
               <span *ngIf="isSubmitting()"><i class="bi bi-arrow-repeat animate-spin mr-2"></i>Guardando...</span>
             </button>
