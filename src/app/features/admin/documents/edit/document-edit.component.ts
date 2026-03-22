@@ -5,6 +5,7 @@ import { ClientService, Client, Elevator } from '../../services/client.service';
 import { TechnicianService, Technician } from '../../services/technician.service';
 import { ReportService } from '../../services/report.service';
 import { Report } from '../../../../core/models/report.model';
+import { computed } from '@angular/core';
 
 @Component({
   selector: 'app-document-edit',
@@ -42,6 +43,27 @@ export class DocumentEditComponent implements OnInit {
   showTechnicianDropdown = signal(false);
   filteredTechnicians = signal<Technician[]>([]);
 
+  // Maintenance Checklist Signals
+  maintenanceChecklist = signal<any[]>([]);
+  loadingChecklist = signal(false);
+
+  groupedChecklist = computed(() => {
+    const list = this.maintenanceChecklist();
+    const groups: { categoria: string, tasks: any[] }[] = [];
+    
+    list.forEach(item => {
+      const categoria = item.TareaMaestra?.categoria || 'VARIOS';
+      let group = groups.find(g => g.categoria === categoria);
+      if (!group) {
+        group = { categoria, tasks: [] };
+        groups.push(group);
+      }
+      group.tasks.push(item);
+    });
+
+    return groups;
+  });
+
   constructor() {
     this.editForm = this.fb.group({
       cliente_id: ['', [Validators.required]],
@@ -57,35 +79,92 @@ export class DocumentEditComponent implements OnInit {
 
   ngOnInit(): void {
       this.loadInitialData();
+      
+      // Cargar reporte completo por ID para asegurar que tenemos OrdenTrabajo.detalles
+      this.reportService.getReportById(this.report.informe_id).subscribe({
+        next: (fullReport) => {
+          this.report = fullReport;
+          this.patchFormWithReportData(); // Re-parchear con datos completos del servidor
+          if (this.report.tipo_informe === 'Mantenimiento') {
+             this.onTipoInformeChange('Mantenimiento');
+          }
+        },
+        error: (err) => console.error('Error loading full report', err)
+      });
 
       // Listen to client changes to update elevator list
        this.editForm.get('cliente_id')?.valueChanges.subscribe(clientId => {
         this.filterElevators(clientId);
       });
+
+      // Escuchar cambios en tipo_informe para ajustar validaciones
+      this.editForm.get('tipo_informe')?.valueChanges.subscribe(tipo => {
+        this.onTipoInformeChange(tipo);
+      });
+
+      // Inicializar estado del checklist si ya es mantenimiento
+      if (this.report.tipo_informe === 'Mantenimiento') {
+        this.onTipoInformeChange('Mantenimiento');
+      }
+  }
+
+  onTipoInformeChange(tipo: string) {
+    const descControl = this.editForm.get('descripcion_trabajo');
+    if (tipo === 'Mantenimiento') {
+      descControl?.clearValidators();
+      descControl?.setValidators([Validators.maxLength(5000)]);
+      
+      // Si ya tiene detalles en el reporte, cargarlos
+      if (this.report.OrdenTrabajo?.detalles) {
+        this.maintenanceChecklist.set(this.report.OrdenTrabajo.detalles);
+      } else if (this.maintenanceChecklist().length === 0) {
+        // Si no tiene detalles pero es mantenimiento (caso raro en edición), cargar estándares
+        this.loadStandardTasks();
+      }
+    } else {
+      descControl?.setValidators([Validators.required, Validators.minLength(10), Validators.maxLength(5000)]);
+      this.maintenanceChecklist.set([]);
+    }
+    descControl?.updateValueAndValidity();
+  }
+
+  loadStandardTasks() {
+    this.loadingChecklist.set(true);
+    this.reportService.getStandardTasks().subscribe({
+      next: (tasks) => {
+        const details = tasks.map(t => ({
+          tarea_maestra_id: t.tarea_id,
+          realizado: false,
+          TareaMaestra: t
+        }));
+        this.maintenanceChecklist.set(details);
+        this.loadingChecklist.set(false);
+      },
+      error: (err) => {
+        console.error('Error loading standard tasks', err);
+        this.loadingChecklist.set(false);
+      }
+    });
+  }
+
+  toggleTask(task: any) {
+    task.realizado = !task.realizado;
+    this.maintenanceChecklist.set([...this.maintenanceChecklist()]);
+  }
+
+  toggleCategory(group: { categoria: string, tasks: any[] }, event: Event) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    group.tasks.forEach(t => t.realizado = isChecked);
+    this.maintenanceChecklist.set([...this.maintenanceChecklist()]);
+  }
+
+  isCategoryComplete(group: { categoria: string, tasks: any[] }): boolean {
+    if (!group.tasks || group.tasks.length === 0) return false;
+    return group.tasks.every(t => t.realizado);
   }
 
   loadInitialData() {
-    const reportData = this.report;
-    let dateStr = '';
-    if (reportData.fecha_informe) {
-        const d = new Date(reportData.fecha_informe);
-        if (!isNaN(d.getTime())) {
-             dateStr = d.toISOString().split('T')[0];
-        } else {
-             dateStr = reportData.fecha_informe.toString().substring(0, 10);
-        }
-    }
-
-    this.editForm.patchValue({
-      cliente_id: reportData.cliente_id,
-      ascensor_id: reportData.ascensor_id,
-      trabajador_id: reportData.trabajador_id,
-      tipo_informe: reportData.tipo_informe,
-      descripcion_trabajo: reportData.descripcion_trabajo,
-      observaciones: reportData.observaciones,
-      fecha_informe: dateStr,
-      hora_informe: reportData.hora_informe || '12:00'
-    });
+    this.patchFormWithReportData();
     
     // Load Clients
     this.clientService.getClients().subscribe({
@@ -93,8 +172,8 @@ export class DocumentEditComponent implements OnInit {
             this.clients.set(data);
             this.filteredClients.set(data);
              // Set initial search value for client
-             if (reportData) {
-                const client = data.find(c => c.cliente_id === reportData.cliente_id);
+             if (this.report) {
+                const client = data.find(c => c.cliente_id === this.report.cliente_id);
                 if (client) {
                     this.clientSearch.set(client.nombre_comercial || client.contacto_nombre || '');
                 }
@@ -109,8 +188,8 @@ export class DocumentEditComponent implements OnInit {
             this.technicians.set(data);
              this.filteredTechnicians.set(data);
             // Set initial search value for technician
-            if (reportData) {
-                const tech = data.find(t => t.id === reportData.trabajador_id);
+            if (this.report) {
+                const tech = data.find(t => t.id === this.report.trabajador_id);
                 if (tech) {
                     this.technicianSearch.set(`${tech.nombre} ${tech.apellido}`);
                 }
@@ -130,6 +209,27 @@ export class DocumentEditComponent implements OnInit {
              }
         },
         error: (err) => console.error('Error loading elevators', err)
+    });
+  }
+
+  patchFormWithReportData() {
+    const reportData = this.report;
+    let dateStr = '';
+    if (reportData.fecha_informe) {
+        // Formateo estrictamente manual para evitar el desfase UTC-5
+        const fullDateStr = String(reportData.fecha_informe);
+        dateStr = fullDateStr.split('T')[0];
+    }
+
+    this.editForm.patchValue({
+      cliente_id: reportData.cliente_id,
+      ascensor_id: reportData.ascensor_id,
+      trabajador_id: reportData.trabajador_id,
+      tipo_informe: reportData.tipo_informe,
+      descripcion_trabajo: reportData.descripcion_trabajo,
+      observaciones: reportData.observaciones,
+      fecha_informe: dateStr,
+      hora_informe: reportData.hora_informe || '12:00'
     });
   }
 
@@ -201,7 +301,6 @@ export class DocumentEditComponent implements OnInit {
     this.editForm.get('ascensor_id')?.enable();
   }
 
-  // Renamed to avoid confusion with submit logic which is below
   onSubmit() {
     if (this.editForm.invalid) {
       this.editForm.markAllAsTouched();
@@ -223,6 +322,11 @@ export class DocumentEditComponent implements OnInit {
         ascensor_id: Number(rawData.ascensor_id),
         trabajador_id: Number(rawData.trabajador_id),
         tipo_informe: rawData.tipo_informe,
+        detalles: rawData.tipo_informe === 'Mantenimiento' ? this.maintenanceChecklist().map(d => ({
+            tarea_maestra_id: d.tarea_maestra_id || d.tarea_id,
+            realizado: !!d.realizado,
+            observaciones: d.observaciones || ''
+        })) : null
     };
 
     this.reportService.updateReport(this.report.informe_id, payload).subscribe({

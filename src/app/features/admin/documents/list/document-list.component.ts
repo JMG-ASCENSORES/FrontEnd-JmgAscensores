@@ -61,6 +61,7 @@ export class DocumentListComponent implements OnInit {
   pdfUrl = signal<SafeResourceUrl | null>(null);
   pdfDownloadUrl = signal<string | null>(null);
   pdfFileName = signal('');
+  generatingPdfId = signal<number | null>(null);
 
   selectedReport = signal<Report | null>(null);
 
@@ -211,7 +212,7 @@ export class DocumentListComponent implements OnInit {
   }
 
   downloadReport(report: Report) {
-    this.isLoading.set(true); 
+    this.generatingPdfId.set(report.informe_id); 
     this.reportService.downloadReportPdf(report.informe_id).subscribe({
       next: (blob) => {
           // Aseguramos que el blob sea tratado como el nombre correcto si el navegador lo soporta
@@ -222,18 +223,19 @@ export class DocumentListComponent implements OnInit {
           this.pdfFileName.set(`${this.getReportDisplayName(report)}.pdf`);
           
           this.showPdfModal.set(true);
-          this.isLoading.set(false);
+          this.generatingPdfId.set(null);
       },
       error: (err) => {
         console.error('Error downloading PDF', err);
         this.error.set('No se pudo generar el PDF. Verifica que el servidor esté activo.');
-        this.isLoading.set(false);
+        this.generatingPdfId.set(null);
       }
     });
   }
 
   downloadPdfDirectly(report: Report, event?: Event) {
     if (event) event.stopPropagation();
+    this.generatingPdfId.set(report.informe_id);
     this.reportService.downloadReportPdf(report.informe_id).subscribe({
       next: (blob) => {
         const url = URL.createObjectURL(blob);
@@ -244,6 +246,11 @@ export class DocumentListComponent implements OnInit {
         a.click();
         document.body.removeChild(a);
         setTimeout(() => URL.revokeObjectURL(url), 100);
+        this.generatingPdfId.set(null);
+      },
+      error: (err) => {
+        console.error('Error downloading PDF', err);
+        this.generatingPdfId.set(null);
       }
     });
   }
@@ -260,7 +267,20 @@ export class DocumentListComponent implements OnInit {
 
   formatDate(dateString: string): string {
       if (!dateString) return '';
-      return new Date(dateString).toLocaleDateString('es-ES');
+      // Parseo manual para evitar conversión UTC→local que resta 1 día en Perú (UTC-5)
+      const parts = String(dateString).split('T')[0].split('-');
+      if (parts.length < 3) return dateString;
+      return `${parts[2]}/${parts[1]}/${parts[0]}`; // DD/MM/YYYY
+  }
+
+  formatDateTime(dateString: string): string {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    // Usar toLocaleString para obtener la hora local de Perú (UTC-5)
+    // El backend envía ISO (Z), por lo que el navegador lo convierte correctamente.
+    const d = date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    const t = date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false });
+    return `${d} ${t}`;
   }
 
   getReportDisplayName(report: Report): string {

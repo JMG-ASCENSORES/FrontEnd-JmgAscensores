@@ -167,6 +167,7 @@
             <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">CLIENTE</th>
             <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">TÉCNICO</th>
             <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">FECHA</th>
+            <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">ACTUALIZACIÓN</th>
             <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">ACCIONES</th>
           </tr>
         </thead>
@@ -205,23 +206,38 @@
               </span>
             </td>
 
+            <!-- Updated At -->
+            <td class="px-6 py-5">
+              <span class="text-sm text-slate-600 font-medium whitespace-nowrap">
+                {{ formatDateTime(report.fecha_actualizacion!) }}
+              </span>
+            </td>
+
             <!-- Actions -->
             <td class="px-6 py-5">
               <div class="flex items-center gap-3">
-                <button 
-                  (click)="downloadReport(report)"
-                  class="w-10 h-10 rounded-lg bg-slate-100 text-slate-600 border border-slate-200 flex items-center justify-center hover:bg-slate-200 transition-colors shadow-sm"
-                  title="Vista Previa"
-                >
-                  <i class="bi bi-eye text-lg"></i>
-                </button>
-                <button 
-                  (click)="downloadPdfDirectly(report)"
-                  class="w-10 h-10 rounded-lg bg-[#003B73] text-white flex items-center justify-center hover:bg-[#002a52] transition-colors shadow-sm"
-                  title="Descargar PDF"
-                >
-                  <i class="bi bi-download text-lg"></i>
-                </button>
+                <ng-container *ngIf="generatingPdfId() !== report.informe_id; else loadingPdf">
+                  <button 
+                    (click)="downloadReport(report)"
+                    class="w-10 h-10 rounded-lg bg-slate-100 text-slate-600 border border-slate-200 flex items-center justify-center hover:bg-slate-200 transition-colors shadow-sm"
+                    title="Vista Previa"
+                  >
+                    <i class="bi bi-eye text-lg"></i>
+                  </button>
+                  <button 
+                    (click)="downloadPdfDirectly(report)"
+                    class="w-10 h-10 rounded-lg bg-[#003B73] text-white flex items-center justify-center hover:bg-[#002a52] transition-colors shadow-sm"
+                    title="Descargar PDF"
+                  >
+                    <i class="bi bi-download text-lg"></i>
+                  </button>
+                </ng-container>
+                <ng-template #loadingPdf>
+                  <div class="w-[88px] h-10 flex items-center justify-center bg-slate-50 rounded-lg border border-slate-200">
+                    <div class="spinner-border spinner-border-sm text-[#003B73]" role="status"></div>
+                  </div>
+                </ng-template>
+                
                 <button 
                   (click)="openEditModal(report)"
                   class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center hover:bg-emerald-100 transition-colors"
@@ -242,7 +258,7 @@
           
           <!-- Empty State -->
           <tr *ngIf="reports().length === 0 && !isLoading()">
-            <td colspan="5" class="px-6 py-20 text-center">
+            <td colspan="6" class="px-6 py-20 text-center">
               <div class="flex flex-col items-center justify-center gap-4">
                 <div class="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center">
                   <i class="bi bi-search text-slate-400 text-2xl"></i>
@@ -255,7 +271,7 @@
 
            <!-- Loading State -->
            <tr *ngIf="isLoading()">
-            <td colspan="5" class="px-6 py-20 text-center">
+            <td colspan="6" class="px-6 py-20 text-center">
               <div class="flex flex-col items-center justify-center">
                  <div class="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-[#003B73] mb-4"></div>
                  <span class="text-slate-500 font-medium animate-pulse">Cargando documentos...</span>

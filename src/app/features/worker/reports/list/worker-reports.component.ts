@@ -32,6 +32,7 @@ export class WorkerReportsComponent implements OnInit {
   pdfUrl = signal<SafeResourceUrl | null>(null);
   pdfDownloadUrl = signal<string | null>(null);
   pdfFileName = signal('');
+  generatingPdfId = signal<number | null>(null);
 
   // Filters
   filterTipo = signal('');
@@ -164,7 +165,7 @@ export class WorkerReportsComponent implements OnInit {
   }
 
   viewPdf(report: Report) {
-    this.isLoading.set(true);
+    this.generatingPdfId.set(report.informe_id);
     this.reportService.downloadReportPdf(report.informe_id).subscribe({
       next: (blob) => {
         const url = URL.createObjectURL(blob);
@@ -172,17 +173,18 @@ export class WorkerReportsComponent implements OnInit {
         this.pdfUrl.set(this.sanitizer.bypassSecurityTrustResourceUrl(url));
         this.pdfFileName.set(`${this.getReportDisplayName(report)}.pdf`);
         this.showPdfModal.set(true);
-        this.isLoading.set(false);
+        this.generatingPdfId.set(null);
       },
       error: (err) => {
         console.error('Error downloading PDF', err);
-        this.isLoading.set(false);
+        this.generatingPdfId.set(null);
       }
     });
   }
 
   downloadPdfDirectly(report: Report, event?: Event) {
     if (event) event.stopPropagation();
+    this.generatingPdfId.set(report.informe_id);
     this.reportService.downloadReportPdf(report.informe_id).subscribe({
       next: (blob) => {
         const url = URL.createObjectURL(blob);
@@ -193,6 +195,11 @@ export class WorkerReportsComponent implements OnInit {
         a.click();
         document.body.removeChild(a);
         setTimeout(() => URL.revokeObjectURL(url), 100);
+        this.generatingPdfId.set(null);
+      },
+      error: (err) => {
+        console.error('Error downloading PDF', err);
+        this.generatingPdfId.set(null);
       }
     });
   }

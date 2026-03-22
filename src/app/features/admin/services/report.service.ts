@@ -100,4 +100,23 @@ export class ReportService {
       responseType: 'blob'
     });
   }
+
+  getWorkOrderById(id: number): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/ordenes-trabajo/${id}`, { headers: this.getHeaders() }).pipe(
+      map(response => response.data)
+    );
+  }
+
+  updateWorkOrder(id: number, data: any): Observable<any> {
+    return this.http.put<any>(`${environment.apiUrl}/ordenes-trabajo/${id}`, data, { headers: this.getHeaders() }).pipe(
+      map(response => response.data)
+    );
+  }
+
+  getStandardTasks(): Observable<any[]> {
+    return this.http.get<any>(`${environment.apiUrl}/tareas-maestras`, { headers: this.getHeaders() }).pipe(
+      map(response => response.data)
+    );
+  }
 }
+

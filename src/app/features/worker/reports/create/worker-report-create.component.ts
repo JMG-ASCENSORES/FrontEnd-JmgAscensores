@@ -52,13 +52,18 @@ export class WorkerReportCreateComponent implements OnInit, OnDestroy, AfterView
   showClientDropdown = signal(false);
   filteredClients = signal<Client[]>([]);
 
+  // Maintenance Checklist State
+  maintenanceChecklist = signal<any[]>([]); // DetalleOrden[]
+  loadingChecklist = signal(false);
+  isMaintenanceReport = signal(false);
+
   constructor() {
     this.createForm = this.fb.group({
       cliente_id: ['', [Validators.required]],
       ascensor_id: ['', [Validators.required]],
       orden_id: [''],
       tipo_informe: ['Técnico', [Validators.required]],
-      descripcion_trabajo: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(5000)]],
+      descripcion_trabajo: ['', [Validators.maxLength(5000)]],
       observaciones: ['', [Validators.maxLength(1000)]],
       fecha_informe: [new Date().toISOString().split('T')[0], [Validators.required]],
       hora_informe: ['12:00', [Validators.required]]
@@ -83,6 +88,16 @@ export class WorkerReportCreateComponent implements OnInit, OnDestroy, AfterView
             fecha_informe: report.fecha_informe,
             hora_informe: report.hora_informe
           });
+          
+          if (report.tipo_informe === 'Mantenimiento') {
+            this.isMaintenanceReport.set(true);
+            const descControl = this.createForm.get('descripcion_trabajo');
+            descControl?.setValidators([Validators.maxLength(5000)]);
+            descControl?.updateValueAndValidity();
+            if (report.orden_id) {
+               this.loadChecklist(report.orden_id);
+            }
+          }
           const cliente = report.Cliente || report.cliente;
           if (cliente) {
               this.clientSearch.set(cliente.nombre_comercial || cliente.contacto_nombre);
@@ -111,7 +126,39 @@ export class WorkerReportCreateComponent implements OnInit, OnDestroy, AfterView
         this.createForm.get('ascensor_id')?.disable();
       }
       this.loadInitialData();
+    }
 
+    // Check if it's a maintenance report to load checklist
+    this.createForm.get('tipo_informe')?.valueChanges.subscribe(val => {
+      const isMaint = val === 'Mantenimiento';
+      this.isMaintenanceReport.set(isMaint);
+      
+      const descControl = this.createForm.get('descripcion_trabajo');
+      if (isMaint) {
+        descControl?.setValidators([Validators.maxLength(5000)]);
+        if (!descControl?.value || descControl.value.length < 5) {
+          descControl?.setValue('Mantenimiento preventivo realizado según checklist de inspección.');
+        }
+        if (this.createForm.get('orden_id')?.value) {
+          this.loadChecklist(this.createForm.get('orden_id')?.value);
+        }
+      } else {
+        descControl?.setValidators([Validators.required, Validators.minLength(10), Validators.maxLength(5000)]);
+      }
+      descControl?.updateValueAndValidity();
+    });
+
+    // Initial check for prefilled orden_id
+    const initialOrdenId = this.createForm.get('orden_id')?.value;
+    const initialTipo = this.createForm.get('tipo_informe')?.value;
+    if (initialTipo === 'Mantenimiento') {
+       this.isMaintenanceReport.set(true);
+       const descControl = this.createForm.get('descripcion_trabajo');
+       descControl?.setValidators([Validators.maxLength(5000)]);
+       descControl?.updateValueAndValidity();
+       if (initialOrdenId) {
+          this.loadChecklist(initialOrdenId);
+       }
     }
 
     // Always fetch profile signature if available
@@ -245,6 +292,54 @@ export class WorkerReportCreateComponent implements OnInit, OnDestroy, AfterView
     });
   }
 
+  loadChecklist(ordenId: number) {
+    if (!ordenId) return;
+    this.loadingChecklist.set(true);
+    this.reportService.getWorkOrderById(ordenId).subscribe({
+      next: (order) => {
+        if (order && order.detalles) {
+          this.maintenanceChecklist.set(order.detalles);
+        }
+        this.loadingChecklist.set(false);
+      },
+      error: (err) => {
+        console.error('Error loading checklist', err);
+        this.loadingChecklist.set(false);
+      }
+    });
+  }
+
+  get groupedChecklist() {
+    const checklist = this.maintenanceChecklist();
+    const groups: { categoria: string, tasks: any[] }[] = [];
+    
+    checklist.forEach(item => {
+      const cat = item.TareaMaestra?.categoria || 'General';
+      let group = groups.find(g => g.categoria === cat);
+      if (!group) {
+        group = { categoria: cat, tasks: [] };
+        groups.push(group);
+      }
+      group.tasks.push(item);
+    });
+    
+    return groups;
+  }
+
+  toggleTask(task: any) {
+    task.realizado = !task.realizado;
+  }
+
+  toggleCategory(group: { categoria: string, tasks: any[] }, event: Event) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    group.tasks.forEach(t => t.realizado = isChecked);
+  }
+
+  isCategoryComplete(group: { categoria: string, tasks: any[] }): boolean {
+    if (!group.tasks || group.tasks.length === 0) return false;
+    return group.tasks.every(t => t.realizado);
+  }
+
   onSubmit() {
     if (this.createForm.invalid) {
       this.createForm.markAllAsTouched();
@@ -322,6 +417,13 @@ export class WorkerReportCreateComponent implements OnInit, OnDestroy, AfterView
 
     console.log('[onSubmit] Payload firmas - firma_tecnico_id:', payload.firma_tecnico_id, '| firma_cliente_id:', payload.firma_cliente_id, '| firma_tecnico (tiene data):', !!payload.firma_tecnico);
     
+    // Si es mantenimiento, actualizar los DetalleOrden primariamente
+    if (this.isMaintenanceReport() && this.maintenanceChecklist().length > 0) {
+        this.reportService.updateWorkOrder(payload.orden_id, { detalles: this.maintenanceChecklist() }).subscribe({
+           error: (err) => console.error('Error updating checklist items', err)
+        });
+    }
+
     if (this.isEditing() && this.editingId) {
         this.reportService.updateReport(this.editingId, payload).subscribe({
           next: () => {

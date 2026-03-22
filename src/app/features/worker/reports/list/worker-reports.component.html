@@ -109,9 +109,16 @@
       </div>
 
       <!-- Acciones de PDF -->
-      <div class="report-action flex gap-2">
-        <i (click)="viewPdf(report); $event.stopPropagation()" class="bi bi-eye text-slate-500 text-xl hover:scale-110 transition-transform cursor-pointer" title="Ver Vista Previa"></i>
-        <i (click)="downloadPdfDirectly(report, $event)" class="bi bi-download text-slate-500 text-xl hover:scale-110 transition-transform cursor-pointer" title="Descargar PDF"></i>
+      <div class="report-action flex gap-3 items-center">
+        <ng-container *ngIf="generatingPdfId() !== report.informe_id; else loadingPdf">
+          <i (click)="viewPdf(report); $event.stopPropagation()" class="bi bi-eye text-slate-500 text-xl hover:scale-110 transition-transform cursor-pointer" title="Ver Vista Previa"></i>
+          <i (click)="downloadPdfDirectly(report, $event)" class="bi bi-download text-slate-500 text-xl hover:scale-110 transition-transform cursor-pointer" title="Descargar PDF"></i>
+        </ng-container>
+        <ng-template #loadingPdf>
+          <div class="flex items-center justify-center w-12">
+            <div class="spinner-border spinner-border-sm text-emerald-600" role="status"></div>
+          </div>
+        </ng-template>
       </div>
       
     </div>

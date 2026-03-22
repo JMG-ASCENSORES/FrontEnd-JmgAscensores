@@ -134,8 +134,8 @@
             </div>
         </div>
 
-        <!-- Description -->
-        <div class="space-y-1.5">
+        <!-- Description (Hidden for Maintenance) -->
+        <div class="space-y-1.5" *ngIf="createForm.get('tipo_informe')?.value !== 'Mantenimiento'">
           <label class="text-xs font-bold text-slate-500 uppercase">Descripción del Trabajo <span class="text-red-500">*</span></label>
           <textarea formControlName="descripcion_trabajo" rows="4" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all text-slate-700 resize-none" placeholder="Detalle el trabajo realizado..."></textarea>
           <div class="flex justify-between items-center mt-1">
@@ -146,6 +146,47 @@
             </div>
             <div class="text-[10px] text-slate-400 font-medium uppercase ml-auto">
               {{ createForm.get('descripcion_trabajo')?.value?.length || 0 }} / 5000
+            </div>
+          </div>
+        </div>
+
+        <!-- Maintenance Checklist Section -->
+        <div class="maintenance-checklist-section pt-6 mt-6 border-t border-slate-100" *ngIf="createForm.get('tipo_informe')?.value === 'Mantenimiento'">
+          <h4 class="text-sm font-extrabold text-[#003B73] uppercase tracking-wider mb-4 flex items-center gap-2">
+            <i class="bi bi-card-checklist"></i> Checklist de Mantenimiento
+          </h4>
+
+          <div *ngIf="loadingChecklist()" class="py-10 flex flex-col items-center justify-center gap-3">
+             <div class="spinner-border text-primary" role="status"></div>
+             <span class="text-xs font-bold text-slate-400">Cargando tareas predeterminadas...</span>
+          </div>
+
+          <div class="checklist-groups" *ngIf="!loadingChecklist() && maintenanceChecklist().length > 0">
+            <div *ngFor="let group of groupedChecklist()" class="checklist-group mb-6">
+              <div class="group-header bg-slate-50 p-3 rounded-t-xl border-x border-t border-slate-200 flex items-center justify-between">
+                <span class="group-title text-[10px] font-black text-slate-500 uppercase tracking-widest">{{ group.categoria }}</span>
+                
+                <div class="flex items-center gap-2 px-2 py-1 bg-white rounded-lg border border-slate-200 shadow-sm">
+                  <input type="checkbox" 
+                         [checked]="isCategoryComplete(group)"
+                         (change)="toggleCategory(group, $event)"
+                         class="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer">
+                  <label class="text-[9px] font-bold text-emerald-700 uppercase cursor-pointer">Marcar Todo</label>
+                </div>
+              </div>
+              <div class="group-items bg-white border-x border-b border-slate-200 rounded-b-xl divide-y divide-slate-100 p-1">
+                <div *ngFor="let task of group.tasks" class="task-item px-3 py-3 flex items-start gap-3 hover:bg-slate-50/50 transition-colors" (click)="toggleTask(task)">
+                  <div class="task-checkbox-wrapper mt-0.5">
+                    <input type="checkbox" [checked]="task.realizado" (click)="$event.stopPropagation(); toggleTask(task)" class="w-5 h-5 rounded-md border-slate-300 text-[#003B73] focus:ring-[#003B73] transition-all cursor-pointer">
+                  </div>
+                  <div class="task-info flex-1">
+                    <div class="task-description text-sm font-bold text-slate-700 leading-tight">{{ task.TareaMaestra?.descripcion_tarea }}</div>
+                    <div class="task-status text-[10px] italic font-bold" [class.text-emerald-600]="task.realizado" [class.text-slate-400]="!task.realizado">
+                      {{ task.realizado ? 'EJECUTADO' : 'PENDIENTE' }}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

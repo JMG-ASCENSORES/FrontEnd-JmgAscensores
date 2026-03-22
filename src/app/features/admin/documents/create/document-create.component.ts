@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ClientService, Client, Elevator } from '../../services/client.service';
 import { TechnicianService, Technician } from '../../services/technician.service';
 import { ReportService } from '../../services/report.service';
+import { computed } from '@angular/core';
 
 @Component({
   selector: 'app-document-create',
@@ -31,7 +32,6 @@ export class DocumentCreateComponent implements OnInit {
   allElevators = signal<Elevator[]>([]);
   
   // Dependent Data
-  // Dependent Data
   clientElevators = signal<Elevator[]>([]);
 
   // Autocomplete State
@@ -43,7 +43,34 @@ export class DocumentCreateComponent implements OnInit {
   showTechnicianDropdown = signal(false);
   filteredTechnicians = signal<Technician[]>([]);
 
+  // Maintenance Checklist Signals
+  maintenanceChecklist = signal<any[]>([]);
+  loadingChecklist = signal(false);
+
+  groupedChecklist = computed(() => {
+    const list = this.maintenanceChecklist();
+    const groups: { categoria: string, tasks: any[] }[] = [];
+    
+    list.forEach(item => {
+      const categoria = item.categoria || item.TareaMaestra?.categoria || 'VARIOS';
+      let group = groups.find(g => g.categoria === categoria);
+      if (!group) {
+        group = { categoria, tasks: [] };
+        groups.push(group);
+      }
+      group.tasks.push(item);
+    });
+
+    return groups;
+  });
+
   constructor() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const localToday = `${year}-${month}-${day}`;
+
     this.createForm = this.fb.group({
       cliente_id: ['', [Validators.required]],
       ascensor_id: ['', [Validators.required]],
@@ -51,13 +78,68 @@ export class DocumentCreateComponent implements OnInit {
       tipo_informe: ['Técnico', [Validators.required]],
       descripcion_trabajo: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(5000)]],
       observaciones: ['', [Validators.maxLength(1000)]],
-      fecha_informe: [new Date().toISOString().split('T')[0], [Validators.required]],
-      hora_informe: ['12:00', [Validators.required]] // Optional usually, but let's have it
+      fecha_informe: [localToday, [Validators.required]],
+      hora_informe: ['12:00', [Validators.required]]
     });
   }
 
   ngOnInit(): void {
     this.loadInitialData();
+    
+    // Escuchar cambios en tipo_informe para ajustar validaciones y cargar checklist
+    this.createForm.get('tipo_informe')?.valueChanges.subscribe(tipo => {
+      this.onTipoInformeChange(tipo);
+    });
+  }
+
+  onTipoInformeChange(tipo: string) {
+    const descControl = this.createForm.get('descripcion_trabajo');
+    if (tipo === 'Mantenimiento') {
+      descControl?.clearValidators();
+      descControl?.setValidators([Validators.maxLength(5000)]);
+      this.loadMaintenanceChecklist();
+    } else {
+      descControl?.setValidators([Validators.required, Validators.minLength(10), Validators.maxLength(5000)]);
+      this.maintenanceChecklist.set([]);
+    }
+    descControl?.updateValueAndValidity();
+  }
+
+  loadMaintenanceChecklist() {
+    this.loadingChecklist.set(true);
+    this.reportService.getStandardTasks().subscribe({
+      next: (tasks) => {
+        // Transformar TareaMaestra en estructura de Detalle (sin orden_id aún)
+        const details = tasks.map(t => ({
+          tarea_maestra_id: t.tarea_id, 
+          realizado: false,
+          TareaMaestra: t,
+          categoria: t.categoria // Helper para el agrupado
+        }));
+        this.maintenanceChecklist.set(details);
+        this.loadingChecklist.set(false);
+      },
+      error: (err) => {
+        console.error('Error loading standard tasks', err);
+        this.loadingChecklist.set(false);
+      }
+    });
+  }
+
+  toggleTask(task: any) {
+    task.realizado = !task.realizado;
+    this.maintenanceChecklist.set([...this.maintenanceChecklist()]);
+  }
+
+  toggleCategory(group: { categoria: string, tasks: any[] }, event: Event) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    group.tasks.forEach(t => t.realizado = isChecked);
+    this.maintenanceChecklist.set([...this.maintenanceChecklist()]);
+  }
+
+  isCategoryComplete(group: { categoria: string, tasks: any[] }): boolean {
+    if (!group.tasks || group.tasks.length === 0) return false;
+    return group.tasks.every(t => t.realizado);
   }
 
   loadInitialData() {
@@ -192,7 +274,11 @@ export class DocumentCreateComponent implements OnInit {
         ascensor_id: selectedElevatorId,
         trabajador_id: selectedWorkerId,
         tipo_informe: rawData.tipo_informe,
-        // Backend handles fecha_creacion
+        detalles: rawData.tipo_informe === 'Mantenimiento' ? this.maintenanceChecklist().map(d => ({
+            tarea_maestra_id: d.tarea_maestra_id || d.tarea_id,
+            realizado: !!d.realizado,
+            observaciones: d.observaciones || ''
+        })) : null
     };
     
     console.log('Sending Report Payload:', payload);
