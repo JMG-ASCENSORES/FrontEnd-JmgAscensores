@@ -90,6 +90,12 @@ export class ReportService {
     );
   }
 
+  patchReport(id: number, delta: any): Observable<Report> {
+    return this.http.patch<any>(`${this.apiUrl}/${id}`, delta, { headers: this.getHeaders() }).pipe(
+      map(response => response.data)
+    );
+  }
+
   deleteReport(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
   }
@@ -109,6 +115,12 @@ export class ReportService {
 
   updateWorkOrder(id: number, data: any): Observable<any> {
     return this.http.put<any>(`${environment.apiUrl}/ordenes-trabajo/${id}`, data, { headers: this.getHeaders() }).pipe(
+      map(response => response.data)
+    );
+  }
+
+  patchOrdenEstado(id: number, estado: string): Observable<any> {
+    return this.http.patch<any>(`${environment.apiUrl}/ordenes-trabajo/${id}/estado`, { estado }, { headers: this.getHeaders() }).pipe(
       map(response => response.data)
     );
   }

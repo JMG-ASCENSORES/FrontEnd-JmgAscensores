@@ -46,6 +46,7 @@ export class DocumentEditComponent implements OnInit {
   // Maintenance Checklist Signals
   maintenanceChecklist = signal<any[]>([]);
   loadingChecklist = signal(false);
+  isChecklistDirty = signal(false);
 
   groupedChecklist = computed(() => {
     const list = this.maintenanceChecklist();
@@ -149,12 +150,14 @@ export class DocumentEditComponent implements OnInit {
 
   toggleTask(task: any) {
     task.realizado = !task.realizado;
+    this.isChecklistDirty.set(true);
     this.maintenanceChecklist.set([...this.maintenanceChecklist()]);
   }
 
   toggleCategory(group: { categoria: string, tasks: any[] }, event: Event) {
     const isChecked = (event.target as HTMLInputElement).checked;
     group.tasks.forEach(t => t.realizado = isChecked);
+    this.isChecklistDirty.set(true);
     this.maintenanceChecklist.set([...this.maintenanceChecklist()]);
   }
 
@@ -307,29 +310,42 @@ export class DocumentEditComponent implements OnInit {
       return;
     }
 
-    const rawData = this.editForm.getRawValue();
-    if (!rawData.cliente_id || !rawData.ascensor_id || !rawData.trabajador_id) {
-       this.error.set('Por favor complete todos los campos requeridos (Cliente, Ascensor, Técnico).');
-       return;
-    }
-
     this.isSubmitting.set(true);
     this.error.set(null);
 
-    const payload = {
-        ...rawData,
-        cliente_id: Number(rawData.cliente_id),
-        ascensor_id: Number(rawData.ascensor_id),
-        trabajador_id: Number(rawData.trabajador_id),
-        tipo_informe: rawData.tipo_informe,
-        detalles: rawData.tipo_informe === 'Mantenimiento' ? this.maintenanceChecklist().map(d => ({
-            tarea_maestra_id: d.tarea_maestra_id || d.tarea_id,
-            realizado: !!d.realizado,
-            observaciones: d.observaciones || ''
-        })) : null
-    };
+    const rawData = this.editForm.getRawValue();
+    const payload: any = {};
+    
+    // Extraer solo campos modificados del formulario
+    Object.keys(this.editForm.controls).forEach(key => {
+      const control = this.editForm.get(key);
+      if (control?.dirty) {
+        payload[key] = control.value;
+      }
+    });
 
-    this.reportService.updateReport(this.report.informe_id, payload).subscribe({
+    // Castear FKs si fueron alteradas
+    if (payload.cliente_id) payload.cliente_id = Number(payload.cliente_id);
+    if (payload.ascensor_id) payload.ascensor_id = Number(payload.ascensor_id);
+    if (payload.trabajador_id) payload.trabajador_id = Number(payload.trabajador_id);
+
+    // Incluir la checklist SOLO si el usuario interactuó con ella
+    if (rawData.tipo_informe === 'Mantenimiento' && this.isChecklistDirty()) {
+      payload.detalles = this.maintenanceChecklist().map(d => ({
+        tarea_maestra_id: d.tarea_maestra_id || d.tarea_id,
+        realizado: !!d.realizado,
+        observaciones: d.observaciones || ''
+      }));
+    }
+
+    // Optimización: Si no hubo ningún cambio, no emitir request a red
+    if (Object.keys(payload).length === 0) {
+      this.isSubmitting.set(false);
+      this.close.emit();
+      return;
+    }
+
+    this.reportService.patchReport(this.report.informe_id, payload).subscribe({
       next: () => {
         this.isSubmitting.set(false);
         this.reportUpdated.emit();

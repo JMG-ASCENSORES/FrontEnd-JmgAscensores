@@ -235,6 +235,22 @@ export class ProgramacionService {
   }
 
   /**
+   * Actualizar solo el estado de la programación (PATCH)
+   */
+  patchEstado(id: number, estado: EstadoProgramacion): Observable<Programacion> {
+    return this.http.patch<ApiResponse<Programacion>>(`${this.apiUrl}/${id}/estado`, { estado }, { 
+      headers: this.getHeaders() 
+    }).pipe(
+      map(response => response.data),
+      catchError(error => {
+        console.error('Error updating programacion state:', error);
+        const message = error.error?.message || 'Error al actualizar el estado de la programación.';
+        return throwError(() => new Error(message));
+      })
+    );
+  }
+
+  /**
    * Eliminar programación
    */
   deleteProgramacion(id: number): Observable<void> {
