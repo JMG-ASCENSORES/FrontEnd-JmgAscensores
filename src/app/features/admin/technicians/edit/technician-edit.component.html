@@ -1,24 +1,11 @@
-<div class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
-  <!-- Backdrop -->
-  <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" (click)="onClose()"></div>
-
-  <!-- Modal Panel -->
-  <div class="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden ring-1 ring-black/5 transform transition-all animate-fadeInUp">
-    
-    <!-- Header -->
-    <div class="px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white flex items-center justify-between">
-      <div>
-        <h2 class="text-xl font-bold text-gray-900">Editar Técnico</h2>
-        <p class="text-sm text-gray-500 mt-1">Actualiza los datos del colaborador.</p>
-      </div>
-      <button (click)="onClose()" class="p-2 rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors">
-        <i class="bi bi-x-lg text-lg"></i>
-      </button>
-    </div>
-
-    <!-- Body -->
-    <div class="p-6">
-      <form *ngIf="technicianForm" [formGroup]="technicianForm" (ngSubmit)="onSubmit()" class="space-y-6">
+<app-modal-wrapper
+  title="Editar Técnico"
+  subtitle="Actualiza los datos del colaborador."
+  variant="neutral"
+  size="lg"
+  (close)="onClose()"
+>
+  <form *ngIf="technicianForm" [formGroup]="technicianForm" (ngSubmit)="onSubmit()" class="space-y-6">
         
         <!-- Error Alert -->
         <div *ngIf="errorMessage()" class="bg-red-50 border-l-4 border-red-500 p-4 rounded-md">
@@ -184,6 +171,4 @@
           </button>
         </div>
       </form>
-    </div>
-  </div>
-</div>
+</app-modal-wrapper>

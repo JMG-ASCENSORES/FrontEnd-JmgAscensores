@@ -2,11 +2,12 @@ import { Component, EventEmitter, Output, inject, signal, OnInit } from '@angula
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ClientService } from '../../services/client.service';
+import { ModalWrapperComponent } from '../../../../shared/components/modal-wrapper/modal-wrapper.component';
 
 @Component({
   selector: 'app-client-create',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, ModalWrapperComponent],
   templateUrl: './client-create.component.html',
 })
 export class ClientCreateComponent implements OnInit {

@@ -4,13 +4,16 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ClientService, Client, Elevator } from '../../services/client.service';
 import { TechnicianService, Technician } from '../../services/technician.service';
 import { ReportService } from '../../services/report.service';
+import { SearchableSelectComponent } from '../../../../shared/components/searchable-select/searchable-select.component';
+import { MaintenanceChecklistComponent } from '../../../../shared/components/maintenance-checklist/maintenance-checklist.component';
+import { ModalWrapperComponent } from '../../../../shared/components/modal-wrapper/modal-wrapper.component';
 import { Report } from '../../../../core/models/report.model';
 import { computed } from '@angular/core';
 
 @Component({
   selector: 'app-document-edit',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, SearchableSelectComponent, MaintenanceChecklistComponent, ModalWrapperComponent],
   templateUrl: './document-edit.component.html',
   styleUrl: './document-edit.component.scss'
 })
@@ -49,20 +52,8 @@ export class DocumentEditComponent implements OnInit {
   isChecklistDirty = signal(false);
 
   groupedChecklist = computed(() => {
-    const list = this.maintenanceChecklist();
-    const groups: { categoria: string, tasks: any[] }[] = [];
-    
-    list.forEach(item => {
-      const categoria = item.TareaMaestra?.categoria || 'VARIOS';
-      let group = groups.find(g => g.categoria === categoria);
-      if (!group) {
-        group = { categoria, tasks: [] };
-        groups.push(group);
-      }
-      group.tasks.push(item);
-    });
-
-    return groups;
+    // Delegado al componente
+    return [];
   });
 
   constructor() {
@@ -154,9 +145,10 @@ export class DocumentEditComponent implements OnInit {
     this.maintenanceChecklist.set([...this.maintenanceChecklist()]);
   }
 
-  toggleCategory(group: { categoria: string, tasks: any[] }, event: Event) {
-    const isChecked = (event.target as HTMLInputElement).checked;
-    group.tasks.forEach(t => t.realizado = isChecked);
+  toggleCategory(group: any, isChecked: boolean) {
+    group.tasks.forEach((t: any) => {
+      t.realizado = isChecked;
+    });
     this.isChecklistDirty.set(true);
     this.maintenanceChecklist.set([...this.maintenanceChecklist()]);
   }
@@ -173,14 +165,14 @@ export class DocumentEditComponent implements OnInit {
     this.clientService.getClients().subscribe({
         next: (data) => {
             this.clients.set(data);
-            this.filteredClients.set(data);
-             // Set initial search value for client
-             if (this.report) {
+            // Set initial search value for client
+            if (this.report) {
                 const client = data.find(c => c.cliente_id === this.report.cliente_id);
                 if (client) {
-                    this.clientSearch.set(client.nombre_comercial || client.contacto_nombre || '');
+                    // this.clientSearch.set(client.nombre_comercial || client.contacto_nombre || ''); // No longer needed
+                    this.editForm.get('cliente_id')?.setValue(client.cliente_id); // Ensure form control is set
                 }
-             }
+            }
         },
         error: (err) => console.error('Error loading clients', err)
     });
@@ -189,12 +181,12 @@ export class DocumentEditComponent implements OnInit {
     this.technicianService.getTechnicians().subscribe({
         next: (data) => {
             this.technicians.set(data);
-             this.filteredTechnicians.set(data);
             // Set initial search value for technician
             if (this.report) {
                 const tech = data.find(t => t.id === this.report.trabajador_id);
                 if (tech) {
-                    this.technicianSearch.set(`${tech.nombre} ${tech.apellido}`);
+                    // this.technicianSearch.set(`${tech.nombre} ${tech.apellido}`); // No longer needed
+                    this.editForm.get('trabajador_id')?.setValue(tech.id); // Ensure form control is set
                 }
             }
         },
@@ -213,6 +205,14 @@ export class DocumentEditComponent implements OnInit {
         },
         error: (err) => console.error('Error loading elevators', err)
     });
+  }
+
+  trackByGroup(index: number, group: any): string {
+    return group.categoria;
+  }
+
+  trackByTask(index: number, task: any): number {
+    return task.tarea_maestra_id || task.tarea_id;
   }
 
   patchFormWithReportData() {
@@ -236,62 +236,41 @@ export class DocumentEditComponent implements OnInit {
     });
   }
 
-  // Client Autocomplete Logic
-  onClientSearch(event: Event) {
-    const query = (event.target as HTMLInputElement).value.toLowerCase();
-    this.clientSearch.set(query);
-    this.showClientDropdown.set(true);
+  // Client Autocomplete Logic (delegated to SearchableSelectComponent)
+  displayClient(client: Client): string {
+    return client.nombre_comercial || client.contacto_nombre || '';
+  }
 
-    if (!query) {
-      this.filteredClients.set([]);
-      return;
-    }
-
-    const filtered = this.clients().filter(c => 
-      (c.nombre_comercial?.toLowerCase().includes(query) || 
-       c.contacto_nombre?.toLowerCase().includes(query))
-    );
-    this.filteredClients.set(filtered);
+  displayClientID(client: Client): string {
+    return client.ruc || client.dni || 'Sin ID';
   }
 
   selectClient(client: Client) {
+    if (!client || !client.cliente_id) return;
     this.editForm.patchValue({ cliente_id: client.cliente_id });
-    this.clientSearch.set(client.nombre_comercial || client.contacto_nombre || '');
-    this.showClientDropdown.set(false);
     this.filterElevators(client.cliente_id); 
   }
 
-  // Technician Autocomplete Logic
-  onTechnicianSearch(event: Event) {
-    const query = (event.target as HTMLInputElement).value.toLowerCase();
-    this.technicianSearch.set(query);
-    this.showTechnicianDropdown.set(true);
+  // Technician Autocomplete Logic (delegated to SearchableSelectComponent)
+  displayTech(tech: Technician): string {
+    return `${tech.nombre} ${tech.apellido}`;
+  }
 
-    if (!query) {
-       this.filteredTechnicians.set([]);
-      return;
-    }
-
-    const filtered = this.technicians().filter(t => 
-      (t.nombre.toLowerCase().includes(query) || 
-       t.apellido.toLowerCase().includes(query) ||
-       t.dni.includes(query))
-    );
-    this.filteredTechnicians.set(filtered);
+  displayTechSpecialty(tech: Technician): string {
+    return tech.especialidad || '';
   }
 
   selectTechnician(tech: Technician) {
+    if (!tech || !tech.id) return;
     this.editForm.patchValue({ trabajador_id: tech.id });
-    this.technicianSearch.set(`${tech.nombre} ${tech.apellido}`);
-    this.showTechnicianDropdown.set(false);
   }
 
-  closeDropdowns() {
-    setTimeout(() => {
-      this.showClientDropdown.set(false);
-      this.showTechnicianDropdown.set(false);
-    }, 200); 
-  }
+  // closeDropdowns() { // No longer needed, handled by SearchableSelectComponent
+  //   setTimeout(() => {
+  //     this.showClientDropdown.set(false);
+  //     this.showTechnicianDropdown.set(false);
+  //   }, 200); 
+  // }
 
   filterElevators(clientId: number | string) {
     if (!clientId) {

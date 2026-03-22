@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ClientService, Client } from '../../services/client.service';
+import { ModalWrapperComponent } from '../../../../shared/components/modal-wrapper/modal-wrapper.component';
 
 @Component({
   selector: 'app-client-edit',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, ModalWrapperComponent],
   templateUrl: './client-edit.component.html',
 })
 export class ClientEditComponent implements OnInit {

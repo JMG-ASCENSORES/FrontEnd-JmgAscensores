@@ -1,17 +1,10 @@
-<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm transition-opacity" (click)="onClose()">
-  <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto transform transition-all" (click)="$event.stopPropagation()">
-    
-    <!-- Header -->
-    <div class="px-6 py-5 bg-[#003B73] flex items-center justify-between sticky top-0 z-10">
-      <h2 class="text-xl font-bold text-white">Crear Nuevo Documento</h2>
-      <button (click)="onClose()" class="text-white/70 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10">
-        <i class="bi bi-x-lg text-lg"></i>
-      </button>
-    </div>
-
-    <!-- Body -->
-    <div class="p-6">
-      <form [formGroup]="createForm" (ngSubmit)="onSubmit()" class="space-y-6">
+<app-modal-wrapper
+  title="Crear Nuevo Documento"
+  variant="primary"
+  size="lg"
+  (close)="onClose()"
+>
+  <form [formGroup]="createForm" (ngSubmit)="onSubmit()" class="space-y-6">
         
         <!-- Error Alert -->
         <div *ngIf="error()" class="p-4 bg-red-50 text-red-700 rounded-xl flex items-start gap-3 text-sm">
@@ -20,39 +13,15 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <!-- Client Autocomplete -->
-          <div class="space-y-1.5 relative">
-            <label class="text-xs font-bold text-slate-500 uppercase">Cliente <span class="text-red-500">*</span></label>
-            <input 
-              type="text" 
-              [value]="clientSearch()"
-              (input)="onClientSearch($event)"
-              (blur)="closeDropdowns()"
-              placeholder="Buscar cliente..."
-              class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all text-slate-700 bg-white"
-            >
-
-            <!-- Client Dropdown List -->
-            <div *ngIf="showClientDropdown() && filteredClients().length > 0" class="absolute z-50 w-full mt-1 bg-white border border-gray-100 rounded-lg shadow-xl max-h-60 overflow-y-auto">
-              <div 
-                *ngFor="let client of filteredClients()" 
-                (mousedown)="selectClient(client)"
-                class="px-4 py-3 hover:bg-slate-50 cursor-pointer border-b border-gray-50 last:border-0 transition-colors"
-              >
-                 <div class="font-bold text-slate-700 text-sm">{{ client.nombre_comercial || client.contacto_nombre }}</div>
-                 <div class="text-xs text-slate-400">{{ client.ruc || client.dni || 'Sin ID' }}</div>
-              </div>
-            </div>
-             
-             <!-- No results -->
-             <div *ngIf="showClientDropdown() && filteredClients().length === 0 && clientSearch()" class="absolute z-50 w-full mt-1 bg-white border border-gray-100 rounded-lg shadow-xl p-4 text-center text-slate-500 text-sm">
-                No se encontraron clientes
-             </div>
-
-            <div *ngIf="createForm.get('cliente_id')?.touched && createForm.get('cliente_id')?.invalid" class="text-red-500 text-xs">
-              Debe seleccionar un cliente de la lista.
-            </div>
-          </div>
+          <!-- Client Search -->
+          <app-searchable-select
+            label="Cliente"
+            placeholder="Buscar cliente..."
+            [options]="clients()"
+            [displayFn]="displayClient"
+            [subDisplayFn]="displayClientID"
+            (onSelect)="selectClient($event)"
+          ></app-searchable-select>
 
           <!-- Elevator -->
           <div class="space-y-1.5">
@@ -73,44 +42,15 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-             <!-- Technician Autocomplete -->
-             <div class="space-y-1.5 relative">
-                <label class="text-xs font-bold text-slate-500 uppercase">Técnico Responsable <span class="text-red-500">*</span></label>
-                <input 
-                  type="text" 
-                  [value]="technicianSearch()"
-                  (input)="onTechnicianSearch($event)"
-                  (blur)="closeDropdowns()"
-                  placeholder="Buscar técnico..."
-                  class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all text-slate-700 bg-white"
-                >
-
-                <!-- Technician Dropdown List -->
-                <div *ngIf="showTechnicianDropdown() && filteredTechnicians().length > 0" class="absolute z-50 w-full mt-1 bg-white border border-gray-100 rounded-lg shadow-xl max-h-60 overflow-y-auto">
-                  <div 
-                    *ngFor="let tech of filteredTechnicians()" 
-                    (mousedown)="selectTechnician(tech)"
-                    class="px-4 py-3 hover:bg-slate-50 cursor-pointer border-b border-gray-50 last:border-0 transition-colors flex items-center gap-3"
-                  >
-                     <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs font-bold">
-                        {{ tech.nombre.charAt(0) }}{{ tech.apellido.charAt(0) }}
-                     </div>
-                     <div>
-                        <div class="font-bold text-slate-700 text-sm">{{ tech.nombre }} {{ tech.apellido }}</div>
-                        <div class="text-xs text-slate-400">{{ tech.especialidad }}</div>
-                     </div>
-                  </div>
-                </div>
-
-                <!-- No results -->
-                <div *ngIf="showTechnicianDropdown() && filteredTechnicians().length === 0 && technicianSearch()" class="absolute z-50 w-full mt-1 bg-white border border-gray-100 rounded-lg shadow-xl p-4 text-center text-slate-500 text-sm">
-                   No se encontraron técnicos
-                </div>
-
-                <div *ngIf="createForm.get('trabajador_id')?.touched && createForm.get('trabajador_id')?.invalid" class="text-red-500 text-xs">
-                  Debe asignar un técnico de la lista.
-                </div>
-              </div>
+            <!-- Technician Search -->
+            <app-searchable-select
+              label="Técnico Responsable"
+              placeholder="Buscar técnico..."
+              [options]="technicians()"
+              [displayFn]="displayTech"
+              [subDisplayFn]="displayTechSpecialty"
+              (onSelect)="selectTechnician($event)"
+            ></app-searchable-select>
 
             <!-- Report Type -->
             <div class="space-y-1.5">
@@ -150,45 +90,18 @@
           </div>
         </div>
 
-        <!-- Maintenance Checklist Section -->
-        <div class="maintenance-checklist-section pt-6 mt-6 border-t border-slate-100" *ngIf="createForm.get('tipo_informe')?.value === 'Mantenimiento'">
-          <h4 class="text-sm font-extrabold text-[#003B73] uppercase tracking-wider mb-4 flex items-center gap-2">
-            <i class="bi bi-card-checklist"></i> Checklist de Mantenimiento
-          </h4>
+        <!-- Maintenance Checklist Component -->
+        <app-maintenance-checklist
+          *ngIf="maintenanceChecklist().length > 0 && createForm.get('tipo_informe')?.value === 'Mantenimiento'"
+          [items]="maintenanceChecklist()"
+          [loading]="loadingChecklist()"
+          (taskToggle)="toggleTask($event)"
+          (categoryToggle)="toggleCategory($event.group, $event.checked)"
+        ></app-maintenance-checklist>
 
-          <div *ngIf="loadingChecklist()" class="py-10 flex flex-col items-center justify-center gap-3">
-             <div class="spinner-border text-primary" role="status"></div>
-             <span class="text-xs font-bold text-slate-400">Cargando tareas predeterminadas...</span>
-          </div>
-
-          <div class="checklist-groups" *ngIf="!loadingChecklist() && maintenanceChecklist().length > 0">
-            <div *ngFor="let group of groupedChecklist()" class="checklist-group mb-6">
-              <div class="group-header bg-slate-50 p-3 rounded-t-xl border-x border-t border-slate-200 flex items-center justify-between">
-                <span class="group-title text-[10px] font-black text-slate-500 uppercase tracking-widest">{{ group.categoria }}</span>
-                
-                <div class="flex items-center gap-2 px-2 py-1 bg-white rounded-lg border border-slate-200 shadow-sm">
-                  <input type="checkbox" 
-                         [checked]="isCategoryComplete(group)"
-                         (change)="toggleCategory(group, $event)"
-                         class="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer">
-                  <label class="text-[9px] font-bold text-emerald-700 uppercase cursor-pointer">Marcar Todo</label>
-                </div>
-              </div>
-              <div class="group-items bg-white border-x border-b border-slate-200 rounded-b-xl divide-y divide-slate-100 p-1">
-                <div *ngFor="let task of group.tasks" class="task-item px-3 py-3 flex items-start gap-3 hover:bg-slate-50/50 transition-colors" (click)="toggleTask(task)">
-                  <div class="task-checkbox-wrapper mt-0.5">
-                    <input type="checkbox" [checked]="task.realizado" (click)="$event.stopPropagation(); toggleTask(task)" class="w-5 h-5 rounded-md border-slate-300 text-[#003B73] focus:ring-[#003B73] transition-all cursor-pointer">
-                  </div>
-                  <div class="task-info flex-1">
-                    <div class="task-description text-sm font-bold text-slate-700 leading-tight">{{ task.TareaMaestra?.descripcion_tarea }}</div>
-                    <div class="task-status text-[10px] italic font-bold" [class.text-emerald-600]="task.realizado" [class.text-slate-400]="!task.realizado">
-                      {{ task.realizado ? 'EJECUTADO' : 'PENDIENTE' }}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div *ngIf="!loadingChecklist() && maintenanceChecklist().length === 0 && createForm.get('tipo_informe')?.value === 'Mantenimiento'" 
+             class="py-10 text-center text-slate-400 italic text-sm">
+          Seleccione un ascensor para cargar las tareas.
         </div>
 
         <!-- Observations -->
@@ -217,6 +130,4 @@
         </div>
 
       </form>
-    </div>
-  </div>
-</div>
+</app-modal-wrapper>

@@ -5,11 +5,14 @@ import { ClientService, Client, Elevator } from '../../services/client.service';
 import { TechnicianService, Technician } from '../../services/technician.service';
 import { ReportService } from '../../services/report.service';
 import { computed } from '@angular/core';
+import { SearchableSelectComponent } from '../../../../shared/components/searchable-select/searchable-select.component';
+import { MaintenanceChecklistComponent } from '../../../../shared/components/maintenance-checklist/maintenance-checklist.component';
+import { ModalWrapperComponent } from '../../../../shared/components/modal-wrapper/modal-wrapper.component';
 
 @Component({
   selector: 'app-document-create',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, SearchableSelectComponent, MaintenanceChecklistComponent, ModalWrapperComponent],
   templateUrl: './document-create.component.html',
   styleUrl: './document-create.component.scss'
 })
@@ -48,20 +51,8 @@ export class DocumentCreateComponent implements OnInit {
   loadingChecklist = signal(false);
 
   groupedChecklist = computed(() => {
-    const list = this.maintenanceChecklist();
-    const groups: { categoria: string, tasks: any[] }[] = [];
-    
-    list.forEach(item => {
-      const categoria = item.categoria || item.TareaMaestra?.categoria || 'VARIOS';
-      let group = groups.find(g => g.categoria === categoria);
-      if (!group) {
-        group = { categoria, tasks: [] };
-        groups.push(group);
-      }
-      group.tasks.push(item);
-    });
-
-    return groups;
+    // Ya no se necesita el agrupado aquí, se movió al componente
+    return [];
   });
 
   constructor() {
@@ -131,15 +122,21 @@ export class DocumentCreateComponent implements OnInit {
     this.maintenanceChecklist.set([...this.maintenanceChecklist()]);
   }
 
-  toggleCategory(group: { categoria: string, tasks: any[] }, event: Event) {
-    const isChecked = (event.target as HTMLInputElement).checked;
-    group.tasks.forEach(t => t.realizado = isChecked);
+  toggleCategory(group: any, isChecked: boolean) {
+    group.tasks.forEach((t: any) => t.realizado = isChecked);
     this.maintenanceChecklist.set([...this.maintenanceChecklist()]);
   }
 
   isCategoryComplete(group: { categoria: string, tasks: any[] }): boolean {
-    if (!group.tasks || group.tasks.length === 0) return false;
-    return group.tasks.every(t => t.realizado);
+    return false; // Obsoleto, delegado al componente
+  }
+
+  trackByGroup(index: number, group: any): string {
+    return group.categoria;
+  }
+
+  trackByTask(index: number, task: any): number {
+    return task.tarea_maestra_id || task.tarea_id;
   }
 
   loadInitialData() {
@@ -212,8 +209,22 @@ export class DocumentCreateComponent implements OnInit {
   selectTechnician(tech: Technician) {
     if (!tech || !tech.id) return;
     this.createForm.patchValue({ trabajador_id: tech.id });
-    this.technicianSearch.set(`${tech.nombre} ${tech.apellido}`);
-    this.showTechnicianDropdown.set(false);
+  }
+
+  displayClient(client: Client): string {
+    return client.nombre_comercial || client.contacto_nombre || '';
+  }
+
+  displayClientID(client: Client): string {
+    return client.ruc || client.dni || 'Sin ID';
+  }
+
+  displayTech(tech: Technician): string {
+    return `${tech.nombre} ${tech.apellido}`;
+  }
+
+  displayTechSpecialty(tech: Technician): string {
+    return tech.especialidad || '';
   }
 
   closeDropdowns() {
