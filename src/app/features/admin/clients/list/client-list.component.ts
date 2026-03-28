@@ -28,6 +28,7 @@ export class ClientListComponent implements OnInit {
   // Filters
   searchQuery = signal('');
   selectedDistrict = signal('');
+  selectedType = signal<string>('all');
   
   // Modal State
   showCreateModal = signal(false);
@@ -103,10 +104,14 @@ export class ClientListComponent implements OnInit {
     const rawQuery = this.searchQuery();
     const queryTokens = this.normalizeText(rawQuery).split(' ').filter(token => token.length > 0);
     const district = this.selectedDistrict();
+    const typeFilter = this.selectedType();
     
     return this.clients().filter(client => {
       // Hide inactive clients from the main list so they go to the recycle bin (Restore Modal)
       if (client.estado_activo === false) return false;
+
+      // Filter by type
+      if (typeFilter !== 'all' && client.tipo_cliente !== typeFilter) return false;
 
       // Create a single concatenated, normalized string of all searchable fields
       const searchableText = this.normalizeText(
@@ -125,15 +130,15 @@ export class ClientListComponent implements OnInit {
   totalClients = computed(() => this.clients().filter(c => c.estado_activo !== false).length);
   
   totalAscensores = computed(() => 
-    this.clients().filter(c => c.estado_activo !== false).reduce((acc, curr) => acc + (curr.ascensores_count || 0), 0)
+    this.clients().filter(c => c.estado_activo !== false).reduce((acc: number, curr: Client) => acc + (curr.ascensores_count || 0), 0)
   );
   
   totalMontacargas = computed(() => 
-    this.clients().filter(c => c.estado_activo !== false).reduce((acc, curr) => acc + (curr.montacargas_count || 0), 0)
+    this.clients().filter(c => c.estado_activo !== false).reduce((acc: number, curr: Client) => acc + (curr.montacargas_count || 0), 0)
   );
   
   totalPlataformas = computed(() => 
-    this.clients().filter(c => c.estado_activo !== false).reduce((acc, curr) => acc + (curr.plataforma_count || 0), 0)
+    this.clients().filter(c => c.estado_activo !== false).reduce((acc: number, curr: Client) => acc + (curr.plataforma_count || 0), 0)
   );
 
   // Accessors for Template logic
