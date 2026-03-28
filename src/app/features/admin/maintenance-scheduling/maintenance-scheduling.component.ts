@@ -101,9 +101,12 @@ export class MaintenanceSchedulingComponent implements OnInit {
     },
     
     datesSet: (info) => {
-      const start = info.startStr.split('T')[0];
-      const end = info.endStr.split('T')[0];
-      this.loadMantenimientos(start, end);
+      // Usamos setTimeout para asegurar que FullCalendar esté listo
+      setTimeout(() => {
+        const start = info.startStr.split('T')[0];
+        const end = info.endStr.split('T')[0];
+        this.loadMantenimientos(start, end);
+      }, 0);
     }
   };
 
@@ -124,12 +127,15 @@ export class MaintenanceSchedulingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Check if there's a specific date requested from another view (like Dashboard)
     const paramDate = this.route.snapshot.queryParamMap.get('date');
     if (paramDate) {
       this.selectedFilterDate = paramDate;
-      // Set the initial date for the calendar so it opens in the requested month/day
       this.calendarOptions.initialDate = paramDate;
+      
+      // Si ya sabemos la fecha, podemos llamar a la carga inmediatamente si el rango es manejable
+      // Pero mejor confiar en datesSet que ya tiene el rango de la vista actual.
+      // Sin embargo, para mayor seguridad forzamos un ciclo de detección
+      this.cdr.detectChanges();
     }
   }
 
@@ -215,6 +221,9 @@ export class MaintenanceSchedulingComponent implements OnInit {
       ...this.calendarOptions,
       events: events
     };
+    
+    // Forzamos la detección de cambios para que FullCalendar sea notificado reactivamente
+    this.cdr.detectChanges();
   }
 
   // Modal methods

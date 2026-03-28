@@ -99,7 +99,7 @@ export class ProgrammingComponent implements OnInit {
         const localDateStr = [d.getFullYear(), String(d.getMonth() + 1).padStart(2, '0'), String(d.getDate()).padStart(2, '0')].join('-');
         
         // Verifica si hay mantenimientos en este día
-        const tieneSchedules = this.allMantenimientos.some(m => m.start.split('T')[0] === localDateStr);
+        const tieneSchedules = (this.allMantenimientos || []).some(m => m.start && m.start.split('T')[0] === localDateStr);
         if (tieneSchedules) {
             return ['blue-day']; // Esta clase ya existe en CSS (blue rounded square)
         }
@@ -172,11 +172,23 @@ export class ProgrammingComponent implements OnInit {
       // Get all recent/future schedules
       this.mantenimientoService.listar(undefined, undefined, undefined, true).subscribe({
           next: (data) => {
-              this.allMantenimientos = data;
+              this.allMantenimientos = data || [];
               this.processSchedules();
-              // Update calendar trick to trigger re-render of day cells
-              this.calendarOptions = { ...this.calendarOptions };
-              this.cdr.detectChanges();
+              
+              // Forzamos el re-renderizado del calendario con un nuevo objeto de opciones
+              // y una nueva referencia de función para dayCellClassNames
+              setTimeout(() => {
+                  this.calendarOptions = { 
+                      ...this.calendarOptions,
+                      dayCellClassNames: (arg) => {
+                          const d = arg.date;
+                          const localDateStr = [d.getFullYear(), String(d.getMonth() + 1).padStart(2, '0'), String(d.getDate()).padStart(2, '0')].join('-');
+                          const tiene = this.allMantenimientos.some(m => m.start && m.start.split('T')[0] === localDateStr);
+                          return tiene ? ['blue-day'] : [];
+                      }
+                  };
+                  this.cdr.detectChanges();
+              }, 0);
           },
           error: (err) => {
               console.error('Error loading schedules', err);
