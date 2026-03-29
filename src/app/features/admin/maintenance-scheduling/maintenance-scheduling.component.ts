@@ -422,7 +422,7 @@ export class MaintenanceSchedulingComponent implements OnInit {
     }
 
     const fechaStr = this.formatSelectedDate();
-    let message = `Hola *${tech.nombre}*, tu ruta para hoy *${fechaStr}* consta de ${services.length} servicios:\n\n`;
+    let message = `Estimado(a) *${tech.nombre}*, se le informa su ruta de trabajo programada para el día *${fechaStr}*, la cual consta de ${services.length} servicios:\n\n`;
 
     services.forEach((s, index) => {
       const hora = this.formatHora(s.start);
@@ -431,10 +431,10 @@ export class MaintenanceSchedulingComponent implements OnInit {
       const tipo = this.getTipoTrabajoLabel(s.extendedProps?.tipo_trabajo);
       
       message += `${index + 1}. *${hora}* - ${cliente} (${tipo})\n`;
-      message += `   📍 Ref: ${equipo}\n\n`;
+      message += `   Ref: ${equipo}\n\n`;
     });
 
-    message += `Por favor, confirma recepción. ¡Buen turno! 🚀`;
+    message += `Por favor, confirmar la recepción de este mensaje. Atentamente, Administración JMG Ascensores.`;
 
     const encodedMessage = encodeURIComponent(message);
     // Limpiar espacios en el teléfono y añadir código de país

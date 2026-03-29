@@ -366,7 +366,7 @@ export class ProgrammingComponent implements OnInit {
     }
 
     const fechaStr = this.formatDate(services[0]?.start?.split('T')[0] || this.currentDateStr);
-    let message = `Hola *${tech.nombre}*, tu ruta para hoy *${fechaStr}* consta de ${services.length} servicios:\n\n`;
+    let message = `Estimado(a) *${tech.nombre}*, se le informa su ruta de trabajo programada para el día *${fechaStr}*, la cual consta de ${services.length} servicios:\n\n`;
 
     services.forEach((s, index) => {
       let hora = '';
@@ -379,10 +379,10 @@ export class ProgrammingComponent implements OnInit {
       const tipo = this.formatType(s.extendedProps?.tipo_trabajo);
       
       message += `${index + 1}. *${hora}* - ${cliente} (${tipo})\n`;
-      message += `   📍 Ref: ${equipo}\n\n`;
+      message += `   Ref: ${equipo}\n\n`;
     });
 
-    message += `Por favor, confirma recepción. ¡Buen turno! 🚀`;
+    message += `Por favor, confirmar la recepción de este mensaje. Atentamente, Administración JMG Ascensores.`;
 
     const encodedMessage = encodeURIComponent(message);
     const cleanPhone = tech.telefono.replace(/\s+/g, '');
