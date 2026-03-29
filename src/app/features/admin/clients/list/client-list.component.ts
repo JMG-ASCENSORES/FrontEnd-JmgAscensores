@@ -1,8 +1,8 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, OnInit, OnDestroy, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ClientService, Client } from '../../services/client.service';
-import { forkJoin } from 'rxjs';
+import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 
 import { ClientCreateComponent } from '../create/client-create.component';
 import { ClientEditComponent } from '../edit/client-edit.component';
@@ -17,16 +17,24 @@ import { EntityCardComponent } from '../../../../shared/components/entity-card/e
   imports: [CommonModule, FormsModule, ClientCreateComponent, ClientEditComponent, ClientDeleteComponent, ClientRestoreComponent, EquipmentListModalComponent, EntityCardComponent],
   templateUrl: './client-list.component.html',
 })
-export class ClientListComponent implements OnInit {
+export class ClientListComponent implements OnInit, OnDestroy {
   private clientService = inject(ClientService);
+  private destroy$ = new Subject<void>();
 
   // Data Signals
   clients = signal<Client[]>([]);
   isLoading = signal(true);
   error = signal<string | null>(null);
 
+  // Pagination
+  currentPage = signal(1);
+  pageSize = signal(12);
+  totalItems = signal(0);
+  totalPages = signal(0);
+
   // Filters
   searchQuery = signal('');
+  searchSubject = new Subject<string>();
   selectedDistrict = signal('');
   selectedType = signal<string>('all');
   
@@ -46,44 +54,44 @@ export class ClientListComponent implements OnInit {
   districts = ['San Isidro', 'Miraflores', 'Surco', 'Lima'];
 
   ngOnInit() {
-    this.loadClients();
+    this.loadData();
+
+    // Debounced search logic
+    this.searchSubject.pipe(
+      debounceTime(400),
+      distinctUntilChanged(),
+      takeUntil(this.destroy$)
+    ).subscribe(term => {
+      this.searchQuery.set(term);
+      this.onFilterChange();
+    });
   }
 
-  loadClients() {
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  loadData() {
     this.isLoading.set(true);
     this.error.set(null);
     
-    forkJoin({
-      clients: this.clientService.getClients(),
-      elevators: this.clientService.getElevators()
-    }).subscribe({
-      next: ({ clients, elevators }) => {
-        // Map elevators to clients and count each equipment type
-        const enhancedData = clients.map(client => {
-          const clientEquipment = elevators.filter(e => e.cliente_id === client.cliente_id);
-          
-          // Count each type separately
-          const ascensores = clientEquipment.filter(e => 
-            e.tipo_equipo?.toLowerCase().includes('ascensor')
-          ).length;
-          
-          const montacargas = clientEquipment.filter(e => 
-            e.tipo_equipo?.toLowerCase().includes('montacarga')
-          ).length;
-          
-          const plataformas = clientEquipment.filter(e => 
-            e.tipo_equipo?.toLowerCase().includes('plataforma')
-          ).length;
-          
-          return {
-            ...client,
-            ascensores_count: ascensores,
-            montacargas_count: montacargas,
-            plataforma_count: plataformas
-          };
-        });
-
-        this.clients.set(enhancedData);
+    // We use the paginated endpoint. Note: distrito filter is still frontend-only for now 
+    // unless the backend is updated. But searching is now server-side.
+    this.clientService.getClientsPaginated(
+      this.currentPage(),
+      this.pageSize(),
+      this.searchQuery()
+    ).subscribe({
+      next: (response) => {
+        this.clients.set(response.data || []);
+        if (response.meta) {
+          this.totalItems.set(response.meta.totalItems);
+          this.totalPages.set(response.meta.totalPages);
+        } else {
+          this.totalItems.set(response.data.length);
+          this.totalPages.set(1);
+        }
         this.isLoading.set(false);
       },
       error: (err) => {
@@ -94,52 +102,66 @@ export class ClientListComponent implements OnInit {
     });
   }
 
-  // Helper to normalize strings (remove accents and lowercase)
-  normalizeText(text: string | null | undefined): string {
-    return (text || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  // Handle Search input
+  onSearch(term: string) {
+    this.searchSubject.next(term);
   }
 
-  // Computed Properties for UI
+  // Filter change handler
+  onFilterChange() {
+    this.currentPage.set(1);
+    this.loadData();
+  }
+
+  // Computed Properties for UI (Remaining client-side filters like District/Type)
   filteredClients = computed(() => {
-    const rawQuery = this.searchQuery();
-    const queryTokens = this.normalizeText(rawQuery).split(' ').filter(token => token.length > 0);
     const district = this.selectedDistrict();
     const typeFilter = this.selectedType();
     
     return this.clients().filter(client => {
-      // Hide inactive clients from the main list so they go to the recycle bin (Restore Modal)
+      // Hide inactive clients from the main list
       if (client.estado_activo === false) return false;
 
-      // Filter by type
+      // Filter by type (if not already filtered by server)
       if (typeFilter !== 'all' && client.tipo_cliente !== typeFilter) return false;
-
-      // Create a single concatenated, normalized string of all searchable fields
-      const searchableText = this.normalizeText(
-        `${client.nombre_comercial || ''} ${client.contacto_nombre || ''} ${client.ruc || ''} ${client.dni || ''}`
-      );
       
-      // Match all query tokens against the searchable text
-      const matchQuery = queryTokens.length === 0 || queryTokens.every(token => searchableText.includes(token));
-      
+      // Filter by district (Frontend filter for now)
       const matchDistrict = district ? (client.ubicacion || '').toLowerCase().includes(district.toLowerCase()) : true;
       
-      return matchQuery && matchDistrict;
+      return matchDistrict;
     });
   });
 
-  totalClients = computed(() => this.clients().filter(c => c.estado_activo !== false).length);
+  // Global Stats (Note: These reflect the current data. For full totals, 
+  // we might need a separate total-stats endpoint if counts are per-page).
+  totalClients = computed(() => this.totalItems());
   
   totalAscensores = computed(() => 
-    this.clients().filter(c => c.estado_activo !== false).reduce((acc: number, curr: Client) => acc + (curr.ascensores_count || 0), 0)
+    this.clients().reduce((acc, curr) => acc + (curr.ascensores_count || 0), 0)
   );
   
   totalMontacargas = computed(() => 
-    this.clients().filter(c => c.estado_activo !== false).reduce((acc: number, curr: Client) => acc + (curr.montacargas_count || 0), 0)
+    this.clients().reduce((acc, curr) => acc + (curr.montacargas_count || 0), 0)
   );
   
   totalPlataformas = computed(() => 
-    this.clients().filter(c => c.estado_activo !== false).reduce((acc: number, curr: Client) => acc + (curr.plataforma_count || 0), 0)
+    this.clients().reduce((acc, curr) => acc + (curr.plataforma_count || 0), 0)
   );
+
+  // Pagination Actions
+  nextPage() {
+    if (this.currentPage() < this.totalPages()) {
+      this.currentPage.set(this.currentPage() + 1);
+      this.loadData();
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage() > 1) {
+      this.currentPage.set(this.currentPage() - 1);
+      this.loadData();
+    }
+  }
 
   // Accessors for Template logic
   getInitials(name: string | undefined | null): string {
@@ -147,57 +169,33 @@ export class ClientListComponent implements OnInit {
   }
 
   // Modal Actions
-  openCreateModal() {
-    this.showCreateModal.set(true);
-  }
-
-  closeCreateModal() {
-    this.showCreateModal.set(false);
-  }
-
-  onClientCreated() {
-    this.loadClients();
-  }
+  openCreateModal() { this.showCreateModal.set(true); }
+  closeCreateModal() { this.showCreateModal.set(false); }
+  onClientCreated() { this.loadData(); }
 
   openEditModal(client: Client) {
     this.selectedClient.set(client);
     this.showEditModal.set(true);
   }
-
   closeEditModal() {
     this.showEditModal.set(false);
     this.selectedClient.set(null);
   }
-
-  onClientUpdated() {
-    this.loadClients();
-  }
+  onClientUpdated() { this.loadData(); }
 
   openDeleteModal(client: Client) {
     this.selectedClient.set(client);
     this.showDeleteModal.set(true);
   }
-
   closeDeleteModal() {
     this.showDeleteModal.set(false);
     this.selectedClient.set(null);
   }
+  onClientDeleted() { this.loadData(); }
 
-  onClientDeleted() {
-    this.loadClients();
-  }
-
-  openRestoreModal() {
-    this.showRestoreModal.set(true);
-  }
-
-  closeRestoreModal() {
-    this.showRestoreModal.set(false);
-  }
-
-  onClientRestored() {
-    this.loadClients();
-  }
+  openRestoreModal() { this.showRestoreModal.set(true); }
+  closeRestoreModal() { this.showRestoreModal.set(false); }
+  onClientRestored() { this.loadData(); }
 
   // Equipment Modal Actions
   openEquipmentModal(client: Client, equipmentType: string) {
@@ -205,14 +203,12 @@ export class ClientListComponent implements OnInit {
     this.selectedEquipmentType.set(equipmentType);
     this.showEquipmentModal.set(true);
   }
-
   closeEquipmentModal() {
     this.showEquipmentModal.set(false);
     this.selectedClient.set(null);
     this.selectedEquipmentType.set('');
   }
-
   onEquipmentChanged() {
-    this.loadClients(); // Reload to update counts
+    this.loadData();
   }
 }

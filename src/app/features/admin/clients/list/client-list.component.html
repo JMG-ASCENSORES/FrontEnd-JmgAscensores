@@ -40,7 +40,7 @@
           <div class="relative">
             <select 
               [ngModel]="selectedType()" 
-              (ngModelChange)="selectedType.set($event)"
+              (ngModelChange)="selectedType.set($event); onFilterChange()"
               class="w-full bg-white text-slate-700 text-base font-medium rounded-lg border-2 border-gray-300 focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500 p-3 outline-none cursor-pointer appearance-none"
             >
               <option value="all">Todos los tipos</option>
@@ -58,7 +58,7 @@
           <div class="relative">
             <select 
               [ngModel]="selectedDistrict()" 
-              (ngModelChange)="selectedDistrict.set($event)"
+              (ngModelChange)="selectedDistrict.set($event); onFilterChange()"
               class="w-full bg-white text-slate-700 text-base font-medium rounded-lg border-2 border-gray-300 focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500 p-3 outline-none cursor-pointer appearance-none"
             >
               <option value="">Todos los distritos</option>
@@ -80,13 +80,13 @@
                 <input 
                     type="text" 
                     [ngModel]="searchQuery()"
-                    (ngModelChange)="searchQuery.set($event)"
+                    (input)="onSearch($any($event.target).value)"
                     class="block w-full p-3 pl-12 text-base text-slate-900 border-2 border-gray-300 rounded-lg bg-white focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500 outline-none transition-shadow" 
                     placeholder="Buscar por nombre, DNI o RUC..." 
                  />
             </div>
-             <button class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg px-8 py-3 transition-all shadow-md hover:shadow-lg uppercase text-sm tracking-wide">
-               Buscar
+             <button (click)="onFilterChange()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg px-8 py-3 transition-all shadow-md hover:shadow-lg uppercase text-sm tracking-wide">
+               Actualizar
              </button>
            </div>
         </div>
@@ -108,8 +108,9 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         
         <!-- Loading -->
-        <div *ngIf="isLoading()" class="col-span-full py-20 flex justify-center">
+        <div *ngIf="isLoading()" class="col-span-full py-20 flex flex-col items-center">
              <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#003B73] mb-4"></div>
+             <p class="text-slate-500 font-medium">Cargando clientes...</p>
         </div>
         
         <!-- Error -->
@@ -121,6 +122,7 @@
         <!-- Cards -->
         <ng-container *ngIf="!isLoading()">
             <div *ngFor="let client of filteredClients()" class="h-full">
+                <!-- Recordar que la card ya muestra los conteos desde el backend -->
                 <app-entity-card>
                     
                     <!-- Edit Action -->
@@ -230,6 +232,34 @@
             </div>
             <h3 class="text-lg font-bold text-gray-800">No hay clientes registrados</h3>
             <p class="text-gray-400 text-sm mt-1">Comienza registrando un nuevo cliente en el sistema.</p>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div *ngIf="!isLoading() && totalPages() > 1" class="col-span-full mt-10 flex flex-col items-center gap-4">
+            <div class="flex items-center gap-2">
+                <button 
+                  (click)="prevPage()" 
+                  [disabled]="currentPage() === 1"
+                  class="flex items-center gap-2 px-6 py-3 bg-white border-2 border-slate-200 rounded-xl font-bold text-slate-600 transition-all hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed hover:border-slate-300"
+                >
+                  <i class="bi bi-chevron-left"></i> Anterior
+                </button>
+                
+                <div class="flex items-center px-6 h-12 bg-[#003B73] rounded-xl text-white font-bold shadow-lg shadow-blue-900/20">
+                    Página {{ currentPage() }} de {{ totalPages() }}
+                </div>
+
+                <button 
+                  (click)="nextPage()" 
+                  [disabled]="currentPage() === totalPages()"
+                  class="flex items-center gap-2 px-6 py-3 bg-white border-2 border-slate-200 rounded-xl font-bold text-slate-600 transition-all hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed hover:border-slate-300"
+                >
+                  Siguiente <i class="bi bi-chevron-right"></i>
+                </button>
+            </div>
+            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                Mostrando {{ clients().length }} de {{ totalItems() }} clientes
+            </p>
         </div>
     </div>
 </div>
