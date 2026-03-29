@@ -68,9 +68,15 @@ export class ProgrammingComponent implements OnInit {
   schedules: Schedule[] = [];
   selectedSchedule: Schedule | null = null;
   
-  firstJobClientName: string = 'Sin trabajos hoy';
-  firstJobClientAddress: string = 'N/A';
-  firstJobAvatarColor: string = 'bg-gray-400';
+  todayStats = { total: 0, pending: 0, emergencies: 0 };
+  pastPending: Schedule[] = [];
+  hasEmergencyToday = false;
+  // Tech ID -> count of services today
+  techWorkload = new Map<number, number>();
+
+  firstJobClientName: string = 'Sin selección';
+  firstJobClientAddress: string = 'Seleccione una programación';
+  firstJobAvatarColor: string = 'bg-slate-300';
   timeline: TimelineItem[] = [];
 
   upcoming: any[] = [];
@@ -176,14 +182,11 @@ export class ProgrammingComponent implements OnInit {
   }
 
   loadSchedules() {
-      // Get all recent/future schedules
       this.mantenimientoService.listar(undefined, undefined, undefined, true).subscribe({
           next: (data) => {
               this.allMantenimientos = data || [];
               this.processSchedules();
               
-              // Forzamos el re-renderizado del calendario con un nuevo objeto de opciones
-              // y una nueva referencia de función para dayCellClassNames
               setTimeout(() => {
                   this.calendarOptions = { 
                       ...this.calendarOptions,
@@ -207,45 +210,8 @@ export class ProgrammingComponent implements OnInit {
       const todayStr = this.currentDateStr;
       
       // 1. "Programaciones del día"
-      // Filter the ones matching today
       const todayMantenimientos = this.allMantenimientos.filter(m => m.start.startsWith(todayStr));
-      
-      const avatarColors = ['bg-yellow-400', 'bg-red-400', 'bg-blue-400', 'bg-green-400'];
-      
-      this.schedules = todayMantenimientos.map((m, index) => {
-          let clientName = 'Sin Cliente';
-          let address = 'Sin dirección';
-          if (m.extendedProps?.cliente) {
-              clientName = m.extendedProps.cliente.nombre_comercial || `${m.extendedProps.cliente.contacto_nombre || ''} ${m.extendedProps.cliente.contacto_apellido || ''}`.trim() || 'Sin Cliente';
-          }
-          if (m.extendedProps?.ascensor && m.extendedProps.ascensor.modelo) {
-              address = `Ascensor: ${m.extendedProps.ascensor.marca} ${m.extendedProps.ascensor.modelo}`;
-          }
-          
-          let techName = 'No asignado';
-          if (m.extendedProps?.trabajadores && m.extendedProps.trabajadores.length > 0) {
-              const mainTech = m.extendedProps.trabajadores[0];
-              techName = `${mainTech.nombre} ${mainTech.apellido}`.trim() || 'No asignado';
-          } else if (m.extendedProps?.trabajador) {
-              techName = `${m.extendedProps.trabajador.nombre} ${m.extendedProps.trabajador.apellido}`.trim() || 'No asignado';
-          }
-          
-          let time = '';
-          if (m.start.includes('T')) {
-              time = m.start.split('T')[1].substring(0, 5); // 08:00
-          }
-          
-          return {
-              id: m.id,
-              clientName,
-              type: this.formatType(m.extendedProps?.tipo_trabajo),
-              technicianName: techName,
-              time,
-              address,
-              avatarColor: avatarColors[index % avatarColors.length],
-              originalData: m
-          };
-      });
+      this.schedules = todayMantenimientos.map((m, index) => this.mapToSchedule(m, index));
       
       // 2. Initial Selection
       if (this.schedules.length > 0) {
@@ -270,24 +236,111 @@ export class ProgrammingComponent implements OnInit {
               alert: isEmergency
           };
       });
+
+      // 4. Estadísticas del Día (Stats reales)
+      this.todayStats = {
+          total: this.schedules.length,
+          pending: todayMantenimientos.filter(m => m.extendedProps?.estado === 'pendiente' || !m.extendedProps?.estado).length,
+          emergencies: todayMantenimientos.filter(m => m.extendedProps?.tipo_trabajo === 'emergencia').length
+      };
+      this.hasEmergencyToday = this.todayStats.emergencies > 0;
+
+      // 5. Pendientes de cierre (Días anteriores)
+      const pastMantenimientos = this.allMantenimientos.filter(m => {
+          const mDate = m.start.split('T')[0];
+          const isPast = mDate < todayStr;
+          const isPending = m.extendedProps?.estado === 'pendiente' || m.extendedProps?.estado === 'en_progreso' || !m.extendedProps?.estado;
+          return isPast && isPending;
+      }).sort((a, b) => b.start.localeCompare(a.start));
+
+      this.pastPending = pastMantenimientos.map(m => this.mapToSchedule(m, 0));
+
+      // 6. Carga de Trabajo de Técnicos (Workload)
+      this.techWorkload.clear();
+      this.schedules.forEach(s => {
+          const techs = s.originalData.extendedProps?.trabajador_ids || [];
+          if (techs.length === 0 && s.originalData.extendedProps?.trabajador_id) {
+              techs.push(s.originalData.extendedProps.trabajador_id);
+          }
+          techs.forEach(id => {
+              this.techWorkload.set(id, (this.techWorkload.get(id) || 0) + 1);
+          });
+      });
+  }
+
+  private mapToSchedule(m: Mantenimiento, index: number): Schedule {
+      const avatarColors = ['bg-yellow-400', 'bg-red-400', 'bg-blue-400', 'bg-green-400'];
+      let clientName = 'Sin Cliente';
+      let address = 'Sin dirección';
+      
+      if (m.extendedProps?.cliente) {
+          clientName = m.extendedProps.cliente.nombre_comercial || 
+                       `${m.extendedProps.cliente.contacto_nombre || ''} ${m.extendedProps.cliente.contacto_apellido || ''}`.trim() || 
+                       'Sin Cliente';
+          address = m.extendedProps.cliente.direccion || 'Sin dirección registrada';
+      }
+      
+      if (m.extendedProps?.ascensor) {
+          const asc = m.extendedProps.ascensor;
+          address = `${asc.tipo_equipo || 'Equipo'} - ${asc.marca || ''} ${asc.modelo || ''}`.trim();
+      }
+      
+      let techName = 'No asignado';
+      if (m.extendedProps?.trabajadores && m.extendedProps.trabajadores.length > 0) {
+          techName = m.extendedProps.trabajadores.map((t: any) => t.nombre).join(', ');
+      } else if (m.extendedProps?.trabajador) {
+          techName = `${m.extendedProps.trabajador.nombre} ${m.extendedProps.trabajador.apellido}`.trim() || 'No asignado';
+      }
+      
+      let time = '';
+      if (m.start.includes('T')) {
+          time = m.start.split('T')[1].substring(0, 5);
+      }
+      
+      return {
+          id: m.id,
+          clientName,
+          type: this.formatType(m.extendedProps?.tipo_trabajo),
+          technicianName: techName,
+          time,
+          address,
+          avatarColor: avatarColors[index % avatarColors.length],
+          originalData: m
+      };
   }
   
   updateDetailView(schedule: Schedule | null) {
       if (schedule) {
           this.firstJobClientName = schedule.clientName;
-          this.firstJobClientAddress = schedule.address;
+          const mant = schedule.originalData;
+          
+          if (mant.extendedProps?.cliente?.direccion) {
+              this.firstJobClientAddress = mant.extendedProps.cliente.direccion;
+          } else if (mant.extendedProps?.ascensor) {
+              const asc = mant.extendedProps.ascensor;
+              this.firstJobClientAddress = `${asc.tipo_equipo} | ${asc.marca} (S/N: ${asc.numero_serie || 'N/A'})`;
+          } else {
+              this.firstJobClientAddress = schedule.address;
+          }
+          
           this.firstJobAvatarColor = schedule.avatarColor;
           
-          // Crear un timeline basado en los datos del mantenimiento seleccionado
           const dateFmt = this.formatDate(schedule.originalData.start.split('T')[0]);
           this.timeline = [
-              { date: dateFmt, description: 'Inicio programado', completed: true },
-              { date: dateFmt, description: schedule.originalData.title || 'Trabajo asignado', completed: true },
-              { date: dateFmt, description: schedule.originalData.extendedProps?.descripcion || 'Pendiente de ejecución', completed: false }
+              { date: dateFmt, description: 'Inicio programado: ' + schedule.time, completed: true },
+              { date: 'Detalle', description: schedule.originalData.title || 'Trabajo asignado', completed: true }
           ];
+          
+          if (mant.extendedProps?.descripcion) {
+              this.timeline.push({ date: 'Notas', description: mant.extendedProps.descripcion, completed: false });
+          }
+          
+          if (mant.extendedProps?.orden_id) {
+              this.timeline.push({ date: 'Referencia', description: 'Orden de trabajo #' + mant.extendedProps.orden_id, completed: true });
+          }
       } else {
-          this.firstJobClientName = 'Sin trabajos hoy';
-          this.firstJobClientAddress = 'Libre';
+          this.firstJobClientName = 'Sin selección';
+          this.firstJobClientAddress = 'Seleccione una programación';
           this.firstJobAvatarColor = 'bg-slate-300';
           this.timeline = [];
       }
@@ -449,6 +502,12 @@ export class ProgrammingComponent implements OnInit {
 
   isTechNotified(techId: number): boolean {
     return !!this.notifiedTechIdsByDate.get(this.currentDateStr)?.has(techId);
+  }
+
+  getWorkloadBadge(techId: number): string | null {
+      const count = this.techWorkload.get(techId);
+      if (!count) return null;
+      return count === 1 ? '1 servicio' : `${count} servicios`;
   }
 
   showToast(message: string, type: 'success' | 'error' = 'error', title: string = 'Aviso'): void {

@@ -146,3 +146,35 @@
 .tech-notification-scroll::-webkit-scrollbar-thumb:hover {
   background: #bbf7d0;
 }
+
+/* Emergency Pulse Animation */
+@keyframes pulse-red {
+    0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+}
+
+.emergency-pulse {
+    animation: pulse-red 2s infinite;
+}
+
+/* Horizontal Scrollbar for Pending Section */
+.horizontal-scroll-thin::-webkit-scrollbar {
+    height: 4px;
+}
+.horizontal-scroll-thin::-webkit-scrollbar-track {
+    background: transparent;
+}
+.horizontal-scroll-thin::-webkit-scrollbar-thumb {
+    background: #fde68a; /* amber-200 */
+    border-radius: 10px;
+}
+.horizontal-scroll-thin::-webkit-scrollbar-thumb:hover {
+    background: #fbbf24; /* amber-400 */
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.horizontal-scroll-thin {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: thin; /* Firefox */
+}

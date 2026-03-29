@@ -1,6 +1,11 @@
 <div class="p-4 md:p-5 flex flex-col h-full bg-slate-50 gap-4 md:gap-5 min-h-0">
     <div class="flex items-center justify-between shrink-0">
         <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Gestión de Programación</h1>
+        <a routerLink="/admin/maintenance-scheduling" 
+           class="flex items-center gap-2 px-4 py-2 bg-[#003B73] text-white text-sm font-bold rounded-xl hover:bg-[#002d5a] transition-all hover:scale-105 shadow-md">
+            <i class="bi bi-calendar-plus"></i>
+            Nueva Programación
+        </a>
     </div>
 
     <!-- Main Grid -->
@@ -14,25 +19,32 @@
                  <full-calendar [options]="calendarOptions"></full-calendar>
             </div>
 
-            <!-- Clients Stat -->
+            <!-- Today's Services Stat -->
             <div class="shrink-0 bg-teal-100 rounded-xl p-4 shadow-sm border border-teal-200 flex justify-between items-center transition-transform hover:-translate-y-1">
                 <div>
-                    <h3 class="text-teal-900 text-sm mb-1 font-bold uppercase tracking-wider">Clientes</h3>
-                    <p class="text-4xl font-extrabold text-teal-950">{{clientCount}}</p>
+                    <h3 class="text-teal-900 text-sm mb-1 font-bold uppercase tracking-wider">Hoy</h3>
+                    <p class="text-4xl font-extrabold text-teal-950">{{todayStats.total}}</p>
+                    <p class="text-xs text-teal-800 font-medium">{{todayStats.pending}} pendientes</p>
                 </div>
                 <div class="w-12 h-12 rounded-xl bg-[#1e5a5a] text-white flex items-center justify-center shadow-lg shadow-teal-900/20">
-                    <i class="bi bi-people-fill text-xl"></i>
+                    <i class="bi bi-calendar-check text-xl"></i>
                 </div>
             </div>
 
-            <!-- Equipment Stat -->
-            <div class="shrink-0 bg-slate-200 rounded-xl p-4 shadow-sm border border-slate-300 flex justify-between items-center transition-transform hover:-translate-y-1">
+            <!-- Emergencies Stat -->
+            <div class="shrink-0 rounded-xl p-4 shadow-sm border flex justify-between items-center transition-transform hover:-translate-y-1"
+                 [ngClass]="hasEmergencyToday ? 'bg-red-100 border-red-200' : 'bg-slate-200 border-slate-300'">
                 <div>
-                    <h3 class="text-slate-700 text-sm mb-1 font-bold uppercase tracking-wider">Equipos</h3>
-                    <p class="text-4xl font-extrabold text-slate-900">{{equipmentCount}}</p>
+                    <h3 class="text-sm mb-1 font-bold uppercase tracking-wider"
+                        [ngClass]="hasEmergencyToday ? 'text-red-900' : 'text-slate-700'">Alertas</h3>
+                    <p class="text-4xl font-extrabold"
+                       [ngClass]="hasEmergencyToday ? 'text-red-950' : 'text-slate-900'">{{todayStats.emergencies}}</p>
+                    <p class="text-xs font-medium"
+                       [ngClass]="hasEmergencyToday ? 'text-red-800' : 'text-slate-600'">Emergencias hoy</p>
                 </div>
-                <div class="w-12 h-12 rounded-xl bg-slate-700 text-white flex items-center justify-center shadow-lg shadow-slate-900/20">
-                    <i class="bi bi-building text-xl"></i>
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg"
+                     [ngClass]="hasEmergencyToday ? 'bg-red-600 text-white shadow-red-900/20' : 'bg-slate-700 text-white shadow-slate-900/20'">
+                    <i class="bi text-xl" [ngClass]="hasEmergencyToday ? 'bi-exclamation-triangle-fill animate-pulse' : 'bi-shield-check'"></i>
                 </div>
             </div>
 
@@ -40,35 +52,41 @@
 
         <!-- Middle Column (Schedules) col-span-5 -->
         <div class="lg:col-span-5 flex flex-col gap-4 md:gap-5 min-h-0 h-full">
-            
-            <!-- WhatsApp Notifications Panel -->
-            <div *ngIf="schedules.length > 0" class="bg-[#f0fdf4] rounded-xl p-4 shadow-sm border border-[#22c55e] flex flex-col shrink-0">
-                <div class="flex items-center justify-between mb-3">
-                    <h2 class="text-sm font-bold text-[#166534] uppercase tracking-wider">Notificar Técnicos del Día</h2>
-                    <i class="bi bi-whatsapp text-[#166534] text-lg"></i>
-                </div>
-                <div class="flex flex-col gap-2 overflow-y-auto max-h-[140px] pr-1 tech-notification-scroll">
-                    <div *ngFor="let group of getTechniciansFromSchedules()" class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-[#dcfce7] shadow-sm">
-                        <div class="flex flex-col overflow-hidden">
-                            <span class="font-bold text-slate-800 text-sm truncate" [title]="group.tech.nombre + ' ' + group.tech.apellido">
-                                {{ group.tech.nombre }} {{ group.tech.apellido }}
-                            </span>
-                            <span class="text-xs text-slate-500">{{ group.services.length }} servicios hoy</span>
-                        </div>
-                        <button 
-                            class="shrink-0 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-bold transition-all"
-                            [ngClass]="isTechNotified(group.tech.trabajador_id) ? 'bg-slate-50 text-[#166534] border border-[#22c55e] hover:bg-[#f0fdf4]' : 'bg-[#25d366] text-white hover:bg-[#128c7e] hover:-translate-y-px shadow-sm'"
-                            (click)="sendWhatsAppRoute(group)"
-                            [title]="isTechNotified(group.tech.trabajador_id) ? 'Notificado en esta sesión' : 'Enviar ruta por WhatsApp'"
-                        >
-                            <i [class]="isTechNotified(group.tech.trabajador_id) ? 'bi bi-check-all text-sm' : 'bi bi-whatsapp'"></i>
-                            {{ isTechNotified(group.tech.trabajador_id) ? 'Reenviar' : 'Notificar' }}
-                        </button>
+                        <!-- Emergency Alert Banner -->
+            <div *ngIf="hasEmergencyToday" 
+                 class="bg-red-600 text-white p-3 rounded-xl shadow-md flex items-center justify-between animate-pulse">
+                <div class="flex items-center gap-3">
+                    <i class="bi bi-lightning-fill text-xl"></i>
+                    <div>
+                        <p class="font-bold text-sm">ATENCIÓN: EMERGENCIAS REPORTADAS</p>
+                        <p class="text-[11px] opacity-90">Revise las programaciones marcadas en rojo inmediatamente.</p>
                     </div>
                 </div>
+                <i class="bi bi-exclamation-octagon text-2xl"></i>
             </div>
 
-            <!-- Daily Schedules -->
+            <!-- Past Due / Pending Closing -->
+            <div *ngIf="pastPending.length > 0" 
+                 class="bg-amber-50 rounded-xl p-3 border border-amber-200 shadow-sm shrink-0">
+                <div class="flex items-center justify-between mb-2">
+                    <h2 class="text-xs font-bold text-amber-900 uppercase tracking-widest flex items-center gap-2">
+                        <i class="bi bi-clock-history"></i>
+                        Pendientes de cierre ({{pastPending.length}})
+                    </h2>
+                    <span class="text-[10px] bg-amber-200 text-amber-900 px-2 py-0.5 rounded-full font-bold">Días anteriores</span>
+                </div>
+                <div class="flex gap-2 overflow-x-auto pb-1 pr-1">
+                    <div *ngFor="let m of pastPending" 
+                         (click)="selectSchedule(m)"
+                         class="shrink-0 w-[180px] bg-white p-2 rounded-lg border border-amber-100 shadow-sm cursor-pointer hover:border-amber-400 transition-colors">
+                        <p class="text-[10px] font-bold text-amber-600 truncate mb-1">{{m.clientName}}</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-[9px] text-slate-500">{{formatDateShort(m.originalData.start.split('T')[0])}}</span>
+                            <span class="text-[9px] px-1 bg-amber-100 text-amber-800 rounded">{{m.type}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>            <!-- Daily Schedules -->
             <div class="bg-blue-100 rounded-xl p-4 shadow-sm border border-blue-200 flex flex-col flex-1 min-h-0">
                 <h2 class="text-lg font-bold text-slate-800 mb-3 shrink-0">Programaciones del día</h2>
                 
@@ -80,19 +98,16 @@
                          (click)="selectSchedule(schedule)"
                          class="shrink-0 flex items-start justify-between p-3 rounded-xl border border-r-4 transition-colors cursor-pointer"
                          [ngClass]="selectedSchedule?.id === schedule.id ? 'bg-white border-r-blue-600 border-blue-100 shadow-sm' : 'bg-white/40 border-r-transparent border-transparent hover:border-r-blue-500 hover:bg-white/60'">
-                        <div class="flex items-start gap-3 w-3/5">
-                            <!-- Overlapping circles avatar simulation -->
-                            <div class="relative w-10 h-10 shrink-0">
-                                <div class="absolute top-0 left-0 w-6 h-6 rounded-full opacity-80 z-10" [ngClass]="schedule.avatarColor"></div>
-                                <div class="absolute bottom-0 right-0 w-6 h-6 rounded-full bg-blue-500 opacity-80"></div>
-                                <div class="absolute bottom-0 left-0 w-6 h-6 rounded-full bg-red-500 opacity-80"></div>
+                <div class="flex items-center gap-3 w-4/6">
+                                <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold" [ngClass]="schedule.avatarColor">
+                                    {{schedule.clientName.substring(0, 1)}}
+                                </div>
+                                <div class="overflow-hidden">
+                                    <h3 class="font-bold text-slate-800 text-sm truncate" [title]="schedule.clientName">{{schedule.clientName}}</h3>
+                                    <p class="text-[11px] font-medium" 
+                                       [ngClass]="schedule.type === 'Emergencia' ? 'text-red-600 animate-pulse' : 'text-slate-400'">{{schedule.type}}</p>
+                                </div>
                             </div>
-                            
-                            <div class="overflow-hidden">
-                                <h3 class="font-bold text-slate-800 text-base truncate" [title]="schedule.clientName">{{schedule.clientName}}</h3>
-                                <p class="text-sm text-slate-400 truncate">{{schedule.type}}</p>
-                            </div>
-                        </div>
                         
                         <div class="text-right w-2/5 flex flex-col justify-between items-end">
                              <div class="flex flex-col items-end">
@@ -137,9 +152,12 @@
                            <i class="bi bi-whatsapp"></i>
                            Notificar
                        </button>
-                       <button class="text-blue-600 hover:text-blue-800 shrink-0 text-xl p-1">
-                           <i class="bi bi-arrow-right"></i>
-                       </button>
+                       <a *ngIf="selectedSchedule?.originalData?.extendedProps?.orden_id"
+                          [routerLink]="['/admin/documents']" [queryParams]="{search: selectedSchedule?.originalData?.extendedProps?.orden_id}"
+                          class="bg-blue-50 text-blue-600 p-1.5 rounded-lg hover:bg-blue-100 transition-colors"
+                          title="Ir a Documentos">
+                           <i class="bi bi-file-earmark-text"></i>
+                       </a>
                    </div>
                </div>
                
@@ -171,61 +189,78 @@
         <div class="lg:col-span-4 flex flex-col gap-4 md:gap-5 min-h-0 h-full">
             
             <!-- Workers List -->
-            <div class="bg-gray-100 rounded-xl p-4 shadow-sm border border-gray-200 flex flex-col flex-1 min-h-0">
-                <div class="flex justify-between items-baseline mb-4 shrink-0">
-                     <h2 class="text-lg font-bold text-slate-800">Trabajadores</h2>
-                     <a routerLink="/admin/technicians" class="text-sm text-blue-600 font-semibold hover:underline">Ver Todos</a>
+            <div class="bg-gray-100 rounded-xl p-3 shadow-sm border border-gray-200 flex flex-col flex-1 min-h-0">
+                <div class="flex justify-between items-baseline mb-2 shrink-0">
+                     <h2 class="text-base font-bold text-slate-800">Trabajadores</h2>
+                     <a routerLink="/admin/technicians" class="text-xs text-blue-600 font-semibold hover:underline">Ver Todos</a>
                 </div>
 
-                <div class="flex flex-col gap-3 overflow-y-auto flex-1 pr-1">
+                <div class="flex flex-col gap-1.5 overflow-y-auto flex-1 pr-1">
                     <!-- Loading State -->
-                    <div *ngIf="isLoading" class="flex flex-col items-center justify-center py-6">
-                        <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-600 mb-2"></div>
-                        <p class="text-sm text-slate-400 animate-pulse">Cargando...</p>
+                    <div *ngIf="isLoading" class="flex flex-col items-center justify-center py-4">
+                        <div class="animate-spin rounded-full h-7 w-7 border-t-2 border-b-2 border-blue-600 mb-2"></div>
+                        <p class="text-xs text-slate-400 animate-pulse">Cargando...</p>
                     </div>
 
                     <ng-container *ngIf="!isLoading">
-                        <div *ngIf="workers.length === 0" class="text-center py-4 text-slate-400 text-sm">
+                        <div *ngIf="workers.length === 0" class="text-center py-3 text-slate-400 text-sm">
                             No hay personal registrado.
                         </div>
 
-                        <div *ngFor="let worker of workers" class="shrink-0 flex items-center justify-between group bg-white/50 p-2 rounded-xl border border-gray-50/50 shadow-sm transition-all hover:bg-white">
-                            <div class="flex items-center gap-3 w-5/6">
-                                <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0 transition-transform group-hover:scale-110" [ngClass]="worker.roleColor ? worker.roleColor : 'bg-white text-slate-500 shadow-sm'">
-                                    <i class="bi" [ngClass]="worker.icon"></i>
+                        <div *ngFor="let worker of workers" class="shrink-0 flex items-center justify-between group bg-white/50 p-1.5 rounded-lg border border-gray-50/50 shadow-sm transition-all hover:bg-white">
+                            <div class="flex items-center justify-between gap-2 w-full">
+                                <div class="flex items-center gap-2 overflow-hidden">
+                                    <div class="w-8 h-8 rounded-lg flex items-center justify-center text-base shrink-0 transition-transform group-hover:scale-110" [ngClass]="worker.roleColor ? worker.roleColor : 'bg-white text-slate-500 shadow-sm'">
+                                        <i class="bi" [ngClass]="worker.icon"></i>
+                                    </div>
+                                    <div class="overflow-hidden">
+                                        <h3 class="font-bold text-slate-800 text-sm truncate leading-tight group-hover:text-[#003B73] transition-colors" [title]="worker.name">{{worker.name}}</h3>
+                                        <div class="flex items-center gap-1">
+                                            <p class="text-[10px] text-slate-400 truncate font-medium max-w-[80px]" [title]="worker.role">{{worker.role}}</p>
+                                            <span *ngIf="getWorkloadBadge(worker.id)" 
+                                                  class="text-[9px] px-1 bg-blue-100 text-blue-700 rounded font-bold whitespace-nowrap">
+                                                {{getWorkloadBadge(worker.id)}}
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="overflow-hidden">
-                                    <h3 class="font-bold text-slate-800 text-[15px] truncate leading-tight group-hover:text-[#003B73] transition-colors" [title]="worker.name">{{worker.name}}</h3>
-                                    <p class="text-xs text-slate-500 truncate leading-tight font-medium" [title]="worker.role">{{worker.role}}</p>
-                                </div>
+                                <button (click)="goToTechnicianDetails(worker)" class="text-slate-300 hover:text-[#003B73] transition-colors shrink-0 text-base" title="Ver/Editar Técnico">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
                             </div>
-                            <button (click)="goToTechnicianDetails(worker)" class="text-slate-400 hover:text-[#003B73] transition-colors shrink-0 text-lg mr-1" title="Ver/Editar Técnico">
-                                <i class="bi bi-pencil-square"></i>
-                            </button>
                         </div>
                     </ng-container>
                 </div>
             </div>
 
-            <!-- Upcoming Days -->
-            <div class="bg-amber-100 rounded-xl p-4 shadow-sm border border-amber-200 flex flex-col shrink-0 min-h-[140px] max-h-[30vh]">
-                 <div class="flex justify-between items-center mb-4 shrink-0">
-                     <h2 class="text-lg font-bold text-slate-800">Próximos días</h2>
-                     <a href="#" class="text-sm text-blue-500 hover:underline">Ver Todos</a>
-                 </div>
-                 
-                 <div class="space-y-3 overflow-y-auto pr-1 flex-1">
-                     <div *ngIf="upcoming.length === 0" class="text-center py-2 text-slate-500 text-sm">
-                         No hay trabajos programados.
-                     </div>
-                     <div *ngFor="let item of upcoming" class="shrink-0 flex items-center justify-between text-sm">
-                         <span class="text-slate-500 w-24 shrink-0 font-medium" [class.text-red-500]="item.alert" [class.bg-red-50]="item.alert" [class.px-1]="item.alert" [class.rounded]="item.alert">{{item.date}}</span>
-                         <span class="font-bold text-slate-700 flex-1 flex items-center justify-end gap-2 text-right truncate">
-                             <i *ngIf="item.alert" class="bi bi-exclamation-circle-fill text-red-500 text-xs shrink-0"></i>
-                             <span class="truncate" [title]="item.type">{{item.type}}</span>
-                         </span>
-                     </div>
-                 </div>
+            <!-- Notificar Técnicos -->
+            <div class="bg-[#f0fdf4] rounded-xl p-3 shadow-sm border border-[#22c55e] flex flex-col shrink-0 max-h-[38vh]">
+                <div class="flex items-center justify-between mb-2 shrink-0">
+                    <h2 class="text-xs font-bold text-[#166534] uppercase tracking-wider">Notificar Técnicos</h2>
+                    <i class="bi bi-whatsapp text-[#166534] text-base"></i>
+                </div>
+                <div *ngIf="schedules.length === 0" class="text-center py-3 text-slate-400 text-xs">
+                    Sin técnicos asignados hoy.
+                </div>
+                <div class="flex flex-col gap-1.5 overflow-y-auto flex-1 pr-1">
+                    <div *ngFor="let group of getTechniciansFromSchedules()" class="flex items-center justify-between bg-white p-1.5 rounded-lg border border-[#dcfce7] shadow-sm">
+                        <div class="flex flex-col overflow-hidden">
+                            <span class="font-bold text-slate-800 text-xs truncate" [title]="group.tech.nombre + ' ' + group.tech.apellido">
+                                {{ group.tech.nombre }} {{ group.tech.apellido }}
+                            </span>
+                            <span class="text-[10px] text-slate-500">{{ group.services.length }} servicios hoy</span>
+                        </div>
+                        <button
+                            class="shrink-0 flex items-center justify-center gap-1 px-2 py-1 rounded-md text-[10px] font-bold transition-all"
+                            [ngClass]="isTechNotified(group.tech.trabajador_id) ? 'bg-slate-50 text-[#166534] border border-[#22c55e] hover:bg-[#f0fdf4]' : 'bg-[#25d366] text-white hover:bg-[#128c7e] hover:-translate-y-px shadow-sm'"
+                            (click)="sendWhatsAppRoute(group)"
+                            [title]="isTechNotified(group.tech.trabajador_id) ? 'Notificado en esta sesión' : 'Enviar ruta por WhatsApp'"
+                        >
+                            <i [class]="isTechNotified(group.tech.trabajador_id) ? 'bi bi-check-all text-xs' : 'bi bi-whatsapp'"></i>
+                            {{ isTechNotified(group.tech.trabajador_id) ? 'Reenviar' : 'Notificar' }}
+                        </button>
+                    </div>
+                </div>
             </div>
 
         </div>
