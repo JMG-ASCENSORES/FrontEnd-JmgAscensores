@@ -60,6 +60,17 @@ export interface ElevatorApiResponse {
   timestamp?: string;
 }
 
+export interface ClientStatsResponse {
+  success: boolean;
+  message: string;
+  data: {
+    total_clientes: number;
+    total_ascensores: number;
+    total_montacargas: number;
+    total_plataformas: number;
+  };
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -96,6 +107,12 @@ export class ClientService {
     return this.http.get<ApiResponse>(this.apiUrl, { 
        headers: this.getHeaders(), 
        params 
+    });
+  }
+
+  getClientStats(): Observable<ClientStatsResponse> {
+    return this.http.get<ClientStatsResponse>(`${this.apiUrl}/stats`, {
+      headers: this.getHeaders()
     });
   }
 

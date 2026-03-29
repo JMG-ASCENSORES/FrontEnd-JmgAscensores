@@ -32,6 +32,12 @@ export class ClientListComponent implements OnInit, OnDestroy {
   totalItems = signal(0);
   totalPages = signal(0);
 
+  // Global Stats (loaded once, independent of pagination)
+  totalClients = signal(0);
+  totalAscensores = signal(0);
+  totalMontacargas = signal(0);
+  totalPlataformas = signal(0);
+
   // Filters
   searchQuery = signal('');
   searchSubject = new Subject<string>();
@@ -54,6 +60,7 @@ export class ClientListComponent implements OnInit, OnDestroy {
   districts = ['San Isidro', 'Miraflores', 'Surco', 'Lima'];
 
   ngOnInit() {
+    this.loadStats();
     this.loadData();
 
     // Debounced search logic
@@ -102,6 +109,19 @@ export class ClientListComponent implements OnInit, OnDestroy {
     });
   }
 
+  /** Load global stats once — single lightweight SQL query */
+  loadStats() {
+    this.clientService.getClientStats().subscribe({
+      next: (response) => {
+        this.totalClients.set(response.data.total_clientes);
+        this.totalAscensores.set(response.data.total_ascensores);
+        this.totalMontacargas.set(response.data.total_montacargas);
+        this.totalPlataformas.set(response.data.total_plataformas);
+      },
+      error: (err) => console.error('Error loading stats:', err)
+    });
+  }
+
   // Handle Search input
   onSearch(term: string) {
     this.searchSubject.next(term);
@@ -132,21 +152,7 @@ export class ClientListComponent implements OnInit, OnDestroy {
     });
   });
 
-  // Global Stats (Note: These reflect the current data. For full totals, 
-  // we might need a separate total-stats endpoint if counts are per-page).
-  totalClients = computed(() => this.totalItems());
-  
-  totalAscensores = computed(() => 
-    this.clients().reduce((acc, curr) => acc + (curr.ascensores_count || 0), 0)
-  );
-  
-  totalMontacargas = computed(() => 
-    this.clients().reduce((acc, curr) => acc + (curr.montacargas_count || 0), 0)
-  );
-  
-  totalPlataformas = computed(() => 
-    this.clients().reduce((acc, curr) => acc + (curr.plataforma_count || 0), 0)
-  );
+  // Global stats are loaded via loadStats() — no per-page computation needed
 
   // Pagination Actions
   nextPage() {
@@ -171,7 +177,7 @@ export class ClientListComponent implements OnInit, OnDestroy {
   // Modal Actions
   openCreateModal() { this.showCreateModal.set(true); }
   closeCreateModal() { this.showCreateModal.set(false); }
-  onClientCreated() { this.loadData(); }
+  onClientCreated() { this.loadStats(); this.loadData(); }
 
   openEditModal(client: Client) {
     this.selectedClient.set(client);
@@ -181,7 +187,7 @@ export class ClientListComponent implements OnInit, OnDestroy {
     this.showEditModal.set(false);
     this.selectedClient.set(null);
   }
-  onClientUpdated() { this.loadData(); }
+  onClientUpdated() { this.loadStats(); this.loadData(); }
 
   openDeleteModal(client: Client) {
     this.selectedClient.set(client);
@@ -191,11 +197,11 @@ export class ClientListComponent implements OnInit, OnDestroy {
     this.showDeleteModal.set(false);
     this.selectedClient.set(null);
   }
-  onClientDeleted() { this.loadData(); }
+  onClientDeleted() { this.loadStats(); this.loadData(); }
 
   openRestoreModal() { this.showRestoreModal.set(true); }
   closeRestoreModal() { this.showRestoreModal.set(false); }
-  onClientRestored() { this.loadData(); }
+  onClientRestored() { this.loadStats(); this.loadData(); }
 
   // Equipment Modal Actions
   openEquipmentModal(client: Client, equipmentType: string) {
@@ -209,6 +215,7 @@ export class ClientListComponent implements OnInit, OnDestroy {
     this.selectedEquipmentType.set('');
   }
   onEquipmentChanged() {
+    this.loadStats();
     this.loadData();
   }
 }
