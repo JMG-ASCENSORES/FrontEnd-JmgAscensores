@@ -669,3 +669,48 @@ $speed:        0.22s;
 @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 @keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
 @keyframes zoomIn  { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+// ── Pagination Controls ───────────────────────────────────────────────────────
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1.25rem 1rem 0.5rem;
+
+  .page-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.55rem 1.1rem;
+    border-radius: 50px;
+    border: 1.5px solid $blue-mid;
+    background: $bg-card;
+    color: $blue-mid;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: $shadow-card;
+    transition: all $speed;
+
+    &:hover:not([disabled]) {
+      background: $blue-mid;
+      color: #fff;
+    }
+
+    &[disabled], &.disabled {
+      border-color: $border;
+      color: $text-muted;
+      background: $bg-page;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+  }
+
+  .page-info {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: $text-muted;
+    white-space: nowrap;
+  }
+}

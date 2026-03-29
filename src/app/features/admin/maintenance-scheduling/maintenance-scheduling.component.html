@@ -6,10 +6,16 @@
         <i class="bi bi-calendar-check"></i>
         Programación de Trabajos
       </h1>
-      <button class="btn-primary" (click)="openModal()">
-        <i class="bi bi-plus-circle"></i>
-        Nueva Programación
-      </button>
+      <div class="header-actions">
+        <button class="btn-secondary btn-fixed" (click)="openFixedModal()">
+          <i class="bi bi-calendar-repeat"></i>
+          Mantenimiento Fijo
+        </button>
+        <button class="btn-primary" (click)="openModal()">
+          <i class="bi bi-plus-circle"></i>
+          Nueva Programación
+        </button>
+      </div>
     </div>
   </div>
 
@@ -81,10 +87,21 @@
               </div>
             </div>
             <div class="programacion-actions">
-              <button class="btn-icon" (click)="editMantenimiento(mant)" title="Editar">
+              <!-- Acciones de Serie Fija (si aplica) -->
+              <ng-container *ngIf="mant.extendedProps.mantenimiento_fijo_id">
+                <button class="btn-icon btn-fixed-edit" (click)="editFixedMantenimientoFromJob(mant.extendedProps.mantenimiento_fijo_id)" title="Editar serie completa">
+                  <i class="bi bi-calendar-range"></i>
+                </button>
+                <button class="btn-icon btn-fixed-delete" (click)="requestDeleteFixed(mant.extendedProps.mantenimiento_fijo_id, mant.extendedProps.cliente?.nombre_comercial || 'Equipo')" title="Eliminar serie completa">
+                  <i class="bi bi-calendar-x"></i>
+                </button>
+                <div class="action-divider"></div>
+              </ng-container>
+
+              <button class="btn-icon" (click)="editMantenimiento(mant)" title="Editar este trabajo">
                 <i class="bi bi-pencil"></i>
               </button>
-              <button class="btn-icon btn-danger" (click)="requestDelete(mant)" title="Eliminar">
+              <button class="btn-icon btn-danger" (click)="requestDelete(mant)" title="Eliminar este trabajo">
                 <i class="bi bi-trash"></i>
               </button>
             </div>
@@ -142,6 +159,9 @@
               <span class="badge" [ngClass]="getEstadoColor(mant.extendedProps.estado)">
                 {{ getEstadoLabel(mant.extendedProps.estado) }}
               </span>
+              <span *ngIf="mant.extendedProps.mantenimiento_fijo_id" class="badge badge-fixed-info">
+                <i class="bi bi-pin-angle-fill"></i> FIJO
+              </span>
             </div>
           </div>
         </div>
@@ -193,15 +213,24 @@
   (saved)="onMantenimientoSaved()"
 ></app-programacion-modal>
 
+<!-- Modal Mantenimiento Fijo -->
+<app-mantenimiento-fijo-modal
+  *ngIf="showFixedModal"
+  [mantenimientoFijo]="selectedFixedMantenimiento"
+  (close)="closeFixedModal()"
+  (saved)="onFixedMantenimientoSaved()"
+></app-mantenimiento-fijo-modal>
+
 <!-- Modal Confirmación Eliminar -->
 <div *ngIf="showDeleteConfirm" class="confirm-overlay" (click)="cancelDelete()">
   <div class="confirm-dialog" (click)="$event.stopPropagation()">
     <div class="confirm-icon">
       <i class="bi bi-trash3"></i>
     </div>
-    <h3 class="confirm-title">¿Eliminar programación?</h3>
+    <h3 class="confirm-title">{{ isFixedDeletion ? '¿Eliminar SERIE de mantenimientos?' : '¿Eliminar programación?' }}</h3>
     <p class="confirm-message">
-      Esta acción no se puede deshacer. Se eliminará permanentemente:
+      {{ isFixedDeletion ? 'Se eliminarán todos los mantenimientos futuros "Pendientes" vinculados a esta serie. Esta acción no se puede deshacer.' : 'Esta acción no se puede deshacer. Se eliminará permanentemente:' }}
+      <br><br>
       <strong>{{ deleteTargetName }}</strong>
     </p>
     <div class="confirm-actions">

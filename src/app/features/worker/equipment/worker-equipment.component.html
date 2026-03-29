@@ -27,7 +27,7 @@
     </div>
 
     <div class="results-count" *ngIf="!loadingClientList()">
-      <span>{{ filteredClientes().length }} cliente(s) encontrado(s)</span>
+      <span>{{ totalItems() }} cliente(s) encontrado(s)</span>
     </div>
   </div>
 
@@ -48,7 +48,7 @@
     <!-- Client cards -->
     <ng-container *ngIf="!loadingClientList()">
       <div
-        *ngFor="let cliente of filteredClientes(); trackBy: trackByClienteId"
+        *ngFor="let cliente of clientes(); trackBy: trackByClienteId"
         class="client-card"
         [id]="'client-card-' + cliente.cliente_id"
         (click)="selectCliente(cliente)"
@@ -78,11 +78,34 @@
       </div>
 
       <!-- Empty state -->
-      <div *ngIf="filteredClientes().length === 0 && !loadingClientList()" class="empty-state">
+      <div *ngIf="clientes().length === 0 && !loadingClientList()" class="empty-state">
         <i class="bi bi-binoculars empty-icon"></i>
         <h4>Sin resultados</h4>
         <p>No se encontraron clientes que coincidan con tu búsqueda.</p>
         <button class="btn-reset" (click)="clearSearch()">Limpiar búsqueda</button>
+      </div>
+
+      <!-- Pagination Controls -->
+      <div *ngIf="totalPages() > 1" class="pagination-controls">
+        <button
+          class="page-btn"
+          [class.disabled]="currentPage() === 1"
+          [disabled]="currentPage() === 1"
+          (click)="prevPage()"
+        >
+          <i class="bi bi-chevron-left"></i> Anterior
+        </button>
+
+        <span class="page-info">Página {{ currentPage() }} de {{ totalPages() }}</span>
+
+        <button
+          class="page-btn"
+          [class.disabled]="currentPage() === totalPages()"
+          [disabled]="currentPage() === totalPages()"
+          (click)="nextPage()"
+        >
+          Siguiente <i class="bi bi-chevron-right"></i>
+        </button>
       </div>
     </ng-container>
   </div>

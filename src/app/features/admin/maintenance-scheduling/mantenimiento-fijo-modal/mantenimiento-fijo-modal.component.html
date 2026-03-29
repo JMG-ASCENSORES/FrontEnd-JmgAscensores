@@ -1,0 +1,204 @@
+<div class="modal-overlay" (click)="onClose()">
+  <div class="modal-container shadow-2xl" (click)="$event.stopPropagation()">
+    <!-- Header -->
+    <div class="modal-header bg-[#003B73] text-white p-4 rounded-t-xl flex justify-between items-center bg-gradient-to-r from-[#003B73] to-[#004b93]">
+      <h2 class="text-xl font-bold flex items-center gap-2">
+        <i class="bi bi-calendar2-week"></i>
+        {{ isEditMode ? 'Editar Mantenimiento Fijo' : 'Programar Mantenimiento Fijo' }}
+      </h2>
+      <button class="text-white/80 hover:text-white transition-colors" (click)="onClose()">
+        <i class="bi bi-x-lg text-xl"></i>
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="modal-body p-6 max-h-[80vh] overflow-y-auto bg-slate-50">
+      <div *ngIf="errorMessage" class="mb-4 p-3 bg-red-100 border border-red-200 text-red-700 rounded-lg text-sm flex items-center gap-2">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        {{ errorMessage }}
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6">
+        <!-- Client Selection -->
+        <div class="form-group pb-4 border-b border-slate-100">
+          <label class="block text-sm font-bold text-slate-700 mb-2">1. Seleccionar Cliente *</label>
+          <div class="relative" *ngIf="!selectedClient">
+            <div class="relative">
+              <i class="bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+              <input 
+                type="text" 
+                [(ngModel)]="clientSearch" 
+                [ngModelOptions]="{standalone: true}"
+                (ngModelChange)="onClientSearchUpdate($event)"
+                placeholder="Escriba el nombre del cliente (min. 3 letras)..."
+                class="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none"
+              >
+              <div *ngIf="isSearchingClients" class="absolute right-3 top-1/2 -translate-y-1/2">
+                <div class="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+              </div>
+            </div>
+
+            <!-- Client Results Dropdown -->
+            <div *ngIf="foundClients.length > 0" class="absolute z-10 w-full mt-1 bg-white border border-slate-200 rounded-lg shadow-xl max-h-[250px] overflow-y-auto">
+              <div *ngFor="let client of foundClients" 
+                (click)="selectClient(client)"
+                class="p-3 hover:bg-blue-50 cursor-pointer border-b border-slate-50 last:border-0 transition-colors">
+                <div class="font-bold text-slate-800">{{ client.nombre_comercial || client.contacto_nombre }}</div>
+                <div class="text-xs text-slate-500 flex gap-2">
+                  <span><i class="bi bi-geo-alt"></i> {{ client.distrito || 'Sin distrito' }}</span>
+                  <span *ngIf="client.dni || client.ruc"><i class="bi bi-card-text"></i> {{ client.dni || client.ruc }}</span>
+                </div>
+              </div>
+            </div>
+            
+            <div *ngIf="clientSearch.length >= 3 && foundClients.length === 0 && !isSearchingClients" class="mt-2 text-xs text-slate-500 italic px-2">
+              No se encontraron clientes con "{{ clientSearch }}"
+            </div>
+          </div>
+
+          <!-- Selected Client Card -->
+          <div *ngIf="selectedClient" class="flex items-center justify-between p-3 bg-blue-50 border border-blue-200 rounded-lg">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white">
+                <i class="bi bi-building text-lg"></i>
+              </div>
+              <div>
+                <div class="font-bold text-blue-900">{{ selectedClient.nombre_comercial || selectedClient.contacto_nombre }}</div>
+                <div class="text-xs text-blue-700">{{ selectedClient.distrito }}</div>
+              </div>
+            </div>
+            <button type="button" (click)="clearClient()" class="text-blue-600 hover:text-blue-800 text-sm font-bold flex items-center gap-1 px-3 py-1 hover:bg-blue-100 rounded-md transition-all">
+              <i class="bi bi-arrow-left-right"></i> Cambiar
+            </button>
+          </div>
+        </div>
+
+        <!-- Equipment Selection (Visible only after client selection) -->
+        <div class="form-group" [class.opacity-40]="!selectedClient || isLoading">
+          <label class="block text-sm font-bold text-slate-700 mb-2">2. Seleccionar Equipo *</label>
+          
+          <div *ngIf="!selectedClient" class="p-4 border-2 border-dashed border-slate-200 rounded-xl bg-slate-50 text-center">
+            <p class="text-sm text-slate-500 italic">Debe seleccionar un cliente primero</p>
+          </div>
+
+          <div *ngIf="selectedClient && isLoading" class="p-8 text-center">
+            <div class="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+            <p class="text-xs text-slate-500">Cargando equipos...</p>
+          </div>
+
+          <div *ngIf="selectedClient && !isLoading" class="relative">
+            <div *ngIf="ascensores.length === 0" class="p-4 border border-amber-200 bg-amber-50 rounded-lg text-center">
+              <p class="text-sm text-amber-700 font-medium">Este cliente no tiene equipos registrados</p>
+            </div>
+
+            <div *ngIf="ascensores.length > 0" class="grid grid-cols-1 gap-2 max-h-[200px] overflow-y-auto pr-1">
+              <label *ngFor="let asc of ascensores" class="flex items-center p-3 rounded-xl border cursor-pointer bg-white transition-all hover:border-blue-500 hover:bg-blue-50/30"
+                [ngClass]="form.get('ascensor_id')?.value === asc.ascensor_id ? 'border-blue-500 bg-blue-50 ring-1 ring-blue-500' : 'border-slate-100 shadow-sm'">
+                <input type="radio" formControlName="ascensor_id" [value]="asc.ascensor_id" class="hidden">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-lg flex items-center justify-center" 
+                    [ngClass]="form.get('ascensor_id')?.value === asc.ascensor_id ? 'bg-blue-100 text-blue-600' : 'bg-slate-100 text-slate-400'">
+                    <i class="bi bi-door-closed"></i>
+                  </div>
+                  <div class="flex flex-col">
+                    <span class="font-bold text-slate-800 text-sm">Serie: {{ asc.numero_serie || 'N/A' }}</span>
+                    <span class="text-xs text-slate-500">{{ asc.tipo_equipo }} - {{ asc.marca }}</span>
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+          <div *ngIf="form.get('ascensor_id')?.touched && form.get('ascensor_id')?.invalid" class="text-red-500 text-xs mt-1">Debe seleccionar un equipo</div>
+        </div>
+
+        <!-- Technician Selection (Optional) -->
+        <div class="form-group">
+          <label class="block text-sm font-bold text-slate-700 mb-2">Técnico Predefinido (Opcional)</label>
+          <div class="relative">
+            <input 
+              type="text" 
+              [(ngModel)]="techSearch" 
+              [ngModelOptions]="{standalone: true}"
+              placeholder="Buscar técnico..."
+              class="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none"
+            >
+            <div class="mt-2 grid grid-cols-1 gap-2 max-h-[150px] overflow-y-auto pr-1">
+              <label class="flex items-center p-3 rounded-xl border border-dashed cursor-pointer bg-slate-50 transition-all"
+                [ngClass]="form.get('trabajador_id')?.value === null ? 'border-blue-500 bg-blue-50' : 'border-slate-200 hover:border-slate-400'">
+                <input type="radio" formControlName="trabajador_id" [value]="null" class="hidden">
+                <span class="text-sm font-medium text-slate-500 italic">Sin técnico asignado (se asume en programación)</span>
+              </label>
+              <label *ngFor="let t of filteredTrabajadores" class="flex items-center p-3 rounded-xl border cursor-pointer bg-white transition-all hover:border-blue-500 hover:bg-blue-50/30"
+                [ngClass]="form.get('trabajador_id')?.value === t.id ? 'border-blue-500 bg-blue-50 ring-1 ring-blue-500' : 'border-slate-100 shadow-sm'">
+                <input type="radio" formControlName="trabajador_id" [value]="t.id" class="hidden">
+                <div class="flex flex-col">
+                  <span class="font-bold text-slate-800 text-sm">{{ t.nombre }} {{ t.apellido }}</span>
+                  <span class="text-xs text-slate-500">{{ t.especialidad }}</span>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Day of Month -->
+          <div class="form-group">
+            <label class="block text-sm font-bold text-slate-700 mb-2">Día del Mes (1-31) *</label>
+            <input type="number" formControlName="dia_mes" min="1" max="31" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold">
+            <div *ngIf="form.get('dia_mes')?.touched && form.get('dia_mes')?.invalid" class="text-red-500 text-xs mt-1">Día inválido (1-31)</div>
+          </div>
+
+          <!-- Time -->
+          <div class="form-group">
+            <label class="block text-sm font-bold text-slate-700 mb-2">Hora Programada *</label>
+            <input type="time" formControlName="hora" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold">
+            <div *ngIf="form.get('hora')?.touched && form.get('hora')?.invalid" class="text-red-500 text-xs mt-1">La hora es requerida</div>
+          </div>
+        </div>
+
+        <!-- Frequency -->
+        <div class="form-group">
+          <label class="block text-sm font-bold text-slate-700 mb-2">Frecuencia de Mantenimiento *</label>
+          <div class="grid grid-cols-3 gap-3">
+            <label class="flex flex-col items-center p-3 rounded-xl border cursor-pointer transition-all hover:scale-[1.02]"
+              [ngClass]="form.get('frecuencia')?.value === 'mensual' ? 'bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-200' : 'bg-white border-slate-200 text-slate-600'">
+              <input type="radio" formControlName="frecuencia" value="mensual" class="hidden">
+              <i class="bi bi-calendar-event text-xl mb-1"></i>
+              <span class="text-xs font-bold uppercase">Mensual</span>
+            </label>
+            <label class="flex flex-col items-center p-3 rounded-xl border cursor-pointer transition-all hover:scale-[1.02]"
+              [ngClass]="form.get('frecuencia')?.value === 'bimestral' ? 'bg-[#1e5a5a] text-white border-[#1e5a5a] shadow-lg shadow-teal-200' : 'bg-white border-slate-200 text-slate-600'">
+              <input type="radio" formControlName="frecuencia" value="bimestral" class="hidden">
+              <i class="bi bi-calendar2-range text-xl mb-1"></i>
+              <span class="text-xs font-bold uppercase">Cada 2 Meses</span>
+            </label>
+            <label class="flex flex-col items-center p-3 rounded-xl border cursor-pointer transition-all hover:scale-[1.02]"
+              [ngClass]="form.get('frecuencia')?.value === 'trimestral' ? 'bg-purple-600 text-white border-purple-600 shadow-lg shadow-purple-200' : 'bg-white border-slate-200 text-slate-600'">
+              <input type="radio" formControlName="frecuencia" value="trimestral" class="hidden">
+              <i class="bi bi-calendar3 text-xl mb-1"></i>
+              <span class="text-xs font-bold uppercase">Trimestral</span>
+            </label>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Footer -->
+    <div class="modal-footer p-4 border-t border-slate-200 rounded-b-xl flex justify-end gap-3 bg-white">
+      <button 
+        type="button" 
+        class="px-6 py-2.5 rounded-lg text-slate-600 font-bold hover:bg-slate-100 transition-all border border-slate-200" 
+        (click)="onClose()">
+        Cancelar
+      </button>
+      <button 
+        type="submit" 
+        class="px-6 py-2.5 rounded-lg text-white font-bold bg-[#003B73] hover:bg-[#002a52] transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-900/20"
+        [disabled]="isSaving || form.invalid" 
+        (click)="onSubmit()">
+        <span *ngIf="!isSaving">{{ isEditMode ? 'Actualizar Todo el Año' : 'Programar Todo el Año' }}</span>
+        <span *ngIf="isSaving">Guardando...</span>
+      </button>
+    </div>
+  </div>
+</div>

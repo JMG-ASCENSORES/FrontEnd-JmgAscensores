@@ -729,3 +729,64 @@
 .btn-whatsapp.sent:hover {
   background-color: #f0fdf4;
 }
+
+/* ── Mantenimiento Fijo Styles ─────────────────────────────────────────────── */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+
+.btn-fixed {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #f8fafc;
+  color: #003B73;
+  border: 1.5px solid #003B73;
+  padding: calc(0.75rem - 1.5px) 1.5rem; /* Compensate for border to match btn-primary height */
+  box-shadow: 0 4px 6px rgba(0, 59, 115, 0.1);
+}
+
+
+.btn-fixed:hover {
+  background-color: #f1f5f9;
+  border-color: #002a52;
+  color: #002a52;
+}
+
+.badge-fixed-info {
+  background-color: #003B73;
+  color: white !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.action-divider {
+  width: 1px;
+  height: 24px;
+  background-color: #e2e8f0;
+  margin: 0 0.25rem;
+  align-self: center;
+}
+
+.btn-fixed-edit {
+  color: #003B73 !important;
+}
+
+.btn-fixed-edit:hover {
+  background-color: #eff6ff !important;
+}
+
+.btn-fixed-delete {
+  color: #7c2d12 !important; /* Brownish red for series delete */
+}
+
+.btn-fixed-delete:hover {
+  background-color: #fff7ed !important;
+}
+

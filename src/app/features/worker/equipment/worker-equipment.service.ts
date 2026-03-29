@@ -38,6 +38,12 @@ interface ApiResponse<T> {
   success: boolean;
   message: string;
   data: T;
+  meta?: {
+    totalItems: number;
+    itemsPerPage: number;
+    currentPage: number;
+    totalPages: number;
+  };
 }
 
 @Injectable({
@@ -64,6 +70,25 @@ export class WorkerEquipmentService {
           return throwError(() => new Error('Error al cargar la lista de clientes.'));
         })
       );
+  }
+
+  /** Obtiene clientes paginados con búsqueda opcional */
+  getClientesPaginated(page: number, limit: number, search?: string): Observable<ApiResponse<ClienteResumen[]>> {
+    const params: Record<string, string> = {
+      page: page.toString(),
+      limit: limit.toString()
+    };
+    if (search) params['search'] = search;
+
+    return this.http.get<ApiResponse<ClienteResumen[]>>(`${this.apiUrl}/clientes`, {
+      headers: this.getHeaders(),
+      params
+    }).pipe(
+      catchError(error => {
+        console.error('Error fetching paginated clientes:', error);
+        return throwError(() => new Error('Error al cargar clientes.'));
+      })
+    );
   }
 
   /** Obtiene los equipos de un cliente dado su ID */

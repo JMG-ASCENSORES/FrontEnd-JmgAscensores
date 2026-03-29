@@ -1,6 +1,7 @@
-import { Component, OnInit, inject, signal, computed } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy, inject, signal } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 import { WorkerEquipmentService, ClienteResumen, EquipoCliente } from './worker-equipment.service';
 
 @Component({
@@ -10,37 +11,67 @@ import { WorkerEquipmentService, ClienteResumen, EquipoCliente } from './worker-
   templateUrl: './worker-equipment.component.html',
   styleUrl: './worker-equipment.component.scss'
 })
-export class WorkerEquipmentComponent implements OnInit {
+export class WorkerEquipmentComponent implements OnInit, OnDestroy {
   private service = inject(WorkerEquipmentService);
+  private destroy$ = new Subject<void>();
 
-  // ── Signals ──────────────────────────────────────────────────────────────
-  clientes        = signal<ClienteResumen[]>([]);
-  searchQuery     = signal('');
-  selectedCliente = signal<ClienteResumen | null>(null);
-  equiposCliente  = signal<EquipoCliente[]>([]);
-  selectedEquipo  = signal<EquipoCliente | null>(null);
+  // Data Signals
+  clientes          = signal<ClienteResumen[]>([]);
+  searchQuery       = signal('');
+  selectedCliente   = signal<ClienteResumen | null>(null);
+  equiposCliente    = signal<EquipoCliente[]>([]);
+  selectedEquipo    = signal<EquipoCliente | null>(null);
   loadingClientList = signal(true);
   loadingEquipos    = signal(false);
 
-  // ── Computed: filtrado rápido en frontend (sin llamada extra al backend) ─
-  filteredClientes = computed(() => {
-    const q = this.searchQuery().toLowerCase().trim();
-    if (!q) return this.clientes();
+  // Pagination Signals
+  currentPage = signal(1);
+  pageSize    = signal(15);
+  totalItems  = signal(0);
+  totalPages  = signal(0);
 
-    return this.clientes().filter(c => {
-      const name    = (c.nombre_comercial || '').toLowerCase();
-      const addr    = (c.ubicacion || '').toLowerCase();
-      const contact = ((c.contacto_nombre || '') + ' ' + (c.contacto_apellido || '')).toLowerCase();
-      const tipo    = (c.tipo_cliente || '').toLowerCase();
-      return name.includes(q) || addr.includes(q) || contact.includes(q) || tipo.includes(q);
-    });
-  });
+  // Search Subject (debounce)
+  private searchSubject = new Subject<string>();
 
-  // ── Lifecycle ─────────────────────────────────────────────────────────────
+  // Lifecycle
   ngOnInit() {
-    this.service.getClientes().subscribe({
-      next: data => {
-        this.clientes.set(data);
+    this.searchSubject.pipe(
+      debounceTime(400),
+      distinctUntilChanged(),
+      takeUntil(this.destroy$)
+    ).subscribe(term => {
+      this.searchQuery.set(term);
+      this.currentPage.set(1);
+      this.loadClientes();
+    });
+
+    this.loadClientes();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  // Data Loading
+  loadClientes() {
+    this.loadingClientList.set(true);
+
+    this.service.getClientesPaginated(
+      this.currentPage(),
+      this.pageSize(),
+      this.searchQuery() || undefined
+    ).subscribe({
+      next: response => {
+        this.clientes.set(response.data || []);
+        if (response.meta) {
+          this.totalItems.set(response.meta.totalItems);
+          this.totalPages.set(response.meta.totalPages);
+        } else {
+          const len = (response.data || []).length;
+          this.totalItems.set(len);
+          this.totalPages.set(1);
+        }
         this.loadingClientList.set(false);
       },
       error: () => {
@@ -49,13 +80,30 @@ export class WorkerEquipmentComponent implements OnInit {
     });
   }
 
-  // ── Events ────────────────────────────────────────────────────────────────
+  // Events
   onSearch(event: Event) {
-    this.searchQuery.set((event.target as HTMLInputElement).value);
+    this.searchSubject.next((event.target as HTMLInputElement).value);
   }
 
   clearSearch() {
     this.searchQuery.set('');
+    this.currentPage.set(1);
+    this.loadClientes();
+  }
+
+  // Pagination Actions
+  nextPage() {
+    if (this.currentPage() < this.totalPages()) {
+      this.currentPage.set(this.currentPage() + 1);
+      this.loadClientes();
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage() > 1) {
+      this.currentPage.set(this.currentPage() - 1);
+      this.loadClientes();
+    }
   }
 
   selectCliente(cliente: ClienteResumen) {
@@ -89,16 +137,16 @@ export class WorkerEquipmentComponent implements OnInit {
     this.selectedEquipo.set(null);
   }
 
-  // ── TrackBy (rendimiento en listas) ──────────────────────────────────────
+  // TrackBy
   trackByClienteId(_: number, c: ClienteResumen) { return c.cliente_id; }
   trackByEquipoId (_: number, e: EquipoCliente)  { return e.ascensor_id; }
 
-  // ── Helpers visuales ─────────────────────────────────────────────────────
+  // Visual helpers
   getEstadoClass(estado: string): string {
     const e = (estado || '').toLowerCase();
-    if (e.includes('operat') || e.includes('activo'))     return 'estado-ok';
-    if (e.includes('inoperat'))                            return 'estado-error';
-    if (e.includes('reparac') || e.includes('manteni'))   return 'estado-warn';
+    if (e.includes('operat') || e.includes('activo'))   return 'estado-ok';
+    if (e.includes('inoperat'))                          return 'estado-error';
+    if (e.includes('reparac') || e.includes('manteni')) return 'estado-warn';
     return 'estado-default';
   }
 
@@ -107,6 +155,6 @@ export class WorkerEquipmentComponent implements OnInit {
     if (t.includes('montacargas')) return 'bi-box-seam';
     if (t.includes('plataforma'))  return 'bi-arrow-up-square';
     if (t.includes('escalera'))    return 'bi-chevron-bar-up';
-    return 'bi-elevator'; // ascensor genérico
+    return 'bi-elevator';
   }
 }

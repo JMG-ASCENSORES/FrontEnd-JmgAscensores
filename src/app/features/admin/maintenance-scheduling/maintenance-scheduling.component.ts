@@ -6,18 +6,21 @@ import { CalendarOptions, EventInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { MantenimientoService } from '../services/mantenimiento.service';
-import { Mantenimiento } from '../models/mantenimiento.interface';
+import { MantenimientoFijoService } from '../services/mantenimiento-fijo.service';
+import { Mantenimiento, MantenimientoFijo } from '../models/mantenimiento.interface';
 import { ProgramacionModalComponent } from './programacion-modal.component';
+import { MantenimientoFijoModalComponent } from './mantenimiento-fijo-modal/mantenimiento-fijo-modal.component';
 
 @Component({
   selector: 'app-maintenance-scheduling',
   standalone: true,
-  imports: [CommonModule, FullCalendarModule, ProgramacionModalComponent],
+  imports: [CommonModule, FullCalendarModule, ProgramacionModalComponent, MantenimientoFijoModalComponent],
   templateUrl: './maintenance-scheduling.component.html',
   styleUrls: ['./maintenance-scheduling.component.css']
 })
 export class MaintenanceSchedulingComponent implements OnInit {
   private mantenimientoService = inject(MantenimientoService);
+  private mantenimientoFijoService = inject(MantenimientoFijoService);
   private route = inject(ActivatedRoute);
   private cdr = inject(ChangeDetectorRef);
 
@@ -29,7 +32,6 @@ export class MaintenanceSchedulingComponent implements OnInit {
   errorMessage = '';
   
   selectedFilterDate: string = (() => {
-    // Si la inicialización es temporal, se sobrescribirá luego en ngOnInit
     const d = new Date();
     d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
     return d.toISOString().split('T')[0];
@@ -40,12 +42,17 @@ export class MaintenanceSchedulingComponent implements OnInit {
   selectedMantenimiento: Mantenimiento | null = null;
   selectedDate: string | null = null;
 
+  // Fixed Maintenance Modal State
+  showFixedModal = false;
+  selectedFixedMantenimiento: MantenimientoFijo | null = null;
+
   // Delete confirmation state
   showDeleteConfirm = false;
   deleteTargetId: number | null = null;
   deleteTargetName = '';
+  isFixedDeletion = false;
 
-  // Notification state: Map of date string -> Set of technicians notified
+  // Notification state
   notifiedTechsByDate = new Map<string, Set<number>>();
 
   // Toast state
@@ -93,7 +100,6 @@ export class MaintenanceSchedulingComponent implements OnInit {
       const id = parseInt(info.event.id);
       const mantenimiento = this.mantenimientos.find(m => m.id === id);
       if (mantenimiento) {
-        // Solo actualizamos el día seleccionado al día del evento
         const eventDate = mantenimiento.start.split('T')[0];
         if (this.selectedFilterDate !== eventDate) {
           this.selectedFilterDate = eventDate;
@@ -108,7 +114,6 @@ export class MaintenanceSchedulingComponent implements OnInit {
     },
     
     datesSet: (info) => {
-      // Usamos setTimeout para asegurar que FullCalendar esté listo
       setTimeout(() => {
         const start = info.startStr.split('T')[0];
         const end = info.endStr.split('T')[0];
@@ -119,47 +124,37 @@ export class MaintenanceSchedulingComponent implements OnInit {
 
   constructor() {}
 
-  goToToday(): void {
-    if (this.calendarComponent) {
-      const api = this.calendarComponent.getApi();
-      api.today();
-    }
-    
-    // Definimos el día de hoy
-    const d = new Date();
-    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
-    this.selectedFilterDate = d.toISOString().split('T')[0];
-    
-    this.filterMantenimientos();
-  }
-
   ngOnInit(): void {
     const paramDate = this.route.snapshot.queryParamMap.get('date');
     if (paramDate) {
       this.selectedFilterDate = paramDate;
       this.calendarOptions.initialDate = paramDate;
-      
-      // Si ya sabemos la fecha, podemos llamar a la carga inmediatamente si el rango es manejable
-      // Pero mejor confiar en datesSet que ya tiene el rango de la vista actual.
-      // Sin embargo, para mayor seguridad forzamos un ciclo de detección
       this.cdr.detectChanges();
     }
+  }
+
+  goToToday(): void {
+    if (this.calendarComponent) {
+      const api = this.calendarComponent.getApi();
+      api.today();
+    }
+    const d = new Date();
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+    this.selectedFilterDate = d.toISOString().split('T')[0];
+    this.filterMantenimientos();
   }
 
   loadMantenimientos(start?: string, end?: string): void {
     this.isLoading = true;
     this.errorMessage = '';
     
-    // Carga inicial del mes (ligera, detailed=false para evitar joins masivos de red)
     this.mantenimientoService.listar(start, end, undefined, false).subscribe({
       next: (data) => {
         this.mantenimientos = data;
         this.updateCalendarEvents();
-        // Cargar detalles exhaustivos solo del día seleccionado en el panel lateral
         this.loadDayDetails(); 
       },
       error: (err) => {
-        console.error('Error loading mantenimientos:', err);
         this.errorMessage = err.message || 'Error al cargar los mantenimientos';
         this.isLoading = false;
         this.cdr.detectChanges();
@@ -168,7 +163,6 @@ export class MaintenanceSchedulingComponent implements OnInit {
   }
 
   filterMantenimientos(): void {
-    // Update calendar options to reflect the selected date class
     this.calendarOptions = {
       ...this.calendarOptions,
       dayCellClassNames: (arg: any) => {
@@ -179,8 +173,6 @@ export class MaintenanceSchedulingComponent implements OnInit {
       }
     };
     this.cdr.detectChanges();
-
-    // Luego disparamos la carga detallada del día activo
     this.loadDayDetails();
   }
 
@@ -190,22 +182,18 @@ export class MaintenanceSchedulingComponent implements OnInit {
       this.isLoading = false;
       return;
     }
-    
     this.isLoading = true;
-    // Formatear desde las 00:00 hasta las 23:59 del día explicitamente
     const dayStart = `${this.selectedFilterDate}T00:00:00`;
     const dayEnd = `${this.selectedFilterDate}T23:59:59`;
 
     this.mantenimientoService.listar(dayStart, dayEnd, undefined, true).subscribe({
       next: (data) => {
         this.filteredMantenimientos = data;
-        // Sort chronologically by start time
         this.filteredMantenimientos.sort((a, b) => a.start.localeCompare(b.start));
         this.isLoading = false;
         this.cdr.detectChanges();
       },
-      error: (err) => {
-        console.error('Error al cargar detalle del día:', err);
+      error: () => {
         this.isLoading = false;
         this.cdr.detectChanges();
       }
@@ -228,8 +216,6 @@ export class MaintenanceSchedulingComponent implements OnInit {
       ...this.calendarOptions,
       events: events
     };
-    
-    // Forzamos la detección de cambios para que FullCalendar sea notificado reactivamente
     this.cdr.detectChanges();
   }
 
@@ -258,8 +244,29 @@ export class MaintenanceSchedulingComponent implements OnInit {
     this.selectedDate = null;
   }
 
+  // Fixed Maintenance Modal methods
+  openFixedModal(fixed?: MantenimientoFijo): void {
+    this.selectedFixedMantenimiento = fixed || null;
+    this.showFixedModal = true;
+  }
+
+  closeFixedModal(): void {
+    this.showFixedModal = false;
+    this.selectedFixedMantenimiento = null;
+  }
+
   onMantenimientoSaved(): void {
     this.closeModal();
+    this.refreshView();
+  }
+
+  onFixedMantenimientoSaved(): void {
+    this.closeFixedModal();
+    this.showToast('Mantenimiento fijo programado para los próximos 12 meses.', 'success', 'Éxito');
+    this.refreshView();
+  }
+
+  private refreshView(): void {
     if (this.calendarComponent) {
       const api = this.calendarComponent.getApi();
       const view = api.view;
@@ -269,33 +276,65 @@ export class MaintenanceSchedulingComponent implements OnInit {
     }
   }
 
-  // Solicita confirmación antes de eliminar
+  editFixedMantenimientoFromJob(mFijoId: number): void {
+    this.mantenimientoFijoService.listar().subscribe({
+      next: (list) => {
+        const found = list.find(f => f.mantenimiento_fijo_id === mFijoId);
+        if (found) {
+          this.openFixedModal(found);
+        } else {
+          this.showToast('No se encontró la configuración original del mantenimiento fijo.', 'error');
+        }
+      }
+    });
+  }
+
+  requestDeleteFixed(mFijoId: number, name: string): void {
+    this.deleteTargetId = mFijoId;
+    this.deleteTargetName = `Toda la serie de mantenimientos fijos para: ${name}`;
+    this.isFixedDeletion = true;
+    this.showDeleteConfirm = true;
+  }
+
   requestDelete(mant: Mantenimiento): void {
     this.deleteTargetId   = mant.id;
     this.deleteTargetName = mant.title || `Programación #${mant.id}`;
+    this.isFixedDeletion = false;
     this.showDeleteConfirm = true;
   }
 
   confirmDelete(): void {
     if (!this.deleteTargetId) return;
-    this.mantenimientoService.eliminar(this.deleteTargetId).subscribe({
-      next: () => {
-        this.showDeleteConfirm = false;
-        this.deleteTargetId = null;
-        if (this.calendarComponent) {
-          const api = this.calendarComponent.getApi();
-          const view = api.view;
-          this.loadMantenimientos(view.activeStart.toISOString().split('T')[0], view.activeEnd.toISOString().split('T')[0]);
-        } else {
-          this.loadMantenimientos();
+
+    if (this.isFixedDeletion) {
+      this.mantenimientoFijoService.eliminar(this.deleteTargetId).subscribe({
+        next: () => {
+          this.showToast('Mantenimientos fijos eliminados correctamente.', 'success');
+          this.finishDeletion();
+        },
+        error: (err) => {
+          this.showToast(err.message || 'Error al eliminar la serie completa.', 'error');
+          this.showDeleteConfirm = false;
         }
-      },
-      error: (err) => {
-        console.error('Error deleting:', err);
-        this.errorMessage = 'Error al eliminar la programación';
-        this.showDeleteConfirm = false;
-      }
-    });
+      });
+    } else {
+      this.mantenimientoService.eliminar(this.deleteTargetId).subscribe({
+        next: () => {
+          this.finishDeletion();
+        },
+        error: () => {
+          this.errorMessage = 'Error al eliminar la programación';
+          this.showDeleteConfirm = false;
+        }
+      });
+    }
+  }
+
+  private finishDeletion(): void {
+    this.showDeleteConfirm = false;
+    this.deleteTargetId = null;
+    this.isFixedDeletion = false;
+    this.refreshView();
   }
 
   cancelDelete(): void {
@@ -303,7 +342,6 @@ export class MaintenanceSchedulingComponent implements OnInit {
     this.deleteTargetId = null;
     this.deleteTargetName = '';
   }
-
 
   // Helpers
   getTipoTrabajoLabel(tipo: string | undefined): string {
@@ -320,11 +358,11 @@ export class MaintenanceSchedulingComponent implements OnInit {
   getEventColor(tipo: string | undefined): string {
     const typeStr = (tipo || '').toLowerCase();
     switch (typeStr) {
-      case 'mantenimiento': return '#003B73'; // Azul oscuro sidebar
-      case 'reparacion': return '#C2410C'; // Naranja oscuro reactivo
-      case 'inspeccion': return '#15803D'; // Verde oscuro profesional
-      case 'emergencia': return '#B91C1C'; // Rojo oscuro alerta
-      default: return '#475569'; // Slate 600
+      case 'mantenimiento': return '#003B73'; 
+      case 'reparacion': return '#C2410C'; 
+      case 'inspeccion': return '#15803D'; 
+      case 'emergencia': return '#B91C1C'; 
+      default: return '#475569'; 
     }
   }
 
@@ -373,8 +411,7 @@ export class MaintenanceSchedulingComponent implements OnInit {
   }
 
   formatFecha(isoString: string): string {
-    if (!isoString) return '';
-    return new Date(isoString).toLocaleDateString('es-ES');
+    return isoString ? new Date(isoString).toLocaleDateString('es-ES') : '';
   }
 
   formatHora(isoString: string): string {
@@ -387,21 +424,13 @@ export class MaintenanceSchedulingComponent implements OnInit {
 
   getTrabajadorNombre(mant: Mantenimiento): string {
     const trabajador = mant.extendedProps?.trabajador;
-    if (trabajador) {
-      return `${trabajador.nombre || ''} ${trabajador.apellido || ''}`.trim();
-    }
-    return 'No asignado';
+    return trabajador ? `${trabajador.nombre || ''} ${trabajador.apellido || ''}`.trim() : 'No asignado';
   }
-
-  // ─── WhatsApp Integration ──────────────────────────────────────────────
 
   getTechniciansForDay(): { tech: any; services: Mantenimiento[] }[] {
     const techGroups = new Map<number, { tech: any; services: Mantenimiento[] }>();
-
     this.filteredMantenimientos.forEach(mant => {
-      // Usar el array de trabajadores completo calculado por el backend
       const techs = (mant.extendedProps?.trabajadores || []).filter((t: any) => t && t.trabajador_id);
-
       techs.forEach((t: any) => {
         if (!techGroups.has(t.trabajador_id)) {
           techGroups.set(t.trabajador_id, { tech: t, services: [] });
@@ -409,46 +438,27 @@ export class MaintenanceSchedulingComponent implements OnInit {
         techGroups.get(t.trabajador_id)!.services.push(mant);
       });
     });
-
-    return Array.from(techGroups.values())
-      .sort((a, b) => (a.tech.nombre || '').localeCompare(b.tech.nombre || ''));
+    return Array.from(techGroups.values()).sort((a, b) => (a.tech.nombre || '').localeCompare(b.tech.nombre || ''));
   }
 
   sendWhatsAppRoute(techData: { tech: any; services: Mantenimiento[] }): void {
     const { tech, services } = techData;
-    if (!tech.telefono || tech.telefono.trim() === '') {
+    if (!tech.telefono) {
       this.showToast(`El técnico ${tech.nombre} no tiene un teléfono registrado.`, 'error', 'Datos incompletos');
       return;
     }
-
     const fechaStr = this.formatSelectedDate();
     let message = `Estimado(a) *${tech.nombre}*, se le informa su ruta de trabajo programada para el día *${fechaStr}*, la cual consta de ${services.length} servicios:\n\n`;
-
     services.forEach((s, index) => {
-      const hora = this.formatHora(s.start);
-      const cliente = s.extendedProps?.cliente?.nombre_comercial || 'Cliente desconocido';
-      const equipo = s.extendedProps?.ascensor?.numero_serie || 'Equipo';
-      const tipo = this.getTipoTrabajoLabel(s.extendedProps?.tipo_trabajo);
-      
-      message += `${index + 1}. *${hora}* - ${cliente} (${tipo})\n`;
-      message += `   Ref: ${equipo}\n\n`;
+      message += `${index + 1}. *${this.formatHora(s.start)}* - ${s.extendedProps?.cliente?.nombre_comercial || 'Cliente'} (${this.getTipoTrabajoLabel(s.extendedProps?.tipo_trabajo)})\n`;
+      message += `   Ref: ${s.extendedProps?.ascensor?.numero_serie || 'Equipo'}\n\n`;
     });
-
     message += `Por favor, confirmar la recepción de este mensaje. Atentamente, Administración JMG Ascensores.`;
-
-    const encodedMessage = encodeURIComponent(message);
-    // Limpiar espacios en el teléfono y añadir código de país
-    const cleanPhone = tech.telefono.replace(/\s+/g, '');
-    const whatsappUrl = `https://wa.me/51${cleanPhone}?text=${encodedMessage}`;
-    
-    window.open(whatsappUrl, '_blank');
-    
-    // Marcar como notificado en la sesión actual
+    window.open(`https://wa.me/51${tech.telefono.replace(/\s+/g, '')}?text=${encodeURIComponent(message)}`, '_blank');
     if (!this.notifiedTechsByDate.has(this.selectedFilterDate)) {
       this.notifiedTechsByDate.set(this.selectedFilterDate, new Set<number>());
     }
     this.notifiedTechsByDate.get(this.selectedFilterDate)?.add(tech.trabajador_id);
-    
     this.cdr.detectChanges();
   }
 
@@ -459,10 +469,6 @@ export class MaintenanceSchedulingComponent implements OnInit {
   showToast(message: string, type: 'success' | 'error' = 'error', title: string = 'Aviso'): void {
     if (this.toastTimeout) clearTimeout(this.toastTimeout);
     this.toast.set({ message, type, title });
-    this.toastTimeout = setTimeout(() => {
-      // Add a class for fade out before nulling? 
-      // For now just null it, the CSS handles basic enter.
-      this.toast.set(null);
-    }, 3500);
+    this.toastTimeout = setTimeout(() => this.toast.set(null), 3500);
   }
 }

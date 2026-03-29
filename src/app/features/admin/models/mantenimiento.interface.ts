@@ -21,7 +21,27 @@ export interface Mantenimiento {
     trabajadores?: any[];
     orden_id?: number;
     informe_id?: number;
+    mantenimiento_fijo_id?: number;
   };
+}
+
+export interface MantenimientoFijo {
+  mantenimiento_fijo_id: number;
+  ascensor_id: number;
+  trabajador_id?: number;
+  dia_mes: number;
+  hora: string;
+  frecuencia: 'mensual' | 'bimestral' | 'trimestral';
+  activo: boolean;
+  ascensor?: any;
+}
+
+export interface CrearMantenimientoFijoDTO {
+  ascensor_id: number;
+  trabajador_id?: number;
+  dia_mes: number;
+  hora: string;
+  frecuencia: 'mensual' | 'bimestral' | 'trimestral';
 }
 
 export interface CrearMantenimientoDTO {
