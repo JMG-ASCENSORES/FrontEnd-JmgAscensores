@@ -1,0 +1,163 @@
+<div class="settings-page">
+
+  <!-- Hero: foto de fondo + avatar -->
+  <div class="settings-hero">
+    <div class="settings-hero__bg"></div>
+    <div class="settings-hero__avatar">
+      <div class="avatar-initials">
+        <span *ngIf="!isLoading()">{{ initials }}</span>
+        <i *ngIf="isLoading()" class="bi bi-person-fill text-4xl text-white/50"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="settings-body">
+
+    <!-- Nombre y especialidad -->
+    <div class="settings-identity">
+      <h1 class="settings-identity__name">
+        <span *ngIf="!isLoading()">{{ profile()?.nombre }} {{ profile()?.apellido }}</span>
+        <div *ngIf="isLoading()" class="skeleton-line w-40 h-6 mx-auto mb-1"></div>
+      </h1>
+      <span class="settings-identity__role">
+        <i class="bi bi-shield-check"></i>
+        Administrador
+      </span>
+    </div>
+
+    <!-- Feedback alerts -->
+    <div *ngIf="saveSuccess()" class="alert alert--success">
+      <i class="bi bi-check-circle-fill"></i>
+      Cambios guardados con éxito.
+    </div>
+    <div *ngIf="errorMessage()" class="alert alert--error">
+      <i class="bi bi-exclamation-circle-fill"></i>
+      {{ errorMessage() }}
+    </div>
+
+    <!-- Tabs Navigation -->
+    <div class="settings-tabs">
+      <button [class.active]="activeTab() === 'profile'" (click)="activeTab.set('profile')">
+        <i class="bi bi-person"></i> Mi Perfil
+      </button>
+      <button [class.active]="activeTab() === 'security'" (click)="activeTab.set('security')">
+        <i class="bi bi-shield-lock"></i> Seguridad
+      </button>
+      <button [class.active]="activeTab() === 'system'" (click)="activeTab.set('system')">
+        <i class="bi bi-gear-wide-connected"></i> Sistema
+      </button>
+    </div>
+
+    <!-- Loading Skeleton -->
+    <div *ngIf="isLoading()" class="tab-content skeleton-mode">
+      <div *ngFor="let i of [1,2,3,4]" class="field-group">
+        <div class="skeleton-line w-20 h-3 mb-1"></div>
+        <div class="skeleton-line w-full h-11"></div>
+      </div>
+    </div>
+
+    <!-- Tab Profile -->
+    <div *ngIf="!isLoading() && activeTab() === 'profile'" class="tab-content">
+      <form [formGroup]="profileForm" (ngSubmit)="onSaveProfile()" class="settings-form">
+        <div class="section-title">Datos Personales</div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div class="field-group">
+            <label class="field-label" for="p_nombre">Nombre</label>
+            <input id="p_nombre" type="text" formControlName="nombre" class="field-input">
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="p_apellido">Apellidos</label>
+            <input id="p_apellido" type="text" formControlName="apellido" class="field-input">
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">DNI (Solo Lectura)</label>
+          <div class="field-readonly">
+            <span>{{ profile()?.dni }}</span>
+            <i class="bi bi-lock-fill field-readonly__lock"></i>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="p_correo">Correo Electrónico</label>
+          <input id="p_correo" type="email" formControlName="correo" class="field-input">
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="p_telefono">Teléfono</label>
+          <div class="field-input-icon">
+            <span class="field-prefix">+51</span>
+            <input id="p_telefono" type="tel" formControlName="telefono" class="field-input field-input--prefixed" maxlength="9">
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn--primary" [disabled]="profileForm.pristine || profileForm.invalid || isSaving()">
+          <span *ngIf="isSaving()" class="spinner"></span>
+          <i *ngIf="!isSaving()" class="bi bi-check-lg"></i>
+          {{ isSaving() ? 'Guardando...' : 'Guardar Cambios' }}
+        </button>
+      </form>
+    </div>
+
+    <!-- Tab Security -->
+    <div *ngIf="!isLoading() && activeTab() === 'security'" class="tab-content">
+      <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()" class="settings-form">
+        <div class="section-title">Cambiar Contraseña</div>
+
+        <div class="field-group">
+          <label class="field-label" for="p_nueva">Nueva Contraseña</label>
+          <div class="field-input-icon">
+            <input id="p_nueva" [type]="showNuevaPass() ? 'text' : 'password'"
+              formControlName="nueva_contrasena" class="field-input field-input--suffixed"
+              placeholder="Mín. 6 caracteres">
+            <button type="button" class="field-suffix-btn" (click)="showNuevaPass.set(!showNuevaPass())">
+              <i class="bi" [ngClass]="showNuevaPass() ? 'bi-eye-slash' : 'bi-eye'"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="p_confirma">Confirmar Contraseña</label>
+          <div class="field-input-icon">
+            <input id="p_confirma" [type]="showConfirmaPass() ? 'text' : 'password'"
+              formControlName="confirmar_contrasena" class="field-input field-input--suffixed"
+              placeholder="Repite la contraseña">
+            <button type="button" class="field-suffix-btn" (click)="showConfirmaPass.set(!showConfirmaPass())">
+              <i class="bi" [ngClass]="showConfirmaPass() ? 'bi-eye-slash' : 'bi-eye'"></i>
+            </button>
+          </div>
+          <p *ngIf="passwordForm.hasError('passwordMismatch') && passwordForm.get('confirmar_contrasena')?.touched"
+            class="field-error">Las contraseñas no coinciden.</p>
+        </div>
+
+        <button type="submit" class="btn btn--primary" [disabled]="passwordForm.invalid || isSaving()">
+          <span *ngIf="isSaving()" class="spinner"></span>
+          <i *ngIf="!isSaving()" class="bi bi-shield-lock"></i>
+          Actualizar Contraseña
+        </button>
+      </form>
+    </div>
+
+    <!-- Tab System Settings -->
+    <div *ngIf="!isLoading() && activeTab() === 'system'" class="tab-content">
+      <div class="section-title">Configuración Global</div>
+      <p class="section-description">Ajustes generales que afectan a toda la plataforma y clientes.</p>
+      
+      <div class="settings-grid mt-4">
+        <div *ngFor="let setting of systemSettings()" class="field-group system-field">
+          <div class="flex justify-between items-center mb-1">
+            <label class="field-label mb-0" [for]="setting.clave">{{ setting.descripcion }}</label>
+            <span class="text-[10px] text-slate-400 font-mono">{{ setting.clave }}</span>
+          </div>
+          <input [id]="setting.clave" type="text" [value]="setting.valor" 
+            (change)="updateSystemSetting(setting.clave, $event)" 
+            class="field-input" [placeholder]="'Valor para ' + setting.clave">
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

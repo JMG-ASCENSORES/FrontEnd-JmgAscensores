@@ -27,12 +27,7 @@ export class ReportsComponent {}
 })
 export class AIAssistantComponent {}
 
-@Component({ 
-  template: `<app-placeholder-page title="Configuración" icon="bi bi-gear"></app-placeholder-page>`, 
-  standalone: true,
-  imports: [PlaceholderPageComponent]
-})
-export class SettingsComponent {}
+import { SettingsComponent } from './settings/settings.component';
 
 
 export const adminRoutes: Routes = [

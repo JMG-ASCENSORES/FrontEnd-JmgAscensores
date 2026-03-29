@@ -1,0 +1,146 @@
+.settings-page {
+  @apply min-h-screen bg-slate-50 pb-20;
+}
+
+/* Hero Section */
+.settings-hero {
+  @apply relative h-48 md:h-64 mb-16;
+  
+  &__bg {
+    @apply w-full h-full bg-gradient-to-br from-slate-800 to-slate-900;
+  }
+  
+  &__avatar {
+    @apply absolute -bottom-12 left-1/2 -translate-x-1/2 w-28 h-28 md:w-36 md:h-36 
+           rounded-full border-4 border-white bg-white shadow-xl flex items-center justify-center overflow-hidden;
+  }
+}
+
+.avatar-initials {
+  @apply w-full h-full flex items-center justify-center bg-slate-200 text-slate-500 text-3xl md:text-5xl font-bold;
+}
+
+/* Identity Section */
+.settings-identity {
+  @apply text-center mb-10 px-4;
+  
+  &__name {
+    @apply text-2xl md:text-3xl font-extrabold text-slate-800 mb-1;
+  }
+  
+  &__role {
+    @apply px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-sm font-semibold flex items-center gap-2 w-fit mx-auto;
+  }
+}
+
+/* Main Container */
+.settings-body {
+  @apply max-w-4xl mx-auto px-4;
+}
+
+/* Tabs */
+.settings-tabs {
+  @apply flex bg-white p-1.5 rounded-2xl shadow-sm border border-slate-200 mb-8 overflow-hidden;
+  
+  button {
+    @apply flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-slate-500 font-medium transition-all;
+    
+    i { @apply text-lg; }
+    
+    &.active {
+      @apply bg-blue-600 text-white shadow-md shadow-blue-200;
+    }
+    
+    &:hover:not(.active) {
+      @apply bg-slate-50 text-slate-700;
+    }
+  }
+}
+
+/* Forms & Fields */
+.section-title {
+  @apply text-lg font-bold text-slate-800 mb-6 flex items-center gap-2;
+  &::after { @apply content-[''] flex-1 h-px bg-slate-200 ml-4; }
+}
+
+.section-description {
+  @apply text-sm text-slate-500 mb-6;
+}
+
+.tab-content {
+  @apply bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-100;
+}
+
+.field-group {
+  @apply mb-5;
+}
+
+.field-label {
+  @apply block text-sm font-semibold text-slate-600 mb-1.5;
+}
+
+.field-input {
+  @apply w-full h-12 px-4 rounded-xl border-2 border-slate-100 bg-slate-50 
+         transition-all duration-200 focus:bg-white focus:border-blue-500 focus:outline-none;
+  
+  &--prefixed { @apply pl-12; }
+  &--suffixed { @apply pr-12; }
+}
+
+.field-input-icon {
+  @apply relative flex items-center;
+}
+
+.field-prefix {
+  @apply absolute left-4 text-slate-400 font-bold border-r border-slate-200 pr-3;
+}
+
+.field-suffix-btn {
+  @apply absolute right-3 h-9 w-9 flex items-center justify-center text-slate-400 hover:text-blue-600 transition-colors;
+}
+
+.field-readonly {
+  @apply h-12 px-4 rounded-xl bg-slate-100 border-2 border-slate-100 flex items-center justify-between text-slate-500 font-medium;
+  
+  &__lock { @apply text-slate-300; }
+}
+
+/* Buttons */
+.btn {
+  @apply h-12 px-6 rounded-xl font-bold flex items-center justify-center gap-2 transition-all active:scale-95;
+  
+  &--primary {
+    @apply bg-blue-600 text-white shadow-lg shadow-blue-200 hover:bg-blue-700 hover:-translate-y-0.5 disabled:opacity-50 disabled:translate-y-0;
+  }
+}
+
+/* Alerts */
+.alert {
+  @apply flex items-center gap-3 p-4 rounded-2xl mb-8 border;
+  
+  &--success { @apply bg-emerald-50 text-emerald-700 border-emerald-100; }
+  &--error { @apply bg-rose-50 text-rose-700 border-rose-100; }
+}
+
+/* Skeleton Loading */
+.skeleton-line {
+  @apply bg-slate-200 rounded-lg animate-pulse;
+}
+
+/* Spinners */
+.spinner {
+  @apply border-2 border-white/30 border-t-white rounded-full w-5 h-5 animate-spin;
+}
+
+/* System Settings Grid */
+.settings-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2;
+}
+
+.system-field {
+  @apply bg-slate-50 border border-slate-100 p-4 rounded-2xl hover:border-blue-200 transition-colors;
+  
+  .field-input {
+    @apply border-slate-200 bg-white;
+  }
+}
