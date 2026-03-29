@@ -8,6 +8,12 @@ export interface ElevatorApiResponse {
   message: string;
   data: Elevator[] | Elevator;
   timestamp?: string;
+  meta?: {
+    totalItems: number;
+    itemsPerPage: number;
+    currentPage: number;
+    totalPages: number;
+  };
 }
 
 @Injectable({
@@ -46,6 +52,27 @@ export class ElevatorService {
           return throwError(() => new Error('Error al cargar equipos.'));
         })
       );
+  }
+
+  getElevatorsPaginated(page: number, limit: number, search?: string, clienteId?: number | null, tipoEquipo?: string, estado?: string): Observable<ElevatorApiResponse> {
+    let params: any = { page: page.toString(), limit: limit.toString() };
+    if (search) params.search = search;
+    if (clienteId) params.cliente_id = clienteId.toString();
+    if (tipoEquipo) params.tipo_equipo = tipoEquipo;
+    if (estado) params.estado = estado;
+    
+    return this.http.get<ElevatorApiResponse>(this.apiUrl, { 
+       headers: this.getHeaders(), 
+       params 
+    }).pipe(
+      catchError(error => {
+        console.error('Error fetching paginated elevators:', error);
+        if (error.status === 401) {
+           return throwError(() => new Error('No autorizado.'));
+        }
+        return throwError(() => new Error('Error al cargar equipos.'));
+      })
+    );
   }
 
   getElevatorById(id: number): Observable<Elevator> {

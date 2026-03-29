@@ -91,7 +91,7 @@
                 placeholder="Todos los tipos" 
                 [options]="equipmentTypes" 
                 [value]="selectedType()"
-                (valueChange)="selectedType.set($event)"
+                (valueChange)="selectedType.set($event); onFilterChange()"
             ></app-filter-select>
           </div>
 
@@ -102,7 +102,7 @@
                 placeholder="Todos los estados" 
                 [options]="statuses" 
                 [value]="selectedStatus()"
-                (valueChange)="selectedStatus.set($event)"
+                (valueChange)="selectedStatus.set($event); onFilterChange()"
             ></app-filter-select>
           </div>
     
@@ -112,7 +112,7 @@
                label="Búsqueda" 
                placeholder="Serie, marca, modelo..." 
                [value]="searchQuery()"
-               (valueChange)="searchQuery.set($event)"
+               (valueChange)="onSearch($event)"
             ></app-filter-input>
         </div>
     </app-filter-container>
@@ -214,6 +214,31 @@
             </div>
             <h3 class="text-lg font-bold text-gray-800">No hay equipos registrados</h3>
             <p class="text-gray-400 text-sm mt-1">Comienza registrando un nuevo equipo en el sistema.</p>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div *ngIf="!isLoading() && totalPages() > 1" class="col-span-full flex justify-center items-center gap-4 mt-8 pb-8">
+            <button 
+                (click)="prevPage()" 
+                [disabled]="currentPage() === 1"
+                class="px-4 py-2 rounded-lg font-bold transition-colors"
+                [ngClass]="currentPage() === 1 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-white border-2 border-[#003B73] text-[#003B73] hover:bg-slate-50 shadow-sm'"
+            >
+                <i class="bi bi-chevron-left mr-1"></i> Anterior
+            </button>
+            
+            <div class="text-sm font-bold text-slate-700">
+                Página {{ currentPage() }} de {{ totalPages() }}
+            </div>
+
+            <button 
+                (click)="nextPage()" 
+                [disabled]="currentPage() === totalPages()"
+                class="px-4 py-2 rounded-lg font-bold transition-colors"
+                [ngClass]="currentPage() === totalPages() ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-white border-2 border-[#003B73] text-[#003B73] hover:bg-slate-50 shadow-sm'"
+            >
+                Siguiente <i class="bi bi-chevron-right ml-1"></i>
+            </button>
         </div>
     </div>
 </div>

@@ -1,4 +1,5 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal, OnDestroy } from '@angular/core';
+import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -38,9 +39,10 @@ export interface ClientGroup {
   templateUrl: './elevator-list.component.html',
   styleUrl: './elevator-list.component.scss'
 })
-export class ElevatorListComponent implements OnInit {
+export class ElevatorListComponent implements OnInit, OnDestroy {
   private elevatorService = inject(ElevatorService);
   private clientService = inject(ClientService);
+  private destroy$ = new Subject<void>();
 
   // Data Signals
   elevators = signal<Elevator[]>([]);
@@ -48,14 +50,21 @@ export class ElevatorListComponent implements OnInit {
   isLoading = signal(true);
   error = signal<string | null>(null);
 
-  // Filters
   searchQuery = signal('');
+  searchSubject = new Subject<string>();
+  
   clientSearchTerm = signal(''); 
   selectedClientId = signal<number | null>(null);
   showClientDropdown = signal(false);
   
   selectedType = signal<string>('');
   selectedStatus = signal<string>('');
+
+  // Pagination
+  currentPage = signal(1);
+  pageSize = signal(12);
+  totalItems = signal(0);
+  totalPages = signal(0);
 
   // Modal State
   showCreateModal = signal(false);
@@ -70,17 +79,41 @@ export class ElevatorListComponent implements OnInit {
 
   ngOnInit() {
     this.loadData();
+    
+    this.searchSubject.pipe(
+      debounceTime(400),
+      distinctUntilChanged(),
+      takeUntil(this.destroy$)
+    ).subscribe(term => {
+      this.searchQuery.set(term);
+      this.onFilterChange();
+    });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   loadData() {
     this.isLoading.set(true);
     this.error.set(null);
 
-    this.elevatorService.getElevators().subscribe({
-      next: (elevators) => {
+    this.elevatorService.getElevatorsPaginated(
+      this.currentPage(),
+      this.pageSize(),
+      this.searchQuery(),
+      this.selectedClientId(),
+      this.selectedType(),
+      this.selectedStatus()
+    ).subscribe({
+      next: (response) => {
+        const elevatorsList = Array.isArray(response.data) ? response.data : 
+                             (response.data ? [response.data as Elevator] : []);
+        
         const uniqueClientsMap = new Map<number, any>();
         
-        const enrichedElevators = elevators.map(elevator => {
+        const enrichedElevators = elevatorsList.map(elevator => {
           const c = (elevator as any).Cliente;
           const name = c ? (c.nombre_comercial || (c.contacto_nombre ? `${c.contacto_nombre} ${c.contacto_apellido || ''}` : 'Sin nombre')) : 'Cliente Desconocido';
           
@@ -96,6 +129,15 @@ export class ElevatorListComponent implements OnInit {
 
         this.elevators.set(enrichedElevators);
         this.clients.set(Array.from(uniqueClientsMap.values()));
+        
+        if (response.meta) {
+          this.totalItems.set(response.meta.totalItems);
+          this.totalPages.set(response.meta.totalPages);
+        } else {
+          this.totalItems.set(elevatorsList.length);
+          this.totalPages.set(1);
+        }
+
         this.isLoading.set(false);
       },
       error: (err) => {
@@ -138,36 +180,25 @@ export class ElevatorListComponent implements OnInit {
           this.clientSearchTerm.set('');
       }
       this.showClientDropdown.set(false);
+      this.onFilterChange();
   }
 
-  // Computed Properties for UI
-  filteredElevators = computed(() => {
-    const query = this.searchQuery().toLowerCase();
-    const type = this.selectedType();
-    const status = this.selectedStatus();
-    const clientId = this.selectedClientId();
+  onSearch(term: string) {
+    this.searchSubject.next(term);
+  }
 
-    return this.elevators().filter(elevator => {
-      const matchQuery = 
-        (elevator.numero_serie || '').toLowerCase().includes(query) ||
-        (elevator.marca || '').toLowerCase().includes(query) ||
-        (elevator.modelo || '').toLowerCase().includes(query);
+  onFilterChange() {
+    this.currentPage.set(1);
+    this.loadData();
+  }
 
-      // Client Filter: Strict ID match if selected
-      const matchClient = clientId ? elevator.cliente_id === clientId : true;
-      
-      const matchType = type ? elevator.tipo_equipo === type : true;
-      const matchStatus = status ? elevator.estado === status : true;
-
-      return matchQuery && matchClient && matchType && matchStatus;
-    });
-  });
-
+  // Recordar que filteredElevators ya no es necesario,
+  // la API devuelve los resultados exactos que necesitamos.
   groupedElevators = computed<ClientGroup[]>(() => {
-    const filtered = this.filteredElevators();
+    const list = this.elevators();
     const groups = new Map<number, ClientGroup>();
     
-    for (const elevator of filtered) {
+    for (const elevator of list) {
        const cid = elevator.cliente_id;
        if (!groups.has(cid)) {
            groups.set(cid, {
@@ -184,10 +215,26 @@ export class ElevatorListComponent implements OnInit {
   });
 
   // Stats
-  totalElevators = computed(() => this.elevators().length);
+  totalElevators = computed(() => this.totalItems());
+  // Las demás stats reflejarán solo la vista actual por limitación de diseño paginado base
   operationalCount = computed(() => this.elevators().filter(e => e.estado === 'Operativo').length);
   maintenanceCount = computed(() => this.elevators().filter(e => e.estado === 'En Mantenimiento').length);
   outOfServiceCount = computed(() => this.elevators().filter(e => e.estado === 'Fuera de Servicio').length);
+
+  // Pagination Actions
+  nextPage() {
+    if (this.currentPage() < this.totalPages()) {
+      this.currentPage.set(this.currentPage() + 1);
+      this.loadData();
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage() > 1) {
+      this.currentPage.set(this.currentPage() - 1);
+      this.loadData();
+    }
+  }
 
   // Modal Actions
   openCreateModal() { this.showCreateModal.set(true); }
