@@ -131,3 +131,18 @@
 ::ng-deep .fc-icon {
     font-size: 1rem !important;
 }
+
+/* WhatsApp Notifications Custom Scrollbar */
+.tech-notification-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+.tech-notification-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.tech-notification-scroll::-webkit-scrollbar-thumb {
+  background: #dcfce7;
+  border-radius: 4px;
+}
+.tech-notification-scroll::-webkit-scrollbar-thumb:hover {
+  background: #bbf7d0;
+}

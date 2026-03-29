@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef, ViewChild, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FullCalendarModule, FullCalendarComponent } from '@fullcalendar/angular';
@@ -44,6 +44,13 @@ export class MaintenanceSchedulingComponent implements OnInit {
   showDeleteConfirm = false;
   deleteTargetId: number | null = null;
   deleteTargetName = '';
+
+  // Notification state: Map of date string -> Set of technicians notified
+  notifiedTechsByDate = new Map<string, Set<number>>();
+
+  // Toast state
+  toast = signal<{ message: string; type: 'success' | 'error'; title: string } | null>(null);
+  private toastTimeout: any;
 
   // Calendar
   calendarOptions: CalendarOptions = {
@@ -384,5 +391,78 @@ export class MaintenanceSchedulingComponent implements OnInit {
       return `${trabajador.nombre || ''} ${trabajador.apellido || ''}`.trim();
     }
     return 'No asignado';
+  }
+
+  // ─── WhatsApp Integration ──────────────────────────────────────────────
+
+  getTechniciansForDay(): { tech: any; services: Mantenimiento[] }[] {
+    const techGroups = new Map<number, { tech: any; services: Mantenimiento[] }>();
+
+    this.filteredMantenimientos.forEach(mant => {
+      // Usar el array de trabajadores completo calculado por el backend
+      const techs = (mant.extendedProps?.trabajadores || []).filter((t: any) => t && t.trabajador_id);
+
+      techs.forEach((t: any) => {
+        if (!techGroups.has(t.trabajador_id)) {
+          techGroups.set(t.trabajador_id, { tech: t, services: [] });
+        }
+        techGroups.get(t.trabajador_id)!.services.push(mant);
+      });
+    });
+
+    return Array.from(techGroups.values())
+      .sort((a, b) => (a.tech.nombre || '').localeCompare(b.tech.nombre || ''));
+  }
+
+  sendWhatsAppRoute(techData: { tech: any; services: Mantenimiento[] }): void {
+    const { tech, services } = techData;
+    if (!tech.telefono || tech.telefono.trim() === '') {
+      this.showToast(`El técnico ${tech.nombre} no tiene un teléfono registrado.`, 'error', 'Datos incompletos');
+      return;
+    }
+
+    const fechaStr = this.formatSelectedDate();
+    let message = `Hola *${tech.nombre}*, tu ruta para hoy *${fechaStr}* consta de ${services.length} servicios:\n\n`;
+
+    services.forEach((s, index) => {
+      const hora = this.formatHora(s.start);
+      const cliente = s.extendedProps?.cliente?.nombre_comercial || 'Cliente desconocido';
+      const equipo = s.extendedProps?.ascensor?.numero_serie || 'Equipo';
+      const tipo = this.getTipoTrabajoLabel(s.extendedProps?.tipo_trabajo);
+      
+      message += `${index + 1}. *${hora}* - ${cliente} (${tipo})\n`;
+      message += `   📍 Ref: ${equipo}\n\n`;
+    });
+
+    message += `Por favor, confirma recepción. ¡Buen turno! 🚀`;
+
+    const encodedMessage = encodeURIComponent(message);
+    // Limpiar espacios en el teléfono y añadir código de país
+    const cleanPhone = tech.telefono.replace(/\s+/g, '');
+    const whatsappUrl = `https://wa.me/51${cleanPhone}?text=${encodedMessage}`;
+    
+    window.open(whatsappUrl, '_blank');
+    
+    // Marcar como notificado en la sesión actual
+    if (!this.notifiedTechsByDate.has(this.selectedFilterDate)) {
+      this.notifiedTechsByDate.set(this.selectedFilterDate, new Set<number>());
+    }
+    this.notifiedTechsByDate.get(this.selectedFilterDate)?.add(tech.trabajador_id);
+    
+    this.cdr.detectChanges();
+  }
+
+  isTechNotified(techId: number): boolean {
+    return !!this.notifiedTechsByDate.get(this.selectedFilterDate)?.has(techId);
+  }
+
+  showToast(message: string, type: 'success' | 'error' = 'error', title: string = 'Aviso'): void {
+    if (this.toastTimeout) clearTimeout(this.toastTimeout);
+    this.toast.set({ message, type, title });
+    this.toastTimeout = setTimeout(() => {
+      // Add a class for fade out before nulling? 
+      // For now just null it, the CSS handles basic enter.
+      this.toast.set(null);
+    }, 3500);
   }
 }

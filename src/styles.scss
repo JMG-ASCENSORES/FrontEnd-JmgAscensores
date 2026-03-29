@@ -31,3 +31,90 @@ html, body {
 @keyframes spinner-border {
   to { transform: rotate(360deg); }
 }
+
+/* Global Toast System */
+.toast-container {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    pointer-events: none;
+}
+
+.toast-item {
+    pointer-events: auto;
+    min-width: 300px;
+    max-width: 450px;
+    padding: 1rem 1.25rem;
+    border-radius: 0.75rem;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    animation: toast-in 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+    border-left: 4px solid #cbd5e1;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.toast-item.error {
+    background: rgba(255, 255, 255, 0.9);
+    border-left: 4px solid #ef4444;
+}
+
+.toast-item.error::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(239, 68, 68, 0.05);
+    pointer-events: none;
+}
+
+.toast-item.success {
+    background: rgba(255, 255, 255, 0.9);
+    border-left: 4px solid #22c55e;
+}
+
+.toast-icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.toast-item.error .toast-icon { color: #ef4444; }
+.toast-item.success .toast-icon { color: #22c55e; }
+
+.toast-content {
+    flex-grow: 1;
+    position: relative;
+}
+
+.toast-title {
+    font-weight: 700;
+    font-size: 0.875rem;
+    margin-bottom: 0.1rem;
+    color: #1e293b;
+}
+
+.toast-message {
+    font-size: 0.8125rem;
+    color: #64748b;
+    line-height: 1.4;
+}
+
+@keyframes toast-in {
+    from { opacity: 0; transform: translateX(100%) scale(0.9); }
+    to { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+.toast-out {
+    animation: toast-out 0.3s ease-in forwards !important;
+}
+
+@keyframes toast-out {
+    from { opacity: 1; transform: translateX(0) scale(1); }
+    to { opacity: 0; transform: translateX(100%) scale(0.9); }
+}

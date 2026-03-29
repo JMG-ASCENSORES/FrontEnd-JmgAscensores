@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router'; // Import RouterModule for routerLink
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -74,6 +74,13 @@ export class ProgrammingComponent implements OnInit {
   timeline: TimelineItem[] = [];
 
   upcoming: any[] = [];
+
+  // Notification state: date string -> set of notified technician IDs
+  notifiedTechIdsByDate = new Map<string, Set<number>>();
+
+  // Toast state
+  toast = signal<{ message: string; type: 'success' | 'error'; title: string } | null>(null);
+  private toastTimeout: any;
 
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, interactionPlugin],
@@ -327,5 +334,79 @@ export class ProgrammingComponent implements OnInit {
       case 'Técnico General': return 'bi-person-badge';
       default: return 'bi-person';
     }
+  }
+
+  // ─── WhatsApp Integration ──────────────────────────────────────────────
+
+  getTechniciansFromSchedules(): { tech: any; services: Mantenimiento[] }[] {
+    const techGroups = new Map<number, { tech: any; services: Mantenimiento[] }>();
+
+    // We use originalData from schedules because it only contains today's filtered items
+    this.schedules.forEach(schedule => {
+      const mant = schedule.originalData;
+      const techs = (mant.extendedProps?.trabajadores || []).filter((t: any) => t && t.trabajador_id);
+
+      techs.forEach((t: any) => {
+        if (!techGroups.has(t.trabajador_id)) {
+          techGroups.set(t.trabajador_id, { tech: t, services: [] });
+        }
+        techGroups.get(t.trabajador_id)!.services.push(mant);
+      });
+    });
+
+    return Array.from(techGroups.values())
+      .sort((a, b) => (a.tech.nombre || '').localeCompare(b.tech.nombre || ''));
+  }
+
+  sendWhatsAppRoute(techData: { tech: any; services: Mantenimiento[] }): void {
+    const { tech, services } = techData;
+    if (!tech.telefono || tech.telefono.trim() === '') {
+      this.showToast(`El técnico ${tech.nombre} no tiene un teléfono registrado.`, 'error', 'Datos incompletos');
+      return;
+    }
+
+    const fechaStr = this.formatDate(services[0]?.start?.split('T')[0] || this.currentDateStr);
+    let message = `Hola *${tech.nombre}*, tu ruta para hoy *${fechaStr}* consta de ${services.length} servicios:\n\n`;
+
+    services.forEach((s, index) => {
+      let hora = '';
+      if (s.start && s.start.includes('T')) {
+         hora = s.start.split('T')[1].substring(0, 5);
+      }
+      
+      const cliente = s.extendedProps?.cliente?.nombre_comercial || `${s.extendedProps?.cliente?.contacto_nombre || ''} ${s.extendedProps?.cliente?.contacto_apellido || ''}`.trim() || 'Cliente desconocido';
+      const equipo = s.extendedProps?.ascensor?.numero_serie || 'Equipo';
+      const tipo = this.formatType(s.extendedProps?.tipo_trabajo);
+      
+      message += `${index + 1}. *${hora}* - ${cliente} (${tipo})\n`;
+      message += `   📍 Ref: ${equipo}\n\n`;
+    });
+
+    message += `Por favor, confirma recepción. ¡Buen turno! 🚀`;
+
+    const encodedMessage = encodeURIComponent(message);
+    const cleanPhone = tech.telefono.replace(/\s+/g, '');
+    const whatsappUrl = `https://wa.me/51${cleanPhone}?text=${encodedMessage}`;
+    
+    window.open(whatsappUrl, '_blank');
+    
+    // Marcar como notificado
+    if (!this.notifiedTechIdsByDate.has(this.currentDateStr)) {
+      this.notifiedTechIdsByDate.set(this.currentDateStr, new Set<number>());
+    }
+    this.notifiedTechIdsByDate.get(this.currentDateStr)?.add(tech.trabajador_id);
+    this.cdr.detectChanges();
+  }
+
+  isTechNotified(techId: number): boolean {
+    return !!this.notifiedTechIdsByDate.get(this.currentDateStr)?.has(techId);
+  }
+
+  showToast(message: string, type: 'success' | 'error' = 'error', title: string = 'Aviso'): void {
+    if (this.toastTimeout) clearTimeout(this.toastTimeout);
+    this.toast.set({ message, type, title });
+    this.toastTimeout = setTimeout(() => {
+      this.toast.set(null);
+    }, 3500);
   }
 }

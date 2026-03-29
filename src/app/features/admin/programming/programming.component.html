@@ -41,6 +41,33 @@
         <!-- Middle Column (Schedules) col-span-5 -->
         <div class="lg:col-span-5 flex flex-col gap-4 md:gap-5 min-h-0 h-full">
             
+            <!-- WhatsApp Notifications Panel -->
+            <div *ngIf="schedules.length > 0" class="bg-[#f0fdf4] rounded-xl p-4 shadow-sm border border-[#22c55e] flex flex-col shrink-0">
+                <div class="flex items-center justify-between mb-3">
+                    <h2 class="text-sm font-bold text-[#166534] uppercase tracking-wider">Notificar Técnicos del Día</h2>
+                    <i class="bi bi-whatsapp text-[#166534] text-lg"></i>
+                </div>
+                <div class="flex flex-col gap-2 overflow-y-auto max-h-[140px] pr-1 tech-notification-scroll">
+                    <div *ngFor="let group of getTechniciansFromSchedules()" class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-[#dcfce7] shadow-sm">
+                        <div class="flex flex-col overflow-hidden">
+                            <span class="font-bold text-slate-800 text-sm truncate" [title]="group.tech.nombre + ' ' + group.tech.apellido">
+                                {{ group.tech.nombre }} {{ group.tech.apellido }}
+                            </span>
+                            <span class="text-xs text-slate-500">{{ group.services.length }} servicios hoy</span>
+                        </div>
+                        <button 
+                            class="shrink-0 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-bold transition-all"
+                            [ngClass]="isTechNotified(group.tech.trabajador_id) ? 'bg-slate-50 text-[#166534] border border-[#22c55e] hover:bg-[#f0fdf4]' : 'bg-[#25d366] text-white hover:bg-[#128c7e] hover:-translate-y-px shadow-sm'"
+                            (click)="sendWhatsAppRoute(group)"
+                            [title]="isTechNotified(group.tech.trabajador_id) ? 'Notificado en esta sesión' : 'Enviar ruta por WhatsApp'"
+                        >
+                            <i [class]="isTechNotified(group.tech.trabajador_id) ? 'bi bi-check-all text-sm' : 'bi bi-whatsapp'"></i>
+                            {{ isTechNotified(group.tech.trabajador_id) ? 'Reenviar' : 'Notificar' }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <!-- Daily Schedules -->
             <div class="bg-blue-100 rounded-xl p-4 shadow-sm border border-blue-200 flex flex-col flex-1 min-h-0">
                 <h2 class="text-lg font-bold text-slate-800 mb-3 shrink-0">Programaciones del día</h2>
@@ -182,4 +209,17 @@
         </div>
 
     </div>
+</div>
+
+<!-- Custom Toast Notification -->
+<div class="toast-container" *ngIf="toast()">
+  <div class="toast-item" [ngClass]="toast()?.type">
+    <div class="toast-icon">
+      <i class="bi" [ngClass]="toast()?.type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'"></i>
+    </div>
+    <div class="toast-content">
+      <div class="toast-title">{{ toast()?.title }}</div>
+      <div class="toast-message">{{ toast()?.message }}</div>
+    </div>
+  </div>
 </div>
