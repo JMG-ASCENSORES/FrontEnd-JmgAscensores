@@ -71,13 +71,21 @@ export class ClientCreateComponent implements OnInit {
     const formValue = this.clientForm.value;
 
     // Sanitize payload: valid backend might reject empty strings for unique fields like RUC
+    // Mapeo inteligente de teléfonos حسب el tipo de cliente
     const payload = {
       ...formValue,
+      telefono: formValue.tipo_cliente === 'persona' ? formValue.contacto_telefono : null,
+      contacto_telefono: formValue.tipo_cliente === 'empresa' ? formValue.contacto_telefono : formValue.contacto_telefono, // Mantenemos el fallback para el backend si es necesario
       ruc: formValue.ruc ? formValue.ruc : null,
       nombre_comercial: formValue.nombre_comercial ? formValue.nombre_comercial : null,
       distrito: formValue.distrito ? formValue.distrito : null,
       contacto_apellido: formValue.contacto_apellido ? formValue.contacto_apellido : null
     };
+
+    // Si es persona, nos aseguramos de que el teléfono principal esté cargado
+    if (formValue.tipo_cliente === 'persona') {
+        payload.contacto_telefono = null; // Unificamos: persona solo usa 'telefono'
+    }
 
     // Remove unused form controls from payload if necessary, or just rely on sanitation above
     // delete payload.contacto_telefono; 

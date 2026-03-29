@@ -398,6 +398,55 @@ export class ProgrammingComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
+  sendWhatsAppClient(schedule: Schedule): void {
+    const raw = schedule.originalData;
+    const cliente = raw.extendedProps?.cliente;
+    
+    if (!cliente) {
+        this.showToast('No se encontró información del cliente para este trabajo.', 'error', 'Error de Datos');
+        return;
+    }
+
+    // Lógica robusta por tipo de cliente para obtener el teléfono
+    let telefono = '';
+    if (cliente.tipo_cliente === 'persona') {
+        // Para personas, prioritarios 'telefono', si no está, usamos 'contacto_telefono' (por compatibilidad con datos viejos)
+        telefono = cliente.telefono || cliente.contacto_telefono;
+    } else {
+        // Para empresas, prioritarios 'contacto_telefono', si no está, usamos 'telefono'
+        telefono = cliente.contacto_telefono || cliente.telefono;
+    }
+    
+    if (!telefono || telefono.trim() === '') {
+        this.showToast(`El cliente ${schedule.clientName} no tiene un teléfono registrado para este tipo de contacto.`, 'error', 'Datos incompletos');
+        return;
+    }
+
+    const fechaStr = this.formatDate(raw.start?.split('T')[0] || this.currentDateStr);
+    let hora = '';
+    if (raw.start && raw.start.includes('T')) {
+        hora = raw.start.split('T')[1].substring(0, 5);
+    }
+
+    const nombreCliente = `${cliente.contacto_nombre || ''} ${cliente.contacto_apellido || ''}`.trim() || cliente.nombre_comercial || 'Estimado Cliente';
+    const tipoTrabajo = this.formatType(raw.extendedProps?.tipo_trabajo);
+    const equipo = raw.extendedProps?.ascensor?.numero_serie || 'su equipo';
+
+    let message = `Estimado(a) *${nombreCliente}*,\n\n`;
+    message += `JMG Ascensores le informa que tiene programado un servicio de *${tipoTrabajo}* para el día *${fechaStr}* a las *${hora}* para el equipo [Ref: ${equipo}].\n\n`;
+    message += `Atentamente,\nAdministración JMG Ascensores.`;
+
+    const encodedMessage = encodeURIComponent(message);
+    const cleanPhone = telefono.replace(/\s+/g, '').replace('+', '');
+    // Asumimos código de país 51 (Perú) si no tiene caracteres internacionales
+    const finalPhone = cleanPhone.length === 9 ? `51${cleanPhone}` : cleanPhone;
+    
+    const whatsappUrl = `https://wa.me/${finalPhone}?text=${encodedMessage}`;
+    window.open(whatsappUrl, '_blank');
+    
+    this.showToast(`Enlace de WhatsApp generado para ${schedule.clientName}`, 'success', 'Notificación');
+  }
+
   isTechNotified(techId: number): boolean {
     return !!this.notifiedTechIdsByDate.get(this.currentDateStr)?.has(techId);
   }

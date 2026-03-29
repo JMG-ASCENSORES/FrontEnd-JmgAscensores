@@ -94,9 +94,20 @@
                             </div>
                         </div>
                         
-                        <div class="text-right w-2/5 flex flex-col justify-between">
-                             <h3 class="font-bold text-slate-800 text-sm truncate" [title]="schedule.technicianName">{{schedule.technicianName}}</h3>
-                             <p class="text-xs text-slate-500 leading-tight mt-1 line-clamp-2" [title]="schedule.time + ', ' + schedule.address">{{schedule.time}}, {{schedule.address}}</p>
+                        <div class="text-right w-2/5 flex flex-col justify-between items-end">
+                             <div class="flex flex-col items-end">
+                                <h3 class="font-bold text-slate-800 text-sm truncate w-full" [title]="schedule.technicianName">{{schedule.technicianName}}</h3>
+                                <p class="text-xs text-slate-500 leading-tight mt-1 line-clamp-2" [title]="schedule.time + ', ' + schedule.address">{{schedule.time}}, {{schedule.address}}</p>
+                             </div>
+                             <!-- Botón Notificar Cliente -->
+                             <button 
+                                class="mt-2 flex items-center gap-1 px-2 py-1 bg-[#25d366] text-white text-[10px] font-bold rounded hover:bg-[#128c7e] transition-colors shadow-sm"
+                                (click)="sendWhatsAppClient(schedule); $event.stopPropagation()"
+                                title="Notificar al cliente por WhatsApp"
+                             >
+                                <i class="bi bi-whatsapp"></i>
+                                CLIENTE
+                             </button>
                         </div>
                     </div>
                 </div>
@@ -116,9 +127,20 @@
                              <p class="text-xs text-slate-500 truncate w-[160px] md:w-[200px]" [title]="firstJobClientAddress">{{firstJobClientAddress}}</p>
                         </div>
                    </div>
-                   <button class="text-blue-600 hover:text-blue-800 shrink-0 text-xl">
-                       <i class="bi bi-arrow-right"></i>
-                   </button>
+                   <div class="flex items-center gap-2 shrink-0">
+                       <button 
+                           *ngIf="selectedSchedule"
+                           class="flex items-center gap-1.5 px-3 py-1.5 bg-[#25d366] text-white text-xs font-bold rounded-lg hover:bg-[#128c7e] transition-all hover:scale-105 shadow-sm"
+                           (click)="sendWhatsAppClient(selectedSchedule)"
+                           title="Notificar al cliente por WhatsApp"
+                       >
+                           <i class="bi bi-whatsapp"></i>
+                           Notificar
+                       </button>
+                       <button class="text-blue-600 hover:text-blue-800 shrink-0 text-xl p-1">
+                           <i class="bi bi-arrow-right"></i>
+                       </button>
+                   </div>
                </div>
                
                <div class="p-4 overflow-y-auto max-h-[160px] flex-1">
