@@ -41,9 +41,7 @@ export class TechnicianEditComponent implements OnInit {
     this.technicianForm = this.fb.group({
       nombre: [this.technician.nombre, [Validators.required, Validators.minLength(2)]],
       apellido: [this.technician.apellido, [Validators.required, Validators.minLength(2)]],
-      // DNI is usually not editable in edits, but showing it as disabled is good UX. 
-      // Backend doesn't allow DNI update anyway in current schema config shown previously.
-      dni: [{ value: this.technician.dni, disabled: true }], 
+      dni: [this.technician.dni, [Validators.required, Validators.pattern(/^\d{8}$/)]], 
       edad: [this.technician.edad, [Validators.required, Validators.min(18), Validators.max(80)]],
       correo: [this.technician.correo, [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
       telefono: [this.technician.telefono, [Validators.required, Validators.pattern(/^9\d{8}$/)]],
@@ -79,6 +77,7 @@ export class TechnicianEditComponent implements OnInit {
     const payload: any = {
       nombre: formValue.nombre,
       apellido: formValue.apellido,
+      dni: formValue.dni,
       edad: Number(formValue.edad),
       correo: formValue.correo,
       telefono: formValue.telefono,

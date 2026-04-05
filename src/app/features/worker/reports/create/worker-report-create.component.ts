@@ -7,10 +7,12 @@ import { ReportService } from '../../../admin/services/report.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { WorkerService, WorkerProfile } from '../../services/worker.service';
 
+import { LoadingSpinnerComponent } from '../../../../shared/components/loading-spinner/loading-spinner.component';
+
 @Component({
   selector: 'app-worker-report-create',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, LoadingSpinnerComponent],
   templateUrl: './worker-report-create.component.html',
   styleUrl: './worker-report-create.component.scss'
 })

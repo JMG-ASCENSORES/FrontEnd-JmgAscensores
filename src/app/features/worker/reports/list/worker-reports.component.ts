@@ -9,10 +9,12 @@ import { WorkerReportCreateComponent } from '../create/worker-report-create.comp
 import { PdfPreviewComponent } from '../../../admin/documents/preview/pdf-preview.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
+import { LoadingSpinnerComponent } from '../../../../shared/components/loading-spinner/loading-spinner.component';
+
 @Component({
   selector: 'app-worker-reports',
   standalone: true,
-  imports: [CommonModule, FormsModule, WorkerReportCreateComponent, PdfPreviewComponent],
+  imports: [CommonModule, FormsModule, WorkerReportCreateComponent, PdfPreviewComponent, LoadingSpinnerComponent],
   templateUrl: './worker-reports.component.html',
   styleUrl: './worker-reports.component.scss'
 })

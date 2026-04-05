@@ -207,43 +207,6 @@ $speed:        0.22s;
   &:hover .card-action { color: $cyan; }
 }
 
-// ── Skeleton Loaders ────────────────────────────────────────────────────────
-.skeleton-card {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  background: $bg-card;
-  border-radius: $radius-card;
-  padding: 0.9rem 1rem;
-  box-shadow: $shadow-card;
-
-  .skeleton-avatar {
-    width: 46px;
-    height: 46px;
-    border-radius: 12px;
-    background: linear-gradient(90deg, #e8edf3 25%, #d0d9e6 50%, #e8edf3 75%);
-    background-size: 200% 100%;
-    animation: shimmer 1.4s infinite;
-    flex-shrink: 0;
-  }
-
-  .skeleton-lines {
-    flex: 1;
-    .skeleton-line {
-      height: 12px;
-      border-radius: 6px;
-      background: linear-gradient(90deg, #e8edf3 25%, #d0d9e6 50%, #e8edf3 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.4s infinite;
-      margin-bottom: 8px;
-      &.wide   { width: 70%; }
-      &.narrow { width: 45%; }
-    }
-  }
-}
-
-@keyframes shimmer { to { background-position: -200% 0; } }
-
 // ── Empty State ───────────────────────────────────────────────────────────────
 .empty-state {
   display: flex;
@@ -644,28 +607,7 @@ $speed:        0.22s;
   }
 }
 
-// ── Spinner ───────────────────────────────────────────────────────────────────
-.loading-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2.5rem 1rem;
-  color: $text-muted;
-  font-size: 0.9rem;
-}
-
-.spinner {
-  width: 36px;
-  height: 36px;
-  border: 3px solid rgba($blue-dark, 0.15);
-  border-radius: 50%;
-  border-top-color: $blue-dark;
-  animation: spin 0.8s linear infinite;
-  margin-bottom: 0.75rem;
-}
-
 // ── Animations ────────────────────────────────────────────────────────────────
-@keyframes spin    { to { transform: rotate(360deg); } }
 @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 @keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
 @keyframes zoomIn  { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }

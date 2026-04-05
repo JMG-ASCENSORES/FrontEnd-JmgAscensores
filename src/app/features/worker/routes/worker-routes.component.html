@@ -34,10 +34,10 @@
   <!-- Content List -->
   <div class="px-6 flex-1 overflow-y-auto">
     <!-- Loading -->
-    <div *ngIf="isLoading()" class="flex flex-col items-center justify-center py-10 opacity-70">
-      <div class="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-[#003B73] mb-4"></div>
-      <span class="text-sm font-semibold text-slate-500">Cargando rutas...</span>
-    </div>
+    <app-loading-spinner *ngIf="isLoading()" 
+                         message="Cargando rutas..." 
+                         size="md">
+    </app-loading-spinner>
 
     <!-- Error -->
     <div *ngIf="!isLoading() && error()" class="bg-red-50 text-red-600 p-4 rounded-xl flex items-center gap-3">

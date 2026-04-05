@@ -35,15 +35,13 @@
   <div class="clients-list">
 
     <!-- Loading skeleton -->
-    <ng-container *ngIf="loadingClientList()">
-      <div class="skeleton-card" *ngFor="let i of [1,2,3,4,5]">
-        <div class="skeleton-avatar"></div>
-        <div class="skeleton-lines">
-          <div class="skeleton-line wide"></div>
-          <div class="skeleton-line narrow"></div>
-        </div>
+    <app-skeleton-loader *ngIf="loadingClientList()" [count]="5">
+      <div class="skeleton-circle" style="position: absolute; left: 1rem; top: 1rem;"></div>
+      <div class="skeleton-lines" style="margin-left: 5rem; padding-top: 1rem;">
+        <div class="skeleton-line w-3-4"></div>
+        <div class="skeleton-line w-1-2"></div>
       </div>
-    </ng-container>
+    </app-skeleton-loader>
 
     <!-- Client cards -->
     <ng-container *ngIf="!loadingClientList()">
@@ -131,10 +129,10 @@
 
       <div class="modal-body">
         <!-- Loading equipos -->
-        <div *ngIf="loadingEquipos()" class="loading-state">
-          <div class="spinner"></div>
-          <span>Cargando equipos...</span>
-        </div>
+        <app-loading-spinner *ngIf="loadingEquipos()" 
+                             message="Cargando equipos..." 
+                             size="md">
+        </app-loading-spinner>
 
         <!-- Equipos list -->
         <ng-container *ngIf="!loadingEquipos()">

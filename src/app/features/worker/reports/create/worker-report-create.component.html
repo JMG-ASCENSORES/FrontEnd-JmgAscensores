@@ -137,10 +137,10 @@
             <i class="bi bi-card-checklist"></i> Checklist de Mantenimiento
           </h4>
 
-          <div *ngIf="loadingChecklist()" class="py-10 flex flex-col items-center justify-center gap-3">
-             <div class="spinner-border text-primary" role="status"></div>
-             <span class="text-xs font-bold text-slate-400">Cargando tareas...</span>
-          </div>
+          <app-loading-spinner *ngIf="loadingChecklist()" 
+                               message="Cargando tareas..." 
+                               size="sm">
+          </app-loading-spinner>
 
           <div *ngIf="!loadingChecklist() && maintenanceChecklist().length === 0" class="p-4 bg-amber-50 rounded-xl border border-amber-200 text-amber-700 text-xs font-semibold flex items-center gap-3">
             <i class="bi bi-exclamation-triangle-fill text-lg"></i>
@@ -261,7 +261,7 @@
     <div class="worker-modal-footer">
       <button class="worker-btn-primary" (click)="onSubmit()" [disabled]="isSubmitting()">
         <span *ngIf="!isSubmitting()"><i class="bi bi-check2-circle"></i> {{ isEditing() ? 'Actualizar Informe' : 'Guardar Informe' }}</span>
-        <span *ngIf="isSubmitting()" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <app-loading-spinner *ngIf="isSubmitting()" size="sm"></app-loading-spinner>
       </button>
     </div>
 

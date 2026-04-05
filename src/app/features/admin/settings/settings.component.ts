@@ -51,6 +51,7 @@ export class SettingsComponent implements OnInit {
     this.profileForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(2)]],
       apellido: ['', [Validators.required, Validators.minLength(2)]],
+      dni: ['', [Validators.required, Validators.pattern(/^\d{8}$/)]],
       correo: ['', [Validators.required, Validators.email]],
       telefono: ['', [Validators.pattern(/^[0-9]{9}$/)]]
     });
@@ -74,6 +75,7 @@ export class SettingsComponent implements OnInit {
         this.profileForm.patchValue({
           nombre: res.data.nombre,
           apellido: res.data.apellido,
+          dni: res.data.dni,
           correo: res.data.correo,
           telefono: res.data.telefono
         });

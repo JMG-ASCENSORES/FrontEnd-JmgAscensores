@@ -6,10 +6,12 @@ import { Mantenimiento } from '../../admin/models/mantenimiento.interface';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { WorkerReportCreateComponent } from '../reports/create/worker-report-create.component';
 
+import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner.component';
+
 @Component({
   selector: 'app-worker-routes',
   standalone: true,
-  imports: [CommonModule, WorkerReportCreateComponent],
+  imports: [CommonModule, WorkerReportCreateComponent, LoadingSpinnerComponent],
   templateUrl: './worker-routes.component.html',
   styleUrls: ['./worker-routes.component.css'],
   host: {

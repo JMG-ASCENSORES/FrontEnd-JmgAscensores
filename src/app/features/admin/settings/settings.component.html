@@ -74,11 +74,11 @@
         </div>
 
         <div class="field-group">
-          <label class="field-label">DNI (Solo Lectura)</label>
-          <div class="field-readonly">
-            <span>{{ profile()?.dni }}</span>
-            <i class="bi bi-lock-fill field-readonly__lock"></i>
-          </div>
+          <label class="field-label" for="p_dni">DNI</label>
+          <input id="p_dni" type="text" formControlName="dni" class="field-input" maxlength="8">
+          <p *ngIf="profileForm.get('dni')?.invalid && profileForm.get('dni')?.touched" class="field-error">
+            DNI inválido (debe tener 8 dígitos).
+          </p>
         </div>
 
         <div class="field-group">

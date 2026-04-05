@@ -1,13 +1,16 @@
-﻿import { Component, OnInit, OnDestroy, inject, signal } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, signal } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 import { WorkerEquipmentService, ClienteResumen, EquipoCliente } from './worker-equipment.service';
 
+import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner.component';
+import { SkeletonLoaderComponent } from '../../../shared/components/skeleton-loader/skeleton-loader.component';
+
 @Component({
   selector: 'app-worker-equipment',
   standalone: true,
-  imports: [CommonModule, FormsModule, DatePipe],
+  imports: [CommonModule, FormsModule, DatePipe, LoadingSpinnerComponent, SkeletonLoaderComponent],
   templateUrl: './worker-equipment.component.html',
   styleUrl: './worker-equipment.component.scss'
 })
