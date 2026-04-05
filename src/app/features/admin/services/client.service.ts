@@ -76,8 +76,8 @@ export interface ClientStatsResponse {
 })
 export class ClientService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/api/clientes';
-  private elevatorsUrl = 'http://localhost:3000/api/ascensores';
+  private apiUrl = `${environment.apiUrl}/clientes`;
+  private elevatorsUrl = `${environment.apiUrl}/ascensores`;
 
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');

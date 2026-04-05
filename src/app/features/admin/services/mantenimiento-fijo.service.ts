@@ -2,13 +2,14 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, map, catchError, throwError } from 'rxjs';
 import { MantenimientoFijo, CrearMantenimientoFijoDTO } from '../models/mantenimiento.interface';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MantenimientoFijoService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/api/mantenimientos-fijos';
+  private apiUrl = `${environment.apiUrl}/mantenimientos-fijos`;
 
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');

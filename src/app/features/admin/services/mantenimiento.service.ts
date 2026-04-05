@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Mantenimiento, CrearMantenimientoDTO } from '../models/mantenimiento.interface';
+import { environment } from '../../../../environments/environment';
 
 interface ApiResponse {
   success: boolean;
@@ -14,7 +15,7 @@ interface ApiResponse {
   providedIn: 'root'
 })
 export class MantenimientoService {
-  private apiUrl = 'http://localhost:3000/api/programaciones';
+  private apiUrl = `${environment.apiUrl}/programaciones`;
 
   constructor(private http: HttpClient) {}
 

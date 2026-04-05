@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { Elevator } from '../../../core/models/elevator.model';
+import { environment } from '../../../../environments/environment';
 
 export interface ElevatorApiResponse {
   success: boolean;
@@ -21,7 +22,7 @@ export interface ElevatorApiResponse {
 })
 export class ElevatorService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/api/ascensores';
+  private apiUrl = `${environment.apiUrl}/ascensores`;
 
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');

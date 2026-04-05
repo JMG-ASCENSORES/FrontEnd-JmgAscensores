@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, catchError, map, throwError } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 // ============= INTERFACES =============
 
@@ -111,7 +112,7 @@ export interface ApiResponse<T> {
 })
 export class ProgramacionService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/api/programaciones';
+  private apiUrl = `${environment.apiUrl}/programaciones`;
 
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
