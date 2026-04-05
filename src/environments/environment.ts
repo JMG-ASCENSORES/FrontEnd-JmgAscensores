@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'YOUR_PRODUCTION_API_URL/api' // To be defined
+  apiUrl: 'https://backend-jmgascensores.onrender.com/api'
 };
