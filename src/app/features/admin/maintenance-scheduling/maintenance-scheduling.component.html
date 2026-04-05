@@ -34,30 +34,6 @@
         <span class="badge">{{ filteredMantenimientos.length }}</span>
       </div>
 
-      <!-- Notificaciones WhatsApp -->
-      <div *ngIf="!isLoading && filteredMantenimientos.length > 0" class="notifications-panel">
-        <h3 class="panel-subtitle">Notificar por WhatsApp</h3>
-        <div class="tech-notification-list">
-          <div *ngFor="let group of getTechniciansForDay()" class="tech-notification-item">
-            <div class="tech-info">
-              <span class="tech-name">{{ group.tech.nombre }} {{ group.tech.apellido }}</span>
-              <span class="tech-services-count">{{ group.services.length }} servicios asignados</span>
-            </div>
-            <div class="tech-actions">
-              <button 
-                class="btn-whatsapp" 
-                [class.sent]="isTechNotified(group.tech.trabajador_id)"
-                (click)="sendWhatsAppRoute(group)"
-                [title]="isTechNotified(group.tech.trabajador_id) ? 'Notificado en esta sesión' : 'Enviar ruta por WhatsApp'"
-              >
-                <i [class]="isTechNotified(group.tech.trabajador_id) ? 'bi bi-check-all' : 'bi bi-whatsapp'"></i>
-                {{ isTechNotified(group.tech.trabajador_id) ? 'Reenviar' : 'Notificar' }}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- Loading State -->
       <div *ngIf="isLoading" class="loading-state">
         <div class="spinner"></div>
@@ -197,6 +173,29 @@
           <div class="legend-item">
             <span class="legend-color" style="background-color: #B91C1C;"></span>
             <span>Emergencia</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notificaciones WhatsApp -->
+      <div *ngIf="!isLoading && filteredMantenimientos.length > 0" class="notifications-panel">
+        <h3 class="panel-subtitle">Notificación a Técnicos</h3>
+        <div class="tech-notification-list">
+          <div *ngFor="let group of getTechniciansForDay()" class="tech-notification-item">
+            <div class="tech-info">
+              <span class="tech-name">{{ group.tech.nombre }} {{ group.tech.apellido }}</span>
+              <span class="tech-services-count">{{ group.services.length }} servicios</span>
+            </div>
+            <div class="tech-actions">
+              <button 
+                class="btn-whatsapp" 
+                [class.sent]="isTechNotified(group.tech.trabajador_id)"
+                (click)="sendWhatsAppRoute(group)"
+                [title]="isTechNotified(group.tech.trabajador_id) ? 'Notificado en esta sesión' : 'Enviar ruta por WhatsApp'"
+              >
+                <i [class]="isTechNotified(group.tech.trabajador_id) ? 'bi bi-check-all' : 'bi bi-whatsapp'"></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>

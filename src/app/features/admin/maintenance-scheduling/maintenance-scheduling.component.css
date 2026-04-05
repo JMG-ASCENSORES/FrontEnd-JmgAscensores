@@ -654,23 +654,35 @@
   background-color: #f0fdf4;
   border: 1px dashed #22c55e;
   border-radius: 0.75rem;
-  padding: 1.25rem;
-  margin-bottom: 2rem;
+  padding: 1rem;
+  margin-top: 1.5rem;
 }
 
 .panel-subtitle {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 700;
   color: #166534;
-  margin: 0 0 1rem 0;
+  margin: 0 0 0.75rem 0;
   text-transform: uppercase;
-  letter-spacing: 0.025em;
+  letter-spacing: 0.05em;
 }
 
 .tech-notification-list {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.5rem;
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.tech-notification-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.tech-notification-list::-webkit-scrollbar-thumb {
+  background: #22c55e44;
+  border-radius: 2px;
 }
 
 .tech-notification-item {
@@ -678,7 +690,7 @@
   justify-content: space-between;
   align-items: center;
   background: white;
-  padding: 0.75rem 1rem;
+  padding: 0.5rem 0.75rem;
   border-radius: 0.5rem;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   border: 1px solid #dcfce7;
@@ -687,16 +699,20 @@
 .tech-info {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .tech-name {
   font-weight: 600;
   color: #1e293b;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .tech-services-count {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: #64748b;
 }
 
@@ -704,15 +720,16 @@
   background-color: #25d366;
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
+  width: 32px;
+  height: 32px;
   border-radius: 0.5rem;
-  font-size: 0.875rem;
-  font-weight: 600;
+  font-size: 1rem;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
   transition: all 0.2s;
+  flex-shrink: 0;
 }
 
 .btn-whatsapp:hover {
