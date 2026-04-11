@@ -1,356 +1,37 @@
-/* Container */
-.maintenance-container {
-  padding: 2rem;
-  max-width: 1800px;
-  margin: 0 auto;
-}
+/* ─────────────────────────────────────────────────────────────────────────────
+   ESTE ARCHIVO CONTIENE ÚNICAMENTE:
+   1. Estilos de FullCalendar (::ng-deep — imposible en Tailwind)
+   2. .selected-date-cell — usado por dayCellClassNames() en el TS
+   3. Scrollbars custom — no soportados por Tailwind sin plugins
+   ───────────────────────────────────────────────────────────────────────────── */
 
-/* Header */
-.header-section {
-  margin-bottom: 2rem;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.page-title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #1e293b;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin: 0;
-}
-
-.page-title i {
-  color: #3b82f6;
-}
-
-.btn-primary {
-  background-color: #003B73;
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: all 0.2s;
-  box-shadow: 0 4px 6px rgba(0, 59, 115, 0.2);
-}
-
-.btn-primary:hover {
-  background-color: #002a52;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 8px rgba(0, 59, 115, 0.3);
-}
-
-.btn-secondary {
-  background-color: #64748b;
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-secondary:hover {
-  background-color: #475569;
-}
-
-/* Error Alert */
-.error-alert {
-  background-color: #fee2e2;
-  border: 1px solid #fecaca;
-  color: #991b1b;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  margin-bottom: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.error-alert i {
-  font-size: 1.25rem;
-}
-
-/* Main Content */
-.main-content {
-  display: grid;
-  grid-template-columns: minmax(400px, 45%) minmax(600px, 55%);
-  gap: 2rem;
-  align-items: flex-start;
-}
-
-@media (max-width: 1024px) {
-  .main-content {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Section Headers */
-.section-header {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
-}
-
-.section-header h2 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #1e293b;
-  margin: 0;
-}
-
-.badge {
-  background-color: #e0e7ff;
-  color: #3730a3;
-  padding: 0.25rem 0.75rem;
-  border-radius: 9999px;
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-
-/* Loading State */
-.loading-state {
-  text-align: center;
-  padding: 3rem;
-}
-
-.spinner {
-  border: 4px solid #f3f4f6;
-  border-top: 4px solid #3b82f6;
-  border-radius: 50%;
-  width: 3rem;
-  height: 3rem;
-  animation: spin 1s linear infinite;
-  margin: 0 auto 1rem;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Empty State */
-.empty-state {
-  text-align: center;
-  padding: 3rem;
-  color: #64748b;
-}
-
-.empty-state i {
-  font-size: 4rem;
-  margin-bottom: 1rem;
-  opacity: 0.5;
-}
-
-/* Programaciones List */
-.programaciones-section {
-  background: white;
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
+/* ── Lista programaciones: scrollbar ── */
 .programaciones-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
   max-height: calc(100vh - 220px);
   min-height: 500px;
   overflow-y: auto;
-  padding-right: 0.5rem;
+  padding-right: 0.25rem;
 }
 
-/* Custom Scrollbar */
-.programaciones-list::-webkit-scrollbar {
-  width: 8px;
-}
-.programaciones-list::-webkit-scrollbar-track {
-  background: #f1f5f9;
-  border-radius: 4px;
-}
-.programaciones-list::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
-}
-.programaciones-list::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+.programaciones-list::-webkit-scrollbar { width: 6px; }
+.programaciones-list::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+.programaciones-list::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+.programaciones-list::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* ── Notificaciones: scrollbar ── */
+.tech-notification-list::-webkit-scrollbar { width: 4px; }
+.tech-notification-list::-webkit-scrollbar-thumb { background: #22c55e44; border-radius: 2px; }
+
+/* ── FullCalendar: selected date cell ── */
+:host ::ng-deep .selected-date-cell {
+  background-color: #e0e7ff !important;
+  box-shadow: inset 0 0 0 2px #4f46e5 !important;
+  transition: all 0.2s ease;
 }
 
-/* Programacion Card */
-.programacion-card {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  transition: all 0.2s;
-}
-
-.programacion-card:hover {
-  border-color: #3b82f6;
-  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.1);
-}
-
-.programacion-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.75rem;
-}
-
-.programacion-info {
-  display: flex;
-  gap: 1rem;
-  font-size: 0.875rem;
-  color: #64748b;
-}
-
-.programacion-fecha,
-.programacion-hora {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.programacion-actions {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.btn-icon {
-  background: none;
-  border: none;
-  padding: 0.5rem;
-  border-radius: 0.375rem;
-  cursor: pointer;
-  color: #64748b;
-  transition: all 0.2s;
-}
-
-.btn-icon:hover {
-  background-color: #e2e8f0;
-  color: #1e293b;
-}
-
-.btn-icon.btn-danger:hover {
-  background-color: #fee2e2;
-  color: #dc2626;
-}
-
-.programacion-body {
-  padding-top: 0.75rem;
-  border-top: 1px solid #e2e8f0;
-}
-
-.programacion-titulo {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #1e293b;
-  margin: 0 0 1rem 0;
-}
-
-.programacion-details {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-}
-
-.detail-item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.detail-item.full-width {
-  grid-column: 1 / -1;
-}
-
-.detail-label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #64748b;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.detail-value {
-  font-size: 0.875rem;
-  color: #1e293b;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.detail-description {
-  font-size: 0.875rem;
-  color: #475569;
-  margin: 0;
-}
-
-.programacion-footer {
-  display: flex;
-  justify-content: flex-end;
-}
-
-/* Badge Colors */
-.bg-blue-100 {
-  background-color: #dbeafe;
-  color: #1e40af;
-}
-
-.bg-orange-100 {
-  background-color: #ffedd5;
-  color: #c2410c;
-}
-
-.bg-green-100 {
-  background-color: #dcfce7;
-  color: #166534;
-}
-
-.bg-red-100 {
-  background-color: #fee2e2;
-  color: #991b1b;
-}
-
-.bg-yellow-100 {
-  background-color: #fef3c7;
-  color: #92400e;
-}
-
-.bg-gray-100 {
-  background-color: #f3f4f6;
-  color: #374151;
-}
-
-/* Calendario Section */
-.calendario-section {
-  background: white;
-  border-radius: 1rem;
-  padding: 1.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-
-.calendario-wrapper {
-  margin-bottom: 1.5rem;
-}
-
-/* Calendar Styling - Premium Look */
+/* ── FullCalendar: design system overrides ── */
 :host ::ng-deep .fc {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'DM Sans', system-ui, sans-serif;
   --fc-border-color: #e2e8f0;
   --fc-button-text-color: #fff;
   --fc-button-bg-color: #003B73;
@@ -365,14 +46,14 @@
 }
 
 :host ::ng-deep .fc-toolbar-title {
-  font-size: 1.5rem !important;
-  font-weight: 800;
+  font-family: 'Syne', sans-serif;
+  font-size: 1.4rem !important;
+  font-weight: 700;
   color: #003B73;
   letter-spacing: -0.025em;
   text-transform: capitalize;
 }
 
-/* Enhancing Toolbar & Separating Buttons */
 :host ::ng-deep .fc-toolbar-chunk {
   display: flex;
   align-items: center;
@@ -385,26 +66,26 @@
 }
 
 :host ::ng-deep .fc-direction-ltr .fc-button-group > .fc-button {
-  border-radius: 0.5rem !important;
+  border-radius: 0.625rem !important;
   margin: 0 !important;
 }
 
 :host ::ng-deep .fc-button {
-  border-radius: 0.5rem !important;
+  border-radius: 0.625rem !important;
   box-shadow: 0 2px 4px 0 rgba(0, 59, 115, 0.15) !important;
   font-weight: 600;
-  padding: 0.6rem 1.25rem !important;
+  padding: 0.5rem 1.1rem !important;
   text-transform: uppercase;
-  font-size: 0.8rem !important;
+  font-size: 0.75rem !important;
   letter-spacing: 0.05em;
   transition: all 0.2s;
 }
 
 :host ::ng-deep .fc-button:focus {
-  box-shadow: 0 0 0 3px rgba(0, 59, 115, 0.4) !important;
+  box-shadow: 0 0 0 3px rgba(0, 59, 115, 0.35) !important;
 }
 
-:host ::ng-deep .fc .fc-button-primary:not(:disabled).fc-button-active, 
+:host ::ng-deep .fc .fc-button-primary:not(:disabled).fc-button-active,
 :host ::ng-deep .fc .fc-button-primary:not(:disabled):active {
   background-color: #001a33;
   border-color: #001a33;
@@ -419,50 +100,50 @@
 
 :host ::ng-deep .fc-col-header-cell {
   background-color: #f8fafc;
-  padding: 1rem 0;
+  padding: 0.75rem 0;
 }
 
 :host ::ng-deep .fc-col-header-cell-cushion {
   color: #64748b;
   font-weight: 600;
   text-transform: uppercase;
-  font-size: 0.75rem;
-  letter-spacing: 0.05em;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
 }
 
 :host ::ng-deep .fc-daygrid-day-number {
   color: #475569;
   font-weight: 500;
-  padding: 0.5rem !important;
-  font-size: 0.875rem;
+  padding: 0.4rem !important;
+  font-size: 0.8rem;
 }
 
 :host ::ng-deep .fc-daygrid-event {
   border-radius: 4px;
   padding: 3px 6px !important;
-  font-size: 0.725rem;
+  font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   margin: 2px 4px !important;
   border: none !important;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   text-transform: capitalize;
   transition: all 0.2s ease;
   overflow: hidden;
 }
 
 :host ::ng-deep .fc-daygrid-event:hover {
-  filter: brightness(1.15);
+  filter: brightness(1.12);
   transform: translateY(-1px);
-  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
   z-index: 5;
 }
 
 :host ::ng-deep .fc-h-event {
-  border: 1px solid rgba(255,255,255,0.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
 }
 
-:host ::ng-deep .fc-event-title, 
+:host ::ng-deep .fc-event-title,
 :host ::ng-deep .fc-event-main {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -471,339 +152,5 @@
 }
 
 :host ::ng-deep .fc-day-today {
-  background-color: #eff6ff !important; /* Lighter blue for today */
-}
-
-:host ::ng-deep .selected-date-cell {
-  background-color: #e0e7ff !important;
-  box-shadow: inset 0 0 0 2px #4f46e5 !important;
-  transition: all 0.2s ease;
-}
-
-/* Legend */
-.calendario-legend {
-  padding-top: 1.5rem;
-  border-top: 1px solid #e2e8f0;
-  margin-top: 1rem;
-}
-
-.calendario-legend h3 {
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: #94a3b8;
-  margin: 0 0 1rem 0;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.legend-items {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-  color: #475569;
-  font-weight: 500;
-}
-
-.legend-color {
-  width: 0.75rem;
-  height: 0.75rem;
-  border-radius: 50%;
-  box-shadow: 0 0 0 2px white, 0 0 0 3px #e2e8f0;
-}
-
-/* ── Technician chips in list cards ─────────────────────────────────────────── */
-.technician-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
-  margin-top: 0.25rem;
-}
-
-.tech-chip {
-  display: inline-flex;
-  align-items: center;
-  background: #eff6ff;
-  color: #1d4ed8;
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.2rem 0.6rem;
-  border-radius: 9999px;
-  border: 1px solid #bfdbfe;
-}
-
-/* ── Delete Confirmation Modal ─────────────────────────────────────────────── */
-.confirm-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1100;
-  animation: fadeIn 0.15s ease;
-}
-
-.confirm-dialog {
-  background: white;
-  border-radius: 1rem;
-  padding: 2rem;
-  max-width: 420px;
-  width: 90%;
-  text-align: center;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  animation: slideUp 0.2s ease;
-}
-
-.confirm-icon {
-  width: 64px;
-  height: 64px;
-  background: #fee2e2;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 1.25rem;
-}
-
-.confirm-icon i {
-  font-size: 1.75rem;
-  color: #ef4444;
-}
-
-.confirm-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #1e293b;
-  margin: 0 0 0.75rem;
-}
-
-.confirm-message {
-  color: #64748b;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  margin-bottom: 1.75rem;
-}
-
-.confirm-message strong {
-  color: #1e293b;
-  display: block;
-  margin-top: 0.4rem;
-}
-
-.confirm-actions {
-  display: flex;
-  gap: 0.75rem;
-  justify-content: center;
-}
-
-.btn-cancel-confirm {
-  padding: 0.6rem 1.4rem;
-  border-radius: 0.5rem;
-  border: 1.5px solid #e2e8f0;
-  background: white;
-  color: #475569;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-
-.btn-cancel-confirm:hover {
-  background: #f1f5f9;
-  border-color: #cbd5e1;
-}
-
-.btn-delete-confirm {
-  padding: 0.6rem 1.4rem;
-  border-radius: 0.5rem;
-  border: none;
-  background: #ef4444;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.15s;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.btn-delete-confirm:hover {
-  background: #dc2626;
-  transform: translateY(-1px);
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
-}
-
-/* WhatsApp Notifications Panel */
-.notifications-panel {
-  background-color: #f0fdf4;
-  border: 1px dashed #22c55e;
-  border-radius: 0.75rem;
-  padding: 1rem;
-  margin-top: 1.5rem;
-}
-
-.panel-subtitle {
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #166534;
-  margin: 0 0 0.75rem 0;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.tech-notification-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  max-height: 300px;
-  overflow-y: auto;
-  padding-right: 0.25rem;
-}
-
-.tech-notification-list::-webkit-scrollbar {
-  width: 4px;
-}
-
-.tech-notification-list::-webkit-scrollbar-thumb {
-  background: #22c55e44;
-  border-radius: 2px;
-}
-
-.tech-notification-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: white;
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  border: 1px solid #dcfce7;
-}
-
-.tech-info {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.tech-name {
-  font-weight: 600;
-  color: #1e293b;
-  font-size: 0.85rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.tech-services-count {
-  font-size: 0.7rem;
-  color: #64748b;
-}
-
-.btn-whatsapp {
-  background-color: #25d366;
-  color: white;
-  border: none;
-  width: 32px;
-  height: 32px;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-  flex-shrink: 0;
-}
-
-.btn-whatsapp:hover {
-  background-color: #128c7e;
-  transform: translateY(-1px);
-}
-
-.btn-whatsapp.sent {
-  background-color: #f8fafc;
-  color: #166534;
-  border: 1px solid #22c55e;
-}
-
-.btn-whatsapp.sent:hover {
-  background-color: #f0fdf4;
-}
-
-/* ── Mantenimiento Fijo Styles ─────────────────────────────────────────────── */
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-
-.btn-fixed {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background-color: #f8fafc;
-  color: #003B73;
-  border: 1.5px solid #003B73;
-  padding: calc(0.75rem - 1.5px) 1.5rem; /* Compensate for border to match btn-primary height */
-  box-shadow: 0 4px 6px rgba(0, 59, 115, 0.1);
-}
-
-
-.btn-fixed:hover {
-  background-color: #f1f5f9;
-  border-color: #002a52;
-  color: #002a52;
-}
-
-.badge-fixed-info {
-  background-color: #003B73;
-  color: white !important;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  margin-left: 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.action-divider {
-  width: 1px;
-  height: 24px;
-  background-color: #e2e8f0;
-  margin: 0 0.25rem;
-  align-self: center;
-}
-
-.btn-fixed-edit {
-  color: #003B73 !important;
-}
-
-.btn-fixed-edit:hover {
   background-color: #eff6ff !important;
 }
-
-.btn-fixed-delete {
-  color: #7c2d12 !important; /* Brownish red for series delete */
-}
-
-.btn-fixed-delete:hover {
-  background-color: #fff7ed !important;
-}
-

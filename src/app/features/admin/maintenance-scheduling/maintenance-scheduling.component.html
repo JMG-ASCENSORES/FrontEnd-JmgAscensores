@@ -1,209 +1,288 @@
-<div class="maintenance-container">
-  <!-- Header -->
-  <div class="header-section">
-    <div class="header-content">
-      <h1 class="page-title">
-        <i class="bi bi-calendar-check"></i>
+<div class="p-8 max-w-[1800px] mx-auto space-y-8 bg-slate-50 min-h-screen">
+
+  <!-- ── Page Header ── -->
+  <div class="flex items-end justify-between flex-wrap gap-4">
+    <div>
+      <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-1">Panel de Administración</p>
+      <h1 class="font-display text-3xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
+        <i class="bi bi-calendar-check text-jmg text-2xl"></i>
         Programación de Trabajos
       </h1>
-      <div class="header-actions">
-        <button class="btn-secondary btn-fixed" (click)="openFixedModal()">
-          <i class="bi bi-calendar-repeat"></i>
-          Mantenimiento Fijo
-        </button>
-        <button class="btn-primary" (click)="openModal()">
-          <i class="bi bi-plus-circle"></i>
-          Nueva Programación
-        </button>
-      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <!-- Mantenimiento Fijo -->
+      <button
+        class="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-jmg font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors border border-jmg/30 hover:border-jmg/60 shadow-sm"
+        (click)="openFixedModal()"
+      >
+        <i class="bi bi-calendar-repeat"></i>
+        Mantenimiento Fijo
+      </button>
+      <!-- Nueva Programación -->
+      <button
+        class="inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors shadow-sm"
+        (click)="openModal()"
+      >
+        <i class="bi bi-plus-lg"></i>
+        Nueva Programación
+      </button>
     </div>
   </div>
 
-  <!-- Error Message -->
-  <div *ngIf="errorMessage" class="error-alert">
-    <i class="bi bi-exclamation-triangle"></i>
+  <!-- ── Error ── -->
+  <div *ngIf="errorMessage" class="bg-red-50 border border-red-100 text-red-600 px-5 py-4 rounded-2xl flex items-center gap-3 text-sm font-medium">
+    <i class="bi bi-exclamation-triangle-fill text-lg shrink-0"></i>
     {{ errorMessage }}
   </div>
 
-  <!-- Main Content -->
-  <div class="main-content">
-    <!-- Lista de Programaciones -->
-    <div class="programaciones-section">
-      <div class="section-header">
-        <h2>Programaciones ({{ formatSelectedDate() }})</h2>
-        <span class="badge">{{ filteredMantenimientos.length }}</span>
+  <!-- ── Main Content: Lista + Calendario ── -->
+  <div class="grid grid-cols-1 lg:grid-cols-[minmax(380px,44%)_1fr] gap-6 items-start">
+
+    <!-- ── Panel Izquierdo: Programaciones ── -->
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+
+      <!-- Section Header -->
+      <div class="flex items-center gap-3 mb-5">
+        <h2 class="font-display font-bold text-slate-800 text-xl flex-1 leading-none">
+          Programaciones
+          <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mt-1 font-body">
+            {{ formatSelectedDate() }}
+          </span>
+        </h2>
+        <span class="inline-flex items-center px-3 py-1 bg-jmg-muted text-jmg text-sm font-bold rounded-full">
+          {{ filteredMantenimientos.length }}
+        </span>
       </div>
 
-      <!-- Loading State -->
-      <div *ngIf="isLoading" class="loading-state">
-        <div class="spinner"></div>
-        <p>Cargando programaciones...</p>
+      <!-- Loading -->
+      <div *ngIf="isLoading" class="flex flex-col items-center gap-3 py-12">
+        <div class="animate-spin rounded-full h-9 w-9 border-t-2 border-b-2 border-jmg"></div>
+        <p class="text-slate-400 text-sm font-medium">Cargando programaciones...</p>
       </div>
 
       <!-- Lista -->
-      <div *ngIf="!isLoading" class="programaciones-list">
-        <div *ngIf="filteredMantenimientos.length === 0" class="empty-state">
-          <i class="bi bi-calendar-x"></i>
-          <p>No hay trabajos para la fecha seleccionada</p>
-          <button class="btn-secondary" (click)="openModal()">
+      <div *ngIf="!isLoading" class="programaciones-list flex flex-col gap-4">
+
+        <!-- Empty State -->
+        <div *ngIf="filteredMantenimientos.length === 0" class="flex flex-col items-center gap-4 py-12 text-center">
+          <div class="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center">
+            <i class="bi bi-calendar-x text-slate-300 text-2xl"></i>
+          </div>
+          <div>
+            <p class="font-display font-bold text-slate-700">Sin trabajos para esta fecha</p>
+            <p class="text-slate-400 text-sm mt-1">Seleccioná otro día o creá una programación.</p>
+          </div>
+          <button
+            class="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-600 font-semibold rounded-xl px-4 py-2 text-sm transition-colors border border-slate-200"
+            (click)="openModal()"
+          >
+            <i class="bi bi-plus-lg"></i>
             Crear programación
           </button>
         </div>
 
-        <div *ngFor="let mant of filteredMantenimientos" class="programacion-card">
-          <div class="programacion-header">
-            <div class="programacion-info">
-              <div class="programacion-fecha">
-                <i class="bi bi-calendar3"></i>
-                <span>{{ formatFecha(mant.start) }}</span>
-              </div>
-              <div class="programacion-hora">
-                <i class="bi bi-clock"></i>
-                <span>{{ formatHora(mant.start) }}</span>
-              </div>
+        <!-- Cards -->
+        <div *ngFor="let mant of filteredMantenimientos"
+          class="bg-slate-50 border border-slate-200 rounded-xl p-4 transition-all hover:border-jmg/30 hover:shadow-sm">
+
+          <!-- Card Header: fecha + hora + acciones -->
+          <div class="flex justify-between items-center mb-3">
+            <div class="flex gap-4 text-xs text-slate-500 font-medium">
+              <span class="flex items-center gap-1.5">
+                <i class="bi bi-calendar3 text-slate-400"></i>
+                {{ formatFecha(mant.start) }}
+              </span>
+              <span class="flex items-center gap-1.5">
+                <i class="bi bi-clock text-slate-400"></i>
+                {{ formatHora(mant.start) }}
+              </span>
             </div>
-            <div class="programacion-actions">
-              <!-- Acciones de Serie Fija (si aplica) -->
+
+            <div class="flex items-center gap-1">
+              <!-- Acciones de serie fija -->
               <ng-container *ngIf="mant.extendedProps.mantenimiento_fijo_id">
-                <button class="btn-icon btn-fixed-edit" (click)="editFixedMantenimientoFromJob(mant.extendedProps.mantenimiento_fijo_id)" title="Editar serie completa">
-                  <i class="bi bi-calendar-range"></i>
+                <button
+                  class="p-1.5 rounded-lg text-jmg hover:bg-jmg-muted transition-colors"
+                  (click)="editFixedMantenimientoFromJob(mant.extendedProps.mantenimiento_fijo_id)"
+                  title="Editar serie completa"
+                >
+                  <i class="bi bi-calendar-range text-sm"></i>
                 </button>
-                <button class="btn-icon btn-fixed-delete" (click)="requestDeleteFixed(mant.extendedProps.mantenimiento_fijo_id, mant.extendedProps.cliente?.nombre_comercial || 'Equipo')" title="Eliminar serie completa">
-                  <i class="bi bi-calendar-x"></i>
+                <button
+                  class="p-1.5 rounded-lg text-orange-700 hover:bg-orange-50 transition-colors"
+                  (click)="requestDeleteFixed(mant.extendedProps.mantenimiento_fijo_id, mant.extendedProps.cliente?.nombre_comercial || 'Equipo')"
+                  title="Eliminar serie completa"
+                >
+                  <i class="bi bi-calendar-x text-sm"></i>
                 </button>
-                <div class="action-divider"></div>
+                <div class="w-px h-5 bg-slate-200 mx-0.5 self-center"></div>
               </ng-container>
 
-              <button class="btn-icon" (click)="editMantenimiento(mant)" title="Editar este trabajo">
-                <i class="bi bi-pencil"></i>
+              <button
+                class="p-1.5 rounded-lg text-slate-500 hover:bg-slate-200 hover:text-slate-800 transition-colors"
+                (click)="editMantenimiento(mant)"
+                title="Editar este trabajo"
+              >
+                <i class="bi bi-pencil text-sm"></i>
               </button>
-              <button class="btn-icon btn-danger" (click)="requestDelete(mant)" title="Eliminar este trabajo">
-                <i class="bi bi-trash"></i>
+              <button
+                class="p-1.5 rounded-lg text-slate-500 hover:bg-red-50 hover:text-red-600 transition-colors"
+                (click)="requestDelete(mant)"
+                title="Eliminar este trabajo"
+              >
+                <i class="bi bi-trash text-sm"></i>
               </button>
             </div>
           </div>
 
-          <div class="programacion-body">
-            <h3 class="programacion-titulo">{{ mant.title }}</h3>
-            
-            <div class="programacion-details">
-              <div class="detail-item">
-                <span class="detail-label">Tipo:</span>
-                <span class="badge" [ngClass]="getTipoTrabajoColor(mant.extendedProps.tipo_trabajo)">
+          <!-- Card Body -->
+          <div class="pt-3 border-t border-slate-200">
+            <h3 class="font-display font-semibold text-slate-800 text-base mb-3 leading-snug">{{ mant.title }}</h3>
+
+            <div class="grid grid-cols-2 gap-3 mb-3">
+
+              <!-- Tipo -->
+              <div class="flex flex-col gap-0.5">
+                <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Tipo</span>
+                <span
+                  class="inline-flex items-center self-start px-2.5 py-0.5 rounded-md text-[11px] font-semibold uppercase tracking-wide"
+                  [ngClass]="getTipoTrabajoColor(mant.extendedProps.tipo_trabajo)"
+                >
                   {{ getTipoTrabajoLabel(mant.extendedProps.tipo_trabajo) }}
                 </span>
               </div>
 
-              <!-- Técnicos (array: 1 a 4) -->
-              <div class="detail-item full-width">
-                <span class="detail-label"><i class="bi bi-people-fill"></i> Técnicos:</span>
-                <div class="technician-chips">
-                  <ng-container *ngIf="$any(mant.extendedProps).trabajadores && $any(mant.extendedProps).trabajadores.length > 0; else singleTech">
-                    <span class="tech-chip" *ngFor="let w of $any(mant.extendedProps).trabajadores">
-                      {{ w.nombre }} {{ w.apellido }}
-                    </span>
-                  </ng-container>
-                  <ng-template #singleTech>
-                    <span class="tech-chip">{{ getTrabajadorNombre(mant) }}</span>
-                  </ng-template>
-                </div>
-              </div>
-
-              <div *ngIf="mant.extendedProps.cliente" class="detail-item">
-                <span class="detail-label">Cliente:</span>
-                <span class="detail-value">
-                  <i class="bi bi-building"></i>
+              <!-- Cliente -->
+              <div *ngIf="mant.extendedProps.cliente" class="flex flex-col gap-0.5">
+                <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Cliente</span>
+                <span class="text-sm text-slate-700 flex items-center gap-1">
+                  <i class="bi bi-building text-slate-400 text-xs"></i>
                   {{ mant.extendedProps.cliente.nombre_comercial || mant.extendedProps.cliente.contacto_nombre }}
                 </span>
               </div>
 
-              <div *ngIf="mant.extendedProps.ascensor" class="detail-item">
-                <span class="detail-label">Equipo:</span>
-                <span class="detail-value">
-                  <i class="bi bi-box"></i>
-                  {{ mant.extendedProps.ascensor.tipo_equipo }} - {{ mant.extendedProps.ascensor.marca }}
+              <!-- Técnicos (full width) -->
+              <div class="col-span-2 flex flex-col gap-0.5">
+                <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1">
+                  <i class="bi bi-people-fill text-slate-300"></i>
+                  Técnicos
+                </span>
+                <div class="flex flex-wrap gap-1 mt-0.5">
+                  <ng-container *ngIf="$any(mant.extendedProps).trabajadores && $any(mant.extendedProps).trabajadores.length > 0; else singleTech">
+                    <span
+                      *ngFor="let w of $any(mant.extendedProps).trabajadores"
+                      class="inline-flex items-center bg-jmg-muted text-jmg text-xs font-semibold px-2.5 py-0.5 rounded-full border border-jmg/20"
+                    >
+                      {{ w.nombre }} {{ w.apellido }}
+                    </span>
+                  </ng-container>
+                  <ng-template #singleTech>
+                    <span class="inline-flex items-center bg-jmg-muted text-jmg text-xs font-semibold px-2.5 py-0.5 rounded-full border border-jmg/20">
+                      {{ getTrabajadorNombre(mant) }}
+                    </span>
+                  </ng-template>
+                </div>
+              </div>
+
+              <!-- Equipo -->
+              <div *ngIf="mant.extendedProps.ascensor" class="flex flex-col gap-0.5">
+                <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Equipo</span>
+                <span class="text-sm text-slate-700 flex items-center gap-1">
+                  <i class="bi bi-box text-slate-400 text-xs"></i>
+                  {{ mant.extendedProps.ascensor.tipo_equipo }} — {{ mant.extendedProps.ascensor.marca }}
                 </span>
               </div>
 
-              <div *ngIf="mant.extendedProps.descripcion" class="detail-item full-width">
-                <span class="detail-label">Descripción:</span>
-                <p class="detail-description">{{ mant.extendedProps.descripcion }}</p>
+              <!-- Descripción (full width) -->
+              <div *ngIf="mant.extendedProps.descripcion" class="col-span-2 flex flex-col gap-0.5">
+                <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Descripción</span>
+                <p class="text-sm text-slate-500 leading-relaxed">{{ mant.extendedProps.descripcion }}</p>
               </div>
+
             </div>
 
-            <div class="programacion-footer">
-              <span class="badge" [ngClass]="getEstadoColor(mant.extendedProps.estado)">
-                {{ getEstadoLabel(mant.extendedProps.estado) }}
+            <!-- Footer: estado + fijo badge -->
+            <div class="flex justify-end items-center gap-2">
+              <span *ngIf="mant.extendedProps.mantenimiento_fijo_id"
+                class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-jmg text-white text-[10px] font-bold uppercase rounded-full tracking-wide border border-white/20">
+                <i class="bi bi-pin-angle-fill"></i> Fijo
               </span>
-              <span *ngIf="mant.extendedProps.mantenimiento_fijo_id" class="badge badge-fixed-info">
-                <i class="bi bi-pin-angle-fill"></i> FIJO
+              <span
+                class="inline-flex items-center self-start px-2.5 py-0.5 rounded-md text-[11px] font-semibold uppercase tracking-wide"
+                [ngClass]="getEstadoColor(mant.extendedProps.estado)"
+              >
+                {{ getEstadoLabel(mant.extendedProps.estado) }}
               </span>
             </div>
           </div>
+
         </div>
       </div>
     </div>
 
-    <!-- Calendario -->
-    <div class="calendario-section">
-      <div class="section-header">
-        <h2>Calendario</h2>
-      </div>
-      
-      <div class="calendario-wrapper">
+    <!-- ── Panel Derecho: Calendario ── -->
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 flex flex-col gap-5">
+
+      <!-- Calendario -->
+      <div>
         <full-calendar #calendar [options]="calendarOptions"></full-calendar>
       </div>
 
       <!-- Leyenda -->
-      <div class="calendario-legend">
-        <h3>Tipos de Trabajo</h3>
-        <div class="legend-items">
-          <div class="legend-item">
-            <span class="legend-color" style="background-color: #003B73;"></span>
-            <span>Mantenimiento</span>
+      <div class="pt-5 border-t border-slate-100">
+        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-3">Tipos de Trabajo</p>
+        <div class="flex flex-wrap gap-5">
+          <div class="flex items-center gap-2 text-sm text-slate-500 font-medium">
+            <span class="w-3 h-3 rounded-full ring-2 ring-white ring-offset-1" style="background-color: #003B73;"></span>
+            Mantenimiento
           </div>
-          <div class="legend-item">
-            <span class="legend-color" style="background-color: #C2410C;"></span>
-            <span>Reparación</span>
+          <div class="flex items-center gap-2 text-sm text-slate-500 font-medium">
+            <span class="w-3 h-3 rounded-full ring-2 ring-white ring-offset-1" style="background-color: #C2410C;"></span>
+            Reparación
           </div>
-          <div class="legend-item">
-            <span class="legend-color" style="background-color: #15803D;"></span>
-            <span>Inspección</span>
+          <div class="flex items-center gap-2 text-sm text-slate-500 font-medium">
+            <span class="w-3 h-3 rounded-full ring-2 ring-white ring-offset-1" style="background-color: #15803D;"></span>
+            Inspección
           </div>
-          <div class="legend-item">
-            <span class="legend-color" style="background-color: #B91C1C;"></span>
-            <span>Emergencia</span>
+          <div class="flex items-center gap-2 text-sm text-slate-500 font-medium">
+            <span class="w-3 h-3 rounded-full ring-2 ring-white ring-offset-1" style="background-color: #B91C1C;"></span>
+            Emergencia
           </div>
         </div>
       </div>
 
       <!-- Notificaciones WhatsApp -->
-      <div *ngIf="!isLoading && filteredMantenimientos.length > 0" class="notifications-panel">
-        <h3 class="panel-subtitle">Notificación a Técnicos</h3>
-        <div class="tech-notification-list">
-          <div *ngFor="let group of getTechniciansForDay()" class="tech-notification-item">
-            <div class="tech-info">
-              <span class="tech-name">{{ group.tech.nombre }} {{ group.tech.apellido }}</span>
-              <span class="tech-services-count">{{ group.services.length }} servicios</span>
+      <div *ngIf="!isLoading && filteredMantenimientos.length > 0"
+        class="bg-emerald-50 border border-dashed border-emerald-300 rounded-xl p-4">
+        <p class="text-[10px] font-bold text-emerald-800 uppercase tracking-wider mb-3">
+          Notificación a Técnicos
+        </p>
+        <div class="tech-notification-list flex flex-col gap-2 max-h-72 overflow-y-auto pr-1">
+          <div *ngFor="let group of getTechniciansForDay()"
+            class="flex justify-between items-center bg-white rounded-xl px-3 py-2.5 shadow-sm border border-emerald-100">
+            <div class="flex flex-col min-w-0">
+              <span class="text-sm font-semibold text-slate-800 truncate">{{ group.tech.nombre }} {{ group.tech.apellido }}</span>
+              <span class="text-[11px] text-slate-400">{{ group.services.length }} servicio{{ group.services.length !== 1 ? 's' : '' }}</span>
             </div>
-            <div class="tech-actions">
-              <button 
-                class="btn-whatsapp" 
-                [class.sent]="isTechNotified(group.tech.trabajador_id)"
-                (click)="sendWhatsAppRoute(group)"
-                [title]="isTechNotified(group.tech.trabajador_id) ? 'Notificado en esta sesión' : 'Enviar ruta por WhatsApp'"
-              >
-                <i [class]="isTechNotified(group.tech.trabajador_id) ? 'bi bi-check-all' : 'bi bi-whatsapp'"></i>
-              </button>
-            </div>
+            <button
+              class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors shrink-0 text-base font-bold ml-3"
+              [class]="isTechNotified(group.tech.trabajador_id)
+                ? 'bg-white text-emerald-600 border border-emerald-300 hover:bg-emerald-50'
+                : 'bg-[#25d366] hover:bg-[#128c7e] text-white'"
+              (click)="sendWhatsAppRoute(group)"
+              [title]="isTechNotified(group.tech.trabajador_id) ? 'Notificado en esta sesión' : 'Enviar ruta por WhatsApp'"
+            >
+              <i [class]="isTechNotified(group.tech.trabajador_id) ? 'bi bi-check-all' : 'bi bi-whatsapp'"></i>
+            </button>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </div>
 
-<!-- Modal Programacion -->
+<!-- ── Modal Programación ── -->
 <app-programacion-modal
   *ngIf="showModal"
   [mantenimiento]="selectedMantenimiento"
@@ -212,7 +291,7 @@
   (saved)="onMantenimientoSaved()"
 ></app-programacion-modal>
 
-<!-- Modal Mantenimiento Fijo -->
+<!-- ── Modal Mantenimiento Fijo ── -->
 <app-mantenimiento-fijo-modal
   *ngIf="showFixedModal"
   [mantenimientoFijo]="selectedFixedMantenimiento"
@@ -220,30 +299,45 @@
   (saved)="onFixedMantenimientoSaved()"
 ></app-mantenimiento-fijo-modal>
 
-<!-- Modal Confirmación Eliminar -->
-<div *ngIf="showDeleteConfirm" class="confirm-overlay" (click)="cancelDelete()">
-  <div class="confirm-dialog" (click)="$event.stopPropagation()">
-    <div class="confirm-icon">
-      <i class="bi bi-trash3"></i>
+<!-- ── Confirm Delete Modal ── -->
+<div *ngIf="showDeleteConfirm"
+  class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[1100] animate-fade-in"
+  (click)="cancelDelete()"
+>
+  <div
+    class="bg-white rounded-2xl p-8 max-w-sm w-[90%] text-center shadow-2xl animate-fade-in-up"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-5">
+      <i class="bi bi-trash3 text-red-500 text-2xl"></i>
     </div>
-    <h3 class="confirm-title">{{ isFixedDeletion ? '¿Eliminar SERIE de mantenimientos?' : '¿Eliminar programación?' }}</h3>
-    <p class="confirm-message">
-      {{ isFixedDeletion ? 'Se eliminarán todos los mantenimientos futuros "Pendientes" vinculados a esta serie. Esta acción no se puede deshacer.' : 'Esta acción no se puede deshacer. Se eliminará permanentemente:' }}
-      <br><br>
-      <strong>{{ deleteTargetName }}</strong>
+    <h3 class="font-display font-bold text-slate-900 text-xl mb-3">
+      {{ isFixedDeletion ? '¿Eliminar serie de mantenimientos?' : '¿Eliminar programación?' }}
+    </h3>
+    <p class="text-slate-500 text-sm leading-relaxed mb-7">
+      {{ isFixedDeletion
+        ? 'Se eliminarán todos los mantenimientos futuros "Pendientes" vinculados a esta serie. Esta acción no se puede deshacer.'
+        : 'Esta acción no se puede deshacer. Se eliminará permanentemente:' }}
+      <strong class="block text-slate-800 font-semibold mt-2">{{ deleteTargetName }}</strong>
     </p>
-    <div class="confirm-actions">
-      <button class="btn-cancel-confirm" (click)="cancelDelete()">
-        <i class="bi bi-x"></i> Cancelar
+    <div class="flex gap-3 justify-center">
+      <button
+        class="px-5 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-600 font-semibold text-sm hover:bg-slate-50 transition-colors"
+        (click)="cancelDelete()"
+      >
+        <i class="bi bi-x mr-1"></i> Cancelar
       </button>
-      <button class="btn-delete-confirm" (click)="confirmDelete()">
+      <button
+        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white font-semibold text-sm transition-colors"
+        (click)="confirmDelete()"
+      >
         <i class="bi bi-trash3"></i> Eliminar
       </button>
     </div>
   </div>
 </div>
 
-<!-- Custom Toast Notification -->
+<!-- ── Toast ── -->
 <div class="toast-container" *ngIf="toast()">
   <div class="toast-item" [ngClass]="toast()?.type">
     <div class="toast-icon">

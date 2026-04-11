@@ -1,162 +1,230 @@
-<div class="settings-page">
+<div class="min-h-screen bg-slate-50 pb-20">
 
-  <!-- Hero: foto de fondo + avatar -->
-  <div class="settings-hero">
-    <div class="settings-hero__bg"></div>
-    <div class="settings-hero__avatar">
-      <div class="avatar-initials">
+  <!-- ── Hero ── -->
+  <div class="relative h-48 md:h-56 mb-16">
+    <div class="w-full h-full bg-gradient-to-br from-jmg-dark via-jmg to-jmg-light"></div>
+    <!-- Avatar -->
+    <div class="absolute -bottom-12 left-1/2 -translate-x-1/2 w-28 h-28 md:w-32 md:h-32 rounded-full border-4 border-white bg-white shadow-xl flex items-center justify-center overflow-hidden">
+      <div class="w-full h-full flex items-center justify-center bg-slate-100 text-slate-500 text-3xl md:text-4xl font-bold font-display">
         <span *ngIf="!isLoading()">{{ initials }}</span>
-        <i *ngIf="isLoading()" class="bi bi-person-fill text-4xl text-white/50"></i>
+        <i *ngIf="isLoading()" class="bi bi-person-fill text-4xl text-slate-300"></i>
       </div>
     </div>
   </div>
 
-  <!-- Contenido principal -->
-  <div class="settings-body">
+  <!-- ── Body ── -->
+  <div class="max-w-3xl mx-auto px-4 space-y-8">
 
-    <!-- Nombre y especialidad -->
-    <div class="settings-identity">
-      <h1 class="settings-identity__name">
+    <!-- Identidad -->
+    <div class="text-center">
+      <h1 class="font-display text-2xl md:text-3xl font-bold text-slate-800 mb-2">
         <span *ngIf="!isLoading()">{{ profile()?.nombre }} {{ profile()?.apellido }}</span>
-        <div *ngIf="isLoading()" class="skeleton-line w-40 h-6 mx-auto mb-1"></div>
+        <div *ngIf="isLoading()" class="h-7 w-48 bg-slate-200 rounded-lg animate-pulse mx-auto"></div>
       </h1>
-      <span class="settings-identity__role">
+      <span class="inline-flex items-center gap-2 px-3 py-1 bg-jmg-muted text-jmg rounded-full text-sm font-semibold">
         <i class="bi bi-shield-check"></i>
         Administrador
       </span>
     </div>
 
     <!-- Feedback alerts -->
-    <div *ngIf="saveSuccess()" class="alert alert--success">
-      <i class="bi bi-check-circle-fill"></i>
+    <div *ngIf="saveSuccess()" class="flex items-center gap-3 p-4 rounded-2xl border bg-emerald-50 text-emerald-700 border-emerald-100">
+      <i class="bi bi-check-circle-fill text-lg shrink-0"></i>
       Cambios guardados con éxito.
     </div>
-    <div *ngIf="errorMessage()" class="alert alert--error">
-      <i class="bi bi-exclamation-circle-fill"></i>
+    <div *ngIf="errorMessage()" class="flex items-center gap-3 p-4 rounded-2xl border bg-rose-50 text-rose-700 border-rose-100">
+      <i class="bi bi-exclamation-circle-fill text-lg shrink-0"></i>
       {{ errorMessage() }}
     </div>
 
-    <!-- Tabs Navigation -->
-    <div class="settings-tabs">
-      <button [class.active]="activeTab() === 'profile'" (click)="activeTab.set('profile')">
-        <i class="bi bi-person"></i> Mi Perfil
+    <!-- ── Tabs ── -->
+    <div class="flex bg-white p-1.5 rounded-2xl shadow-sm border border-slate-100">
+      <button
+        class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-all"
+        [ngClass]="activeTab() === 'profile'
+          ? 'bg-jmg text-white shadow-md'
+          : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'"
+        (click)="activeTab.set('profile')"
+      >
+        <i class="bi bi-person text-base"></i> Mi Perfil
       </button>
-      <button [class.active]="activeTab() === 'security'" (click)="activeTab.set('security')">
-        <i class="bi bi-shield-lock"></i> Seguridad
+      <button
+        class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-all"
+        [ngClass]="activeTab() === 'security'
+          ? 'bg-jmg text-white shadow-md'
+          : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'"
+        (click)="activeTab.set('security')"
+      >
+        <i class="bi bi-shield-lock text-base"></i> Seguridad
       </button>
-      <button [class.active]="activeTab() === 'system'" (click)="activeTab.set('system')">
-        <i class="bi bi-gear-wide-connected"></i> Sistema
+      <button
+        class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-all"
+        [ngClass]="activeTab() === 'system'
+          ? 'bg-jmg text-white shadow-md'
+          : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'"
+        (click)="activeTab.set('system')"
+      >
+        <i class="bi bi-gear-wide-connected text-base"></i> Sistema
       </button>
     </div>
 
-    <!-- Loading Skeleton -->
-    <div *ngIf="isLoading()" class="tab-content skeleton-mode">
-      <div *ngFor="let i of [1,2,3,4]" class="field-group">
-        <div class="skeleton-line w-20 h-3 mb-1"></div>
-        <div class="skeleton-line w-full h-11"></div>
+    <!-- ── Loading Skeleton ── -->
+    <div *ngIf="isLoading()" class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100 space-y-5">
+      <div *ngFor="let i of [1,2,3,4]" class="space-y-1.5">
+        <div class="h-3 w-20 bg-slate-200 rounded-lg animate-pulse"></div>
+        <div class="h-11 w-full bg-slate-100 rounded-xl animate-pulse"></div>
       </div>
     </div>
 
-    <!-- Tab Profile -->
-    <div *ngIf="!isLoading() && activeTab() === 'profile'" class="tab-content">
-      <form [formGroup]="profileForm" (ngSubmit)="onSaveProfile()" class="settings-form">
-        <div class="section-title">Datos Personales</div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <div class="field-group">
-            <label class="field-label" for="p_nombre">Nombre</label>
-            <input id="p_nombre" type="text" formControlName="nombre" class="field-input">
+    <!-- ── Tab: Perfil ── -->
+    <div *ngIf="!isLoading() && activeTab() === 'profile'"
+      class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
+
+      <form [formGroup]="profileForm" (ngSubmit)="onSaveProfile()" class="space-y-5">
+
+        <!-- Section title -->
+        <div class="flex items-center gap-3 mb-2">
+          <span class="font-display font-bold text-slate-800 text-base">Datos Personales</span>
+          <div class="flex-1 h-px bg-slate-100"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div class="space-y-1.5">
+            <label class="block text-sm font-semibold text-slate-600" for="p_nombre">Nombre</label>
+            <input id="p_nombre" type="text" formControlName="nombre"
+              class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
           </div>
-          <div class="field-group">
-            <label class="field-label" for="p_apellido">Apellidos</label>
-            <input id="p_apellido" type="text" formControlName="apellido" class="field-input">
+          <div class="space-y-1.5">
+            <label class="block text-sm font-semibold text-slate-600" for="p_apellido">Apellidos</label>
+            <input id="p_apellido" type="text" formControlName="apellido"
+              class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
           </div>
         </div>
 
-        <div class="field-group">
-          <label class="field-label" for="p_dni">DNI</label>
-          <input id="p_dni" type="text" formControlName="dni" class="field-input" maxlength="8">
-          <p *ngIf="profileForm.get('dni')?.invalid && profileForm.get('dni')?.touched" class="field-error">
+        <div class="space-y-1.5">
+          <label class="block text-sm font-semibold text-slate-600" for="p_dni">DNI</label>
+          <input id="p_dni" type="text" formControlName="dni" maxlength="8"
+            class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
+          <p *ngIf="profileForm.get('dni')?.invalid && profileForm.get('dni')?.touched"
+            class="text-xs text-red-500 font-medium mt-1">
             DNI inválido (debe tener 8 dígitos).
           </p>
         </div>
 
-        <div class="field-group">
-          <label class="field-label" for="p_correo">Correo Electrónico</label>
-          <input id="p_correo" type="email" formControlName="correo" class="field-input">
+        <div class="space-y-1.5">
+          <label class="block text-sm font-semibold text-slate-600" for="p_correo">Correo Electrónico</label>
+          <input id="p_correo" type="email" formControlName="correo"
+            class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
         </div>
 
-        <div class="field-group">
-          <label class="field-label" for="p_telefono">Teléfono</label>
-          <div class="field-input-icon">
-            <span class="field-prefix">+51</span>
-            <input id="p_telefono" type="tel" formControlName="telefono" class="field-input field-input--prefixed" maxlength="9">
+        <div class="space-y-1.5">
+          <label class="block text-sm font-semibold text-slate-600" for="p_telefono">Teléfono</label>
+          <div class="relative flex items-center">
+            <span class="absolute left-4 text-slate-400 text-sm font-bold border-r border-slate-200 pr-3 select-none">+51</span>
+            <input id="p_telefono" type="tel" formControlName="telefono" maxlength="9"
+              class="w-full h-11 pl-16 pr-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
           </div>
         </div>
 
-        <button type="submit" class="btn btn--primary" [disabled]="profileForm.pristine || profileForm.invalid || isSaving()">
-          <span *ngIf="isSaving()" class="spinner"></span>
+        <button type="submit"
+          class="inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-6 h-11 text-sm transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
+          [disabled]="profileForm.pristine || profileForm.invalid || isSaving()"
+        >
+          <span *ngIf="isSaving()" class="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin"></span>
           <i *ngIf="!isSaving()" class="bi bi-check-lg"></i>
           {{ isSaving() ? 'Guardando...' : 'Guardar Cambios' }}
         </button>
+
       </form>
     </div>
 
-    <!-- Tab Security -->
-    <div *ngIf="!isLoading() && activeTab() === 'security'" class="tab-content">
-      <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()" class="settings-form">
-        <div class="section-title">Cambiar Contraseña</div>
+    <!-- ── Tab: Seguridad ── -->
+    <div *ngIf="!isLoading() && activeTab() === 'security'"
+      class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
 
-        <div class="field-group">
-          <label class="field-label" for="p_nueva">Nueva Contraseña</label>
-          <div class="field-input-icon">
-            <input id="p_nueva" [type]="showNuevaPass() ? 'text' : 'password'"
-              formControlName="nueva_contrasena" class="field-input field-input--suffixed"
-              placeholder="Mín. 6 caracteres">
-            <button type="button" class="field-suffix-btn" (click)="showNuevaPass.set(!showNuevaPass())">
+      <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()" class="space-y-5">
+
+        <div class="flex items-center gap-3 mb-2">
+          <span class="font-display font-bold text-slate-800 text-base">Cambiar Contraseña</span>
+          <div class="flex-1 h-px bg-slate-100"></div>
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="block text-sm font-semibold text-slate-600" for="p_nueva">Nueva Contraseña</label>
+          <div class="relative flex items-center">
+            <input id="p_nueva"
+              [type]="showNuevaPass() ? 'text' : 'password'"
+              formControlName="nueva_contrasena"
+              placeholder="Mín. 6 caracteres"
+              class="w-full h-11 px-4 pr-12 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
+            <button type="button"
+              class="absolute right-3 w-9 h-9 flex items-center justify-center text-slate-400 hover:text-jmg transition-colors"
+              (click)="showNuevaPass.set(!showNuevaPass())">
               <i class="bi" [ngClass]="showNuevaPass() ? 'bi-eye-slash' : 'bi-eye'"></i>
             </button>
           </div>
         </div>
 
-        <div class="field-group">
-          <label class="field-label" for="p_confirma">Confirmar Contraseña</label>
-          <div class="field-input-icon">
-            <input id="p_confirma" [type]="showConfirmaPass() ? 'text' : 'password'"
-              formControlName="confirmar_contrasena" class="field-input field-input--suffixed"
-              placeholder="Repite la contraseña">
-            <button type="button" class="field-suffix-btn" (click)="showConfirmaPass.set(!showConfirmaPass())">
+        <div class="space-y-1.5">
+          <label class="block text-sm font-semibold text-slate-600" for="p_confirma">Confirmar Contraseña</label>
+          <div class="relative flex items-center">
+            <input id="p_confirma"
+              [type]="showConfirmaPass() ? 'text' : 'password'"
+              formControlName="confirmar_contrasena"
+              placeholder="Repetí la contraseña"
+              class="w-full h-11 px-4 pr-12 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
+            <button type="button"
+              class="absolute right-3 w-9 h-9 flex items-center justify-center text-slate-400 hover:text-jmg transition-colors"
+              (click)="showConfirmaPass.set(!showConfirmaPass())">
               <i class="bi" [ngClass]="showConfirmaPass() ? 'bi-eye-slash' : 'bi-eye'"></i>
             </button>
           </div>
           <p *ngIf="passwordForm.hasError('passwordMismatch') && passwordForm.get('confirmar_contrasena')?.touched"
-            class="field-error">Las contraseñas no coinciden.</p>
+            class="text-xs text-red-500 font-medium">
+            Las contraseñas no coinciden.
+          </p>
         </div>
 
-        <button type="submit" class="btn btn--primary" [disabled]="passwordForm.invalid || isSaving()">
-          <span *ngIf="isSaving()" class="spinner"></span>
+        <button type="submit"
+          class="inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-6 h-11 text-sm transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
+          [disabled]="passwordForm.invalid || isSaving()"
+        >
+          <span *ngIf="isSaving()" class="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin"></span>
           <i *ngIf="!isSaving()" class="bi bi-shield-lock"></i>
           Actualizar Contraseña
         </button>
+
       </form>
     </div>
 
-    <!-- Tab System Settings -->
-    <div *ngIf="!isLoading() && activeTab() === 'system'" class="tab-content">
-      <div class="section-title">Configuración Global</div>
-      <p class="section-description">Ajustes generales que afectan a toda la plataforma y clientes.</p>
-      
-      <div class="settings-grid mt-4">
-        <div *ngFor="let setting of systemSettings()" class="field-group system-field">
-          <div class="flex justify-between items-center mb-1">
-            <label class="field-label mb-0" [for]="setting.clave">{{ setting.descripcion }}</label>
+    <!-- ── Tab: Sistema ── -->
+    <div *ngIf="!isLoading() && activeTab() === 'system'"
+      class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
+
+      <div class="flex items-center gap-3 mb-2">
+        <span class="font-display font-bold text-slate-800 text-base">Configuración Global</span>
+        <div class="flex-1 h-px bg-slate-100"></div>
+      </div>
+      <p class="text-sm text-slate-400 mb-6">Ajustes generales que afectan a toda la plataforma y clientes.</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
+        <div *ngFor="let setting of systemSettings()"
+          class="bg-slate-50 border border-slate-100 p-4 rounded-2xl hover:border-jmg/20 transition-colors space-y-1.5">
+          <div class="flex justify-between items-center">
+            <label class="block text-sm font-semibold text-slate-600" [for]="setting.clave">{{ setting.descripcion }}</label>
             <span class="text-[10px] text-slate-400 font-mono">{{ setting.clave }}</span>
           </div>
-          <input [id]="setting.clave" type="text" [value]="setting.valor" 
-            (change)="updateSystemSetting(setting.clave, $event)" 
-            class="field-input" [placeholder]="'Valor para ' + setting.clave">
+          <input
+            [id]="setting.clave"
+            type="text"
+            [value]="setting.valor"
+            (change)="updateSystemSetting(setting.clave, $event)"
+            class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-white text-sm transition-colors focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none"
+            [placeholder]="'Valor para ' + setting.clave"
+          >
         </div>
       </div>
+
     </div>
 
   </div>

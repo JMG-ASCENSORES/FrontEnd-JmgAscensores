@@ -1,280 +1,327 @@
-<div class="p-8 space-y-10 bg-slate-50 min-h-screen">
-    
-    <!-- Header -->
-    <div class="flex items-center justify-between">
-        <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Gestión de Clientes</h1>
+<div class="p-8 space-y-8 bg-slate-50 min-h-screen">
+
+  <!-- ── Page Header ── -->
+  <div class="flex items-end justify-between">
+    <div>
+      <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-1">Panel de Administración</p>
+      <h1 class="font-display text-3xl font-bold text-slate-900 tracking-tight">Gestión de Clientes</h1>
+    </div>
+  </div>
+
+  <!-- ── Stat Cards ── -->
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-5">
+
+    <!-- Total Clientes -->
+    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center shrink-0">
+        <i class="bi bi-people-fill text-xl text-slate-600"></i>
+      </div>
+      <div>
+        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ totalClients() }}</p>
+        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Total Clientes</p>
+      </div>
     </div>
 
-    <!-- Top Stats -->
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- Total Clientes -->
-        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 border-t-4 border-t-slate-600 flex flex-col items-center justify-center h-36 transition-transform hover:-translate-y-1">
-            <span class="text-5xl font-extrabold text-slate-800">{{ totalClients() }}</span>
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-widest text-center mt-2">Total Clientes</span>
-        </div>
-
-        <!-- Ascensores -->
-        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 border-t-4 border-t-[#003B73] flex flex-col items-center justify-center h-36 transition-transform hover:-translate-y-1">
-            <span class="text-5xl font-extrabold text-slate-800">{{ totalAscensores() }}</span>
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-widest text-center mt-2">Ascensores</span>
-        </div>
-
-        <!-- Montacargas -->
-        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 border-t-4 border-t-emerald-500 flex flex-col items-center justify-center h-36 transition-transform hover:-translate-y-1">
-            <span class="text-5xl font-extrabold text-slate-800">{{ totalMontacargas() }}</span>
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-widest text-center mt-2">Montacargas</span>
-        </div>
-
-        <!-- Plataformas -->
-        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 border-t-4 border-t-purple-500 flex flex-col items-center justify-center h-36 transition-transform hover:-translate-y-1">
-            <span class="text-5xl font-extrabold text-slate-800">{{ totalPlataformas() }}</span>
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-widest text-center mt-2">Plataformas</span>
-        </div>
+    <!-- Ascensores -->
+    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-jmg-muted flex items-center justify-center shrink-0">
+        <i class="bi bi-arrow-up-square-fill text-xl text-jmg"></i>
+      </div>
+      <div>
+        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ totalAscensores() }}</p>
+        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Ascensores</p>
+      </div>
     </div>
 
-    <!-- Filters & Search -->
-    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 flex flex-col md:flex-row gap-6 items-center">
-        <!-- Tipo de Cliente Filter -->
-        <div class="w-full md:w-1/4">
-          <label class="block text-xs font-bold text-slate-600 uppercase mb-2 ml-1">Tipo de Cliente</label>
-          <div class="relative">
-            <select 
-              [ngModel]="selectedType()" 
-              (ngModelChange)="selectedType.set($event); onFilterChange()"
-              class="w-full bg-white text-slate-700 text-base font-medium rounded-lg border-2 border-gray-300 focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500 p-3 outline-none cursor-pointer appearance-none"
-            >
-              <option value="all">Todos los tipos</option>
-              <option value="empresa">Empresas</option>
-              <option value="persona">Personas Naturales</option>
-            </select>
-            <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-gray-500">
-               <i class="bi bi-chevron-down"></i>
-            </div>
+    <!-- Montacargas -->
+    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
+        <i class="bi bi-box-seam-fill text-xl text-emerald-600"></i>
+      </div>
+      <div>
+        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ totalMontacargas() }}</p>
+        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Montacargas</p>
+      </div>
+    </div>
+
+    <!-- Plataformas -->
+    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center shrink-0">
+        <i class="bi bi-layout-wtf text-xl text-purple-600"></i>
+      </div>
+      <div>
+        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ totalPlataformas() }}</p>
+        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Plataformas</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Filters & Search ── -->
+  <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col md:flex-row gap-5 items-end">
+
+    <!-- Tipo de Cliente -->
+    <div class="w-full md:w-1/4">
+      <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Tipo de Cliente</label>
+      <div class="relative">
+        <select
+          [ngModel]="selectedType()"
+          (ngModelChange)="selectedType.set($event); onFilterChange()"
+          class="w-full bg-white text-slate-700 text-sm font-medium rounded-xl border border-slate-200 focus:ring-2 focus:ring-jmg/20 focus:border-jmg p-3 outline-none cursor-pointer appearance-none transition-colors"
+        >
+          <option value="all">Todos los tipos</option>
+          <option value="empresa">Empresas</option>
+          <option value="persona">Personas Naturales</option>
+        </select>
+        <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-slate-400">
+          <i class="bi bi-chevron-down text-xs"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filtrar por Distrito -->
+    <div class="w-full md:w-1/4">
+      <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Distrito</label>
+      <div class="relative">
+        <select
+          [ngModel]="selectedDistrict()"
+          (ngModelChange)="selectedDistrict.set($event); onFilterChange()"
+          class="w-full bg-white text-slate-700 text-sm font-medium rounded-xl border border-slate-200 focus:ring-2 focus:ring-jmg/20 focus:border-jmg p-3 outline-none cursor-pointer appearance-none transition-colors"
+        >
+          <option value="">Todos los distritos</option>
+          <option *ngFor="let dist of districts" [value]="dist">{{ dist }}</option>
+        </select>
+        <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-slate-400">
+          <i class="bi bi-chevron-down text-xs"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Búsqueda -->
+    <div class="w-full md:flex-1">
+      <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Búsqueda Rápida</label>
+      <div class="flex gap-3">
+        <div class="relative flex-1">
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+            <i class="bi bi-search text-slate-400"></i>
           </div>
+          <input
+            type="text"
+            [ngModel]="searchQuery()"
+            (input)="onSearch($any($event.target).value)"
+            class="block w-full p-3 pl-10 text-sm text-slate-900 border border-slate-200 rounded-xl bg-white focus:ring-2 focus:ring-jmg/20 focus:border-jmg outline-none transition-colors"
+            placeholder="Buscar por nombre, DNI o RUC..."
+          />
         </div>
-
-        <div class="w-full md:w-1/4">
-          <label class="block text-xs font-bold text-slate-600 uppercase mb-2 ml-1">Filtrar por Distrito</label>
-          <div class="relative">
-            <select 
-              [ngModel]="selectedDistrict()" 
-              (ngModelChange)="selectedDistrict.set($event); onFilterChange()"
-              class="w-full bg-white text-slate-700 text-base font-medium rounded-lg border-2 border-gray-300 focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500 p-3 outline-none cursor-pointer appearance-none"
-            >
-              <option value="">Todos los distritos</option>
-              <option *ngFor="let dist of districts" [value]="dist">{{ dist }}</option>
-            </select>
-            <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-gray-500">
-               <i class="bi bi-chevron-down"></i>
-            </div>
-          </div>
-        </div>
-    
-        <div class="w-full md:w-1/2 flex-1 relative">
-           <label class="block text-xs font-bold text-slate-600 uppercase mb-2 ml-1">Búsqueda Rápida</label>
-           <div class="flex gap-4">
-            <div class="relative w-full">
-                <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                     <i class="bi bi-search text-gray-400 text-lg"></i>
-                 </div>
-                <input 
-                    type="text" 
-                    [ngModel]="searchQuery()"
-                    (input)="onSearch($any($event.target).value)"
-                    class="block w-full p-3 pl-12 text-base text-slate-900 border-2 border-gray-300 rounded-lg bg-white focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500 outline-none transition-shadow" 
-                    placeholder="Buscar por nombre, DNI o RUC..." 
-                 />
-            </div>
-             <button (click)="onFilterChange()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg px-8 py-3 transition-all shadow-md hover:shadow-lg uppercase text-sm tracking-wide">
-               Actualizar
-             </button>
-           </div>
-        </div>
+        <button
+          (click)="onFilterChange()"
+          class="bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-6 py-3 transition-colors shadow-sm text-sm whitespace-nowrap"
+        >
+          Actualizar
+        </button>
+      </div>
     </div>
 
-    <!-- Actions -->
-    <div class="flex justify-end gap-4">
-        <button (click)="openRestoreModal()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl px-6 py-4 text-base inline-flex items-center gap-3 transition-all shadow-md transform hover:-translate-y-0.5 border border-gray-200">
-          <i class="bi bi-arrow-counterclockwise text-xl"></i>
-          Restaurar Clientes
-        </button>
-        <button (click)="openCreateModal()" class="bg-[#003B73] hover:bg-[#002a52] text-white font-bold rounded-xl px-6 py-4 text-base inline-flex items-center gap-3 transition-all shadow-lg hover:shadow-blue-900/30 transform hover:-translate-y-0.5">
-          <i class="bi bi-plus-circle-fill text-xl"></i>
-          Registrar Nuevo Cliente
-        </button>
+  </div>
+
+  <!-- ── Actions Row ── -->
+  <div class="flex justify-end gap-3">
+    <button
+      (click)="openRestoreModal()"
+      class="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-600 font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors border border-slate-200 shadow-sm"
+    >
+      <i class="bi bi-arrow-counterclockwise"></i>
+      Restaurar Clientes
+    </button>
+    <button
+      (click)="openCreateModal()"
+      class="inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors shadow-sm"
+    >
+      <i class="bi bi-plus-lg"></i>
+      Registrar Nuevo Cliente
+    </button>
+  </div>
+
+  <!-- ── Clients Grid ── -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+
+    <!-- Loading -->
+    <div *ngIf="isLoading()" class="col-span-full py-20 flex flex-col items-center gap-3">
+      <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-jmg"></div>
+      <p class="text-slate-400 text-sm font-medium">Cargando clientes...</p>
     </div>
 
-    <!-- Clients Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        
-        <!-- Loading -->
-        <div *ngIf="isLoading()" class="col-span-full py-20 flex flex-col items-center">
-             <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#003B73] mb-4"></div>
-             <p class="text-slate-500 font-medium">Cargando clientes...</p>
-        </div>
-        
-        <!-- Error -->
-        <div *ngIf="error()" class="col-span-full bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-xl flex items-center gap-3">
-            <i class="bi bi-exclamation-triangle-fill text-xl"></i>
-            {{ error() }}
-        </div>
+    <!-- Error -->
+    <div *ngIf="error()" class="col-span-full bg-red-50 border border-red-100 text-red-600 px-5 py-4 rounded-2xl flex items-center gap-3 text-sm font-medium">
+      <i class="bi bi-exclamation-triangle-fill text-lg shrink-0"></i>
+      {{ error() }}
+    </div>
 
-        <!-- Cards -->
-        <ng-container *ngIf="!isLoading()">
-            <div *ngFor="let client of filteredClients()" class="h-full">
-                <!-- Recordar que la card ya muestra los conteos desde el backend -->
-                <app-entity-card>
-                    
-                    <!-- Edit Action -->
-                    <button action-top (click)="openEditModal(client)" class="text-emerald-600 hover:text-emerald-800 p-2 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors shadow-sm" title="Editar Cliente">
-                        <i class="bi bi-pencil-square text-lg"></i>
-                    </button>
+    <!-- Cards -->
+    <ng-container *ngIf="!isLoading()">
+      <div *ngFor="let client of filteredClients()" class="h-full">
+        <app-entity-card>
 
-                    <!-- Main Content -->
-                    <div>
-                        <!-- Header Info -->
-                        <div class="flex items-start gap-6 mb-6">
-                            <!-- Avatar/Initials -->
-                            <div class="w-20 h-20 rounded-2xl flex items-center justify-center text-white text-2xl font-bold shrink-0 shadow-lg border-2 border-white ring-2 ring-gray-100 transition-all hover:scale-110"
-                                 [ngClass]="client.tipo_cliente === 'empresa' ? 'bg-gradient-to-br from-[#003B73] to-[#005fa3]' : 'bg-gradient-to-br from-emerald-600 to-emerald-800'">
-                                {{ getInitials(client.nombre_comercial || client.contacto_nombre) }}
-                            </div>
-                            
-                            <div class="pt-1">
-                                <h3 class="font-bold text-slate-900 text-xl leading-tight mb-1" [class.text-slate-400]="client.estado_activo === false">
-                                    {{ client.nombre_comercial || ((client.contacto_nombre || '') + (client.contacto_apellido ? ' ' + client.contacto_apellido : '')) || 'Cliente Sin Nombre' }}
-                                </h3>
-                                 <div class="mt-3 flex gap-2">
-                                    <span class="inline-block px-4 py-1.5 text-xs font-extrabold uppercase rounded-full tracking-wide shadow-sm"
-                                          [ngClass]="client.tipo_cliente === 'empresa' ? 'bg-blue-50 text-[#003B73]' : 'bg-emerald-50 text-emerald-700'">
-                                        {{ client.tipo_cliente === 'empresa' ? 'Empresa' : client.tipo_cliente === 'persona' ? 'Persona Natural' : (client.tipo_cliente || 'Cliente') }}
-                                    </span>
-                                    <span *ngIf="client.estado_activo === false" class="inline-block px-4 py-1.5 text-xs font-extrabold uppercase rounded-full tracking-wide shadow-sm bg-red-50 text-red-600">
-                                        Inactivo
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
+          <!-- Edit Action -->
+          <button action-top (click)="openEditModal(client)"
+            class="text-emerald-600 hover:text-emerald-700 p-2 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors"
+            title="Editar Cliente">
+            <i class="bi bi-pencil-square"></i>
+          </button>
 
-                        <!-- Info List -->
-                        <div class="space-y-4">
-                            <!-- Email -->
-                            <div class="flex items-center gap-4 text-slate-700">
-                                <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center shrink-0 text-slate-500">
-                                     <i class="bi bi-envelope-fill"></i>
-                                </div>
-                                <div class="flex flex-col">
-                                     <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Correo Electrónico</span>
-                                    <span class="font-semibold text-sm truncate max-w-[220px]">{{ client.contacto_correo || '---' }}</span>
-                                </div>
-                            </div>
+          <!-- Main Content -->
+          <div>
+            <!-- Header Info -->
+            <div class="flex items-start gap-4 mb-5">
+              <!-- Avatar -->
+              <div class="w-14 h-14 rounded-xl flex items-center justify-center text-white text-lg font-bold shrink-0 shadow-sm transition-transform hover:scale-105"
+                [ngClass]="client.tipo_cliente === 'empresa'
+                  ? 'bg-gradient-to-br from-jmg to-jmg-light'
+                  : 'bg-gradient-to-br from-emerald-500 to-emerald-700'">
+                {{ getInitials(client.nombre_comercial || client.contacto_nombre) }}
+              </div>
 
-                            <!-- Phone -->
-                            <div class="flex items-center gap-4 text-slate-700">
-                                <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center shrink-0 text-slate-500">
-                                    <i class="bi bi-telephone-fill"></i>
-                                </div>
-                                <div class="flex flex-col">
-                                    <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Teléfono</span>
-                                    <span class="font-semibold text-sm">{{ client.contacto_telefono || client.telefono || '---' }}</span>
-                                </div>
-                            </div>
-                            
-                            <!-- Address -->
-                            <div class="flex items-center gap-4 text-slate-700">
-                                <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center shrink-0 text-slate-500">
-                                    <i class="bi bi-geo-alt-fill"></i>
-                                </div>
-                                <div class="flex flex-col">
-                                    <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Dirección</span>
-                                    <span class="font-semibold text-sm truncate max-w-[200px]" title="{{ client.ubicacion }}">{{ client.ubicacion || '---' }}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Footer: Stats -->
-                    <ng-container footer>
-                        <div class="grid grid-cols-3 gap-3 text-center w-full">
-                            <!-- Ascensores -->
-                            <div (click)="openEquipmentModal(client, 'Ascensor')" class="flex flex-col items-center group/stats hover:scale-105 transition-transform cursor-pointer">
-                                <span class="text-2xl font-extrabold text-[#003B73] group-hover/stats:text-blue-600 transition-colors">{{ client.ascensores_count || 0 }}</span>
-                                <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">Ascensores</span>
-                            </div>
-                            
-                            <!-- Montacargas -->
-                            <div (click)="openEquipmentModal(client, 'Montacarga')" class="flex flex-col items-center group/stats hover:scale-105 transition-transform cursor-pointer">
-                                <span class="text-2xl font-extrabold text-emerald-600 group-hover/stats:text-emerald-700 transition-colors">{{ client.montacargas_count || 0 }}</span>
-                                <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">Montacargas</span>
-                            </div>
-                            
-                            <!-- Plataformas -->
-                            <div (click)="openEquipmentModal(client, 'Plataforma')" class="flex flex-col items-center group/stats hover:scale-105 transition-transform cursor-pointer">
-                                <span class="text-2xl font-extrabold text-purple-600 group-hover/stats:text-purple-700 transition-colors">{{ client.plataforma_count || 0 }}</span>
-                                <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">Plataformas</span>
-                            </div>
-                        </div>
-                    </ng-container>
-
-                     <!-- Delete Icon (Absolute) -->
-                    <button (click)="openDeleteModal(client)" class="absolute bottom-5 right-5 opacity-0 group-hover:opacity-100 transition-all text-red-400 hover:text-red-600 hover:bg-red-50 p-2 rounded-lg border border-transparent hover:border-red-100 z-30" title="Eliminar Cliente">
-                        <i class="bi bi-trash-fill text-lg"></i>
-                    </button>
-
-                </app-entity-card>
-            </div>
-        </ng-container>
-
-        <!-- Empty State -->
-        <div *ngIf="!isLoading() && totalClients() === 0" class="col-span-full py-20 text-center">
-            <div class="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="bi bi-people text-4xl text-gray-300"></i>
-            </div>
-            <h3 class="text-lg font-bold text-gray-800">No hay clientes registrados</h3>
-            <p class="text-gray-400 text-sm mt-1">Comienza registrando un nuevo cliente en el sistema.</p>
-        </div>
-
-        <!-- Pagination Controls -->
-        <div *ngIf="!isLoading() && totalPages() > 1" class="col-span-full mt-10 flex flex-col items-center gap-4">
-            <div class="flex items-center gap-2">
-                <button 
-                  (click)="prevPage()" 
-                  [disabled]="currentPage() === 1"
-                  class="flex items-center gap-2 px-6 py-3 bg-white border-2 border-slate-200 rounded-xl font-bold text-slate-600 transition-all hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed hover:border-slate-300"
-                >
-                  <i class="bi bi-chevron-left"></i> Anterior
-                </button>
-                
-                <div class="flex items-center px-6 h-12 bg-[#003B73] rounded-xl text-white font-bold shadow-lg shadow-blue-900/20">
-                    Página {{ currentPage() }} de {{ totalPages() }}
+              <div class="pt-0.5 min-w-0">
+                <h3 class="font-display font-bold text-slate-900 text-base leading-snug truncate"
+                  [class.text-slate-400]="client.estado_activo === false">
+                  {{ client.nombre_comercial
+                    || ((client.contacto_nombre || '') + (client.contacto_apellido ? ' ' + client.contacto_apellido : ''))
+                    || 'Cliente Sin Nombre' }}
+                </h3>
+                <div class="mt-2 flex flex-wrap gap-1.5">
+                  <span class="inline-flex items-center px-2.5 py-0.5 text-[11px] font-semibold uppercase rounded-full tracking-wide"
+                    [ngClass]="client.tipo_cliente === 'empresa'
+                      ? 'bg-jmg-muted text-jmg'
+                      : 'bg-emerald-50 text-emerald-700'">
+                    {{ client.tipo_cliente === 'empresa' ? 'Empresa' : client.tipo_cliente === 'persona' ? 'Persona Natural' : (client.tipo_cliente || 'Cliente') }}
+                  </span>
+                  <span *ngIf="client.estado_activo === false"
+                    class="inline-flex items-center px-2.5 py-0.5 text-[11px] font-semibold uppercase rounded-full tracking-wide bg-red-50 text-red-500">
+                    Inactivo
+                  </span>
                 </div>
-
-                <button 
-                  (click)="nextPage()" 
-                  [disabled]="currentPage() === totalPages()"
-                  class="flex items-center gap-2 px-6 py-3 bg-white border-2 border-slate-200 rounded-xl font-bold text-slate-600 transition-all hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed hover:border-slate-300"
-                >
-                  Siguiente <i class="bi bi-chevron-right"></i>
-                </button>
+              </div>
             </div>
-            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">
-                Mostrando {{ clients().length }} de {{ totalItems() }} clientes
-            </p>
-        </div>
+
+            <!-- Info List -->
+            <div class="space-y-3">
+              <div class="flex items-center gap-3 text-slate-600">
+                <div class="w-7 h-7 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">
+                  <i class="bi bi-envelope-fill text-[11px] text-slate-400"></i>
+                </div>
+                <div class="min-w-0">
+                  <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider leading-none mb-0.5">Correo</p>
+                  <p class="text-sm font-medium truncate">{{ client.contacto_correo || '—' }}</p>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3 text-slate-600">
+                <div class="w-7 h-7 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">
+                  <i class="bi bi-telephone-fill text-[11px] text-slate-400"></i>
+                </div>
+                <div>
+                  <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider leading-none mb-0.5">Teléfono</p>
+                  <p class="text-sm font-medium">{{ client.contacto_telefono || client.telefono || '—' }}</p>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3 text-slate-600">
+                <div class="w-7 h-7 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">
+                  <i class="bi bi-geo-alt-fill text-[11px] text-slate-400"></i>
+                </div>
+                <div class="min-w-0">
+                  <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider leading-none mb-0.5">Dirección</p>
+                  <p class="text-sm font-medium truncate" title="{{ client.ubicacion }}">{{ client.ubicacion || '—' }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer: Equipment Stats -->
+          <ng-container footer>
+            <div class="grid grid-cols-3 gap-2 text-center w-full">
+              <div (click)="openEquipmentModal(client, 'Ascensor')"
+                class="flex flex-col items-center py-2 px-1 rounded-xl hover:bg-jmg-muted cursor-pointer transition-colors group/stat">
+                <span class="font-display text-xl font-bold text-jmg group-hover/stat:text-jmg-light transition-colors">{{ client.ascensores_count || 0 }}</span>
+                <span class="text-[9px] font-semibold text-slate-400 uppercase tracking-wider mt-0.5">Ascensores</span>
+              </div>
+              <div (click)="openEquipmentModal(client, 'Montacarga')"
+                class="flex flex-col items-center py-2 px-1 rounded-xl hover:bg-emerald-50 cursor-pointer transition-colors group/stat">
+                <span class="font-display text-xl font-bold text-emerald-600 group-hover/stat:text-emerald-700 transition-colors">{{ client.montacargas_count || 0 }}</span>
+                <span class="text-[9px] font-semibold text-slate-400 uppercase tracking-wider mt-0.5">Montacargas</span>
+              </div>
+              <div (click)="openEquipmentModal(client, 'Plataforma')"
+                class="flex flex-col items-center py-2 px-1 rounded-xl hover:bg-purple-50 cursor-pointer transition-colors group/stat">
+                <span class="font-display text-xl font-bold text-purple-600 group-hover/stat:text-purple-700 transition-colors">{{ client.plataforma_count || 0 }}</span>
+                <span class="text-[9px] font-semibold text-slate-400 uppercase tracking-wider mt-0.5">Plataformas</span>
+              </div>
+            </div>
+          </ng-container>
+
+          <!-- Delete (siempre visible, esquina inferior derecha) -->
+          <button (click)="openDeleteModal(client)"
+            class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity text-red-400 hover:text-red-600 hover:bg-red-50 p-1.5 rounded-lg border border-transparent hover:border-red-100 z-30"
+            title="Eliminar Cliente">
+            <i class="bi bi-trash3-fill text-sm"></i>
+          </button>
+
+        </app-entity-card>
+      </div>
+    </ng-container>
+
+    <!-- Empty State -->
+    <div *ngIf="!isLoading() && totalClients() === 0" class="col-span-full py-20 flex flex-col items-center gap-4">
+      <div class="w-20 h-20 bg-slate-100 rounded-2xl flex items-center justify-center">
+        <i class="bi bi-people text-3xl text-slate-300"></i>
+      </div>
+      <div class="text-center">
+        <h3 class="font-display font-bold text-slate-800 text-lg">Sin clientes registrados</h3>
+        <p class="text-slate-400 text-sm mt-1">Comenzá registrando el primer cliente en el sistema.</p>
+      </div>
     </div>
+
+    <!-- Pagination -->
+    <div *ngIf="!isLoading() && totalPages() > 1" class="col-span-full mt-6 flex flex-col items-center gap-3">
+      <div class="flex items-center gap-2">
+        <button
+          (click)="prevPage()"
+          [disabled]="currentPage() === 1"
+          class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          <i class="bi bi-chevron-left text-xs"></i> Anterior
+        </button>
+
+        <div class="inline-flex items-center px-5 py-2.5 bg-jmg rounded-xl text-white text-sm font-semibold shadow-sm">
+          {{ currentPage() }} / {{ totalPages() }}
+        </div>
+
+        <button
+          (click)="nextPage()"
+          [disabled]="currentPage() === totalPages()"
+          class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          Siguiente <i class="bi bi-chevron-right text-xs"></i>
+        </button>
+      </div>
+      <p class="text-xs text-slate-400 font-medium">
+        Mostrando {{ clients().length }} de {{ totalItems() }} clientes
+      </p>
+    </div>
+
+  </div>
 </div>
 
 <!-- Modals -->
-<app-client-create 
-  *ngIf="showCreateModal()" 
-  (close)="closeCreateModal()" 
+<app-client-create
+  *ngIf="showCreateModal()"
+  (close)="closeCreateModal()"
   (clientCreated)="onClientCreated()"
 ></app-client-create>
 
-<app-client-edit 
-  *ngIf="showEditModal() && selectedClient()" 
-  [client]="selectedClient()!" 
-  (close)="closeEditModal()" 
+<app-client-edit
+  *ngIf="showEditModal() && selectedClient()"
+  [client]="selectedClient()!"
+  (close)="closeEditModal()"
   (clientUpdated)="onClientUpdated()"
 ></app-client-edit>
 
@@ -291,7 +338,6 @@
   (clientRestored)="onClientRestored()"
 ></app-client-restore>
 
-<!-- Equipment Modal -->
 <app-equipment-list-modal
   *ngIf="showEquipmentModal() && selectedClient()"
   [client]="selectedClient()!"

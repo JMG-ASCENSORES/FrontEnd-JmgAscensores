@@ -1,216 +1,248 @@
-<div class="p-8 space-y-10 bg-slate-50 min-h-screen">
-  <!-- Header -->
-  <div class="flex items-center justify-between">
-    <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Gestión de Técnicos</h1>
+<div class="p-8 space-y-8 bg-slate-50 min-h-screen">
+
+  <!-- ── Page Header ── -->
+  <div class="flex items-end justify-between">
+    <div>
+      <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-1">Panel de Administración</p>
+      <h1 class="font-display text-3xl font-bold text-slate-900 tracking-tight">Gestión de Técnicos</h1>
+    </div>
   </div>
 
-  <!-- Stats Cards -->
-  <div class="grid grid-cols-2 lg:grid-cols-5 gap-6">
+  <!-- ── Stat Cards ── -->
+  <div class="grid grid-cols-2 lg:grid-cols-5 gap-5">
+
     <!-- Total -->
-    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 border-t-4 border-t-slate-600 flex flex-col items-center justify-center h-36 transition-transform hover:-translate-y-1">
-      <span class="text-5xl font-extrabold text-slate-800">{{ totalTechnicians() }}</span>
-      <span class="text-xs font-bold text-slate-500 uppercase tracking-widest text-center mt-2">Total de Técnicos</span>
+    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center shrink-0">
+        <i class="bi bi-people-fill text-xl text-slate-600"></i>
+      </div>
+      <div>
+        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ totalTechnicians() }}</p>
+        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Total Técnicos</p>
+      </div>
     </div>
-    
+
     <!-- Mantenimiento -->
-    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 border-t-4 border-t-blue-500 flex flex-col items-center justify-center h-36 transition-transform hover:-translate-y-1">
-      <span class="text-5xl font-extrabold text-slate-800">{{ maintenanceCount() }}</span>
-      <span class="text-xs font-bold text-slate-500 uppercase tracking-widest text-center mt-2">Mantenimiento</span>
+    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-jmg-muted flex items-center justify-center shrink-0">
+        <i class="bi bi-tools text-xl text-jmg"></i>
+      </div>
+      <div>
+        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ maintenanceCount() }}</p>
+        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Mantenimiento</p>
+      </div>
     </div>
 
     <!-- General -->
-    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 border-t-4 border-t-emerald-500 flex flex-col items-center justify-center h-36 transition-transform hover:-translate-y-1">
-       <span class="text-5xl font-extrabold text-slate-800">{{ generalCount() }}</span>
-       <span class="text-xs font-bold text-slate-500 uppercase tracking-widest text-center mt-2">Técnico General</span>
+    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
+        <i class="bi bi-person-gear text-xl text-emerald-600"></i>
+      </div>
+      <div>
+        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ generalCount() }}</p>
+        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Técnico General</p>
+      </div>
     </div>
 
     <!-- Reparaciones -->
-    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 border-t-4 border-t-orange-500 flex flex-col items-center justify-center h-36 transition-transform hover:-translate-y-1">
-       <span class="text-5xl font-extrabold text-slate-800">{{ repairsCount() }}</span>
-       <span class="text-xs font-bold text-slate-500 uppercase tracking-widest text-center mt-2">Reparaciones</span>
+    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center shrink-0">
+        <i class="bi bi-wrench-adjustable text-xl text-orange-500"></i>
+      </div>
+      <div>
+        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ repairsCount() }}</p>
+        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Reparaciones</p>
+      </div>
     </div>
 
     <!-- Supervisor -->
-    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 border-t-4 border-t-purple-500 flex flex-col items-center justify-center h-36 transition-transform hover:-translate-y-1">
-       <span class="text-5xl font-extrabold text-slate-800">{{ supervisorCount() }}</span>
-       <span class="text-xs font-bold text-slate-500 uppercase tracking-widest text-center mt-2">Supervisor</span>
+    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center shrink-0">
+        <i class="bi bi-person-badge-fill text-xl text-purple-600"></i>
+      </div>
+      <div>
+        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ supervisorCount() }}</p>
+        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Supervisor</p>
+      </div>
     </div>
+
   </div>
 
-  <!-- Filters & Search -->
+  <!-- ── Filters & Search ── -->
   <app-filter-container>
     <div class="w-full md:w-1/3">
-       <app-filter-select 
-          label="Filtrar por Especialidad" 
-          placeholder="Todas las especialidades" 
-          [options]="specialties" 
-          [value]="selectedSpecialty()"
-          (valueChange)="selectedSpecialty.set($event)"
+      <app-filter-select
+        label="Filtrar por Especialidad"
+        placeholder="Todas las especialidades"
+        [options]="specialties"
+        [value]="selectedSpecialty()"
+        (valueChange)="selectedSpecialty.set($event)"
       ></app-filter-select>
     </div>
-
     <div class="w-full md:w-1/2 flex-1">
-       <app-filter-input 
-           label="Búsqueda Rápida" 
-           placeholder="Buscar por nombre o DNI..." 
-           [value]="searchQuery()"
-           (valueChange)="searchQuery.set($event)"
-        ></app-filter-input>
-        <!-- Note: The original had a "Buscar" button. 
-             If we want to keep it, we can put it next to the input.
-             But the input is usually live filtering in this app.
-             The button was: <button>Buscar</button>
-             The functionality `(ngModelChange)` on input already triggers `filteredTechnicians` computed.
-             So the button was redundant or just for UX.
-             I'll leave it out for a cleaner look, or I could add it.
-             Given "Búsqueda Rápida" label, likely real-time.
-             The input component supports valueChange.
-        -->
+      <app-filter-input
+        label="Búsqueda Rápida"
+        placeholder="Buscar por nombre o DNI..."
+        [value]="searchQuery()"
+        (valueChange)="searchQuery.set($event)"
+      ></app-filter-input>
     </div>
   </app-filter-container>
 
-  <!-- Actions -->
-  <div class="flex justify-end">
-    <div class="flex gap-4">
-      <button (click)="openRestoreModal()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl px-6 py-4 text-base inline-flex items-center gap-3 transition-all transform hover:-translate-y-0.5">
-        <i class="bi bi-arrow-counterclockwise text-xl"></i>
-        Restaurar Técnicos
-      </button>
-      <button (click)="openCreateModal()" class="bg-[#003B73] hover:bg-[#002a52] text-white font-bold rounded-xl px-6 py-4 text-base inline-flex items-center gap-3 transition-all shadow-lg hover:shadow-blue-900/30 transform hover:-translate-y-0.5">
-      <i class="bi bi-plus-circle-fill text-xl"></i>
+  <!-- ── Actions Row ── -->
+  <div class="flex justify-end gap-3">
+    <button
+      (click)="openRestoreModal()"
+      class="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-600 font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors border border-slate-200 shadow-sm"
+    >
+      <i class="bi bi-arrow-counterclockwise"></i>
+      Restaurar Técnicos
+    </button>
+    <button
+      (click)="openCreateModal()"
+      class="inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors shadow-sm"
+    >
+      <i class="bi bi-plus-lg"></i>
       Registrar Nuevo Técnico
-      </button>
-    </div>
+    </button>
   </div>
 
-  <!-- Loading State -->
-  <div *ngIf="isLoading()" class="flex flex-col items-center justify-center py-20">
-    <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#003B73] mb-4"></div>
-    <p class="text-slate-500 font-medium animate-pulse">Cargando técnicos...</p>
+  <!-- ── Loading ── -->
+  <div *ngIf="isLoading()" class="flex flex-col items-center justify-center py-20 gap-3">
+    <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-jmg"></div>
+    <p class="text-slate-400 text-sm font-medium">Cargando técnicos...</p>
   </div>
 
-  <!-- Error State -->
-  <div *ngIf="error()" class="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-xl flex items-center gap-3">
-    <i class="bi bi-exclamation-triangle-fill text-xl"></i>
-    <span>{{ error() }}</span>
+  <!-- ── Error ── -->
+  <div *ngIf="error()" class="bg-red-50 border border-red-100 text-red-600 px-5 py-4 rounded-2xl flex items-center gap-3 text-sm font-medium">
+    <i class="bi bi-exclamation-triangle-fill text-lg shrink-0"></i>
+    {{ error() }}
   </div>
 
-  <!-- Grid -->
-  <div *ngIf="!isLoading()" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+  <!-- ── Grid ── -->
+  <div *ngIf="!isLoading()" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
     <div *ngFor="let tech of filteredTechnicians()" class="h-full">
-        <app-entity-card>
-            <!-- Edit Action -->
-            <button action-top (click)="openEditModal(tech)" class="text-emerald-600 hover:text-emerald-800 p-2 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors shadow-sm" title="Editar Técnico">
-                <i class="bi bi-pencil-square text-lg"></i>
-            </button>
+      <app-entity-card>
 
-            <!-- Main Content (Header) -->
-            <div>
-               <div class="flex items-start gap-6">
-                 <!-- Avatar -->
-                 <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#003B73] to-[#005fa3] flex items-center justify-center text-white text-2xl font-bold shrink-0 shadow-lg border-2 border-white ring-2 ring-gray-100">
-                    <img *ngIf="tech.foto" [src]="tech.foto" class="w-full h-full object-cover rounded-2xl" alt="Foto">
-                    <span *ngIf="!tech.foto">{{ getInitials(tech.nombre, tech.apellido) }}</span>
-                 </div>
-                 
-                 <!-- Basic Info -->
-                 <div class="pt-1">
-                   <h3 class="font-bold text-slate-900 text-xl leading-tight mb-1">{{ tech.nombre }} {{ tech.apellido }}</h3>
-                   <p class="text-sm font-semibold text-slate-400 tracking-wide">DNI: {{ tech.dni }}</p>
-                   
-                   <div class="mt-3">
-                       <span 
-                         class="inline-block px-4 py-1.5 text-xs font-extrabold uppercase rounded-full tracking-wide shadow-sm"
-                         [ngClass]="getSpecialtyColor(tech.especialidad)"
-                        >
-                         {{ tech.especialidad }}
-                       </span>
-                   </div>
-                 </div>
+        <!-- Edit Action -->
+        <button action-top (click)="openEditModal(tech)"
+          class="text-emerald-600 hover:text-emerald-700 p-2 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors"
+          title="Editar Técnico">
+          <i class="bi bi-pencil-square"></i>
+        </button>
+
+        <!-- Main Content -->
+        <div>
+          <div class="flex items-start gap-4">
+            <!-- Avatar / Foto -->
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-jmg to-jmg-light flex items-center justify-center text-white text-lg font-bold shrink-0 shadow-sm overflow-hidden transition-transform hover:scale-105">
+              <img *ngIf="tech.foto" [src]="tech.foto" class="w-full h-full object-cover" alt="Foto">
+              <span *ngIf="!tech.foto">{{ getInitials(tech.nombre, tech.apellido) }}</span>
+            </div>
+
+            <!-- Info -->
+            <div class="pt-0.5 min-w-0">
+              <h3 class="font-display font-bold text-slate-900 text-base leading-snug">
+                {{ tech.nombre }} {{ tech.apellido }}
+              </h3>
+              <p class="text-xs text-slate-400 font-medium mt-0.5">DNI: {{ tech.dni }}</p>
+              <div class="mt-2">
+                <span
+                  class="inline-flex items-center px-2.5 py-0.5 text-[11px] font-semibold uppercase rounded-full tracking-wide"
+                  [ngClass]="getSpecialtyColor(tech.especialidad)"
+                >
+                  {{ tech.especialidad }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer: Contact Info -->
+        <ng-container footer>
+          <div class="space-y-3 w-full">
+
+            <div class="flex items-center gap-3 text-slate-600">
+              <div class="w-7 h-7 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">
+                <i class="bi bi-envelope-fill text-[11px] text-slate-400"></i>
+              </div>
+              <div class="min-w-0">
+                <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider leading-none mb-0.5">Correo</p>
+                <p class="text-sm font-medium truncate">{{ tech.correo }}</p>
               </div>
             </div>
 
-            <!-- Footer (Contact Info) -->
-            <ng-container footer>
-                 <div class="space-y-4 w-full">
-                    <div class="flex items-center gap-4 text-slate-700">
-                       <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center shrink-0 text-slate-500">
-                         <i class="bi bi-envelope-fill"></i>
-                       </div>
-                       <div class="flex flex-col">
-                          <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Correo Electrónico</span>
-                          <span class="font-semibold text-sm truncate max-w-[220px]">{{ tech.correo }}</span>
-                       </div>
-                    </div>
-                    <div class="flex items-center gap-4 text-slate-700">
-                       <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center shrink-0 text-slate-500">
-                         <i class="bi bi-telephone-fill"></i>
-                       </div>
-                       <div class="flex flex-col">
-                          <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Teléfono</span>
-                          <span class="font-semibold text-sm">{{ tech.telefono }}</span>
-                       </div>
-                    </div>
-                     <div class="flex items-center gap-4 text-slate-700">
-                       <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center shrink-0 text-slate-500">
-                         <i class="bi bi-cake2-fill"></i>
-                       </div>
-                       <div class="flex flex-col">
-                          <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Edad</span>
-                          <span class="font-semibold text-sm">{{ tech.edad }} años</span>
-                       </div>
-                    </div>
-                 </div>
-            </ng-container>
+            <div class="flex items-center gap-3 text-slate-600">
+              <div class="w-7 h-7 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">
+                <i class="bi bi-telephone-fill text-[11px] text-slate-400"></i>
+              </div>
+              <div>
+                <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider leading-none mb-0.5">Teléfono</p>
+                <p class="text-sm font-medium">{{ tech.telefono }}</p>
+              </div>
+            </div>
 
-             <!-- Delete Action (Absolute) -->
-             <button (click)="openDeleteModal(tech)" class="absolute bottom-5 right-5 text-red-400 hover:text-red-600 hover:bg-red-50 p-2 rounded-lg transition-colors border border-transparent hover:border-red-100 opacity-0 group-hover:opacity-100 z-30" title="Eliminar Técnico">
-                <i class="bi bi-trash-fill text-lg"></i>
-             </button>
+            <div class="flex items-center gap-3 text-slate-600">
+              <div class="w-7 h-7 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">
+                <i class="bi bi-cake2-fill text-[11px] text-slate-400"></i>
+              </div>
+              <div>
+                <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider leading-none mb-0.5">Edad</p>
+                <p class="text-sm font-medium">{{ tech.edad }} años</p>
+              </div>
+            </div>
 
-        </app-entity-card>
+          </div>
+        </ng-container>
+
+        <!-- Delete -->
+        <button (click)="openDeleteModal(tech)"
+          class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity text-red-400 hover:text-red-600 hover:bg-red-50 p-1.5 rounded-lg border border-transparent hover:border-red-100 z-30"
+          title="Eliminar Técnico">
+          <i class="bi bi-trash3-fill text-sm"></i>
+        </button>
+
+      </app-entity-card>
     </div>
   </div>
-  
-  <!-- Empty State -->
-  <div *ngIf="!isLoading() && filteredTechnicians().length === 0" class="text-center py-20 bg-white rounded-3xl shadow-sm border border-dashed border-gray-300">
-    <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
-      <i class="bi bi-search text-gray-300 text-4xl"></i>
+
+  <!-- ── Empty State ── -->
+  <div *ngIf="!isLoading() && filteredTechnicians().length === 0"
+    class="py-20 flex flex-col items-center gap-4 bg-white rounded-2xl border border-dashed border-slate-200">
+    <div class="w-20 h-20 bg-slate-100 rounded-2xl flex items-center justify-center">
+      <i class="bi bi-search text-slate-300 text-3xl"></i>
     </div>
-    <h3 class="text-xl font-bold text-slate-800 mb-2">No se encontraron resultados</h3>
-    <p class="text-slate-500 max-w-sm mx-auto">No hay técnicos que coincidan con tu búsqueda. Intenta simplificar los términos.</p>
+    <div class="text-center">
+      <h3 class="font-display font-bold text-slate-800 text-lg">Sin resultados</h3>
+      <p class="text-slate-400 text-sm mt-1 max-w-xs mx-auto">No hay técnicos que coincidan. Intentá simplificar los filtros.</p>
+    </div>
   </div>
-
-
-
-  <!-- Create Modal -->
-  <app-technician-create 
-    *ngIf="showCreateModal()" 
-    (close)="closeCreateModal()" 
-    (technicianCreated)="onTechnicianCreated()">
-  </app-technician-create>
-
-  <!-- Edit Modal -->
-  <app-technician-edit
-    *ngIf="showEditModal() && selectedTechnician()"
-    [technician]="selectedTechnician()!"
-    (close)="closeEditModal()"
-    (technicianUpdated)="onTechnicianUpdated()">
-  </app-technician-edit>
-
-  <!-- Delete Confirmation Modal -->
-  <app-technician-delete
-    *ngIf="showDeleteModal() && technicianToDelete()"
-    [technician]="technicianToDelete()!"
-    (close)="closeDeleteModal()"
-    (technicianDeleted)="onTechnicianDeleted()">
-  </app-technician-delete>
-
-  <!-- Restore Modal -->
-  <app-technician-restore
-    *ngIf="showRestoreModal()"
-    (close)="closeRestoreModal()"
-    (technicianRestored)="onTechnicianRestored()">
-  </app-technician-restore>
 
 </div>
+
+<!-- Modals -->
+<app-technician-create
+  *ngIf="showCreateModal()"
+  (close)="closeCreateModal()"
+  (technicianCreated)="onTechnicianCreated()">
+</app-technician-create>
+
+<app-technician-edit
+  *ngIf="showEditModal() && selectedTechnician()"
+  [technician]="selectedTechnician()!"
+  (close)="closeEditModal()"
+  (technicianUpdated)="onTechnicianUpdated()">
+</app-technician-edit>
+
+<app-technician-delete
+  *ngIf="showDeleteModal() && technicianToDelete()"
+  [technician]="technicianToDelete()!"
+  (close)="closeDeleteModal()"
+  (technicianDeleted)="onTechnicianDeleted()">
+</app-technician-delete>
+
+<app-technician-restore
+  *ngIf="showRestoreModal()"
+  (close)="closeRestoreModal()"
+  (technicianRestored)="onTechnicianRestored()">
+</app-technician-restore>

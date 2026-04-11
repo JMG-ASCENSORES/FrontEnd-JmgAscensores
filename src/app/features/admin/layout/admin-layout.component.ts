@@ -9,11 +9,11 @@ import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.com
   standalone: true,
   imports: [CommonModule, RouterOutlet, RouterModule, SidebarComponent],
   templateUrl: './admin-layout.component.html',
-  styleUrl: './admin-layout.component.scss'
+  styleUrl: './admin-layout.component.scss',
 })
 export class AdminLayoutComponent {
   private authService = inject(AuthService);
-  
+
   showLogoutModal = false;
 
   logout() {

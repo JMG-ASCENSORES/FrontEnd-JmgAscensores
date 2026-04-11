@@ -6,8 +6,19 @@
 html, body {
     height: 100%;
     margin: 0;
-    font-family: 'Inter', sans-serif; /* Ensuring modern font */
+    font-family: 'DM Sans', sans-serif;
     @apply bg-slate-50 text-slate-900;
+}
+
+/* Jerarquía tipográfica — Syne para todos los headings */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Syne', sans-serif;
+}
+
+/* Active link en sidebar */
+.active-link {
+    @apply bg-white/10 text-white;
+    i { @apply text-emerald-400; }
 }
 
 /* Spinner Border Animation (Bootstrap style) */

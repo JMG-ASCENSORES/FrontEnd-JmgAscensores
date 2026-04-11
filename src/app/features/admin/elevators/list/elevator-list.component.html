@@ -1,259 +1,300 @@
-<div class="p-8 space-y-10 bg-slate-50 min-h-screen">
-    
-    <!-- Header -->
-    <div class="flex items-center justify-between">
-        <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Gestión de Equipos</h1>
+<div class="p-8 space-y-8 bg-slate-50 min-h-screen">
+
+  <!-- ── Page Header ── -->
+  <div class="flex items-end justify-between">
+    <div>
+      <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-1">Panel de Administración</p>
+      <h1 class="font-display text-3xl font-bold text-slate-900 tracking-tight">Gestión de Equipos</h1>
+    </div>
+  </div>
+
+  <!-- ── Stat Cards ── -->
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-5">
+
+    <!-- Total -->
+    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center shrink-0">
+        <i class="bi bi-box-seam-fill text-xl text-slate-600"></i>
+      </div>
+      <div>
+        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ totalElevators() }}</p>
+        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Total Equipos</p>
+      </div>
     </div>
 
-    <!-- Top Stats -->
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- Total -->
-        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 border-t-4 border-t-slate-600 flex flex-col items-center justify-center h-36 transition-transform hover:-translate-y-1">
-            <span class="text-5xl font-extrabold text-slate-800">{{ totalElevators() }}</span>
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-widest text-center mt-2">Total Equipos</span>
-        </div>
-
-        <!-- Operativos -->
-        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 border-t-4 border-t-emerald-500 flex flex-col items-center justify-center h-36 transition-transform hover:-translate-y-1">
-            <span class="text-5xl font-extrabold text-slate-800">{{ operationalCount() }}</span>
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-widest text-center mt-2">Operativos</span>
-        </div>
-
-        <!-- En Mantenimiento -->
-        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 border-t-4 border-t-blue-500 flex flex-col items-center justify-center h-36 transition-transform hover:-translate-y-1">
-            <span class="text-5xl font-extrabold text-slate-800">{{ maintenanceCount() }}</span>
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-widest text-center mt-2">En Mantenimiento</span>
-        </div>
-
-        <!-- Fuera de Servicio -->
-        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 border-t-4 border-t-red-500 flex flex-col items-center justify-center h-36 transition-transform hover:-translate-y-1">
-            <span class="text-5xl font-extrabold text-slate-800">{{ outOfServiceCount() }}</span>
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-widest text-center mt-2">Fuera de Servicio</span>
-        </div>
+    <!-- Operativos -->
+    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
+        <i class="bi bi-check-circle-fill text-xl text-emerald-600"></i>
+      </div>
+      <div>
+        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ operationalCount() }}</p>
+        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Operativos</p>
+      </div>
     </div>
 
-    <!-- Filters & Search -->
-    <app-filter-container>
-        
-        <!-- Filter Client (Custom complex component for now, kept inside container) -->
-        <div class="w-full md:w-1/4">
-          <label class="block text-xs font-bold text-slate-600 uppercase mb-2 ml-1">Cliente</label>
-          <div class="relative">
-             <input 
-               type="text" 
-               [ngModel]="clientSearchTerm()" 
-               (ngModelChange)="clientSearchTerm.set($event)"
-               (input)="onClientSearch()"
-               (focus)="showClientDropdown.set(true)"
-               class="w-full bg-white text-slate-700 text-sm font-medium rounded-lg border-2 border-gray-300 focus:ring-4 focus:ring-blue-100 focus:border-[#003B73] p-3 outline-none transition-shadow"
-               placeholder="Buscar cliente..."
-               [class.rounded-b-none]="showClientDropdown()"
-             />
-             
-             <!-- Dropdown Results -->
-             <div *ngIf="showClientDropdown()" class="absolute z-50 w-full bg-white border-x-2 border-b-2 border-gray-300 rounded-b-lg max-h-60 overflow-y-auto shadow-xl">
-                 <div 
-                    (click)="selectClient(null)"
-                    class="p-3 hover:bg-slate-100 cursor-pointer text-slate-500 italic border-b border-gray-100 text-sm"
-                 >
-                    Todos los clientes
-                 </div>
-                 
-                 <div *ngIf="clientSearchTerm().length < 2" class="p-3 text-slate-400 text-xs italic text-center">
-                    Ingresa al menos 2 letras...
-                 </div>
+    <!-- En Mantenimiento -->
+    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-jmg-muted flex items-center justify-center shrink-0">
+        <i class="bi bi-tools text-xl text-jmg"></i>
+      </div>
+      <div>
+        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ maintenanceCount() }}</p>
+        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">En Mantenimiento</p>
+      </div>
+    </div>
 
-                 <ng-container *ngIf="clientSearchTerm().length >= 2">
-                     <div 
-                        *ngFor="let client of filteredClients()" 
-                        (click)="selectClient(client)"
-                        class="p-3 hover:bg-slate-50 cursor-pointer text-slate-700 font-medium border-b border-gray-100 last:border-0 text-sm"
-                     >
-                        {{ client.nombre_comercial || (client.contacto_nombre + ' ' + (client.contacto_apellido || '')) }}
-                     </div>
-                     <div *ngIf="filteredClients().length === 0" class="p-3 text-red-400 text-xs text-center">
-                        No se encontraron clientes
-                     </div>
-                 </ng-container>
-             </div>
+    <!-- Fuera de Servicio -->
+    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center shrink-0">
+        <i class="bi bi-x-circle-fill text-xl text-red-500"></i>
+      </div>
+      <div>
+        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ outOfServiceCount() }}</p>
+        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Fuera de Servicio</p>
+      </div>
+    </div>
 
-             <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-gray-500">
-                <i *ngIf="!selectedClientId()" class="bi bi-search"></i>
-                <i *ngIf="selectedClientId()" class="bi bi-check-circle-fill text-emerald-500"></i>
-             </div>
+  </div>
+
+  <!-- ── Filters ── -->
+  <app-filter-container>
+
+    <!-- Cliente searchable -->
+    <div class="w-full md:w-1/4">
+      <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Cliente</label>
+      <div class="relative">
+        <input
+          type="text"
+          [ngModel]="clientSearchTerm()"
+          (ngModelChange)="clientSearchTerm.set($event)"
+          (input)="onClientSearch()"
+          (focus)="showClientDropdown.set(true)"
+          class="w-full bg-white text-slate-700 text-sm font-medium rounded-xl border border-slate-200 focus:ring-2 focus:ring-jmg/20 focus:border-jmg p-3 outline-none transition-colors"
+          placeholder="Buscar cliente..."
+          [class.rounded-b-none]="showClientDropdown()"
+        />
+        <div *ngIf="showClientDropdown()" class="absolute z-50 w-full bg-white border border-t-0 border-slate-200 rounded-b-xl max-h-56 overflow-y-auto shadow-xl">
+          <div
+            (click)="selectClient(null)"
+            class="p-3 hover:bg-slate-50 cursor-pointer text-slate-400 text-sm italic border-b border-slate-100"
+          >
+            Todos los clientes
+          </div>
+          <div *ngIf="clientSearchTerm().length < 2" class="p-3 text-slate-400 text-xs italic text-center">
+            Ingresá al menos 2 letras...
+          </div>
+          <ng-container *ngIf="clientSearchTerm().length >= 2">
+            <div
+              *ngFor="let client of filteredClients()"
+              (click)="selectClient(client)"
+              class="p-3 hover:bg-slate-50 cursor-pointer text-slate-700 font-medium text-sm border-b border-slate-50 last:border-0"
+            >
+              {{ client.nombre_comercial || (client.contacto_nombre + ' ' + (client.contacto_apellido || '')) }}
+            </div>
+            <div *ngIf="filteredClients().length === 0" class="p-3 text-red-400 text-xs text-center">
+              Sin resultados
+            </div>
+          </ng-container>
+        </div>
+        <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
+          <i *ngIf="!selectedClientId()" class="bi bi-search text-slate-400 text-sm"></i>
+          <i *ngIf="selectedClientId()" class="bi bi-check-circle-fill text-emerald-500 text-sm"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tipo de Equipo -->
+    <div class="w-full md:w-1/4">
+      <app-filter-select
+        label="Tipo de Equipo"
+        placeholder="Todos los tipos"
+        [options]="equipmentTypes"
+        [value]="selectedType()"
+        (valueChange)="selectedType.set($event); onFilterChange()"
+      ></app-filter-select>
+    </div>
+
+    <!-- Estado -->
+    <div class="w-full md:w-1/4">
+      <app-filter-select
+        label="Estado"
+        placeholder="Todos los estados"
+        [options]="statuses"
+        [value]="selectedStatus()"
+        (valueChange)="selectedStatus.set($event); onFilterChange()"
+      ></app-filter-select>
+    </div>
+
+    <!-- Búsqueda -->
+    <div class="w-full md:w-1/4 flex-1">
+      <app-filter-input
+        label="Búsqueda"
+        placeholder="Serie, marca, modelo..."
+        [value]="searchQuery()"
+        (valueChange)="onSearch($event)"
+      ></app-filter-input>
+    </div>
+
+  </app-filter-container>
+
+  <!-- ── Actions Row ── -->
+  <div class="flex justify-end">
+    <button
+      (click)="openCreateModal()"
+      class="inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors shadow-sm"
+    >
+      <i class="bi bi-plus-lg"></i>
+      Registrar Nuevo Equipo
+    </button>
+  </div>
+
+  <!-- ── Grid ── -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+
+    <!-- Loading -->
+    <div *ngIf="isLoading()" class="col-span-full py-20 flex flex-col items-center gap-3">
+      <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-jmg"></div>
+      <p class="text-slate-400 text-sm font-medium">Cargando equipos...</p>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error()" class="col-span-full bg-red-50 border border-red-100 text-red-600 px-5 py-4 rounded-2xl flex items-center gap-3 text-sm font-medium">
+      <i class="bi bi-exclamation-triangle-fill text-lg shrink-0"></i>
+      {{ error() }}
+    </div>
+
+    <!-- Cards agrupadas por cliente -->
+    <ng-container *ngIf="!isLoading()">
+      <div *ngFor="let group of groupedElevators()" class="col-span-full mb-6">
+
+        <!-- Client Group Header -->
+        <div class="flex items-center gap-3 mb-4 pb-3 border-b border-slate-100">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-jmg to-jmg-light text-white flex items-center justify-center shadow-sm">
+            <i class="bi bi-building text-sm"></i>
+          </div>
+          <div>
+            <h2 class="font-display font-bold text-slate-800 text-lg leading-none">{{ group.cliente_nombre }}</h2>
+            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-widest">
+              {{ group.elevators.length }} {{ group.elevators.length === 1 ? 'Equipo' : 'Equipos' }}
+            </span>
           </div>
         </div>
 
-         <!-- Filter Type -->
-         <div class="w-full md:w-1/4">
-            <app-filter-select 
-                label="Tipo de Equipo" 
-                placeholder="Todos los tipos" 
-                [options]="equipmentTypes" 
-                [value]="selectedType()"
-                (valueChange)="selectedType.set($event); onFilterChange()"
-            ></app-filter-select>
-          </div>
+        <!-- Elevators Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+          <div *ngFor="let elevator of group.elevators" class="h-full">
+            <app-entity-card>
 
-          <!-- Filter Status -->
-         <div class="w-full md:w-1/4">
-            <app-filter-select 
-                label="Estado" 
-                placeholder="Todos los estados" 
-                [options]="statuses" 
-                [value]="selectedStatus()"
-                (valueChange)="selectedStatus.set($event); onFilterChange()"
-            ></app-filter-select>
+              <!-- Edit Action -->
+              <button action-top (click)="openEditModal(elevator)"
+                class="text-emerald-600 hover:text-emerald-700 p-2 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors"
+                title="Editar Equipo">
+                <i class="bi bi-pencil-square"></i>
+              </button>
+
+              <!-- Main Content -->
+              <div>
+                <div class="mb-4 pr-8 relative">
+                  <!-- Acento vertical izquierdo — identidad de equipo -->
+                  <div class="absolute -top-2 -left-6 w-1 h-10 bg-jmg rounded-r-sm"></div>
+                  <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">{{ elevator.tipo_equipo }}</span>
+                  <h3 class="font-display font-bold text-slate-800 text-2xl leading-tight tracking-tight">{{ elevator.numero_serie }}</h3>
+                  <p class="text-sm font-semibold text-jmg mt-0.5">
+                    {{ elevator.marca }} <span class="font-medium text-slate-500">{{ elevator.modelo }}</span>
+                  </p>
+                </div>
+
+                <!-- Capacidades -->
+                <div class="grid grid-cols-2 gap-2 text-sm">
+                  <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 hover:border-slate-200 transition-colors">
+                    <span class="block text-[10px] text-slate-400 uppercase font-semibold mb-1">Carga Máx.</span>
+                    <span class="font-display font-bold text-slate-800 text-lg">
+                      {{ (elevator.capacidad_kg !== null && elevator.capacidad_kg !== undefined) ? elevator.capacidad_kg + ' kg' : '—' }}
+                    </span>
+                  </div>
+                  <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 hover:border-slate-200 transition-colors">
+                    <span class="block text-[10px] text-slate-400 uppercase font-semibold mb-1">Personas</span>
+                    <span class="font-display font-bold text-slate-800 text-lg">
+                      {{ (elevator.capacidad_personas !== null && elevator.capacidad_personas !== undefined) ? elevator.capacidad_personas : '—' }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Footer: Estado -->
+              <ng-container footer>
+                <div class="flex items-center justify-between w-full">
+                  <div class="flex items-center gap-2" [ngClass]="getStatusColor(elevator.estado)">
+                    <div class="w-2 h-2 rounded-full bg-current animate-pulse"></div>
+                    <span class="text-xs font-bold uppercase tracking-wider">{{ elevator.estado }}</span>
+                  </div>
+                  <button (click)="openDeleteModal(elevator)"
+                    class="opacity-0 group-hover:opacity-100 transition-opacity text-red-300 hover:text-red-500 p-1.5 rounded-lg hover:bg-red-50 transition-colors"
+                    title="Eliminar Equipo">
+                    <i class="bi bi-trash3-fill text-sm"></i>
+                  </button>
+                </div>
+              </ng-container>
+
+            </app-entity-card>
           </div>
-    
-        <!-- Search -->
-        <div class="w-full md:w-1/4 flex-1">
-           <app-filter-input 
-               label="Búsqueda" 
-               placeholder="Serie, marca, modelo..." 
-               [value]="searchQuery()"
-               (valueChange)="onSearch($event)"
-            ></app-filter-input>
         </div>
-    </app-filter-container>
 
-    <!-- Actions -->
-    <div class="flex justify-end">
-        <button (click)="openCreateModal()" class="bg-[#003B73] hover:bg-[#002a52] text-white font-bold rounded-xl px-6 py-4 text-base inline-flex items-center gap-3 transition-all shadow-lg hover:shadow-blue-900/30 transform hover:-translate-y-0.5">
-          <i class="bi bi-plus-circle-fill text-xl"></i>
-          Registrar Nuevo Equipo
+      </div>
+    </ng-container>
+
+    <!-- Empty State -->
+    <div *ngIf="!isLoading() && totalElevators() === 0" class="col-span-full py-20 flex flex-col items-center gap-4">
+      <div class="w-20 h-20 bg-slate-100 rounded-2xl flex items-center justify-center">
+        <i class="bi bi-box-seam text-slate-300 text-3xl"></i>
+      </div>
+      <div class="text-center">
+        <h3 class="font-display font-bold text-slate-800 text-lg">Sin equipos registrados</h3>
+        <p class="text-slate-400 text-sm mt-1">Comenzá registrando el primer equipo en el sistema.</p>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div *ngIf="!isLoading() && totalPages() > 1" class="col-span-full flex flex-col items-center gap-3 mt-4">
+      <div class="flex items-center gap-2">
+        <button
+          (click)="prevPage()"
+          [disabled]="currentPage() === 1"
+          class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          <i class="bi bi-chevron-left text-xs"></i> Anterior
         </button>
+
+        <div class="inline-flex items-center px-5 py-2.5 bg-jmg rounded-xl text-white text-sm font-semibold shadow-sm">
+          {{ currentPage() }} / {{ totalPages() }}
+        </div>
+
+        <button
+          (click)="nextPage()"
+          [disabled]="currentPage() === totalPages()"
+          class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          Siguiente <i class="bi bi-chevron-right text-xs"></i>
+        </button>
+      </div>
     </div>
 
-    <!-- Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        
-        <!-- Loading -->
-        <div *ngIf="isLoading()" class="col-span-full py-20 flex justify-center">
-             <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#003B73] mb-4"></div>
-        </div>
-        
-        <!-- Error -->
-        <div *ngIf="error()" class="col-span-full bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-xl flex items-center gap-3">
-            <i class="bi bi-exclamation-triangle-fill text-xl"></i>
-            {{ error() }}
-        </div>
+  </div>
 
-        <!-- Cards Grouped By Client -->
-        <ng-container *ngIf="!isLoading()">
-            <div *ngFor="let group of groupedElevators()" class="col-span-full mb-8">
-                <!-- Client Header Info -->
-                <div class="flex items-center gap-4 mb-4 pb-2 border-b border-gray-200">
-                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#003B73] to-blue-800 text-white flex items-center justify-center shadow-md">
-                        <i class="bi bi-building text-xl"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-xl font-black text-slate-800 tracking-tight">{{ group.cliente_nombre }}</h2>
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">{{ group.elevators.length }} {{ group.elevators.length === 1 ? 'Equipo Registrado' : 'Equipos Registrados' }}</span>
-                    </div>
-                </div>
-
-                <!-- Client Elevators Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                    <div *ngFor="let elevator of group.elevators" class="h-full">
-                        <app-entity-card>
-                            <!-- Edit Action -->
-                            <button action-top (click)="openEditModal(elevator)" class="text-emerald-600 hover:text-emerald-800 p-2 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors shadow-sm" title="Editar Equipo">
-                                <i class="bi bi-pencil-square text-lg"></i>
-                            </button>
-
-                            <!-- Main Content -->
-                            <div>
-                                 <!-- Premium Header Info -->
-                                 <div class="mb-4 pr-10 relative">
-                                    <div class="absolute -top-2 -left-6 w-1 h-12 bg-[#003B73] rounded-r-md"></div>
-                                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1 drop-shadow-sm">{{ elevator.tipo_equipo }}</span>
-                                    <h3 class="font-black text-slate-800 text-3xl leading-tight tracking-tight drop-shadow-sm">{{ elevator.numero_serie }}</h3>
-                                    <p class="text-sm font-bold text-[#003B73] mt-1">{{ elevator.marca }} <span class="font-medium text-slate-500">{{ elevator.modelo }}</span></p>
-                                </div>
-
-                                <!-- Details Grid -->
-                                <div class="grid grid-cols-2 gap-3 text-sm text-slate-600 mb-4 relative z-10">
-                                     <div class="bg-white p-3 rounded-xl border border-slate-100 shadow-[0_2px_8px_-4px_rgba(0,0,0,0.1)] transition-colors hover:border-slate-300">
-                                        <span class="block text-[10px] text-slate-400 uppercase font-black mb-1">Carga Máx</span>
-                                         <span class="font-black text-slate-800 text-lg">{{ (elevator.capacidad_kg !== null && elevator.capacidad_kg !== undefined) ? elevator.capacidad_kg + ' KG' : '--' }}</span>
-                                     </div>
-                                     <div class="bg-white p-3 rounded-xl border border-slate-100 shadow-[0_2px_8px_-4px_rgba(0,0,0,0.1)] transition-colors hover:border-slate-300">
-                                        <span class="block text-[10px] text-slate-400 uppercase font-black mb-1">Personas</span>
-                                         <span class="font-black text-slate-800 text-lg">{{ (elevator.capacidad_personas !== null && elevator.capacidad_personas !== undefined) ? elevator.capacidad_personas : '--' }}</span>
-                                     </div>
-                                </div>
-                            </div>
-
-                            <!-- Footer -->
-                            <ng-container footer>
-                                <div class="flex items-center justify-between w-full pt-2">
-                                    <div class="flex items-center gap-2" [ngClass]="getStatusColor(elevator.estado)">
-                                        <div class="w-2.5 h-2.5 rounded-full shadow-sm animate-pulse bg-current"></div>
-                                        <span class="text-xs font-black uppercase tracking-wider">
-                                            {{ elevator.estado }}
-                                        </span>
-                                    </div>
-
-                                    <button (click)="openDeleteModal(elevator)" class="text-slate-300 hover:text-red-500 hover:scale-110 transition-all opacity-0 group-hover:opacity-100" title="Eliminar Equipo">
-                                        <i class="bi bi-trash3-fill text-xl drop-shadow-sm"></i>
-                                    </button>
-                                </div>
-                            </ng-container>
-
-                        </app-entity-card>
-                    </div>
-                </div>
-            </div>
-        </ng-container>
-
-        <!-- Empty State -->
-        <div *ngIf="!isLoading() && totalElevators() === 0" class="col-span-full py-20 text-center">
-            <div class="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="bi bi-box-seam text-4xl text-gray-300"></i>
-            </div>
-            <h3 class="text-lg font-bold text-gray-800">No hay equipos registrados</h3>
-            <p class="text-gray-400 text-sm mt-1">Comienza registrando un nuevo equipo en el sistema.</p>
-        </div>
-
-        <!-- Pagination Controls -->
-        <div *ngIf="!isLoading() && totalPages() > 1" class="col-span-full flex justify-center items-center gap-4 mt-8 pb-8">
-            <button 
-                (click)="prevPage()" 
-                [disabled]="currentPage() === 1"
-                class="px-4 py-2 rounded-lg font-bold transition-colors"
-                [ngClass]="currentPage() === 1 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-white border-2 border-[#003B73] text-[#003B73] hover:bg-slate-50 shadow-sm'"
-            >
-                <i class="bi bi-chevron-left mr-1"></i> Anterior
-            </button>
-            
-            <div class="text-sm font-bold text-slate-700">
-                Página {{ currentPage() }} de {{ totalPages() }}
-            </div>
-
-            <button 
-                (click)="nextPage()" 
-                [disabled]="currentPage() === totalPages()"
-                class="px-4 py-2 rounded-lg font-bold transition-colors"
-                [ngClass]="currentPage() === totalPages() ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-white border-2 border-[#003B73] text-[#003B73] hover:bg-slate-50 shadow-sm'"
-            >
-                Siguiente <i class="bi bi-chevron-right ml-1"></i>
-            </button>
-        </div>
-    </div>
 </div>
 
 <!-- Modals -->
-<app-elevator-create 
-  *ngIf="showCreateModal()" 
-  (close)="closeCreateModal()" 
+<app-elevator-create
+  *ngIf="showCreateModal()"
+  (close)="closeCreateModal()"
   (elevatorCreated)="onElevatorCreated()"
 ></app-elevator-create>
 
-<app-elevator-edit 
-  *ngIf="showEditModal() && selectedElevator()" 
-  [elevator]="selectedElevator()!" 
-  (close)="closeEditModal()" 
+<app-elevator-edit
+  *ngIf="showEditModal() && selectedElevator()"
+  [elevator]="selectedElevator()!"
+  (close)="closeEditModal()"
   (elevatorUpdated)="onElevatorUpdated()"
 ></app-elevator-edit>
 
