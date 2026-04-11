@@ -1,24 +1,27 @@
 <!-- Bottom Navigation Bar — Mobile-first, sticky al fondo -->
-<nav class="bottom-nav">
-  <!-- Logo JMG (izquierda) -->
-  <div class="bottom-nav__logo">
-    <div class="logo-mark">
-      <span class="logo-j">J</span><span class="logo-mg">MG</span>
+<nav class="fixed bottom-0 left-0 right-0 h-16 bg-white border-t border-slate-200 shadow-[0_-2px_16px_rgba(0,0,0,0.07)] flex items-center justify-between px-3 z-50">
+
+  <!-- Logo tipográfico JMG -->
+  <div class="flex flex-col items-start leading-none pr-1 select-none">
+    <div class="flex items-baseline">
+      <span class="font-display text-jmg font-black text-xl tracking-tighter leading-none">J</span>
+      <span class="font-display text-jmg font-black text-xl tracking-tighter leading-none">MG</span>
     </div>
-    <span class="logo-sub">ASCENSORES</span>
+    <span class="text-[7px] font-bold tracking-[1.5px] text-slate-400 uppercase mt-px">Ascensores</span>
   </div>
 
   <!-- Items de navegación -->
   <a
     *ngFor="let item of navItems"
     [routerLink]="item.path"
-    routerLinkActive="active"
-    class="bottom-nav__item"
+    routerLinkActive="nav-active"
+    class="nav-item flex flex-col items-center justify-center flex-1 gap-0.5 py-1.5 px-2 no-underline text-slate-400 rounded-xl transition-all duration-200 hover:text-jmg hover:bg-jmg/5"
     #rla="routerLinkActive">
 
-    <i class="bi"
-       [ngClass]="rla.isActive ? item.iconActive : item.icon"
-       class="bottom-nav__icon bi"></i>
-    <span class="bottom-nav__label">{{ item.label }}</span>
+    <i class="bi text-[22px] leading-none transition-all duration-200"
+       [ngClass]="rla.isActive ? item.iconActive : item.icon"></i>
+    <span class="text-[9px] font-semibold uppercase tracking-[0.5px] transition-all duration-200"
+          [class.font-bold]="rla.isActive">{{ item.label }}</span>
   </a>
+
 </nav>

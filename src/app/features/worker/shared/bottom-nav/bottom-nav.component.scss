@@ -2,98 +2,12 @@
   display: contents;
 }
 
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 64px;
-  background: #ffffff;
-  border-top: 1px solid #e5e7eb;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 12px;
-  z-index: 100;
-  box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.07);
+// Estado activo: drop-shadow en el ícono no es expresable como utility Tailwind
+.nav-active {
+  color: #003B73; // text-jmg — routerLinkActive no soporta clases Tailwind directamente
 
-
-  &__logo {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    line-height: 1;
-    padding-right: 4px;
-
-    .logo-mark {
-      font-size: 20px;
-      font-weight: 900;
-      letter-spacing: -1px;
-      line-height: 1;
-
-      .logo-j {
-        color: #003B73;
-      }
-      .logo-mg {
-        color: #003B73;
-      }
-    }
-
-    .logo-sub {
-      font-size: 7px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      color: #64748b;
-      text-transform: uppercase;
-      margin-top: 1px;
-    }
-  }
-
-  &__item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    gap: 3px;
-    padding: 6px 8px;
-    text-decoration: none;
-    color: #94a3b8;
-    border-radius: 12px;
-    transition: all 0.2s ease;
-    cursor: pointer;
-
-    &:hover {
-      color: #003B73;
-      background: rgba(0, 59, 115, 0.06);
-    }
-
-    &.active {
-      color: #003B73;
-
-      .bottom-nav__icon {
-        transform: translateY(-1px);
-        filter: drop-shadow(0 2px 4px rgba(0, 59, 115, 0.25));
-      }
-
-      .bottom-nav__label {
-        font-weight: 700;
-        color: #003B73;
-      }
-    }
-  }
-
-  &__icon {
-    font-size: 22px;
-    transition: all 0.2s ease;
-    line-height: 1;
-  }
-
-  &__label {
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    transition: all 0.2s ease;
+  i {
+    transform: translateY(-1px);
+    filter: drop-shadow(0 2px 4px rgba(0, 59, 115, 0.25));
   }
 }

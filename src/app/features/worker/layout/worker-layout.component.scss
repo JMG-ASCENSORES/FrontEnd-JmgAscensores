@@ -1,12 +1,1 @@
-.worker-layout {
-  min-height: 100dvh;
-  background: #f8fafc;
-  display: flex;
-  flex-direction: column;
-
-  &__content {
-    flex: 1;
-    padding-bottom: 64px; /* Espacio para el bottom nav */
-    overflow-y: auto;
-  }
-}
+// Migrado a Tailwind — sin estilos custom necesarios
