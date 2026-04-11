@@ -1,0 +1,2421 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>jmg-ascensores documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">jmg-ascensores documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  WorkerReportsComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/features/worker/reports/list/worker-reports.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-worker-reports</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="https://angular.io/api/common/CommonModule" target="_blank" >CommonModule</a></code>
+                                <code><a href="https://angular.io/api/forms/FormsModule" target="_blank" >FormsModule</a></code>
+                                <code><a href="../components/WorkerReportCreateComponent.html" target="_self" >WorkerReportCreateComponent</a></code>
+                                <code><a href="../components/PdfPreviewComponent.html" target="_self" >PdfPreviewComponent</a></code>
+                                <code><a href="../components/LoadingSpinnerComponent.html" target="_self" >LoadingSpinnerComponent</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./worker-reports.component.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./worker-reports.component.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#authService" >authService</a>
+                            </li>
+                            <li>
+                                <a href="#clients" >clients</a>
+                            </li>
+                            <li>
+                                <a href="#clientSearch" >clientSearch</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#clientService" >clientService</a>
+                            </li>
+                            <li>
+                                <a href="#currentPage" >currentPage</a>
+                            </li>
+                            <li>
+                                <a href="#filterCliente" >filterCliente</a>
+                            </li>
+                            <li>
+                                <a href="#filteredClients" >filteredClients</a>
+                            </li>
+                            <li>
+                                <a href="#filterFechaFin" >filterFechaFin</a>
+                            </li>
+                            <li>
+                                <a href="#filterFechaInicio" >filterFechaInicio</a>
+                            </li>
+                            <li>
+                                <a href="#filterTipo" >filterTipo</a>
+                            </li>
+                            <li>
+                                <a href="#generatingPdfId" >generatingPdfId</a>
+                            </li>
+                            <li>
+                                <a href="#isLoading" >isLoading</a>
+                            </li>
+                            <li>
+                                <a href="#itemsPerPage" >itemsPerPage</a>
+                            </li>
+                            <li>
+                                <a href="#pdfDownloadUrl" >pdfDownloadUrl</a>
+                            </li>
+                            <li>
+                                <a href="#pdfFileName" >pdfFileName</a>
+                            </li>
+                            <li>
+                                <a href="#pdfUrl" >pdfUrl</a>
+                            </li>
+                            <li>
+                                <a href="#reports" >reports</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#reportService" >reportService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#sanitizer" >sanitizer</a>
+                            </li>
+                            <li>
+                                <a href="#showClientDropdown" >showClientDropdown</a>
+                            </li>
+                            <li>
+                                <a href="#showCreate" >showCreate</a>
+                            </li>
+                            <li>
+                                <a href="#showFilters" >showFilters</a>
+                            </li>
+                            <li>
+                                <a href="#showPdfModal" >showPdfModal</a>
+                            </li>
+                            <li>
+                                <a href="#totalPages" >totalPages</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#applyFilters" >applyFilters</a>
+                            </li>
+                            <li>
+                                <a href="#clearFilters" >clearFilters</a>
+                            </li>
+                            <li>
+                                <a href="#closeDropdowns" >closeDropdowns</a>
+                            </li>
+                            <li>
+                                <a href="#closePdfModal" >closePdfModal</a>
+                            </li>
+                            <li>
+                                <a href="#downloadPdfDirectly" >downloadPdfDirectly</a>
+                            </li>
+                            <li>
+                                <a href="#getReportDisplayName" >getReportDisplayName</a>
+                            </li>
+                            <li>
+                                <a href="#loadClients" >loadClients</a>
+                            </li>
+                            <li>
+                                <a href="#loadReports" >loadReports</a>
+                            </li>
+                            <li>
+                                <a href="#nextPage" >nextPage</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onClientSearch" >onClientSearch</a>
+                            </li>
+                            <li>
+                                <a href="#onReportCreated" >onReportCreated</a>
+                            </li>
+                            <li>
+                                <a href="#prevPage" >prevPage</a>
+                            </li>
+                            <li>
+                                <a href="#selectClient" >selectClient</a>
+                            </li>
+                            <li>
+                                <a href="#viewPdf" >viewPdf</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="applyFilters"></a>
+                    <span class="name">
+                        <span ><b>applyFilters</b></span>
+                        <a href="#applyFilters"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>applyFilters()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="115"
+                                    class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:115</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clearFilters"></a>
+                    <span class="name">
+                        <span ><b>clearFilters</b></span>
+                        <a href="#clearFilters"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>clearFilters()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="154"
+                                    class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:154</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeDropdowns"></a>
+                    <span class="name">
+                        <span ><b>closeDropdowns</b></span>
+                        <a href="#closeDropdowns"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closeDropdowns()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="146"
+                                    class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:146</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closePdfModal"></a>
+                    <span class="name">
+                        <span ><b>closePdfModal</b></span>
+                        <a href="#closePdfModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closePdfModal()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="209"
+                                    class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:209</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="downloadPdfDirectly"></a>
+                    <span class="name">
+                        <span ><b>downloadPdfDirectly</b></span>
+                        <a href="#downloadPdfDirectly"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>downloadPdfDirectly(report: <a href="../interfaces/Report.html" target="_self">Report</a>, event?: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="187"
+                                    class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:187</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>report</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Report.html" target="_self" >Report</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getReportDisplayName"></a>
+                    <span class="name">
+                        <span ><b>getReportDisplayName</b></span>
+                        <a href="#getReportDisplayName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getReportDisplayName(report: <a href="../interfaces/Report.html" target="_self">Report</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="219"
+                                    class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:219</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>report</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Report.html" target="_self" >Report</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadClients"></a>
+                    <span class="name">
+                        <span ><b>loadClients</b></span>
+                        <a href="#loadClients"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadClients()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="61"
+                                    class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:61</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadReports"></a>
+                    <span class="name">
+                        <span ><b>loadReports</b></span>
+                        <a href="#loadReports"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadReports()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="68"
+                                    class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:68</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="nextPage"></a>
+                    <span class="name">
+                        <span ><b>nextPage</b></span>
+                        <a href="#nextPage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>nextPage()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="101"
+                                    class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:101</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="56"
+                                    class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:56</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onClientSearch"></a>
+                    <span class="name">
+                        <span ><b>onClientSearch</b></span>
+                        <a href="#onClientSearch"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onClientSearch(event: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="122"
+                                    class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:122</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onReportCreated"></a>
+                    <span class="name">
+                        <span ><b>onReportCreated</b></span>
+                        <a href="#onReportCreated"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onReportCreated()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="164"
+                                    class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:164</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="prevPage"></a>
+                    <span class="name">
+                        <span ><b>prevPage</b></span>
+                        <a href="#prevPage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>prevPage()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="108"
+                                    class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:108</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectClient"></a>
+                    <span class="name">
+                        <span ><b>selectClient</b></span>
+                        <a href="#selectClient"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>selectClient(client: <a href="../interfaces/Client.html" target="_self">Client</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="140"
+                                    class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:140</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>client</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Client.html" target="_self" >Client</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="viewPdf"></a>
+                    <span class="name">
+                        <span ><b>viewPdf</b></span>
+                        <a href="#viewPdf"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>viewPdf(report: <a href="../interfaces/Report.html" target="_self">Report</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="169"
+                                    class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:169</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>report</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Report.html" target="_self" >Report</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>authService</b></span>
+                        <a href="#authService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AuthService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:24</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clients"></a>
+                    <span class="name">
+                        <span ><b>clients</b></span>
+                        <a href="#clients"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Client[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clientSearch"></a>
+                    <span class="name">
+                        <span ><b>clientSearch</b></span>
+                        <a href="#clientSearch"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(&#x27;&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clientService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>clientService</b></span>
+                        <a href="#clientService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ClientService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:23</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentPage"></a>
+                    <span class="name">
+                        <span ><b>currentPage</b></span>
+                        <a href="#currentPage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(1)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filterCliente"></a>
+                    <span class="name">
+                        <span ><b>filterCliente</b></span>
+                        <a href="#filterCliente"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(&#x27;&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filteredClients"></a>
+                    <span class="name">
+                        <span ><b>filteredClients</b></span>
+                        <a href="#filteredClients"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Client[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:49</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filterFechaFin"></a>
+                    <span class="name">
+                        <span ><b>filterFechaFin</b></span>
+                        <a href="#filterFechaFin"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(&#x27;&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:43</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filterFechaInicio"></a>
+                    <span class="name">
+                        <span ><b>filterFechaInicio</b></span>
+                        <a href="#filterFechaInicio"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(&#x27;&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:42</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filterTipo"></a>
+                    <span class="name">
+                        <span ><b>filterTipo</b></span>
+                        <a href="#filterTipo"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(&#x27;&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="generatingPdfId"></a>
+                    <span class="name">
+                        <span ><b>generatingPdfId</b></span>
+                        <a href="#generatingPdfId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;number | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:37</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isLoading"></a>
+                    <span class="name">
+                        <span ><b>isLoading</b></span>
+                        <a href="#isLoading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(true)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:29</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="itemsPerPage"></a>
+                    <span class="name">
+                        <span ><b>itemsPerPage</b></span>
+                        <a href="#itemsPerPage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(10)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="pdfDownloadUrl"></a>
+                    <span class="name">
+                        <span ><b>pdfDownloadUrl</b></span>
+                        <a href="#pdfDownloadUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:35</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="pdfFileName"></a>
+                    <span class="name">
+                        <span ><b>pdfFileName</b></span>
+                        <a href="#pdfFileName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(&#x27;&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:36</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="pdfUrl"></a>
+                    <span class="name">
+                        <span ><b>pdfUrl</b></span>
+                        <a href="#pdfUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;SafeResourceUrl | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:34</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="reports"></a>
+                    <span class="name">
+                        <span ><b>reports</b></span>
+                        <a href="#reports"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Report[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:27</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="reportService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>reportService</b></span>
+                        <a href="#reportService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ReportService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:22</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sanitizer"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>sanitizer</b></span>
+                        <a href="#sanitizer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(DomSanitizer)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:25</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showClientDropdown"></a>
+                    <span class="name">
+                        <span ><b>showClientDropdown</b></span>
+                        <a href="#showClientDropdown"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showCreate"></a>
+                    <span class="name">
+                        <span ><b>showCreate</b></span>
+                        <a href="#showCreate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:30</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showFilters"></a>
+                    <span class="name">
+                        <span ><b>showFilters</b></span>
+                        <a href="#showFilters"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:44</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showPdfModal"></a>
+                    <span class="name">
+                        <span ><b>showPdfModal</b></span>
+                        <a href="#showPdfModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:33</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="totalPages"></a>
+                    <span class="name">
+                        <span ><b>totalPages</b></span>
+                        <a href="#totalPages"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(1)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/features/worker/reports/list/worker-reports.component.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, inject, signal } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { FormsModule } from &#x27;@angular/forms&#x27;;
+import { ReportService } from &#x27;../../../admin/services/report.service&#x27;;
+import { ClientService, Client } from &#x27;../../../admin/services/client.service&#x27;;
+import { AuthService } from &#x27;../../../../core/services/auth.service&#x27;;
+import { Report } from &#x27;../../../../core/models/report.model&#x27;;
+import { WorkerReportCreateComponent } from &#x27;../create/worker-report-create.component&#x27;;
+import { PdfPreviewComponent } from &#x27;../../../admin/documents/preview/pdf-preview.component&#x27;;
+import { DomSanitizer, SafeResourceUrl } from &#x27;@angular/platform-browser&#x27;;
+
+import { LoadingSpinnerComponent } from &#x27;../../../../shared/components/loading-spinner/loading-spinner.component&#x27;;
+
+@Component({
+  selector: &#x27;app-worker-reports&#x27;,
+  standalone: true,
+  imports: [CommonModule, FormsModule, WorkerReportCreateComponent, PdfPreviewComponent, LoadingSpinnerComponent],
+  templateUrl: &#x27;./worker-reports.component.html&#x27;,
+  styleUrl: &#x27;./worker-reports.component.scss&#x27;
+})
+export class WorkerReportsComponent implements OnInit {
+  private reportService &#x3D; inject(ReportService);
+  private clientService &#x3D; inject(ClientService);
+  private authService &#x3D; inject(AuthService);
+  private sanitizer &#x3D; inject(DomSanitizer);
+
+  reports &#x3D; signal&lt;Report[]&gt;([]);
+  clients &#x3D; signal&lt;Client[]&gt;([]);
+  isLoading &#x3D; signal(true);
+  showCreate &#x3D; signal(false);
+
+  // PDF Preview State
+  showPdfModal &#x3D; signal(false);
+  pdfUrl &#x3D; signal&lt;SafeResourceUrl | null&gt;(null);
+  pdfDownloadUrl &#x3D; signal&lt;string | null&gt;(null);
+  pdfFileName &#x3D; signal(&#x27;&#x27;);
+  generatingPdfId &#x3D; signal&lt;number | null&gt;(null);
+
+  // Filters
+  filterTipo &#x3D; signal(&#x27;&#x27;);
+  filterCliente &#x3D; signal(&#x27;&#x27;);
+  filterFechaInicio &#x3D; signal(&#x27;&#x27;);
+  filterFechaFin &#x3D; signal(&#x27;&#x27;);
+  showFilters &#x3D; signal(false);
+
+  // Client Autocomplete in Filter
+  clientSearch &#x3D; signal(&#x27;&#x27;);
+  showClientDropdown &#x3D; signal(false);
+  filteredClients &#x3D; signal&lt;Client[]&gt;([]);
+
+  // Pagination
+  currentPage &#x3D; signal(1);
+  itemsPerPage &#x3D; signal(10);
+  totalPages &#x3D; signal(1);
+
+  ngOnInit() {
+    this.loadClients();
+    this.loadReports();
+  }
+
+  loadClients() {
+    this.clientService.getClients().subscribe({
+      next: (data) &#x3D;&gt; this.clients.set(data),
+      error: (err) &#x3D;&gt; console.error(&#x27;Error loading clients&#x27;, err)
+    });
+  }
+
+  loadReports() {
+    const user &#x3D; this.authService.currentUser();
+    if (!user || user.tipo !&#x3D;&#x3D; &#x27;trabajador&#x27;) {
+      this.isLoading.set(false);
+      return;
+    }
+
+    this.isLoading.set(true);
+    
+    // Config filters
+    const filters: any &#x3D; { 
+       trabajador_id: user.id,
+       page: this.currentPage(),
+       limit: this.itemsPerPage()
+    };
+    if (this.filterTipo()) filters.tipo_informe &#x3D; this.filterTipo();
+    if (this.filterCliente()) filters.cliente_id &#x3D; this.filterCliente();
+    if (this.filterFechaInicio()) filters.fecha_inicio &#x3D; this.filterFechaInicio();
+    if (this.filterFechaFin()) filters.fecha_fin &#x3D; this.filterFechaFin();
+
+    this.reportService.getReports(filters).subscribe({
+      next: (response) &#x3D;&gt; {
+        this.reports.set(response.informes);
+        this.totalPages.set(response.meta.totalPages || 1);
+        this.isLoading.set(false);
+      },
+      error: (err) &#x3D;&gt; {
+        console.error(&#x27;Error fetching reports&#x27;, err);
+        this.isLoading.set(false);
+      }
+    });
+  }
+
+  nextPage() {
+      if (this.currentPage() &lt; this.totalPages()) {
+          this.currentPage.set(this.currentPage() + 1);
+          this.loadReports();
+      }
+  }
+
+  prevPage() {
+      if (this.currentPage() &gt; 1) {
+          this.currentPage.set(this.currentPage() - 1);
+          this.loadReports();
+      }
+  }
+
+  applyFilters() {
+    this.currentPage.set(1);
+    this.loadReports();
+    this.showFilters.set(false);
+  }
+
+  // Filter Autocomplete Logic
+  onClientSearch(event: Event) {
+    const query &#x3D; (event.target as HTMLInputElement).value.toLowerCase();
+    this.clientSearch.set(query);
+    this.showClientDropdown.set(true);
+
+    if (query.length &lt; 2) {
+      this.filteredClients.set([]);
+      this.filterCliente.set(&#x27;&#x27;); // Clear ID if search is too short
+      return;
+    }
+
+    const filtered &#x3D; this.clients().filter(c &#x3D;&gt; 
+      (c.nombre_comercial?.toLowerCase().includes(query) || 
+       c.contacto_nombre?.toLowerCase().includes(query))
+    );
+    this.filteredClients.set(filtered);
+  }
+
+  selectClient(client: Client) {
+    this.filterCliente.set(client.cliente_id.toString());
+    this.clientSearch.set(client.nombre_comercial || client.contacto_nombre || &#x27;&#x27;);
+    this.showClientDropdown.set(false);
+  }
+
+  closeDropdowns() {
+    setTimeout(() &#x3D;&gt; {
+      this.showClientDropdown.set(false);
+      // If no valid client selected and search is not empty, we might want to reset or keep it.
+      // For now, we just close the dropdown.
+    }, 200);
+  }
+
+  clearFilters() {
+    this.filterTipo.set(&#x27;&#x27;);
+    this.filterCliente.set(&#x27;&#x27;);
+    this.clientSearch.set(&#x27;&#x27;);
+    this.filterFechaInicio.set(&#x27;&#x27;);
+    this.filterFechaFin.set(&#x27;&#x27;);
+    this.currentPage.set(1);
+    this.loadReports();
+  }
+
+  onReportCreated() {
+    this.currentPage.set(1);
+    this.loadReports();
+  }
+
+  viewPdf(report: Report) {
+    this.generatingPdfId.set(report.informe_id);
+    this.reportService.downloadReportPdf(report.informe_id).subscribe({
+      next: (blob) &#x3D;&gt; {
+        const url &#x3D; URL.createObjectURL(blob);
+        this.pdfDownloadUrl.set(url);
+        this.pdfUrl.set(this.sanitizer.bypassSecurityTrustResourceUrl(url));
+        this.pdfFileName.set(&#x60;${this.getReportDisplayName(report)}.pdf&#x60;);
+        this.showPdfModal.set(true);
+        this.generatingPdfId.set(null);
+      },
+      error: (err) &#x3D;&gt; {
+        console.error(&#x27;Error downloading PDF&#x27;, err);
+        this.generatingPdfId.set(null);
+      }
+    });
+  }
+
+  downloadPdfDirectly(report: Report, event?: Event) {
+    if (event) event.stopPropagation();
+    this.generatingPdfId.set(report.informe_id);
+    this.reportService.downloadReportPdf(report.informe_id).subscribe({
+      next: (blob) &#x3D;&gt; {
+        const url &#x3D; URL.createObjectURL(blob);
+        const a &#x3D; document.createElement(&#x27;a&#x27;);
+        a.href &#x3D; url;
+        a.download &#x3D; &#x60;${this.getReportDisplayName(report)}.pdf&#x60;;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() &#x3D;&gt; URL.revokeObjectURL(url), 100);
+        this.generatingPdfId.set(null);
+      },
+      error: (err) &#x3D;&gt; {
+        console.error(&#x27;Error downloading PDF&#x27;, err);
+        this.generatingPdfId.set(null);
+      }
+    });
+  }
+
+  closePdfModal() {
+    this.showPdfModal.set(false);
+    const url &#x3D; this.pdfDownloadUrl();
+    if (url) {
+      URL.revokeObjectURL(url);
+      this.pdfDownloadUrl.set(null);
+      this.pdfUrl.set(null);
+    }
+  }
+
+  getReportDisplayName(report: Report): string {
+    const typePrefix &#x3D; report.tipo_informe &#x3D;&#x3D;&#x3D; &#x27;Mantenimiento&#x27; ? &#x27;MAN&#x27; : &#x27;TEC&#x27;;
+    const reportNum &#x3D; report.informe_id.toString().padStart(6, &#x27;0&#x27;);
+    const client &#x3D; report.Cliente || this.clients().find(c &#x3D;&gt; c.cliente_id &#x3D;&#x3D;&#x3D; report.cliente_id);
+    const clientName &#x3D; client ? (client.nombre_comercial || client.contacto_nombre || &#x27;Cliente&#x27;) : &#x27;Cliente&#x27;;
+    return &#x60;${typePrefix} - ${reportNum} - ${clientName}&#x60;;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;p-4 space-y-4 bg-slate-50 min-h-full&quot; *ngIf&#x3D;&quot;!showCreate()&quot;&gt;
+
+  &lt;!-- ── Page Header ── --&gt;
+  &lt;div class&#x3D;&quot;flex items-center justify-between&quot;&gt;
+    &lt;div&gt;
+      &lt;h1 class&#x3D;&quot;font-display text-2xl font-bold text-slate-900 tracking-tight&quot;&gt;Mis Informes&lt;/h1&gt;
+      &lt;p class&#x3D;&quot;text-xs font-medium text-slate-400 mt-0.5&quot; *ngIf&#x3D;&quot;!isLoading()&quot;&gt;
+        {{ reports().length }} informe(s) creados por vos
+      &lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- ── Filtros toggle ── --&gt;
+  &lt;button
+    class&#x3D;&quot;w-full flex items-center justify-center gap-2 py-2.5 bg-white border rounded-xl text-sm font-semibold transition-all duration-200&quot;
+    [class.border-slate-200]&#x3D;&quot;!showFilters()&quot;
+    [class.text-slate-500]&#x3D;&quot;!showFilters()&quot;
+    [class.border-jmg]&#x3D;&quot;showFilters()&quot;
+    [class.text-jmg]&#x3D;&quot;showFilters()&quot;
+    [class.bg-jmg-muted]&#x3D;&quot;showFilters()&quot;
+    (click)&#x3D;&quot;showFilters.set(!showFilters())&quot;&gt;
+    &lt;i class&#x3D;&quot;bi text-base&quot; [class.bi-funnel-fill]&#x3D;&quot;showFilters()&quot; [class.bi-funnel]&#x3D;&quot;!showFilters()&quot;&gt;&lt;/i&gt;
+    {{ showFilters() ? &#x27;Ocultar Filtros&#x27; : &#x27;Buscar y Filtrar&#x27; }}
+  &lt;/button&gt;
+
+  &lt;!-- ── Filtros expandibles ── --&gt;
+  &lt;div class&#x3D;&quot;overflow-hidden transition-all duration-300 ease-in-out&quot;
+       [class.max-h-0]&#x3D;&quot;!showFilters()&quot;
+       [class.opacity-0]&#x3D;&quot;!showFilters()&quot;
+       [class.max-h-96]&#x3D;&quot;showFilters()&quot;
+       [class.opacity-100]&#x3D;&quot;showFilters()&quot;&gt;
+    &lt;div class&#x3D;&quot;bg-white border border-slate-200 rounded-xl p-4 space-y-3 shadow-sm&quot;&gt;
+
+      &lt;div class&#x3D;&quot;grid grid-cols-2 gap-3&quot;&gt;
+
+        &lt;!-- Tipo --&gt;
+        &lt;div class&#x3D;&quot;flex flex-col gap-1&quot;&gt;
+          &lt;label class&#x3D;&quot;text-xs font-semibold text-slate-500 uppercase tracking-wider&quot;&gt;Tipo&lt;/label&gt;
+          &lt;select
+            class&#x3D;&quot;w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-jmg/20 focus:border-jmg outline-none transition-colors&quot;
+            [ngModel]&#x3D;&quot;filterTipo()&quot; (ngModelChange)&#x3D;&quot;filterTipo.set($event)&quot;&gt;
+            &lt;option value&#x3D;&quot;&quot;&gt;Todos&lt;/option&gt;
+            &lt;option value&#x3D;&quot;Técnico&quot;&gt;Técnico&lt;/option&gt;
+            &lt;option value&#x3D;&quot;Mantenimiento&quot;&gt;Mantenimiento&lt;/option&gt;
+          &lt;/select&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Desde --&gt;
+        &lt;div class&#x3D;&quot;flex flex-col gap-1&quot;&gt;
+          &lt;label class&#x3D;&quot;text-xs font-semibold text-slate-500 uppercase tracking-wider&quot;&gt;Desde&lt;/label&gt;
+          &lt;input type&#x3D;&quot;date&quot;
+            class&#x3D;&quot;w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-jmg/20 focus:border-jmg outline-none transition-colors&quot;
+            [ngModel]&#x3D;&quot;filterFechaInicio()&quot; (ngModelChange)&#x3D;&quot;filterFechaInicio.set($event)&quot;&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Cliente (ocupa fila completa) --&gt;
+        &lt;div class&#x3D;&quot;col-span-2 flex flex-col gap-1&quot;&gt;
+          &lt;label class&#x3D;&quot;text-xs font-semibold text-slate-500 uppercase tracking-wider&quot;&gt;Cliente&lt;/label&gt;
+          &lt;div class&#x3D;&quot;relative&quot;&gt;
+            &lt;i class&#x3D;&quot;bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none&quot;&gt;&lt;/i&gt;
+            &lt;input
+              type&#x3D;&quot;text&quot;
+              class&#x3D;&quot;w-full bg-white border border-slate-200 rounded-xl pl-9 pr-4 py-2.5 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-jmg/20 focus:border-jmg outline-none transition-colors&quot;
+              placeholder&#x3D;&quot;Buscar cliente (mín. 2 letras)...&quot;
+              [value]&#x3D;&quot;clientSearch()&quot;
+              (input)&#x3D;&quot;onClientSearch($event)&quot;
+              (blur)&#x3D;&quot;closeDropdowns()&quot;
+            &gt;
+            &lt;!-- Autocomplete dropdown --&gt;
+            &lt;div *ngIf&#x3D;&quot;showClientDropdown() &amp;&amp; filteredClients().length &gt; 0&quot;
+                 class&#x3D;&quot;absolute z-50 w-full bg-white border border-slate-200 rounded-b-xl max-h-48 overflow-y-auto shadow-xl mt-0.5&quot;&gt;
+              &lt;div
+                *ngFor&#x3D;&quot;let client of filteredClients()&quot;
+                class&#x3D;&quot;px-4 py-2.5 hover:bg-slate-50 cursor-pointer border-b border-slate-50 last:border-0 transition-colors&quot;
+                (mousedown)&#x3D;&quot;selectClient(client)&quot;&gt;
+                &lt;p class&#x3D;&quot;text-sm font-semibold text-slate-800&quot;&gt;{{ client.nombre_comercial || client.contacto_nombre }}&lt;/p&gt;
+                &lt;p class&#x3D;&quot;text-xs text-slate-400&quot; *ngIf&#x3D;&quot;client.ubicacion&quot;&gt;{{ client.ubicacion }}&lt;/p&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Hasta --&gt;
+        &lt;div class&#x3D;&quot;col-span-2 flex flex-col gap-1&quot;&gt;
+          &lt;label class&#x3D;&quot;text-xs font-semibold text-slate-500 uppercase tracking-wider&quot;&gt;Hasta&lt;/label&gt;
+          &lt;input type&#x3D;&quot;date&quot;
+            class&#x3D;&quot;w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-jmg/20 focus:border-jmg outline-none transition-colors&quot;
+            [ngModel]&#x3D;&quot;filterFechaFin()&quot; (ngModelChange)&#x3D;&quot;filterFechaFin.set($event)&quot;&gt;
+        &lt;/div&gt;
+
+      &lt;/div&gt;
+
+      &lt;!-- Acciones de filtros --&gt;
+      &lt;div class&#x3D;&quot;flex gap-2 pt-2 border-t border-slate-100&quot;&gt;
+        &lt;button
+          class&#x3D;&quot;flex-1 py-2 rounded-xl bg-slate-100 text-slate-600 text-sm font-semibold hover:bg-slate-200 active:scale-95 transition-all&quot;
+          (click)&#x3D;&quot;clearFilters()&quot;&gt;
+          Limpiar
+        &lt;/button&gt;
+        &lt;button
+          class&#x3D;&quot;flex-1 py-2 rounded-xl bg-jmg text-white text-sm font-semibold hover:bg-jmg-dark active:scale-95 transition-all&quot;
+          (click)&#x3D;&quot;applyFilters()&quot;&gt;
+          Aplicar Filtros
+        &lt;/button&gt;
+      &lt;/div&gt;
+
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- ── Loading ── --&gt;
+  &lt;app-loading-spinner *ngIf&#x3D;&quot;isLoading()&quot; message&#x3D;&quot;Cargando informes...&quot; size&#x3D;&quot;md&quot;&gt;&lt;/app-loading-spinner&gt;
+
+  &lt;!-- ── Empty state ── --&gt;
+  &lt;div *ngIf&#x3D;&quot;!isLoading() &amp;&amp; reports().length &#x3D;&#x3D;&#x3D; 0&quot;
+       class&#x3D;&quot;flex flex-col items-center justify-center py-16 bg-white rounded-2xl border border-slate-100 text-center shadow-sm&quot;&gt;
+    &lt;i class&#x3D;&quot;bi bi-file-earmark-x text-5xl text-slate-200 mb-4&quot;&gt;&lt;/i&gt;
+    &lt;p class&#x3D;&quot;font-semibold text-slate-600 mb-1&quot;&gt;No se encontraron informes&lt;/p&gt;
+    &lt;span class&#x3D;&quot;text-sm text-slate-400 max-w-[240px]&quot; *ngIf&#x3D;&quot;filterTipo() || filterCliente() || filterFechaInicio() || filterFechaFin()&quot;&gt;
+      Probá ajustando los filtros de búsqueda.
+    &lt;/span&gt;
+    &lt;span class&#x3D;&quot;text-sm text-slate-400 max-w-[240px]&quot; *ngIf&#x3D;&quot;!filterTipo() &amp;&amp; !filterCliente() &amp;&amp; !filterFechaInicio() &amp;&amp; !filterFechaFin()&quot;&gt;
+      Aún no tenés informes. Iniciá uno desde tus &lt;strong class&#x3D;&quot;text-slate-600&quot;&gt;Rutas Diarias&lt;/strong&gt;.
+    &lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;!-- ── Lista de informes ── --&gt;
+  &lt;div class&#x3D;&quot;flex flex-col gap-3&quot; *ngIf&#x3D;&quot;!isLoading() &amp;&amp; reports().length &gt; 0&quot;&gt;
+    &lt;div
+      *ngFor&#x3D;&quot;let report of reports()&quot;
+      class&#x3D;&quot;flex items-center gap-3 bg-white rounded-2xl p-3.5 border border-slate-100 shadow-sm active:scale-[0.98] transition-transform&quot;&gt;
+
+      &lt;!-- Ícono tipo --&gt;
+      &lt;div class&#x3D;&quot;w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0&quot;
+           [class.bg-indigo-50]&#x3D;&quot;report.tipo_informe &#x3D;&#x3D;&#x3D; &#x27;Técnico&#x27;&quot;
+           [class.text-indigo-600]&#x3D;&quot;report.tipo_informe &#x3D;&#x3D;&#x3D; &#x27;Técnico&#x27;&quot;
+           [class.bg-emerald-50]&#x3D;&quot;report.tipo_informe !&#x3D;&#x3D; &#x27;Técnico&#x27;&quot;
+           [class.text-emerald-600]&#x3D;&quot;report.tipo_informe !&#x3D;&#x3D; &#x27;Técnico&#x27;&quot;&gt;
+        &lt;i class&#x3D;&quot;bi&quot; [class.bi-tools]&#x3D;&quot;report.tipo_informe &#x3D;&#x3D;&#x3D; &#x27;Técnico&#x27;&quot; [class.bi-clipboard-check]&#x3D;&quot;report.tipo_informe !&#x3D;&#x3D; &#x27;Técnico&#x27;&quot;&gt;&lt;/i&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Cuerpo del informe --&gt;
+      &lt;div class&#x3D;&quot;flex-1 min-w-0&quot;&gt;
+        &lt;h4 class&#x3D;&quot;text-sm font-bold text-slate-800 truncate&quot;&gt;{{ getReportDisplayName(report) }}&lt;/h4&gt;
+        &lt;p class&#x3D;&quot;text-xs text-slate-500 line-clamp-2 mt-0.5&quot;&gt;{{ report.descripcion_trabajo }}&lt;/p&gt;
+        &lt;div class&#x3D;&quot;flex items-center gap-2 mt-1.5&quot;&gt;
+          &lt;span class&#x3D;&quot;text-[10px] font-medium text-slate-400 flex items-center gap-1&quot;&gt;
+            &lt;i class&#x3D;&quot;bi bi-calendar3&quot;&gt;&lt;/i&gt; {{ report.fecha_informe | date:&#x27;dd MMM yy&#x27; }}
+          &lt;/span&gt;
+          &lt;span class&#x3D;&quot;text-[10px] font-semibold text-accent&quot;&gt;• Registrado&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Acciones PDF --&gt;
+      &lt;div class&#x3D;&quot;flex gap-2 items-center shrink-0&quot;&gt;
+        &lt;ng-container *ngIf&#x3D;&quot;generatingPdfId() !&#x3D;&#x3D; report.informe_id; else loadingPdf&quot;&gt;
+          &lt;button (click)&#x3D;&quot;viewPdf(report); $event.stopPropagation()&quot;
+            class&#x3D;&quot;w-8 h-8 flex items-center justify-center rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-500 transition-colors active:scale-90&quot;
+            title&#x3D;&quot;Ver Vista Previa&quot;&gt;
+            &lt;i class&#x3D;&quot;bi bi-eye text-base&quot;&gt;&lt;/i&gt;
+          &lt;/button&gt;
+          &lt;button (click)&#x3D;&quot;downloadPdfDirectly(report, $event)&quot;
+            class&#x3D;&quot;w-8 h-8 flex items-center justify-center rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-500 transition-colors active:scale-90&quot;
+            title&#x3D;&quot;Descargar PDF&quot;&gt;
+            &lt;i class&#x3D;&quot;bi bi-download text-base&quot;&gt;&lt;/i&gt;
+          &lt;/button&gt;
+        &lt;/ng-container&gt;
+        &lt;ng-template #loadingPdf&gt;
+          &lt;div class&#x3D;&quot;w-12 flex items-center justify-center&quot;&gt;
+            &lt;app-loading-spinner size&#x3D;&quot;sm&quot;&gt;&lt;/app-loading-spinner&gt;
+          &lt;/div&gt;
+        &lt;/ng-template&gt;
+      &lt;/div&gt;
+
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- ── Paginación ── --&gt;
+  &lt;div *ngIf&#x3D;&quot;!isLoading() &amp;&amp; totalPages() &gt; 1&quot; class&#x3D;&quot;flex items-center justify-center gap-3 py-2&quot;&gt;
+    &lt;button
+      (click)&#x3D;&quot;prevPage()&quot;
+      [disabled]&#x3D;&quot;currentPage() &#x3D;&#x3D;&#x3D; 1&quot;
+      class&#x3D;&quot;inline-flex items-center gap-1.5 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors&quot;&gt;
+      &lt;i class&#x3D;&quot;bi bi-chevron-left text-xs&quot;&gt;&lt;/i&gt; Anterior
+    &lt;/button&gt;
+
+    &lt;div class&#x3D;&quot;inline-flex items-center px-4 py-2 bg-jmg rounded-xl text-white text-sm font-semibold shadow-sm&quot;&gt;
+      {{ currentPage() }} / {{ totalPages() }}
+    &lt;/div&gt;
+
+    &lt;button
+      (click)&#x3D;&quot;nextPage()&quot;
+      [disabled]&#x3D;&quot;currentPage() &#x3D;&#x3D;&#x3D; totalPages()&quot;
+      class&#x3D;&quot;inline-flex items-center gap-1.5 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors&quot;&gt;
+      Siguiente &lt;i class&#x3D;&quot;bi bi-chevron-right text-xs&quot;&gt;&lt;/i&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;!-- Modal Crear Informe --&gt;
+&lt;app-worker-report-create
+  *ngIf&#x3D;&quot;showCreate()&quot;
+  (close)&#x3D;&quot;showCreate.set(false)&quot;
+  (reportCreated)&#x3D;&quot;onReportCreated()&quot;&gt;
+&lt;/app-worker-report-create&gt;
+
+&lt;!-- PDF Preview Modal --&gt;
+&lt;app-pdf-preview
+  *ngIf&#x3D;&quot;showPdfModal() &amp;&amp; pdfUrl()&quot;
+  [pdfUrl]&#x3D;&quot;pdfUrl()!&quot;
+  [downloadUrl]&#x3D;&quot;pdfDownloadUrl()&quot;
+  [fileName]&#x3D;&quot;pdfFileName()&quot;
+  (close)&#x3D;&quot;closePdfModal()&quot;&gt;
+&lt;/app-pdf-preview&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="p-4 space-y-4 bg-slate-50 min-h-full" *ngIf="!showCreate()">  <!-- ── Page Header ── -->  <div class="flex items-center justify-between">    <div>      <h1 class="font-display text-2xl font-bold text-slate-900 tracking-tight">Mis Informes</h1>      <p class="text-xs font-medium text-slate-400 mt-0.5" *ngIf="!isLoading()">        {{ reports().length }} informe(s) creados por vos      </p>    </div>  </div>  <!-- ── Filtros toggle ── -->  <button    class="w-full flex items-center justify-center gap-2 py-2.5 bg-white border rounded-xl text-sm font-semibold transition-all duration-200"    [class.border-slate-200]="!showFilters()"    [class.text-slate-500]="!showFilters()"    [class.border-jmg]="showFilters()"    [class.text-jmg]="showFilters()"    [class.bg-jmg-muted]="showFilters()"    (click)="showFilters.set(!showFilters())">    <i class="bi text-base" [class.bi-funnel-fill]="showFilters()" [class.bi-funnel]="!showFilters()"></i>    {{ showFilters() ? \'Ocultar Filtros\' : \'Buscar y Filtrar\' }}  </button>  <!-- ── Filtros expandibles ── -->  <div class="overflow-hidden transition-all duration-300 ease-in-out"       [class.max-h-0]="!showFilters()"       [class.opacity-0]="!showFilters()"       [class.max-h-96]="showFilters()"       [class.opacity-100]="showFilters()">    <div class="bg-white border border-slate-200 rounded-xl p-4 space-y-3 shadow-sm">      <div class="grid grid-cols-2 gap-3">        <!-- Tipo -->        <div class="flex flex-col gap-1">          <label class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Tipo</label>          <select            class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-jmg/20 focus:border-jmg outline-none transition-colors"            [ngModel]="filterTipo()" (ngModelChange)="filterTipo.set($event)">            <option value="">Todos</option>            <option value="Técnico">Técnico</option>            <option value="Mantenimiento">Mantenimiento</option>          </select>        </div>        <!-- Desde -->        <div class="flex flex-col gap-1">          <label class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Desde</label>          <input type="date"            class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-jmg/20 focus:border-jmg outline-none transition-colors"            [ngModel]="filterFechaInicio()" (ngModelChange)="filterFechaInicio.set($event)">        </div>        <!-- Cliente (ocupa fila completa) -->        <div class="col-span-2 flex flex-col gap-1">          <label class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Cliente</label>          <div class="relative">            <i class="bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none"></i>            <input              type="text"              class="w-full bg-white border border-slate-200 rounded-xl pl-9 pr-4 py-2.5 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-jmg/20 focus:border-jmg outline-none transition-colors"              placeholder="Buscar cliente (mín. 2 letras)..."              [value]="clientSearch()"              (input)="onClientSearch($event)"              (blur)="closeDropdowns()"            >            <!-- Autocomplete dropdown -->            <div *ngIf="showClientDropdown() && filteredClients().length > 0"                 class="absolute z-50 w-full bg-white border border-slate-200 rounded-b-xl max-h-48 overflow-y-auto shadow-xl mt-0.5">              <div                *ngFor="let client of filteredClients()"                class="px-4 py-2.5 hover:bg-slate-50 cursor-pointer border-b border-slate-50 last:border-0 transition-colors"                (mousedown)="selectClient(client)">                <p class="text-sm font-semibold text-slate-800">{{ client.nombre_comercial || client.contacto_nombre }}</p>                <p class="text-xs text-slate-400" *ngIf="client.ubicacion">{{ client.ubicacion }}</p>              </div>            </div>          </div>        </div>        <!-- Hasta -->        <div class="col-span-2 flex flex-col gap-1">          <label class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Hasta</label>          <input type="date"            class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-jmg/20 focus:border-jmg outline-none transition-colors"            [ngModel]="filterFechaFin()" (ngModelChange)="filterFechaFin.set($event)">        </div>      </div>      <!-- Acciones de filtros -->      <div class="flex gap-2 pt-2 border-t border-slate-100">        <button          class="flex-1 py-2 rounded-xl bg-slate-100 text-slate-600 text-sm font-semibold hover:bg-slate-200 active:scale-95 transition-all"          (click)="clearFilters()">          Limpiar        </button>        <button          class="flex-1 py-2 rounded-xl bg-jmg text-white text-sm font-semibold hover:bg-jmg-dark active:scale-95 transition-all"          (click)="applyFilters()">          Aplicar Filtros        </button>      </div>    </div>  </div>  <!-- ── Loading ── -->  <app-loading-spinner *ngIf="isLoading()" message="Cargando informes..." size="md"></app-loading-spinner>  <!-- ── Empty state ── -->  <div *ngIf="!isLoading() && reports().length === 0"       class="flex flex-col items-center justify-center py-16 bg-white rounded-2xl border border-slate-100 text-center shadow-sm">    <i class="bi bi-file-earmark-x text-5xl text-slate-200 mb-4"></i>    <p class="font-semibold text-slate-600 mb-1">No se encontraron informes</p>    <span class="text-sm text-slate-400 max-w-[240px]" *ngIf="filterTipo() || filterCliente() || filterFechaInicio() || filterFechaFin()">      Probá ajustando los filtros de búsqueda.    </span>    <span class="text-sm text-slate-400 max-w-[240px]" *ngIf="!filterTipo() && !filterCliente() && !filterFechaInicio() && !filterFechaFin()">      Aún no tenés informes. Iniciá uno desde tus <strong class="text-slate-600">Rutas Diarias</strong>.    </span>  </div>  <!-- ── Lista de informes ── -->  <div class="flex flex-col gap-3" *ngIf="!isLoading() && reports().length > 0">    <div      *ngFor="let report of reports()"      class="flex items-center gap-3 bg-white rounded-2xl p-3.5 border border-slate-100 shadow-sm active:scale-[0.98] transition-transform">      <!-- Ícono tipo -->      <div class="w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0"           [class.bg-indigo-50]="report.tipo_informe === \'Técnico\'"           [class.text-indigo-600]="report.tipo_informe === \'Técnico\'"           [class.bg-emerald-50]="report.tipo_informe !== \'Técnico\'"           [class.text-emerald-600]="report.tipo_informe !== \'Técnico\'">        <i class="bi" [class.bi-tools]="report.tipo_informe === \'Técnico\'" [class.bi-clipboard-check]="report.tipo_informe !== \'Técnico\'"></i>      </div>      <!-- Cuerpo del informe -->      <div class="flex-1 min-w-0">        <h4 class="text-sm font-bold text-slate-800 truncate">{{ getReportDisplayName(report) }}</h4>        <p class="text-xs text-slate-500 line-clamp-2 mt-0.5">{{ report.descripcion_trabajo }}</p>        <div class="flex items-center gap-2 mt-1.5">          <span class="text-[10px] font-medium text-slate-400 flex items-center gap-1">            <i class="bi bi-calendar3"></i> {{ report.fecha_informe | date:\'dd MMM yy\' }}          </span>          <span class="text-[10px] font-semibold text-accent">• Registrado</span>        </div>      </div>      <!-- Acciones PDF -->      <div class="flex gap-2 items-center shrink-0">        <ng-container *ngIf="generatingPdfId() !== report.informe_id; else loadingPdf">          <button (click)="viewPdf(report); $event.stopPropagation()"            class="w-8 h-8 flex items-center justify-center rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-500 transition-colors active:scale-90"            title="Ver Vista Previa">            <i class="bi bi-eye text-base"></i>          </button>          <button (click)="downloadPdfDirectly(report, $event)"            class="w-8 h-8 flex items-center justify-center rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-500 transition-colors active:scale-90"            title="Descargar PDF">            <i class="bi bi-download text-base"></i>          </button>        </ng-container>        <ng-template #loadingPdf>          <div class="w-12 flex items-center justify-center">            <app-loading-spinner size="sm"></app-loading-spinner>          </div>        </ng-template>      </div>    </div>  </div>  <!-- ── Paginación ── -->  <div *ngIf="!isLoading() && totalPages() > 1" class="flex items-center justify-center gap-3 py-2">    <button      (click)="prevPage()"      [disabled]="currentPage() === 1"      class="inline-flex items-center gap-1.5 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">      <i class="bi bi-chevron-left text-xs"></i> Anterior    </button>    <div class="inline-flex items-center px-4 py-2 bg-jmg rounded-xl text-white text-sm font-semibold shadow-sm">      {{ currentPage() }} / {{ totalPages() }}    </div>    <button      (click)="nextPage()"      [disabled]="currentPage() === totalPages()"      class="inline-flex items-center gap-1.5 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">      Siguiente <i class="bi bi-chevron-right text-xs"></i>    </button>  </div></div><!-- Modal Crear Informe --><app-worker-report-create  *ngIf="showCreate()"  (close)="showCreate.set(false)"  (reportCreated)="onReportCreated()"></app-worker-report-create><!-- PDF Preview Modal --><app-pdf-preview  *ngIf="showPdfModal() && pdfUrl()"  [pdfUrl]="pdfUrl()!"  [downloadUrl]="pdfDownloadUrl()"  [fileName]="pdfFileName()"  (close)="closePdfModal()"></app-pdf-preview></div>'
+    var COMPONENTS = [{'name': 'AdminLayoutComponent', 'selector': 'app-admin-layout'},{'name': 'AIAssistantComponent', 'selector': ''},{'name': 'App', 'selector': 'app-root'},{'name': 'BottomNavComponent', 'selector': 'app-bottom-nav'},{'name': 'ClientCreateComponent', 'selector': 'app-client-create'},{'name': 'ClientDeleteComponent', 'selector': 'app-client-delete'},{'name': 'ClientEditComponent', 'selector': 'app-client-edit'},{'name': 'ClientListComponent', 'selector': 'app-client-list'},{'name': 'ClientRestoreComponent', 'selector': 'app-client-restore'},{'name': 'DocumentDeleteComponent', 'selector': 'app-document-delete'},{'name': 'DocumentFormComponent', 'selector': 'app-document-form'},{'name': 'DocumentListComponent', 'selector': 'app-document-list'},{'name': 'ElevatorCreateComponent', 'selector': 'app-elevator-create'},{'name': 'ElevatorDeleteComponent', 'selector': 'app-elevator-delete'},{'name': 'ElevatorEditComponent', 'selector': 'app-elevator-edit'},{'name': 'ElevatorListComponent', 'selector': 'app-elevator-list'},{'name': 'EntityCardComponent', 'selector': 'app-entity-card'},{'name': 'EquipmentCreateModalComponent', 'selector': 'app-equipment-create-modal'},{'name': 'EquipmentDeleteModalComponent', 'selector': 'app-equipment-delete-modal'},{'name': 'EquipmentEditModalComponent', 'selector': 'app-equipment-edit-modal'},{'name': 'EquipmentListModalComponent', 'selector': 'app-equipment-list-modal'},{'name': 'FilterContainerComponent', 'selector': 'app-filter-container'},{'name': 'FilterInputComponent', 'selector': 'app-filter-input'},{'name': 'FilterSelectComponent', 'selector': 'app-filter-select'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MaintenanceChecklistComponent', 'selector': 'app-maintenance-checklist'},{'name': 'MaintenanceSchedulingComponent', 'selector': 'app-maintenance-scheduling'},{'name': 'MantenimientoFijoModalComponent', 'selector': 'app-mantenimiento-fijo-modal'},{'name': 'ModalWrapperComponent', 'selector': 'app-modal-wrapper'},{'name': 'PdfPreviewComponent', 'selector': 'app-pdf-preview'},{'name': 'PlaceholderPageComponent', 'selector': 'app-placeholder-page'},{'name': 'ProgramacionModalComponent', 'selector': 'app-programacion-modal'},{'name': 'ProgrammingComponent', 'selector': 'app-programming'},{'name': 'ReportsComponent', 'selector': ''},{'name': 'SearchableSelectComponent', 'selector': 'app-searchable-select'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'SkeletonLoaderComponent', 'selector': 'app-skeleton-loader'},{'name': 'TechnicianCreateComponent', 'selector': 'app-technician-create'},{'name': 'TechnicianDeleteComponent', 'selector': 'app-technician-delete'},{'name': 'TechnicianEditComponent', 'selector': 'app-technician-edit'},{'name': 'TechnicianListComponent', 'selector': 'app-technician-list'},{'name': 'TechnicianRestoreComponent', 'selector': 'app-technician-restore'},{'name': 'WorkerEquipmentComponent', 'selector': 'app-worker-equipment'},{'name': 'WorkerLayoutComponent', 'selector': 'app-worker-layout'},{'name': 'WorkerProfileComponent', 'selector': 'app-worker-profile'},{'name': 'WorkerReportCreateComponent', 'selector': 'app-worker-report-create'},{'name': 'WorkerReportsComponent', 'selector': 'app-worker-reports'},{'name': 'WorkerRoutesComponent', 'selector': 'app-worker-routes'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'WorkerReportsComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'WorkerReportsComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,1633 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>jmg-ascensores documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">jmg-ascensores documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  EquipmentListModalComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/features/admin/clients/equipment/equipment-list-modal.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-equipment-list-modal</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="https://angular.io/api/common/CommonModule" target="_blank" >CommonModule</a></code>
+                                <code><a href="../components/EquipmentCreateModalComponent.html" target="_self" >EquipmentCreateModalComponent</a></code>
+                                <code><a href="../components/EquipmentEditModalComponent.html" target="_self" >EquipmentEditModalComponent</a></code>
+                                <code><a href="../components/EquipmentDeleteModalComponent.html" target="_self" >EquipmentDeleteModalComponent</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./equipment-list-modal.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#elevatorService" >elevatorService</a>
+                            </li>
+                            <li>
+                                <a href="#equipments" >equipments</a>
+                            </li>
+                            <li>
+                                <a href="#errorMessage" >errorMessage</a>
+                            </li>
+                            <li>
+                                <a href="#isLoading" >isLoading</a>
+                            </li>
+                            <li>
+                                <a href="#selectedEquipment" >selectedEquipment</a>
+                            </li>
+                            <li>
+                                <a href="#showCreateModal" >showCreateModal</a>
+                            </li>
+                            <li>
+                                <a href="#showDeleteModal" >showDeleteModal</a>
+                            </li>
+                            <li>
+                                <a href="#showEditModal" >showEditModal</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#closeCreateModal" >closeCreateModal</a>
+                            </li>
+                            <li>
+                                <a href="#closeDeleteModal" >closeDeleteModal</a>
+                            </li>
+                            <li>
+                                <a href="#closeEditModal" >closeEditModal</a>
+                            </li>
+                            <li>
+                                <a href="#getEquipmentTypeLabel" >getEquipmentTypeLabel</a>
+                            </li>
+                            <li>
+                                <a href="#loadEquipments" >loadEquipments</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onClose" >onClose</a>
+                            </li>
+                            <li>
+                                <a href="#onEquipmentCreated" >onEquipmentCreated</a>
+                            </li>
+                            <li>
+                                <a href="#onEquipmentDeleted" >onEquipmentDeleted</a>
+                            </li>
+                            <li>
+                                <a href="#onEquipmentUpdated" >onEquipmentUpdated</a>
+                            </li>
+                            <li>
+                                <a href="#openCreateModal" >openCreateModal</a>
+                            </li>
+                            <li>
+                                <a href="#openDeleteModal" >openDeleteModal</a>
+                            </li>
+                            <li>
+                                <a href="#openEditModal" >openEditModal</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#client" >client</a>
+                            </li>
+                            <li>
+                                <a href="#equipmentType" >equipmentType</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#close" >close</a>
+                            </li>
+                            <li>
+                                <a href="#equipmentChanged" >equipmentChanged</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="client"></a>
+                        <b>client</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Client.html" target="_self" >Client</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/features/admin/clients/equipment/equipment-list-modal.component.ts:17</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="equipmentType"></a>
+                        <b>equipmentType</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/features/admin/clients/equipment/equipment-list-modal.component.ts:18</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section data-compodoc="block-outputs">
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="close"></a>
+                        <b>close</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/features/admin/clients/equipment/equipment-list-modal.component.ts:19</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="equipmentChanged"></a>
+                        <b>equipmentChanged</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/features/admin/clients/equipment/equipment-list-modal.component.ts:20</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeCreateModal"></a>
+                    <span class="name">
+                        <span ><b>closeCreateModal</b></span>
+                        <a href="#closeCreateModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closeCreateModal()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="65"
+                                    class="link-to-prism">src/app/features/admin/clients/equipment/equipment-list-modal.component.ts:65</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeDeleteModal"></a>
+                    <span class="name">
+                        <span ><b>closeDeleteModal</b></span>
+                        <a href="#closeDeleteModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closeDeleteModal()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="96"
+                                    class="link-to-prism">src/app/features/admin/clients/equipment/equipment-list-modal.component.ts:96</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeEditModal"></a>
+                    <span class="name">
+                        <span ><b>closeEditModal</b></span>
+                        <a href="#closeEditModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closeEditModal()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="80"
+                                    class="link-to-prism">src/app/features/admin/clients/equipment/equipment-list-modal.component.ts:80</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getEquipmentTypeLabel"></a>
+                    <span class="name">
+                        <span ><b>getEquipmentTypeLabel</b></span>
+                        <a href="#getEquipmentTypeLabel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getEquipmentTypeLabel()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="107"
+                                    class="link-to-prism">src/app/features/admin/clients/equipment/equipment-list-modal.component.ts:107</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadEquipments"></a>
+                    <span class="name">
+                        <span ><b>loadEquipments</b></span>
+                        <a href="#loadEquipments"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadEquipments()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="37"
+                                    class="link-to-prism">src/app/features/admin/clients/equipment/equipment-list-modal.component.ts:37</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="33"
+                                    class="link-to-prism">src/app/features/admin/clients/equipment/equipment-list-modal.component.ts:33</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onClose"></a>
+                    <span class="name">
+                        <span ><b>onClose</b></span>
+                        <a href="#onClose"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onClose()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="57"
+                                    class="link-to-prism">src/app/features/admin/clients/equipment/equipment-list-modal.component.ts:57</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onEquipmentCreated"></a>
+                    <span class="name">
+                        <span ><b>onEquipmentCreated</b></span>
+                        <a href="#onEquipmentCreated"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onEquipmentCreated()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="69"
+                                    class="link-to-prism">src/app/features/admin/clients/equipment/equipment-list-modal.component.ts:69</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onEquipmentDeleted"></a>
+                    <span class="name">
+                        <span ><b>onEquipmentDeleted</b></span>
+                        <a href="#onEquipmentDeleted"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onEquipmentDeleted()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="101"
+                                    class="link-to-prism">src/app/features/admin/clients/equipment/equipment-list-modal.component.ts:101</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onEquipmentUpdated"></a>
+                    <span class="name">
+                        <span ><b>onEquipmentUpdated</b></span>
+                        <a href="#onEquipmentUpdated"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onEquipmentUpdated()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="85"
+                                    class="link-to-prism">src/app/features/admin/clients/equipment/equipment-list-modal.component.ts:85</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openCreateModal"></a>
+                    <span class="name">
+                        <span ><b>openCreateModal</b></span>
+                        <a href="#openCreateModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openCreateModal()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="61"
+                                    class="link-to-prism">src/app/features/admin/clients/equipment/equipment-list-modal.component.ts:61</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openDeleteModal"></a>
+                    <span class="name">
+                        <span ><b>openDeleteModal</b></span>
+                        <a href="#openDeleteModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openDeleteModal(equipment: <a href="../interfaces/Elevator.html" target="_self">Elevator</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="91"
+                                    class="link-to-prism">src/app/features/admin/clients/equipment/equipment-list-modal.component.ts:91</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>equipment</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Elevator.html" target="_self" >Elevator</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openEditModal"></a>
+                    <span class="name">
+                        <span ><b>openEditModal</b></span>
+                        <a href="#openEditModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openEditModal(equipment: <a href="../interfaces/Elevator.html" target="_self">Elevator</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="75"
+                                    class="link-to-prism">src/app/features/admin/clients/equipment/equipment-list-modal.component.ts:75</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>equipment</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Elevator.html" target="_self" >Elevator</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="elevatorService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>elevatorService</b></span>
+                        <a href="#elevatorService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ElevatorService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/features/admin/clients/equipment/equipment-list-modal.component.ts:22</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="equipments"></a>
+                    <span class="name">
+                        <span ><b>equipments</b></span>
+                        <a href="#equipments"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Elevator[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/features/admin/clients/equipment/equipment-list-modal.component.ts:24</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="errorMessage"></a>
+                    <span class="name">
+                        <span ><b>errorMessage</b></span>
+                        <a href="#errorMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/features/admin/clients/equipment/equipment-list-modal.component.ts:26</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isLoading"></a>
+                    <span class="name">
+                        <span ><b>isLoading</b></span>
+                        <a href="#isLoading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(true)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/features/admin/clients/equipment/equipment-list-modal.component.ts:25</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedEquipment"></a>
+                    <span class="name">
+                        <span ><b>selectedEquipment</b></span>
+                        <a href="#selectedEquipment"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Elevator | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/features/admin/clients/equipment/equipment-list-modal.component.ts:31</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showCreateModal"></a>
+                    <span class="name">
+                        <span ><b>showCreateModal</b></span>
+                        <a href="#showCreateModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/features/admin/clients/equipment/equipment-list-modal.component.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showDeleteModal"></a>
+                    <span class="name">
+                        <span ><b>showDeleteModal</b></span>
+                        <a href="#showDeleteModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/features/admin/clients/equipment/equipment-list-modal.component.ts:30</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showEditModal"></a>
+                    <span class="name">
+                        <span ><b>showEditModal</b></span>
+                        <a href="#showEditModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/features/admin/clients/equipment/equipment-list-modal.component.ts:29</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, EventEmitter, Input, OnInit, Output, inject, signal } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { ElevatorService } from &#x27;../../services/elevator.service&#x27;;
+import { Elevator } from &#x27;../../../../core/models/elevator.model&#x27;;
+import { Client } from &#x27;../../services/client.service&#x27;;
+import { EquipmentCreateModalComponent } from &#x27;./equipment-create-modal.component&#x27;;
+import { EquipmentEditModalComponent } from &#x27;./equipment-edit-modal.component&#x27;;
+import { EquipmentDeleteModalComponent } from &#x27;./equipment-delete-modal.component&#x27;;
+
+@Component({
+  selector: &#x27;app-equipment-list-modal&#x27;,
+  standalone: true,
+  imports: [CommonModule, EquipmentCreateModalComponent, EquipmentEditModalComponent, EquipmentDeleteModalComponent],
+  templateUrl: &#x27;./equipment-list-modal.component.html&#x27;,
+})
+export class EquipmentListModalComponent implements OnInit {
+  @Input() client!: Client;
+  @Input() equipmentType!: string; // &#x27;Ascensor&#x27;, &#x27;Montacarga&#x27;, &#x27;Plataforma&#x27;
+  @Output() close &#x3D; new EventEmitter&lt;void&gt;();
+  @Output() equipmentChanged &#x3D; new EventEmitter&lt;void&gt;();
+
+  private elevatorService &#x3D; inject(ElevatorService);
+
+  equipments &#x3D; signal&lt;Elevator[]&gt;([]);
+  isLoading &#x3D; signal(true);
+  errorMessage &#x3D; signal&lt;string | null&gt;(null);
+
+  showCreateModal &#x3D; signal(false);
+  showEditModal &#x3D; signal(false);
+  showDeleteModal &#x3D; signal(false);
+  selectedEquipment &#x3D; signal&lt;Elevator | null&gt;(null);
+
+  ngOnInit() {
+    this.loadEquipments();
+  }
+
+  loadEquipments() {
+    this.isLoading.set(true);
+    this.errorMessage.set(null);
+
+    this.elevatorService.getElevators(this.client.cliente_id).subscribe({
+      next: (data) &#x3D;&gt; {
+        // Filter by equipment type
+        const filtered &#x3D; data.filter(e &#x3D;&gt; 
+          e.tipo_equipo?.toLowerCase().includes(this.equipmentType.toLowerCase())
+        );
+        this.equipments.set(filtered);
+        this.isLoading.set(false);
+      },
+      error: (err) &#x3D;&gt; {
+        this.errorMessage.set(err.message || &#x27;Error al cargar equipos&#x27;);
+        this.isLoading.set(false);
+      }
+    });
+  }
+
+  onClose() {
+    this.close.emit();
+  }
+
+  openCreateModal() {
+    this.showCreateModal.set(true);
+  }
+
+  closeCreateModal() {
+    this.showCreateModal.set(false);
+  }
+
+  onEquipmentCreated() {
+    this.loadEquipments();
+    this.equipmentChanged.emit();
+    this.closeCreateModal();
+  }
+
+  openEditModal(equipment: Elevator) {
+    this.selectedEquipment.set(equipment);
+    this.showEditModal.set(true);
+  }
+
+  closeEditModal() {
+    this.showEditModal.set(false);
+    this.selectedEquipment.set(null);
+  }
+
+  onEquipmentUpdated() {
+    this.loadEquipments();
+    this.equipmentChanged.emit();
+    this.closeEditModal();
+  }
+
+  openDeleteModal(equipment: Elevator) {
+    this.selectedEquipment.set(equipment);
+    this.showDeleteModal.set(true);
+  }
+
+  closeDeleteModal() {
+    this.showDeleteModal.set(false);
+    this.selectedEquipment.set(null);
+  }
+
+  onEquipmentDeleted() {
+    this.loadEquipments();
+    this.equipmentChanged.emit();
+    this.closeDeleteModal();
+  }
+
+  getEquipmentTypeLabel(): string {
+    const labels: Record&lt;string, string&gt; &#x3D; {
+      &#x27;ascensor&#x27;: &#x27;Ascensores&#x27;,
+      &#x27;montacarga&#x27;: &#x27;Montacargas&#x27;,
+      &#x27;plataforma&#x27;: &#x27;Plataformas&#x27;
+    };
+    return labels[this.equipmentType.toLowerCase()] || &#x27;Equipos&#x27;;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto&quot;&gt;
+  &lt;!-- Backdrop --&gt;
+  &lt;div class&#x3D;&quot;fixed inset-0 bg-gray-900/70 backdrop-blur-sm transition-opacity&quot; (click)&#x3D;&quot;onClose()&quot;&gt;&lt;/div&gt;
+
+  &lt;!-- Modal Panel --&gt;
+  &lt;div class&#x3D;&quot;relative w-full max-w-6xl bg-white rounded-2xl shadow-2xl overflow-hidden ring-1 ring-black/5 transform transition-all max-h-[90vh] flex flex-col&quot;&gt;
+    
+    &lt;!-- Header --&gt;
+    &lt;div class&#x3D;&quot;px-6 py-5 border-b border-gray-100 bg-gradient-to-r from-[#003B73] to-[#005fa3] flex items-center justify-between&quot;&gt;
+      &lt;div class&#x3D;&quot;flex items-center gap-4&quot;&gt;
+        &lt;div class&#x3D;&quot;w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center&quot;&gt;
+          &lt;i class&#x3D;&quot;bi bi-building text-2xl text-white&quot;&gt;&lt;/i&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;h2 class&#x3D;&quot;text-2xl font-bold text-white&quot;&gt;{{ getEquipmentTypeLabel() }}&lt;/h2&gt;
+          &lt;p class&#x3D;&quot;text-sm text-white/80 mt-1&quot;&gt;Cliente: {{ client.nombre_comercial || (client.contacto_nombre + &#x27; &#x27; + (client.contacto_apellido || &#x27;&#x27;)) }}&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;flex items-center gap-3&quot;&gt;
+        &lt;button (click)&#x3D;&quot;openCreateModal()&quot; class&#x3D;&quot;bg-white hover:bg-gray-50 text-[#003B73] font-bold rounded-lg px-5 py-2.5 text-sm inline-flex items-center gap-2 transition-all shadow-lg&quot;&gt;
+          &lt;i class&#x3D;&quot;bi bi-plus-circle-fill text-lg&quot;&gt;&lt;/i&gt;
+          Agregar Nuevo
+        &lt;/button&gt;
+        &lt;button (click)&#x3D;&quot;onClose()&quot; class&#x3D;&quot;p-2 rounded-full hover:bg-white/20 text-white transition-colors&quot;&gt;
+          &lt;i class&#x3D;&quot;bi bi-x-lg text-xl&quot;&gt;&lt;/i&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Body --&gt;
+    &lt;div class&#x3D;&quot;flex-1 overflow-y-auto p-6&quot;&gt;
+      &lt;!-- Loading --&gt;
+      &lt;div *ngIf&#x3D;&quot;isLoading()&quot; class&#x3D;&quot;flex flex-col items-center justify-center py-20&quot;&gt;
+        &lt;div class&#x3D;&quot;animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#003B73] mb-4&quot;&gt;&lt;/div&gt;
+        &lt;p class&#x3D;&quot;text-slate-500 font-medium&quot;&gt;Cargando equipos...&lt;/p&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Error --&gt;
+      &lt;div *ngIf&#x3D;&quot;errorMessage()&quot; class&#x3D;&quot;bg-red-50 border-l-4 border-red-500 p-4 rounded-md&quot;&gt;
+        &lt;div class&#x3D;&quot;flex&quot;&gt;
+          &lt;i class&#x3D;&quot;bi bi-exclamation-circle text-red-500 text-xl mr-3&quot;&gt;&lt;/i&gt;
+          &lt;p class&#x3D;&quot;text-sm text-red-700&quot;&gt;{{ errorMessage() }}&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Equipment Grid --&gt;
+      &lt;div *ngIf&#x3D;&quot;!isLoading() &amp;&amp; !errorMessage()&quot; class&#x3D;&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6&quot;&gt;
+        &lt;div *ngFor&#x3D;&quot;let equipment of equipments()&quot; class&#x3D;&quot;bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-[#003B73] hover:shadow-lg transition-all duration-300 relative group&quot;&gt;
+          
+          &lt;!-- Status Badge --&gt;
+          &lt;div class&#x3D;&quot;absolute top-4 right-4&quot;&gt;
+            &lt;span 
+              class&#x3D;&quot;px-3 py-1 rounded-full text-xs font-bold uppercase&quot;
+              [ngClass]&#x3D;&quot;{
+                &#x27;bg-green-100 text-green-700&#x27;: equipment.estado &#x3D;&#x3D;&#x3D; &#x27;Activo&#x27;,
+                &#x27;bg-yellow-100 text-yellow-700&#x27;: equipment.estado &#x3D;&#x3D;&#x3D; &#x27;En Mantenimiento&#x27;,
+                &#x27;bg-red-100 text-red-700&#x27;: equipment.estado &#x3D;&#x3D;&#x3D; &#x27;Inactivo&#x27;
+              }&quot;
+            &gt;
+              {{ equipment.estado || &#x27;N/A&#x27; }}
+            &lt;/span&gt;
+          &lt;/div&gt;
+
+          &lt;!-- Equipment Info --&gt;
+          &lt;div class&#x3D;&quot;space-y-4 mt-8&quot;&gt;
+            &lt;div&gt;
+              &lt;h3 class&#x3D;&quot;text-lg font-bold text-slate-900&quot;&gt;{{ equipment.marca }} {{ equipment.modelo }}&lt;/h3&gt;
+              &lt;p class&#x3D;&quot;text-sm text-slate-500 mt-1&quot;&gt;{{ equipment.tipo_equipo }}&lt;/p&gt;
+            &lt;/div&gt;
+
+            &lt;div class&#x3D;&quot;space-y-2&quot;&gt;
+              &lt;div class&#x3D;&quot;flex items-center gap-2 text-sm&quot;&gt;
+                &lt;i class&#x3D;&quot;bi bi-hash text-slate-400&quot;&gt;&lt;/i&gt;
+                &lt;span class&#x3D;&quot;text-slate-600&quot;&gt;Serie: &lt;strong&gt;{{ equipment.numero_serie || &#x27;N/A&#x27; }}&lt;/strong&gt;&lt;/span&gt;
+              &lt;/div&gt;
+              
+              &lt;div class&#x3D;&quot;flex items-center gap-2 text-sm&quot;&gt;
+                &lt;i class&#x3D;&quot;bi bi-speedometer2 text-slate-400&quot;&gt;&lt;/i&gt;
+                &lt;span class&#x3D;&quot;text-slate-600&quot;&gt;Capacidad: &lt;strong&gt;{{ equipment.capacidad_kg ? equipment.capacidad_kg + &#x27; KG &#x27; : &#x27;&#x27; }}{{ equipment.capacidad_personas ? &#x27;(&#x27; + equipment.capacidad_personas + &#x27; Pers)&#x27; : &#x27;&#x27; }} {{ !equipment.capacidad_kg &amp;&amp; !equipment.capacidad_personas ? &#x27;N/A&#x27; : &#x27;&#x27; }}&lt;/strong&gt;&lt;/span&gt;
+              &lt;/div&gt;
+              
+              &lt;div class&#x3D;&quot;flex items-center gap-2 text-sm&quot;&gt;
+                &lt;i class&#x3D;&quot;bi bi-layers text-slate-400&quot;&gt;&lt;/i&gt;
+                &lt;span class&#x3D;&quot;text-slate-600&quot;&gt;Pisos: &lt;strong&gt;{{ equipment.piso_cantidad || &#x27;N/A&#x27; }}&lt;/strong&gt;&lt;/span&gt;
+              &lt;/div&gt;
+
+              &lt;div class&#x3D;&quot;flex items-center gap-2 text-sm&quot; *ngIf&#x3D;&quot;equipment.fecha_ultimo_mantenimiento&quot;&gt;
+                &lt;i class&#x3D;&quot;bi bi-calendar-check text-slate-400&quot;&gt;&lt;/i&gt;
+                &lt;span class&#x3D;&quot;text-slate-600&quot;&gt;Último mant.: &lt;strong&gt;{{ equipment.fecha_ultimo_mantenimiento | date:&#x27;dd/MM/yyyy&#x27; }}&lt;/strong&gt;&lt;/span&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div *ngIf&#x3D;&quot;equipment.observaciones&quot; class&#x3D;&quot;pt-3 border-t border-gray-100&quot;&gt;
+              &lt;p class&#x3D;&quot;text-xs text-slate-500 italic&quot;&gt;{{ equipment.observaciones }}&lt;/p&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;!-- Actions --&gt;
+          &lt;div class&#x3D;&quot;flex gap-2 mt-6&quot;&gt;
+            &lt;button 
+              (click)&#x3D;&quot;openEditModal(equipment)&quot; 
+              class&#x3D;&quot;flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 rounded-lg text-sm transition-colors flex items-center justify-center gap-2&quot;
+            &gt;
+              &lt;i class&#x3D;&quot;bi bi-pencil&quot;&gt;&lt;/i&gt;
+              Editar
+            &lt;/button&gt;
+            &lt;button 
+              (click)&#x3D;&quot;openDeleteModal(equipment)&quot; 
+              class&#x3D;&quot;flex-1 bg-red-600 hover:bg-red-700 text-white font-medium py-2 rounded-lg text-sm transition-colors flex items-center justify-center gap-2&quot;
+            &gt;
+              &lt;i class&#x3D;&quot;bi bi-trash&quot;&gt;&lt;/i&gt;
+              Eliminar
+            &lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Empty State --&gt;
+        &lt;div *ngIf&#x3D;&quot;equipments().length &#x3D;&#x3D;&#x3D; 0&quot; class&#x3D;&quot;col-span-full py-20 text-center&quot;&gt;
+          &lt;div class&#x3D;&quot;w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4&quot;&gt;
+            &lt;i class&#x3D;&quot;bi bi-inbox text-4xl text-gray-300&quot;&gt;&lt;/i&gt;
+          &lt;/div&gt;
+          &lt;h3 class&#x3D;&quot;text-lg font-bold text-gray-800&quot;&gt;No hay equipos registrados&lt;/h3&gt;
+          &lt;p class&#x3D;&quot;text-gray-400 text-sm mt-1&quot;&gt;Agrega un nuevo equipo para comenzar.&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Nested Modals --&gt;
+&lt;app-equipment-create-modal 
+  *ngIf&#x3D;&quot;showCreateModal()&quot;
+  [client]&#x3D;&quot;client&quot;
+  [equipmentType]&#x3D;&quot;equipmentType&quot;
+  (close)&#x3D;&quot;closeCreateModal()&quot;
+  (equipmentCreated)&#x3D;&quot;onEquipmentCreated()&quot;
+&gt;&lt;/app-equipment-create-modal&gt;
+
+&lt;app-equipment-edit-modal
+  *ngIf&#x3D;&quot;showEditModal() &amp;&amp; selectedEquipment()&quot;
+  [equipment]&#x3D;&quot;selectedEquipment()!&quot;
+  (close)&#x3D;&quot;closeEditModal()&quot;
+  (equipmentUpdated)&#x3D;&quot;onEquipmentUpdated()&quot;
+&gt;&lt;/app-equipment-edit-modal&gt;
+
+&lt;app-equipment-delete-modal
+  *ngIf&#x3D;&quot;showDeleteModal() &amp;&amp; selectedEquipment()&quot;
+  [equipment]&#x3D;&quot;selectedEquipment()!&quot;
+  (close)&#x3D;&quot;closeDeleteModal()&quot;
+  (equipmentDeleted)&#x3D;&quot;onEquipmentDeleted()&quot;
+&gt;&lt;/app-equipment-delete-modal&gt;
+
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">  <!-- Backdrop -->  <div class="fixed inset-0 bg-gray-900/70 backdrop-blur-sm transition-opacity" (click)="onClose()"></div>  <!-- Modal Panel -->  <div class="relative w-full max-w-6xl bg-white rounded-2xl shadow-2xl overflow-hidden ring-1 ring-black/5 transform transition-all max-h-[90vh] flex flex-col">        <!-- Header -->    <div class="px-6 py-5 border-b border-gray-100 bg-gradient-to-r from-[#003B73] to-[#005fa3] flex items-center justify-between">      <div class="flex items-center gap-4">        <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">          <i class="bi bi-building text-2xl text-white"></i>        </div>        <div>          <h2 class="text-2xl font-bold text-white">{{ getEquipmentTypeLabel() }}</h2>          <p class="text-sm text-white/80 mt-1">Cliente: {{ client.nombre_comercial || (client.contacto_nombre + \' \' + (client.contacto_apellido || \'\')) }}</p>        </div>      </div>      <div class="flex items-center gap-3">        <button (click)="openCreateModal()" class="bg-white hover:bg-gray-50 text-[#003B73] font-bold rounded-lg px-5 py-2.5 text-sm inline-flex items-center gap-2 transition-all shadow-lg">          <i class="bi bi-plus-circle-fill text-lg"></i>          Agregar Nuevo        </button>        <button (click)="onClose()" class="p-2 rounded-full hover:bg-white/20 text-white transition-colors">          <i class="bi bi-x-lg text-xl"></i>        </button>      </div>    </div>    <!-- Body -->    <div class="flex-1 overflow-y-auto p-6">      <!-- Loading -->      <div *ngIf="isLoading()" class="flex flex-col items-center justify-center py-20">        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#003B73] mb-4"></div>        <p class="text-slate-500 font-medium">Cargando equipos...</p>      </div>      <!-- Error -->      <div *ngIf="errorMessage()" class="bg-red-50 border-l-4 border-red-500 p-4 rounded-md">        <div class="flex">          <i class="bi bi-exclamation-circle text-red-500 text-xl mr-3"></i>          <p class="text-sm text-red-700">{{ errorMessage() }}</p>        </div>      </div>      <!-- Equipment Grid -->      <div *ngIf="!isLoading() && !errorMessage()" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">        <div *ngFor="let equipment of equipments()" class="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-[#003B73] hover:shadow-lg transition-all duration-300 relative group">                    <!-- Status Badge -->          <div class="absolute top-4 right-4">            <span               class="px-3 py-1 rounded-full text-xs font-bold uppercase"              [ngClass]="{                \'bg-green-100 text-green-700\': equipment.estado === \'Activo\',                \'bg-yellow-100 text-yellow-700\': equipment.estado === \'En Mantenimiento\',                \'bg-red-100 text-red-700\': equipment.estado === \'Inactivo\'              }"            >              {{ equipment.estado || \'N/A\' }}            </span>          </div>          <!-- Equipment Info -->          <div class="space-y-4 mt-8">            <div>              <h3 class="text-lg font-bold text-slate-900">{{ equipment.marca }} {{ equipment.modelo }}</h3>              <p class="text-sm text-slate-500 mt-1">{{ equipment.tipo_equipo }}</p>            </div>            <div class="space-y-2">              <div class="flex items-center gap-2 text-sm">                <i class="bi bi-hash text-slate-400"></i>                <span class="text-slate-600">Serie: <strong>{{ equipment.numero_serie || \'N/A\' }}</strong></span>              </div>                            <div class="flex items-center gap-2 text-sm">                <i class="bi bi-speedometer2 text-slate-400"></i>                <span class="text-slate-600">Capacidad: <strong>{{ equipment.capacidad_kg ? equipment.capacidad_kg + \' KG \' : \'\' }}{{ equipment.capacidad_personas ? \'(\' + equipment.capacidad_personas + \' Pers)\' : \'\' }} {{ !equipment.capacidad_kg && !equipment.capacidad_personas ? \'N/A\' : \'\' }}</strong></span>              </div>                            <div class="flex items-center gap-2 text-sm">                <i class="bi bi-layers text-slate-400"></i>                <span class="text-slate-600">Pisos: <strong>{{ equipment.piso_cantidad || \'N/A\' }}</strong></span>              </div>              <div class="flex items-center gap-2 text-sm" *ngIf="equipment.fecha_ultimo_mantenimiento">                <i class="bi bi-calendar-check text-slate-400"></i>                <span class="text-slate-600">Último mant.: <strong>{{ equipment.fecha_ultimo_mantenimiento | date:\'dd/MM/yyyy\' }}</strong></span>              </div>            </div>            <div *ngIf="equipment.observaciones" class="pt-3 border-t border-gray-100">              <p class="text-xs text-slate-500 italic">{{ equipment.observaciones }}</p>            </div>          </div>          <!-- Actions -->          <div class="flex gap-2 mt-6">            <button               (click)="openEditModal(equipment)"               class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 rounded-lg text-sm transition-colors flex items-center justify-center gap-2"            >              <i class="bi bi-pencil"></i>              Editar            </button>            <button               (click)="openDeleteModal(equipment)"               class="flex-1 bg-red-600 hover:bg-red-700 text-white font-medium py-2 rounded-lg text-sm transition-colors flex items-center justify-center gap-2"            >              <i class="bi bi-trash"></i>              Eliminar            </button>          </div>        </div>        <!-- Empty State -->        <div *ngIf="equipments().length === 0" class="col-span-full py-20 text-center">          <div class="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">            <i class="bi bi-inbox text-4xl text-gray-300"></i>          </div>          <h3 class="text-lg font-bold text-gray-800">No hay equipos registrados</h3>          <p class="text-gray-400 text-sm mt-1">Agrega un nuevo equipo para comenzar.</p>        </div>      </div>    </div>  </div></div><!-- Nested Modals --><app-equipment-create-modal   *ngIf="showCreateModal()"  [client]="client"  [equipmentType]="equipmentType"  (close)="closeCreateModal()"  (equipmentCreated)="onEquipmentCreated()"></app-equipment-create-modal><app-equipment-edit-modal  *ngIf="showEditModal() && selectedEquipment()"  [equipment]="selectedEquipment()!"  (close)="closeEditModal()"  (equipmentUpdated)="onEquipmentUpdated()"></app-equipment-edit-modal><app-equipment-delete-modal  *ngIf="showDeleteModal() && selectedEquipment()"  [equipment]="selectedEquipment()!"  (close)="closeDeleteModal()"  (equipmentDeleted)="onEquipmentDeleted()"></app-equipment-delete-modal></div>'
+    var COMPONENTS = [{'name': 'AdminLayoutComponent', 'selector': 'app-admin-layout'},{'name': 'AIAssistantComponent', 'selector': ''},{'name': 'App', 'selector': 'app-root'},{'name': 'BottomNavComponent', 'selector': 'app-bottom-nav'},{'name': 'ClientCreateComponent', 'selector': 'app-client-create'},{'name': 'ClientDeleteComponent', 'selector': 'app-client-delete'},{'name': 'ClientEditComponent', 'selector': 'app-client-edit'},{'name': 'ClientListComponent', 'selector': 'app-client-list'},{'name': 'ClientRestoreComponent', 'selector': 'app-client-restore'},{'name': 'DocumentDeleteComponent', 'selector': 'app-document-delete'},{'name': 'DocumentFormComponent', 'selector': 'app-document-form'},{'name': 'DocumentListComponent', 'selector': 'app-document-list'},{'name': 'ElevatorCreateComponent', 'selector': 'app-elevator-create'},{'name': 'ElevatorDeleteComponent', 'selector': 'app-elevator-delete'},{'name': 'ElevatorEditComponent', 'selector': 'app-elevator-edit'},{'name': 'ElevatorListComponent', 'selector': 'app-elevator-list'},{'name': 'EntityCardComponent', 'selector': 'app-entity-card'},{'name': 'EquipmentCreateModalComponent', 'selector': 'app-equipment-create-modal'},{'name': 'EquipmentDeleteModalComponent', 'selector': 'app-equipment-delete-modal'},{'name': 'EquipmentEditModalComponent', 'selector': 'app-equipment-edit-modal'},{'name': 'EquipmentListModalComponent', 'selector': 'app-equipment-list-modal'},{'name': 'FilterContainerComponent', 'selector': 'app-filter-container'},{'name': 'FilterInputComponent', 'selector': 'app-filter-input'},{'name': 'FilterSelectComponent', 'selector': 'app-filter-select'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MaintenanceChecklistComponent', 'selector': 'app-maintenance-checklist'},{'name': 'MaintenanceSchedulingComponent', 'selector': 'app-maintenance-scheduling'},{'name': 'MantenimientoFijoModalComponent', 'selector': 'app-mantenimiento-fijo-modal'},{'name': 'ModalWrapperComponent', 'selector': 'app-modal-wrapper'},{'name': 'PdfPreviewComponent', 'selector': 'app-pdf-preview'},{'name': 'PlaceholderPageComponent', 'selector': 'app-placeholder-page'},{'name': 'ProgramacionModalComponent', 'selector': 'app-programacion-modal'},{'name': 'ProgrammingComponent', 'selector': 'app-programming'},{'name': 'ReportsComponent', 'selector': ''},{'name': 'SearchableSelectComponent', 'selector': 'app-searchable-select'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'SkeletonLoaderComponent', 'selector': 'app-skeleton-loader'},{'name': 'TechnicianCreateComponent', 'selector': 'app-technician-create'},{'name': 'TechnicianDeleteComponent', 'selector': 'app-technician-delete'},{'name': 'TechnicianEditComponent', 'selector': 'app-technician-edit'},{'name': 'TechnicianListComponent', 'selector': 'app-technician-list'},{'name': 'TechnicianRestoreComponent', 'selector': 'app-technician-restore'},{'name': 'WorkerEquipmentComponent', 'selector': 'app-worker-equipment'},{'name': 'WorkerLayoutComponent', 'selector': 'app-worker-layout'},{'name': 'WorkerProfileComponent', 'selector': 'app-worker-profile'},{'name': 'WorkerReportCreateComponent', 'selector': 'app-worker-report-create'},{'name': 'WorkerReportsComponent', 'selector': 'app-worker-reports'},{'name': 'WorkerRoutesComponent', 'selector': 'app-worker-routes'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'EquipmentListModalComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'EquipmentListModalComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
