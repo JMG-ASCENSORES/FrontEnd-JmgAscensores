@@ -1,7 +1,31 @@
-<!-- Worker Layout: mobile-first, sin header superior, con bottom nav -->
-<div class="worker-layout">
-  <main class="worker-layout__content">
+<!-- Worker Layout: mobile-first, header mínimo + bottom nav -->
+<div class="flex flex-col min-h-dvh bg-slate-50">
+
+  <!-- Header de identidad -->
+  <header class="sticky top-0 z-40 flex items-center justify-between px-4 py-3 bg-jmg shadow-sm">
+    <!-- Logo tipográfico JMG -->
+    <div class="flex items-center gap-1 select-none">
+      <span class="font-display text-white font-bold text-xl tracking-tight leading-none">J</span>
+      <span class="font-display text-accent font-bold text-xl tracking-tight leading-none">MG</span>
+      <span class="text-white/50 text-[10px] font-semibold uppercase tracking-widest ml-1 mt-0.5">Ascensores</span>
+    </div>
+
+    <!-- Nombre del técnico -->
+    <div class="flex items-center gap-2" *ngIf="authService.currentUser() as user">
+      <div class="w-7 h-7 rounded-full bg-white/15 flex items-center justify-center shrink-0">
+        <span class="font-display text-white text-xs font-bold">
+          {{ user.nombre.charAt(0) }}{{ user.apellido.charAt(0) }}
+        </span>
+      </div>
+      <span class="text-white/80 text-xs font-medium">{{ user.nombre }}</span>
+    </div>
+  </header>
+
+  <!-- Contenido principal -->
+  <main class="flex-1 overflow-y-auto pb-16">
     <router-outlet></router-outlet>
   </main>
+
+  <!-- Barra de navegación inferior -->
   <app-bottom-nav></app-bottom-nav>
 </div>
