@@ -48,7 +48,7 @@
 :host ::ng-deep .fc-toolbar-title {
   font-family: 'Syne', sans-serif !important;
   font-size: 1.5rem !important;
-  font-weight: 800 !important;
+  font-weight: 700 !important;
   color: #003B73 !important;
   letter-spacing: -0.025em !important;
   text-transform: capitalize !important;

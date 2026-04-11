@@ -17,9 +17,11 @@
 
 /* Toolbar (Month Title + Buttons) */
 ::ng-deep .fc-toolbar-title {
-    font-size: 1.1rem !important; /* Slightly smaller to fit */
-    font-weight: 800 !important;
+    font-family: 'Syne', sans-serif !important;
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
     color: #0f172a; /* slate-900 */
+    letter-spacing: -0.025em !important;
     text-transform: capitalize;
 }
 
