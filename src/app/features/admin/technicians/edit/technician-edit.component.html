@@ -4,11 +4,12 @@
   variant="neutral"
   size="lg"
   (close)="onClose()"
->
-  <form *ngIf="technicianForm" [formGroup]="technicianForm" (ngSubmit)="onSubmit()" class="space-y-6">
-        
-        <!-- Error Alert -->
-        <div *ngIf="errorMessage()" class="bg-red-50 border-l-4 border-red-500 p-4 rounded-md">
+  >
+  @if (technicianForm) {
+    <form [formGroup]="technicianForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      <!-- Error Alert -->
+      @if (errorMessage()) {
+        <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-md">
           <div class="flex">
             <div class="flex-shrink-0">
               <i class="bi bi-exclamation-circle text-red-500"></i>
@@ -18,161 +19,162 @@
             </div>
           </div>
         </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <!-- Name -->
-          <div>
-            <label for="nombre" class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
-            <input 
-              type="text" 
-              id="nombre" 
-              formControlName="nombre"
-              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-              [class.border-red-300]="technicianForm.get('nombre')?.invalid && technicianForm.get('nombre')?.touched"
+      }
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Name -->
+        <div>
+          <label for="nombre" class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+          <input
+            type="text"
+            id="nombre"
+            formControlName="nombre"
+            class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+            [class.border-red-300]="technicianForm.get('nombre')?.invalid && technicianForm.get('nombre')?.touched"
             >
           </div>
-
           <!-- Last Name -->
           <div>
             <label for="apellido" class="block text-sm font-medium text-gray-700 mb-1">Apellido</label>
-            <input 
-              type="text" 
-              id="apellido" 
+            <input
+              type="text"
+              id="apellido"
               formControlName="apellido"
               class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
               [class.border-red-300]="technicianForm.get('apellido')?.invalid && technicianForm.get('apellido')?.touched"
-            >
-          </div>
-
-          <!-- DNI -->
-          <div>
-            <label for="dni" class="block text-sm font-medium text-gray-700 mb-1">DNI</label>
-            <div class="relative">
-              <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                <i class="bi bi-person-badge"></i>
-              </span>
-              <input 
-                type="text" 
-                id="dni" 
-                formControlName="dni"
-                class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                [class.border-red-300]="technicianForm.get('dni')?.invalid && technicianForm.get('dni')?.touched"
               >
             </div>
-            <p *ngIf="technicianForm.get('dni')?.invalid && technicianForm.get('dni')?.touched" class="mt-1 text-xs text-red-500">
-              DNI inválido (debe tener 8 dígitos).
-            </p>
-          </div>
-
-          <!-- Age -->
-          <div>
-            <label for="edad" class="block text-sm font-medium text-gray-700 mb-1">Edad</label>
-            <input 
-              type="number" 
-              id="edad" 
-              formControlName="edad"
-              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-            >
-          </div>
-
-          <!-- Email -->
-          <div class="md:col-span-2">
-            <label for="correo" class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
-            <div class="relative">
-              <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                <i class="bi bi-envelope"></i>
-              </span>
-              <input 
-                type="email" 
-                id="correo" 
-                formControlName="correo"
-                class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                [class.border-red-300]="technicianForm.get('correo')?.invalid && technicianForm.get('correo')?.touched"
-              >
-            </div>
-            <p *ngIf="technicianForm.get('correo')?.invalid && technicianForm.get('correo')?.touched" class="mt-1 text-xs text-red-500">
-              Correo electrónico inválido.
-            </p>
-          </div>
-
-          <!-- Phone -->
-          <div>
-            <label for="telefono" class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
-            <div class="relative">
-              <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                <i class="bi bi-telephone"></i>
-              </span>
-              <input 
-                type="tel" 
-                id="telefono" 
-                formControlName="telefono"
-                class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                [class.border-red-300]="technicianForm.get('telefono')?.invalid && technicianForm.get('telefono')?.touched"
-              >
-            </div>
-            <p *ngIf="technicianForm.get('telefono')?.invalid && technicianForm.get('telefono')?.touched" class="mt-1 text-xs text-red-500">
-              Celular inválido (requerido, 9 dígitos formato: 9XXXXXXXX).
-            </p>
-          </div>
-
-          <!-- Specialty -->
-          <div>
-            <label for="especialidad" class="block text-sm font-medium text-gray-700 mb-1">Especialidad</label>
-            <select 
-              id="especialidad" 
-              formControlName="especialidad"
-              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white"
-            >
-              <option *ngFor="let spec of specialties" [value]="spec">{{ spec }}</option>
-            </select>
-          </div>
-
-           <!-- Password (Optional for edit) -->
-           <div class="md:col-span-2">
-            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Nueva Contraseña (Opcional)</label>
-            <div class="relative">
-              <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                <i class="bi bi-lock"></i>
-              </span>
-              <input 
-                type="password" 
-                id="password" 
-                formControlName="password"
-                class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                placeholder="Dejar en blanco para mantener la actual"
-              >
-            </div>
-            <p class="text-xs text-gray-500 mt-1">Solo llena este campo si deseas cambiar la contraseña del usuario.</p>
-          </div>
-          
-          <!-- Status -->
-          <div class="md:col-span-2">
-             <div class="flex items-center gap-3">
-               <input type="checkbox" id="estado_activo" formControlName="estado_activo" class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500 border-gray-300">
-               <label for="estado_activo" class="text-sm font-medium text-gray-700">Usuario Activo</label>
-             </div>
-             <p class="text-xs text-gray-500 mt-1 ml-8">Si desactivas el usuario, no podrá acceder al sistema.</p>
-          </div>
-
-        </div>
-
-        <!-- Actions -->
-        <div class="flex items-center justify-end gap-3 pt-6 border-t border-gray-100">
-          <button 
-            type="button" 
-            (click)="onClose()"
-            class="px-5 py-2.5 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors focus:ring-4 focus:ring-gray-100"
-          >
-            Cancelar
-          </button>
-          <button 
-            type="submit" 
-            [disabled]="technicianForm.invalid || isSubmitting()"
-            class="px-5 py-2.5 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20 focus:ring-4 focus:ring-blue-100 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-          >
-            <span *ngIf="isSubmitting()" class="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></span>
-            Guardar Cambios
-          </button>
-        </div>
-      </form>
-</app-modal-wrapper>
+            <!-- DNI -->
+            <div>
+              <label for="dni" class="block text-sm font-medium text-gray-700 mb-1">DNI</label>
+              <div class="relative">
+                <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                  <i class="bi bi-person-badge"></i>
+                </span>
+                <input
+                  type="text"
+                  id="dni"
+                  formControlName="dni"
+                  class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                  [class.border-red-300]="technicianForm.get('dni')?.invalid && technicianForm.get('dni')?.touched"
+                  >
+                </div>
+                @if (technicianForm.get('dni')?.invalid && technicianForm.get('dni')?.touched) {
+                  <p class="mt-1 text-xs text-red-500">
+                    DNI inválido (debe tener 8 dígitos).
+                  </p>
+                }
+              </div>
+              <!-- Age -->
+              <div>
+                <label for="edad" class="block text-sm font-medium text-gray-700 mb-1">Edad</label>
+                <input
+                  type="number"
+                  id="edad"
+                  formControlName="edad"
+                  class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                  >
+                </div>
+                <!-- Email -->
+                <div class="md:col-span-2">
+                  <label for="correo" class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
+                  <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                      <i class="bi bi-envelope"></i>
+                    </span>
+                    <input
+                      type="email"
+                      id="correo"
+                      formControlName="correo"
+                      class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                      [class.border-red-300]="technicianForm.get('correo')?.invalid && technicianForm.get('correo')?.touched"
+                      >
+                    </div>
+                    @if (technicianForm.get('correo')?.invalid && technicianForm.get('correo')?.touched) {
+                      <p class="mt-1 text-xs text-red-500">
+                        Correo electrónico inválido.
+                      </p>
+                    }
+                  </div>
+                  <!-- Phone -->
+                  <div>
+                    <label for="telefono" class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
+                    <div class="relative">
+                      <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                        <i class="bi bi-telephone"></i>
+                      </span>
+                      <input
+                        type="tel"
+                        id="telefono"
+                        formControlName="telefono"
+                        class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                        [class.border-red-300]="technicianForm.get('telefono')?.invalid && technicianForm.get('telefono')?.touched"
+                        >
+                      </div>
+                      @if (technicianForm.get('telefono')?.invalid && technicianForm.get('telefono')?.touched) {
+                        <p class="mt-1 text-xs text-red-500">
+                          Celular inválido (requerido, 9 dígitos formato: 9XXXXXXXX).
+                        </p>
+                      }
+                    </div>
+                    <!-- Specialty -->
+                    <div>
+                      <label for="especialidad" class="block text-sm font-medium text-gray-700 mb-1">Especialidad</label>
+                      <select
+                        id="especialidad"
+                        formControlName="especialidad"
+                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white"
+                        >
+                        @for (spec of specialties; track spec) {
+                          <option [value]="spec">{{ spec }}</option>
+                        }
+                      </select>
+                    </div>
+                    <!-- Password (Optional for edit) -->
+                    <div class="md:col-span-2">
+                      <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Nueva Contraseña (Opcional)</label>
+                      <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                          <i class="bi bi-lock"></i>
+                        </span>
+                        <input
+                          type="password"
+                          id="password"
+                          formControlName="password"
+                          class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                          placeholder="Dejar en blanco para mantener la actual"
+                          >
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">Solo llena este campo si deseas cambiar la contraseña del usuario.</p>
+                      </div>
+                      <!-- Status -->
+                      <div class="md:col-span-2">
+                        <div class="flex items-center gap-3">
+                          <input type="checkbox" id="estado_activo" formControlName="estado_activo" class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500 border-gray-300">
+                          <label for="estado_activo" class="text-sm font-medium text-gray-700">Usuario Activo</label>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1 ml-8">Si desactivas el usuario, no podrá acceder al sistema.</p>
+                      </div>
+                    </div>
+                    <!-- Actions -->
+                    <div class="flex items-center justify-end gap-3 pt-6 border-t border-gray-100">
+                      <button
+                        type="button"
+                        (click)="onClose()"
+                        class="px-5 py-2.5 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors focus:ring-4 focus:ring-gray-100"
+                        >
+                        Cancelar
+                      </button>
+                      <button
+                        type="submit"
+                        [disabled]="technicianForm.invalid || isSubmitting()"
+                        class="px-5 py-2.5 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20 focus:ring-4 focus:ring-blue-100 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                        >
+                        @if (isSubmitting()) {
+                          <span class="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></span>
+                        }
+                        Guardar Cambios
+                      </button>
+                    </div>
+                  </form>
+                }
+              </app-modal-wrapper>

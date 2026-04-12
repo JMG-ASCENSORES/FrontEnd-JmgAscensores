@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-pdf-preview',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './pdf-preview.component.html',
   styleUrl: './pdf-preview.component.scss'
 })

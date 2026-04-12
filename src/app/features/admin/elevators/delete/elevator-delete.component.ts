@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, Output, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ElevatorService } from '../../services/elevator.service';
 import { Elevator } from '../../../../core/models/elevator.model';
 
 @Component({
   selector: 'app-elevator-delete',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './elevator-delete.component.html',
   styleUrl: './elevator-delete.component.scss'
 })

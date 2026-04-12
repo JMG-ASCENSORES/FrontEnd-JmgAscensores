@@ -11,14 +11,16 @@
     </div>
 
     <!-- Nombre del técnico -->
-    <div class="flex items-center gap-2" *ngIf="authService.currentUser() as user">
-      <div class="w-7 h-7 rounded-full bg-white/15 flex items-center justify-center shrink-0">
-        <span class="font-display text-white text-xs font-bold">
-          {{ user.nombre.charAt(0) }}{{ user.apellido.charAt(0) }}
-        </span>
+    @if (authService.currentUser(); as user) {
+      <div class="flex items-center gap-2">
+        <div class="w-7 h-7 rounded-full bg-white/15 flex items-center justify-center shrink-0">
+          <span class="font-display text-white text-xs font-bold">
+            {{ user.nombre.charAt(0) }}{{ user.apellido.charAt(0) }}
+          </span>
+        </div>
+        <span class="text-white/80 text-xs font-medium">{{ user.nombre }}</span>
       </div>
-      <span class="text-white/80 text-xs font-medium">{{ user.nombre }}</span>
-    </div>
+    }
   </header>
 
   <!-- Contenido principal -->

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, inject, ChangeDetectorRef, SimpleChanges, OnChanges } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { MantenimientoService } from '../services/mantenimiento.service';
 import { Mantenimiento, CrearMantenimientoDTO } from '../models/mantenimiento.interface';
@@ -36,7 +36,7 @@ interface Ascensor {
 @Component({
   selector: 'app-programacion-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: './programacion-modal.component.html',
   styleUrls: ['./programacion-modal.component.css']
 })

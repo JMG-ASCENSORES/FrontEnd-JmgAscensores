@@ -1,0 +1,1709 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>jmg-ascensores documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">jmg-ascensores documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >ProgramacionService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/features/admin/services/programacion.service.ts</code>
+        </p>
+
+
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#apiUrl" >apiUrl</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#http" >http</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#combinarFechaHora" >combinarFechaHora</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#convertAPIToProgramacion" >convertAPIToProgramacion</a>
+                            </li>
+                            <li>
+                                <a href="#createProgramacion" >createProgramacion</a>
+                            </li>
+                            <li>
+                                <a href="#deleteProgramacion" >deleteProgramacion</a>
+                            </li>
+                            <li>
+                                <a href="#extraerFecha" >extraerFecha</a>
+                            </li>
+                            <li>
+                                <a href="#extraerHora" >extraerHora</a>
+                            </li>
+                            <li>
+                                <a href="#getEstadoColor" >getEstadoColor</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getHeaders" >getHeaders</a>
+                            </li>
+                            <li>
+                                <a href="#getProgramacionById" >getProgramacionById</a>
+                            </li>
+                            <li>
+                                <a href="#getProgramaciones" >getProgramaciones</a>
+                            </li>
+                            <li>
+                                <a href="#getTipoTrabajoColor" >getTipoTrabajoColor</a>
+                            </li>
+                            <li>
+                                <a href="#getTipoTrabajoLabel" >getTipoTrabajoLabel</a>
+                            </li>
+                            <li>
+                                <a href="#patchEstado" >patchEstado</a>
+                            </li>
+                            <li>
+                                <a href="#updateProgramacion" >updateProgramacion</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="combinarFechaHora"></a>
+                    <span class="name">
+                        <span ><b>combinarFechaHora</b></span>
+                        <a href="#combinarFechaHora"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>combinarFechaHora(fecha: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, hora: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="274"
+                                    class="link-to-prism">src/app/features/admin/services/programacion.service.ts:274</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Helpers para formateo de fechas</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>fecha</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>hora</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="convertAPIToProgramacion"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>convertAPIToProgramacion</b></span>
+                        <a href="#convertAPIToProgramacion"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>convertAPIToProgramacion(apiProg: <a href="../interfaces/ProgramacionAPI.html" target="_self">ProgramacionAPI</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="173"
+                                    class="link-to-prism">src/app/features/admin/services/programacion.service.ts:173</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Convertir formato API a formato interno</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>apiProg</td>
+                                            <td>
+                                                            <code><a href="../interfaces/ProgramacionAPI.html" target="_self" >ProgramacionAPI</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/Programacion.html" target="_self" >Programacion</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createProgramacion"></a>
+                    <span class="name">
+                        <span ><b>createProgramacion</b></span>
+                        <a href="#createProgramacion"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>createProgramacion(data: <a href="../interfaces/CrearProgramacionDTO.html" target="_self">CrearProgramacionDTO</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="209"
+                                    class="link-to-prism">src/app/features/admin/services/programacion.service.ts:209</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Crear nueva programación</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                            <code><a href="../interfaces/CrearProgramacionDTO.html" target="_self" >CrearProgramacionDTO</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/Programacion.html" target="_self" >Observable&lt;Programacion&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deleteProgramacion"></a>
+                    <span class="name">
+                        <span ><b>deleteProgramacion</b></span>
+                        <a href="#deleteProgramacion"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>deleteProgramacion(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="257"
+                                    class="link-to-prism">src/app/features/admin/services/programacion.service.ts:257</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Eliminar programación</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;void&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="extraerFecha"></a>
+                    <span class="name">
+                        <span ><b>extraerFecha</b></span>
+                        <a href="#extraerFecha"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>extraerFecha(isoString: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="280"
+                                    class="link-to-prism">src/app/features/admin/services/programacion.service.ts:280</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>isoString</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="extraerHora"></a>
+                    <span class="name">
+                        <span ><b>extraerHora</b></span>
+                        <a href="#extraerHora"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>extraerHora(isoString: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="285"
+                                    class="link-to-prism">src/app/features/admin/services/programacion.service.ts:285</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>isoString</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getEstadoColor"></a>
+                    <span class="name">
+                        <span ><b>getEstadoColor</b></span>
+                        <a href="#getEstadoColor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getEstadoColor(estado: <a href="../miscellaneous/typealiases.html#EstadoProgramacion" target="_self">EstadoProgramacion</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="315"
+                                    class="link-to-prism">src/app/features/admin/services/programacion.service.ts:315</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>estado</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#EstadoProgramacion" target="_self" >EstadoProgramacion</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getHeaders"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getHeaders</b></span>
+                        <a href="#getHeaders"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getHeaders()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="117"
+                                    class="link-to-prism">src/app/features/admin/services/programacion.service.ts:117</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://angular.io/api/common/http/HttpHeaders" target="_blank" >HttpHeaders</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getProgramacionById"></a>
+                    <span class="name">
+                        <span ><b>getProgramacionById</b></span>
+                        <a href="#getProgramacionById"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getProgramacionById(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="194"
+                                    class="link-to-prism">src/app/features/admin/services/programacion.service.ts:194</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Obtener una programación por ID</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/Programacion.html" target="_self" >Observable&lt;Programacion&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getProgramaciones"></a>
+                    <span class="name">
+                        <span ><b>getProgramaciones</b></span>
+                        <a href="#getProgramaciones"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getProgramaciones(start?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, end?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="130"
+                                    class="link-to-prism">src/app/features/admin/services/programacion.service.ts:130</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Obtener programaciones por rango de fechas</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>start</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Fecha inicio en formato ISO (YYYY-MM-DD)</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>end</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Fecha fin en formato ISO (YYYY-MM-DD)</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/Programacion.html" target="_self" >Observable&lt;Programacion[]&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTipoTrabajoColor"></a>
+                    <span class="name">
+                        <span ><b>getTipoTrabajoColor</b></span>
+                        <a href="#getTipoTrabajoColor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getTipoTrabajoColor(tipo: <a href="../miscellaneous/typealiases.html#TipoTrabajo" target="_self">TipoTrabajo</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="304"
+                                    class="link-to-prism">src/app/features/admin/services/programacion.service.ts:304</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>tipo</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#TipoTrabajo" target="_self" >TipoTrabajo</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTipoTrabajoLabel"></a>
+                    <span class="name">
+                        <span ><b>getTipoTrabajoLabel</b></span>
+                        <a href="#getTipoTrabajoLabel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getTipoTrabajoLabel(tipo: <a href="../miscellaneous/typealiases.html#TipoTrabajo" target="_self">TipoTrabajo</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="293"
+                                    class="link-to-prism">src/app/features/admin/services/programacion.service.ts:293</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>tipo</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#TipoTrabajo" target="_self" >TipoTrabajo</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="patchEstado"></a>
+                    <span class="name">
+                        <span ><b>patchEstado</b></span>
+                        <a href="#patchEstado"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>patchEstado(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, estado: <a href="../miscellaneous/typealiases.html#EstadoProgramacion" target="_self">EstadoProgramacion</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="241"
+                                    class="link-to-prism">src/app/features/admin/services/programacion.service.ts:241</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Actualizar solo el estado de la programación (PATCH)</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>estado</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#EstadoProgramacion" target="_self" >EstadoProgramacion</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/Programacion.html" target="_self" >Observable&lt;Programacion&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateProgramacion"></a>
+                    <span class="name">
+                        <span ><b>updateProgramacion</b></span>
+                        <a href="#updateProgramacion"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateProgramacion(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, data: <a href="../interfaces/ActualizarProgramacionDTO.html" target="_self">ActualizarProgramacionDTO</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="225"
+                                    class="link-to-prism">src/app/features/admin/services/programacion.service.ts:225</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Actualizar programación existente</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                            <code><a href="../interfaces/ActualizarProgramacionDTO.html" target="_self" >ActualizarProgramacionDTO</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/Programacion.html" target="_self" >Observable&lt;Programacion&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="apiUrl"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>apiUrl</b></span>
+                        <a href="#apiUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x60;${environment.apiUrl}/programaciones&#x60;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="115" class="link-to-prism">src/app/features/admin/services/programacion.service.ts:115</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="http"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>http</b></span>
+                        <a href="#http"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(HttpClient)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="114" class="link-to-prism">src/app/features/admin/services/programacion.service.ts:114</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, inject } from &#x27;@angular/core&#x27;;
+import { HttpClient, HttpHeaders, HttpParams } from &#x27;@angular/common/http&#x27;;
+import { Observable, catchError, map, throwError } from &#x27;rxjs&#x27;;
+import { environment } from &#x27;../../../../environments/environment&#x27;;
+
+// &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; INTERFACES &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+
+export type TipoTrabajo &#x3D; &#x27;mantenimiento&#x27; | &#x27;reparacion&#x27; | &#x27;inspeccion&#x27; | &#x27;emergencia&#x27;;
+export type EstadoProgramacion &#x3D; &#x27;pendiente&#x27; | &#x27;en_progreso&#x27; | &#x27;completada&#x27; | &#x27;cancelada&#x27;;
+
+// Formato que devuelve el backend
+export interface ProgramacionAPI {
+  id: number;
+  title: string;
+  start: string;
+  end: string;
+  color: string;
+  extendedProps: {
+    trabajador_id: number;
+    cliente_id?: number;
+    ascensor_id?: number;
+    tipo_trabajo: TipoTrabajo;
+    estado: EstadoProgramacion;
+    descripcion?: string;
+    trabajador?: Trabajador;
+    cliente?: Cliente;
+    ascensor?: Ascensor;
+  };
+}
+
+// Formato interno del frontend
+export interface Programacion {
+  programacion_id: number;
+  titulo: string;
+  fecha_inicio: string; // ISO 8601 format
+  fecha_fin: string; // ISO 8601 format
+  trabajador_id: number;
+  cliente_id?: number;
+  ascensor_id?: number;
+  tipo_trabajo: TipoTrabajo;
+  estado: EstadoProgramacion;
+  descripcion?: string;
+  fecha_creacion?: string;
+  fecha_actualizacion?: string;
+  
+  // Relaciones (populated by backend)
+  trabajador?: Trabajador;
+  cliente?: Cliente;
+  ascensor?: Ascensor;
+}
+
+export interface Trabajador {
+  usuario_id: number;
+  nombre: string;
+  apellido: string;
+  email: string;
+  especialidad?: string;
+}
+
+export interface Cliente {
+  cliente_id: number;
+  nombre_comercial?: string;
+  contacto_nombre?: string;
+  contacto_apellido?: string;
+  tipo_cliente?: string;
+}
+
+export interface Ascensor {
+  ascensor_id: number;
+  cliente_id: number;
+  tipo_equipo: string;
+  marca: string;
+  modelo?: string;
+  numero_serie?: string;
+  estado?: string;
+}
+
+export interface CrearProgramacionDTO {
+  titulo: string;
+  start: string; // ISO 8601: &quot;2026-02-20T08:00:00&quot;
+  end: string; // ISO 8601: &quot;2026-02-20T11:00:00&quot;
+  trabajador_id: number;
+  cliente_id?: number;
+  ascensor_id?: number;
+  tipo_trabajo: TipoTrabajo;
+  descripcion?: string;
+}
+
+export interface ActualizarProgramacionDTO {
+  titulo?: string;
+  start?: string;
+  end?: string;
+  trabajador_id?: number;
+  cliente_id?: number;
+  ascensor_id?: number;
+  tipo_trabajo?: TipoTrabajo;
+  estado?: EstadoProgramacion;
+  descripcion?: string;
+}
+
+export interface ApiResponse&lt;T&gt; {
+  success: boolean;
+  message: string;
+  data: T;
+  timestamp?: string;
+}
+
+// &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; SERVICE &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+
+@Injectable({
+  providedIn: &#x27;root&#x27;
+})
+export class ProgramacionService {
+  private http &#x3D; inject(HttpClient);
+  private apiUrl &#x3D; &#x60;${environment.apiUrl}/programaciones&#x60;;
+
+  private getHeaders(): HttpHeaders {
+    const token &#x3D; localStorage.getItem(&#x27;token&#x27;);
+    return new HttpHeaders({
+      &#x27;Authorization&#x27;: &#x60;Bearer ${token}&#x60;,
+      &#x27;Content-Type&#x27;: &#x27;application/json&#x27;
+    });
+  }
+
+  /**
+   * Obtener programaciones por rango de fechas
+   * @param start Fecha inicio en formato ISO (YYYY-MM-DD)
+   * @param end Fecha fin en formato ISO (YYYY-MM-DD)
+   */
+  getProgramaciones(start?: string, end?: string): Observable&lt;Programacion[]&gt; {
+    // Si no se proporcionan fechas, usar el mes actual completo
+    if (!start || !end) {
+      const now &#x3D; new Date();
+      const firstDay &#x3D; new Date(now.getFullYear(), now.getMonth(), 1);
+      const lastDay &#x3D; new Date(now.getFullYear(), now.getMonth() + 1, 0);
+      
+      start &#x3D; firstDay.toISOString().split(&#x27;T&#x27;)[0]; // YYYY-MM-DD
+      end &#x3D; lastDay.toISOString().split(&#x27;T&#x27;)[0];
+    }
+
+    let params &#x3D; new HttpParams();
+    params &#x3D; params.set(&#x27;start&#x27;, start);
+    params &#x3D; params.set(&#x27;end&#x27;, end);
+
+    return this.http.get&lt;ProgramacionAPI[]&gt;(this.apiUrl, { 
+      headers: this.getHeaders(),
+      params 
+    }).pipe(
+      map(response &#x3D;&gt; {
+        console.log(&#x27;API Response:&#x27;, response);
+        // Convertir formato API a formato interno
+        if (!Array.isArray(response)) return [];
+        
+        return response.map(apiProg &#x3D;&gt; this.convertAPIToProgramacion(apiProg));
+      }),
+      catchError(error &#x3D;&gt; {
+        console.error(&#x27;Error fetching programaciones:&#x27;, error);
+        console.error(&#x27;Error details:&#x27;, error.error);
+        if (error.status &#x3D;&#x3D;&#x3D; 401) {
+          return throwError(() &#x3D;&gt; new Error(&#x27;No autorizado. Por favor inicie sesión nuevamente.&#x27;));
+        }
+        if (error.status &#x3D;&#x3D;&#x3D; 400) {
+          return throwError(() &#x3D;&gt; new Error(&#x27;Parámetros inválidos. Verifique las fechas.&#x27;));
+        }
+        return throwError(() &#x3D;&gt; new Error(&#x27;Error al cargar programaciones.&#x27;));
+      })
+    );
+  }
+
+  /**
+   * Convertir formato API a formato interno
+   */
+  private convertAPIToProgramacion(apiProg: ProgramacionAPI): Programacion {
+    return {
+      programacion_id: apiProg.id,
+      titulo: apiProg.title,
+      fecha_inicio: apiProg.start,
+      fecha_fin: apiProg.end,
+      trabajador_id: apiProg.extendedProps.trabajador_id,
+      cliente_id: apiProg.extendedProps.cliente_id,
+      ascensor_id: apiProg.extendedProps.ascensor_id,
+      tipo_trabajo: apiProg.extendedProps.tipo_trabajo,
+      estado: apiProg.extendedProps.estado,
+      descripcion: apiProg.extendedProps.descripcion,
+      trabajador: apiProg.extendedProps.trabajador,
+      cliente: apiProg.extendedProps.cliente,
+      ascensor: apiProg.extendedProps.ascensor
+    };
+  }
+
+  /**
+   * Obtener una programación por ID
+   */
+  getProgramacionById(id: number): Observable&lt;Programacion&gt; {
+    return this.http.get&lt;ApiResponse&lt;Programacion&gt;&gt;(&#x60;${this.apiUrl}/${id}&#x60;, { 
+      headers: this.getHeaders() 
+    }).pipe(
+      map(response &#x3D;&gt; response.data),
+      catchError(error &#x3D;&gt; {
+        console.error(&#x27;Error fetching programacion:&#x27;, error);
+        return throwError(() &#x3D;&gt; new Error(&#x27;Error al cargar la programación.&#x27;));
+      })
+    );
+  }
+
+  /**
+   * Crear nueva programación
+   */
+  createProgramacion(data: CrearProgramacionDTO): Observable&lt;Programacion&gt; {
+    return this.http.post&lt;ApiResponse&lt;Programacion&gt;&gt;(this.apiUrl, data, { 
+      headers: this.getHeaders() 
+    }).pipe(
+      map(response &#x3D;&gt; response.data),
+      catchError(error &#x3D;&gt; {
+        console.error(&#x27;Error creating programacion:&#x27;, error);
+        const message &#x3D; error.error?.message || &#x27;Error al crear la programación.&#x27;;
+        return throwError(() &#x3D;&gt; new Error(message));
+      })
+    );
+  }
+
+  /**
+   * Actualizar programación existente
+   */
+  updateProgramacion(id: number, data: ActualizarProgramacionDTO): Observable&lt;Programacion&gt; {
+    return this.http.put&lt;ApiResponse&lt;Programacion&gt;&gt;(&#x60;${this.apiUrl}/${id}&#x60;, data, { 
+      headers: this.getHeaders() 
+    }).pipe(
+      map(response &#x3D;&gt; response.data),
+      catchError(error &#x3D;&gt; {
+        console.error(&#x27;Error updating programacion:&#x27;, error);
+        const message &#x3D; error.error?.message || &#x27;Error al actualizar la programación.&#x27;;
+        return throwError(() &#x3D;&gt; new Error(message));
+      })
+    );
+  }
+
+  /**
+   * Actualizar solo el estado de la programación (PATCH)
+   */
+  patchEstado(id: number, estado: EstadoProgramacion): Observable&lt;Programacion&gt; {
+    return this.http.patch&lt;ApiResponse&lt;Programacion&gt;&gt;(&#x60;${this.apiUrl}/${id}/estado&#x60;, { estado }, { 
+      headers: this.getHeaders() 
+    }).pipe(
+      map(response &#x3D;&gt; response.data),
+      catchError(error &#x3D;&gt; {
+        console.error(&#x27;Error updating programacion state:&#x27;, error);
+        const message &#x3D; error.error?.message || &#x27;Error al actualizar el estado de la programación.&#x27;;
+        return throwError(() &#x3D;&gt; new Error(message));
+      })
+    );
+  }
+
+  /**
+   * Eliminar programación
+   */
+  deleteProgramacion(id: number): Observable&lt;void&gt; {
+    return this.http.delete&lt;ApiResponse&lt;void&gt;&gt;(&#x60;${this.apiUrl}/${id}&#x60;, { 
+      headers: this.getHeaders() 
+    }).pipe(
+      map(() &#x3D;&gt; undefined),
+      catchError(error &#x3D;&gt; {
+        console.error(&#x27;Error deleting programacion:&#x27;, error);
+        return throwError(() &#x3D;&gt; new Error(&#x27;Error al eliminar la programación.&#x27;));
+      })
+    );
+  }
+
+  /**
+   * Helpers para formateo de fechas
+   */
+  
+  // Combinar fecha y hora para crear ISO string
+  combinarFechaHora(fecha: string, hora: string): string {
+    // fecha: &quot;2026-02-20&quot;, hora: &quot;08:00&quot;
+    return &#x60;${fecha}T${hora}:00&#x60;;
+  }
+
+  // Extraer fecha de ISO string
+  extraerFecha(isoString: string): string {
+    return new Date(isoString).toLocaleDateString(&#x27;es-ES&#x27;);
+  }
+
+  // Extraer hora de ISO string
+  extraerHora(isoString: string): string {
+    return new Date(isoString).toLocaleTimeString(&#x27;es-ES&#x27;, {
+      hour: &#x27;2-digit&#x27;,
+      minute: &#x27;2-digit&#x27;
+    });
+  }
+
+  // Obtener label para tipo de trabajo
+  getTipoTrabajoLabel(tipo: TipoTrabajo): string {
+    const labels: Record&lt;TipoTrabajo, string&gt; &#x3D; {
+      &#x27;mantenimiento&#x27;: &#x27;Mantenimiento&#x27;,
+      &#x27;reparacion&#x27;: &#x27;Reparación&#x27;,
+      &#x27;inspeccion&#x27;: &#x27;Inspección&#x27;,
+      &#x27;emergencia&#x27;: &#x27;Emergencia&#x27;
+    };
+    return labels[tipo] || tipo;
+  }
+
+  // Obtener color para tipo de trabajo
+  getTipoTrabajoColor(tipo: TipoTrabajo): string {
+    const colors: Record&lt;TipoTrabajo, string&gt; &#x3D; {
+      &#x27;mantenimiento&#x27;: &#x27;bg-blue-100 text-blue-700&#x27;,
+      &#x27;reparacion&#x27;: &#x27;bg-orange-100 text-orange-700&#x27;,
+      &#x27;inspeccion&#x27;: &#x27;bg-green-100 text-green-700&#x27;,
+      &#x27;emergencia&#x27;: &#x27;bg-red-100 text-red-700&#x27;
+    };
+    return colors[tipo] || &#x27;bg-gray-100 text-gray-700&#x27;;
+  }
+
+  // Obtener color para estado
+  getEstadoColor(estado: EstadoProgramacion): string {
+    const colors: Record&lt;EstadoProgramacion, string&gt; &#x3D; {
+      &#x27;pendiente&#x27;: &#x27;bg-yellow-100 text-yellow-700&#x27;,
+      &#x27;en_progreso&#x27;: &#x27;bg-blue-100 text-blue-700&#x27;,
+      &#x27;completada&#x27;: &#x27;bg-green-100 text-green-700&#x27;,
+      &#x27;cancelada&#x27;: &#x27;bg-red-100 text-red-700&#x27;
+    };
+    return colors[estado] || &#x27;bg-gray-100 text-gray-700&#x27;;
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'ProgramacionService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -4,225 +4,219 @@
   variant="primary"
   size="xl"
   (close)="onClose()"
->
-  <form *ngIf="clientForm" [formGroup]="clientForm" (ngSubmit)="onSubmit()" class="space-y-6">
-        
-        <!-- Error Alert -->
-        <div *ngIf="errorMessage()" class="bg-red-50 border-l-4 border-red-500 p-3 rounded-md flex items-start gap-3">
+  >
+  @if (clientForm) {
+    <form [formGroup]="clientForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      <!-- Error Alert -->
+      @if (errorMessage()) {
+        <div class="bg-red-50 border-l-4 border-red-500 p-3 rounded-md flex items-start gap-3">
           <i class="bi bi-exclamation-circle text-red-500 mt-0.5 shrink-0"></i>
           <p class="text-sm text-red-700">{{ errorMessage() }}</p>
         </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          
-          <!-- ── Columna izquierda: Datos ── -->
-          <div class="lg:col-span-1 space-y-4 h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
-
-            <!-- Tipo Cliente -->
+      }
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- ── Columna izquierda: Datos ── -->
+        <div class="lg:col-span-1 space-y-4 h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
+          <!-- Tipo Cliente -->
+          <div>
+            <label for="edit_tipo_cliente" class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Tipo de Cliente</label>
+            <select id="edit_tipo_cliente" formControlName="tipo_cliente"
+              class="w-full p-2.5 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-sm">
+              @for (type of types; track type) {
+                <option [value]="type.value">{{ type.label }}</option>
+              }
+            </select>
+          </div>
+          <!-- Nombre Comercial -->
+          @if (clientForm.get('tipo_cliente')?.value === 'empresa') {
             <div>
-              <label for="edit_tipo_cliente" class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Tipo de Cliente</label>
-              <select id="edit_tipo_cliente" formControlName="tipo_cliente"
-                class="w-full p-2.5 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-sm">
-                <option *ngFor="let type of types" [value]="type.value">{{ type.label }}</option>
-              </select>
-            </div>
-
-            <!-- Nombre Comercial -->
-            <div *ngIf="clientForm.get('tipo_cliente')?.value === 'empresa'">
               <label for="edit_nombre_comercial" class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Razón Social</label>
               <input type="text" id="edit_nombre_comercial" formControlName="nombre_comercial"
                 class="w-full p-2.5 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-sm"
                 [class.border-red-300]="clientForm.get('nombre_comercial')?.invalid && clientForm.get('nombre_comercial')?.touched">
-              <p *ngIf="clientForm.get('nombre_comercial')?.invalid && clientForm.get('nombre_comercial')?.touched" class="mt-1 text-xs text-red-500">Nombre comercial requerido.</p>
-            </div>
-
+                @if (clientForm.get('nombre_comercial')?.invalid && clientForm.get('nombre_comercial')?.touched) {
+                  <p class="mt-1 text-xs text-red-500">Nombre comercial requerido.</p>
+                }
+              </div>
+            }
             <!-- DNI -->
             <div>
               <label for="edit_dni" class="block text-xs font-bold text-slate-500 uppercase mb-1.5">DNI</label>
               <input type="text" id="edit_dni" formControlName="dni"
                 class="w-full p-2.5 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-sm"
                 [class.border-red-300]="clientForm.get('dni')?.invalid && clientForm.get('dni')?.touched">
-              <p *ngIf="clientForm.get('dni')?.invalid && clientForm.get('dni')?.touched" class="mt-1 text-xs text-red-500">DNI inválido (8 dígitos).</p>
-            </div>
-
-            <!-- RUC -->
-            <div *ngIf="clientForm.get('tipo_cliente')?.value === 'empresa'">
-              <label for="edit_ruc" class="block text-xs font-bold text-slate-500 uppercase mb-1.5">RUC</label>
-              <input type="text" id="edit_ruc" formControlName="ruc"
-                class="w-full p-2.5 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-sm">
-            </div>
-
-            <!-- Contacto -->
-            <div>
-              <label class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Contacto</label>
-              <div class="grid grid-cols-2 gap-2">
-                <input type="text" formControlName="contacto_nombre" placeholder="Nombre"
-                  class="w-full p-2.5 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-sm">
-                <input type="text" formControlName="contacto_apellido" placeholder="Apellido"
-                  class="w-full p-2.5 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-sm">
+                @if (clientForm.get('dni')?.invalid && clientForm.get('dni')?.touched) {
+                  <p class="mt-1 text-xs text-red-500">DNI inválido (8 dígitos).</p>
+                }
               </div>
-            </div>
-
-            <!-- Email -->
-            <div>
-              <label for="edit_contacto_correo" class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Correo</label>
-              <input type="email" id="edit_contacto_correo" formControlName="contacto_correo"
-                class="w-full p-2.5 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-sm">
-            </div>
-
-            <!-- Teléfono -->
-            <div>
-              <label for="edit_telefono" class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Teléfono</label>
-              <input type="text" id="edit_telefono" formControlName="contacto_telefono"
-                class="w-full p-2.5 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-sm">
-            </div>
-
-            <!-- ── Coordenadas (pegado directo desde Google Maps) ── -->
-            <div class="p-3 rounded-xl border-2 transition-colors"
-              [ngClass]="coordParseError() ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50'">
-
-              <label class="block text-xs font-bold text-slate-500 uppercase mb-2 flex items-center gap-2">
-                <i class="bi bi-geo-alt-fill text-[#003B73]"></i>
-                Coordenadas GPS
-              </label>
-
-              <!-- Single paste field -->
-              <input
-                type="text"
-                [value]="coordPasteValue()"
-                (input)="onCoordPaste($event)"
-                placeholder='-12.0898, -77.0101'
-                class="w-full p-2.5 bg-white border rounded-lg text-sm font-mono focus:outline-none focus:ring-4 transition-all"
+              <!-- RUC -->
+              @if (clientForm.get('tipo_cliente')?.value === 'empresa') {
+                <div>
+                  <label for="edit_ruc" class="block text-xs font-bold text-slate-500 uppercase mb-1.5">RUC</label>
+                  <input type="text" id="edit_ruc" formControlName="ruc"
+                    class="w-full p-2.5 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-sm">
+                  </div>
+                }
+                <!-- Contacto -->
+                <div>
+                  <label class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Contacto</label>
+                  <div class="grid grid-cols-2 gap-2">
+                    <input type="text" formControlName="contacto_nombre" placeholder="Nombre"
+                      class="w-full p-2.5 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-sm">
+                      <input type="text" formControlName="contacto_apellido" placeholder="Apellido"
+                        class="w-full p-2.5 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-sm">
+                      </div>
+                    </div>
+                    <!-- Email -->
+                    <div>
+                      <label for="edit_contacto_correo" class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Correo</label>
+                      <input type="email" id="edit_contacto_correo" formControlName="contacto_correo"
+                        class="w-full p-2.5 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-sm">
+                      </div>
+                      <!-- Teléfono -->
+                      <div>
+                        <label for="edit_telefono" class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Teléfono</label>
+                        <input type="text" id="edit_telefono" formControlName="contacto_telefono"
+                          class="w-full p-2.5 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-sm">
+                        </div>
+                        <!-- ── Coordenadas (pegado directo desde Google Maps) ── -->
+                        <div class="p-3 rounded-xl border-2 transition-colors"
+                          [ngClass]="coordParseError() ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50'">
+                          <label class="block text-xs font-bold text-slate-500 uppercase mb-2 flex items-center gap-2">
+                            <i class="bi bi-geo-alt-fill text-[#003B73]"></i>
+                            Coordenadas GPS
+                          </label>
+                          <!-- Single paste field -->
+                          <input
+                            type="text"
+                            [value]="coordPasteValue()"
+                            (input)="onCoordPaste($event)"
+                            placeholder='-12.0898, -77.0101'
+                            class="w-full p-2.5 bg-white border rounded-lg text-sm font-mono focus:outline-none focus:ring-4 transition-all"
                 [ngClass]="coordParseError()
                   ? 'border-red-300 focus:border-red-400 focus:ring-red-50'
                   : 'border-gray-200 focus:border-blue-500 focus:ring-blue-50'"
-              >
-
-              <!-- Parse error -->
-              <p *ngIf="coordParseError()" class="mt-1.5 text-xs text-red-500 flex items-center gap-1">
-                <i class="bi bi-exclamation-triangle-fill"></i>
-                Formato inválido. Pega el par de coordenadas tal como aparece en Google Maps.
-              </p>
-
-              <!-- Success indicator -->
-              <div *ngIf="hasCoordinates() && !coordParseError()" class="mt-1.5 flex items-center gap-1.5 text-[11px] text-green-600">
-                <i class="bi bi-check-circle-fill"></i>
-                <span class="font-mono">{{ clientForm.get('latitud')?.value }}, {{ clientForm.get('longitud')?.value }}</span>
-              </div>
-
-              <!-- Instructions -->
-              <p class="mt-2 text-[10px] text-slate-400 leading-tight">
-                <i class="bi bi-info-circle mr-1"></i>
-                En Google Maps: clic derecho sobre el punto → toca las coordenadas que aparecen arriba del menú → pégalas aquí.
-              </p>
-            </div>
-
-            <!-- Distrito -->
-            <div>
-              <label for="edit_distrito" class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Distrito / Ciudad</label>
-              <input type="text" id="edit_distrito" formControlName="distrito"
-                class="w-full p-2.5 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-sm">
-            </div>
-
-            <!-- Dirección Texto -->
-            <div>
-              <label for="edit_ubicacion" class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Dirección</label>
-              <input type="text" id="edit_ubicacion" formControlName="ubicacion"
-                class="w-full p-2.5 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-sm">
-            </div>
-
-            <!-- Estado -->
-            <div class="mt-2 p-3 bg-slate-50 rounded-xl border border-gray-200">
-               <div class="flex items-center gap-3">
-                 <input type="checkbox" id="client_estado_activo" formControlName="estado_activo" class="w-5 h-5 text-[#003B73] rounded focus:ring-blue-500 border-gray-300">
-                 <label for="client_estado_activo" class="text-sm font-medium text-gray-700">Cliente Activo</label>
-               </div>
-               <p class="text-[10px] text-gray-500 mt-1 ml-8 leading-tight">Si desactivas al cliente, se considerará en estado de baja operativa.</p>
-            </div>
-
-          </div>
-
-          <!-- ── Columna derecha: Google Maps Embed ── -->
-          <div class="lg:col-span-2 flex flex-col h-[60vh] rounded-2xl overflow-hidden border border-gray-200 shadow-inner bg-slate-50">
-
-            <!-- Toolbar del mapa -->
-            <div class="flex items-center justify-between px-4 py-2.5 bg-white border-b border-gray-200 shrink-0">
-              <div class="flex items-center gap-2">
-                <i class="bi bi-map-fill text-[#003B73]"></i>
-                <span class="text-xs font-bold text-slate-600 uppercase tracking-wide">Ubicación en Mapa</span>
-                <span *ngIf="hasCoordinates()"
-                  class="inline-flex items-center gap-1 bg-green-50 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded-full border border-green-200">
-                  <i class="bi bi-geo-alt-fill"></i> Ubicado
-                </span>
-              </div>
-              <div class="flex items-center gap-2">
-                <button type="button" (click)="copyCoordinates()" [disabled]="!hasCoordinates()"
-                  class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all border disabled:opacity-40 disabled:cursor-not-allowed"
-                  [ngClass]="copySuccess() ? 'bg-green-50 text-green-700 border-green-200' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'">
-                  <i class="bi" [ngClass]="copySuccess() ? 'bi-check-lg' : 'bi-clipboard'"></i>
-                  {{ copySuccess() ? '¡Copiado!' : 'Copiar' }}
-                </button>
-                <button type="button" (click)="openInGoogleMaps()" [disabled]="!hasCoordinates()"
-                  class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#003B73] text-white hover:bg-[#002a52] transition-all disabled:opacity-40 disabled:cursor-not-allowed">
-                  <i class="bi bi-box-arrow-up-right"></i>
-                  <span>Ver en Maps</span>
-                </button>
-              </div>
-            </div>
-
-            <!-- Área del mapa -->
-            <div class="relative flex-1">
-
-              <!-- Google Maps Embed iframe (gratuito, sin API key) -->
-              <iframe
-                *ngIf="hasCoordinates() && embedMapUrl()"
-                [src]="embedMapUrl()"
-                class="absolute inset-0 w-full h-full border-0"
-                allowfullscreen
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-                title="Ubicación del cliente en Google Maps">
-              </iframe>
-
-              <!-- Placeholder sin coordenadas -->
-              <div *ngIf="!hasCoordinates()"
-                class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 bg-slate-50">
-                <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
-                  <i class="bi bi-geo text-slate-300 text-3xl"></i>
-                </div>
-                <p class="text-sm font-semibold text-slate-500">Sin ubicación definida</p>
-                <p class="text-xs text-slate-400 mt-1 max-w-xs">
-                  Pega las coordenadas desde Google Maps en el campo del panel izquierdo para ver la ubicación aquí.
-                </p>
-              </div>
-
-            </div>
-
-            <!-- Pie del mapa -->
-            <div class="flex items-center justify-between px-4 py-2 bg-white border-t border-gray-100 shrink-0 text-xs">
-              <div class="flex gap-4">
-                <span class="text-slate-400">Lat: <span class="font-mono text-slate-600">{{ clientForm.get('latitud')?.value ?? '---' }}</span></span>
-                <span class="text-slate-400">Lng: <span class="font-mono text-slate-600">{{ clientForm.get('longitud')?.value ?? '---' }}</span></span>
-              </div>
-              <span class="text-slate-300 text-[10px]">Google Maps Embed · Gratuito</span>
-            </div>
-
-          </div>
-
-        </div>
-
-        <!-- Actions -->
-        <div class="flex items-center justify-end gap-3 pt-6 border-t border-gray-100">
-          <button type="button" (click)="onClose()"
-            class="px-5 py-2.5 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors">
-            Cancelar
-          </button>
-          <button type="submit" [disabled]="clientForm.invalid || isSubmitting()"
-            class="px-5 py-2.5 rounded-lg bg-[#003B73] text-white font-medium hover:bg-[#002a52] transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
-            <span *ngIf="isSubmitting()" class="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></span>
-            Guardar Cambios
-          </button>
-        </div>
-
-      </form>
-</app-modal-wrapper>
+                            >
+                            <!-- Parse error -->
+                            @if (coordParseError()) {
+                              <p class="mt-1.5 text-xs text-red-500 flex items-center gap-1">
+                                <i class="bi bi-exclamation-triangle-fill"></i>
+                                Formato inválido. Pega el par de coordenadas tal como aparece en Google Maps.
+                              </p>
+                            }
+                            <!-- Success indicator -->
+                            @if (hasCoordinates() && !coordParseError()) {
+                              <div class="mt-1.5 flex items-center gap-1.5 text-[11px] text-green-600">
+                                <i class="bi bi-check-circle-fill"></i>
+                                <span class="font-mono">{{ clientForm.get('latitud')?.value }}, {{ clientForm.get('longitud')?.value }}</span>
+                              </div>
+                            }
+                            <!-- Instructions -->
+                            <p class="mt-2 text-[10px] text-slate-400 leading-tight">
+                              <i class="bi bi-info-circle mr-1"></i>
+                              En Google Maps: clic derecho sobre el punto → toca las coordenadas que aparecen arriba del menú → pégalas aquí.
+                            </p>
+                          </div>
+                          <!-- Distrito -->
+                          <div>
+                            <label for="edit_distrito" class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Distrito / Ciudad</label>
+                            <input type="text" id="edit_distrito" formControlName="distrito"
+                              class="w-full p-2.5 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-sm">
+                            </div>
+                            <!-- Dirección Texto -->
+                            <div>
+                              <label for="edit_ubicacion" class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Dirección</label>
+                              <input type="text" id="edit_ubicacion" formControlName="ubicacion"
+                                class="w-full p-2.5 bg-slate-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all text-sm">
+                              </div>
+                              <!-- Estado -->
+                              <div class="mt-2 p-3 bg-slate-50 rounded-xl border border-gray-200">
+                                <div class="flex items-center gap-3">
+                                  <input type="checkbox" id="client_estado_activo" formControlName="estado_activo" class="w-5 h-5 text-[#003B73] rounded focus:ring-blue-500 border-gray-300">
+                                  <label for="client_estado_activo" class="text-sm font-medium text-gray-700">Cliente Activo</label>
+                                </div>
+                                <p class="text-[10px] text-gray-500 mt-1 ml-8 leading-tight">Si desactivas al cliente, se considerará en estado de baja operativa.</p>
+                              </div>
+                            </div>
+                            <!-- ── Columna derecha: Google Maps Embed ── -->
+                            <div class="lg:col-span-2 flex flex-col h-[60vh] rounded-2xl overflow-hidden border border-gray-200 shadow-inner bg-slate-50">
+                              <!-- Toolbar del mapa -->
+                              <div class="flex items-center justify-between px-4 py-2.5 bg-white border-b border-gray-200 shrink-0">
+                                <div class="flex items-center gap-2">
+                                  <i class="bi bi-map-fill text-[#003B73]"></i>
+                                  <span class="text-xs font-bold text-slate-600 uppercase tracking-wide">Ubicación en Mapa</span>
+                                  @if (hasCoordinates()) {
+                                    <span
+                                      class="inline-flex items-center gap-1 bg-green-50 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded-full border border-green-200">
+                                      <i class="bi bi-geo-alt-fill"></i> Ubicado
+                                    </span>
+                                  }
+                                </div>
+                                <div class="flex items-center gap-2">
+                                  <button type="button" (click)="copyCoordinates()" [disabled]="!hasCoordinates()"
+                                    class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all border disabled:opacity-40 disabled:cursor-not-allowed"
+                                    [ngClass]="copySuccess() ? 'bg-green-50 text-green-700 border-green-200' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'">
+                                    <i class="bi" [ngClass]="copySuccess() ? 'bi-check-lg' : 'bi-clipboard'"></i>
+                                    {{ copySuccess() ? '¡Copiado!' : 'Copiar' }}
+                                  </button>
+                                  <button type="button" (click)="openInGoogleMaps()" [disabled]="!hasCoordinates()"
+                                    class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#003B73] text-white hover:bg-[#002a52] transition-all disabled:opacity-40 disabled:cursor-not-allowed">
+                                    <i class="bi bi-box-arrow-up-right"></i>
+                                    <span>Ver en Maps</span>
+                                  </button>
+                                </div>
+                              </div>
+                              <!-- Área del mapa -->
+                              <div class="relative flex-1">
+                                <!-- Google Maps Embed iframe (gratuito, sin API key) -->
+                                @if (hasCoordinates() && embedMapUrl()) {
+                                  <iframe
+                                    [src]="embedMapUrl()"
+                                    class="absolute inset-0 w-full h-full border-0"
+                                    allowfullscreen
+                                    loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade"
+                                    title="Ubicación del cliente en Google Maps">
+                                  </iframe>
+                                }
+                                <!-- Placeholder sin coordenadas -->
+                                @if (!hasCoordinates()) {
+                                  <div
+                                    class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 bg-slate-50">
+                                    <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
+                                      <i class="bi bi-geo text-slate-300 text-3xl"></i>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-500">Sin ubicación definida</p>
+                                    <p class="text-xs text-slate-400 mt-1 max-w-xs">
+                                      Pega las coordenadas desde Google Maps en el campo del panel izquierdo para ver la ubicación aquí.
+                                    </p>
+                                  </div>
+                                }
+                              </div>
+                              <!-- Pie del mapa -->
+                              <div class="flex items-center justify-between px-4 py-2 bg-white border-t border-gray-100 shrink-0 text-xs">
+                                <div class="flex gap-4">
+                                  <span class="text-slate-400">Lat: <span class="font-mono text-slate-600">{{ clientForm.get('latitud')?.value ?? '---' }}</span></span>
+                                  <span class="text-slate-400">Lng: <span class="font-mono text-slate-600">{{ clientForm.get('longitud')?.value ?? '---' }}</span></span>
+                                </div>
+                                <span class="text-slate-300 text-[10px]">Google Maps Embed · Gratuito</span>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- Actions -->
+                          <div class="flex items-center justify-end gap-3 pt-6 border-t border-gray-100">
+                            <button type="button" (click)="onClose()"
+                              class="px-5 py-2.5 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors">
+                              Cancelar
+                            </button>
+                            <button type="submit" [disabled]="clientForm.invalid || isSubmitting()"
+                              class="px-5 py-2.5 rounded-lg bg-[#003B73] text-white font-medium hover:bg-[#002a52] transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+                              @if (isSubmitting()) {
+                                <span class="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></span>
+                              }
+                              Guardar Cambios
+                            </button>
+                          </div>
+                        </form>
+                      }
+                    </app-modal-wrapper>

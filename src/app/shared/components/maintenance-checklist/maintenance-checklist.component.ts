@@ -1,10 +1,10 @@
 import { Component, Input, Output, EventEmitter, computed, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-maintenance-checklist',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './maintenance-checklist.component.html',
   styles: []
 })

@@ -1,0 +1,1169 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>jmg-ascensores documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">jmg-ascensores documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  MaintenanceChecklistComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/shared/components/maintenance-checklist/maintenance-checklist.component.ts</code>
+</p>
+
+
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-maintenance-checklist</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="https://angular.io/api/common/CommonModule" target="_blank" >CommonModule</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./maintenance-checklist.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_items" >_items</a>
+                            </li>
+                            <li>
+                                <a href="#groupedChecklist" >groupedChecklist</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#isCategoryComplete" >isCategoryComplete</a>
+                            </li>
+                            <li>
+                                <a href="#toggleCategory" >toggleCategory</a>
+                            </li>
+                            <li>
+                                <a href="#toggleTask" >toggleTask</a>
+                            </li>
+                            <li>
+                                <a href="#trackByGroup" >trackByGroup</a>
+                            </li>
+                            <li>
+                                <a href="#trackByTask" >trackByTask</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#items" >items</a>
+                            </li>
+                            <li>
+                                <a href="#loading" >loading</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#categoryToggle" >categoryToggle</a>
+                            </li>
+                            <li>
+                                <a href="#taskToggle" >taskToggle</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#items" >items</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="items"></a>
+                        <b>items</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>any[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Required : </i>&nbsp;<b>true</b>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/shared/components/maintenance-checklist/maintenance-checklist.component.ts:14</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="loading"></a>
+                        <b>loading</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/shared/components/maintenance-checklist/maintenance-checklist.component.ts:17</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section data-compodoc="block-outputs">
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="categoryToggle"></a>
+                        <b>categoryToggle</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/shared/components/maintenance-checklist/maintenance-checklist.component.ts:20</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="taskToggle"></a>
+                        <b>taskToggle</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/shared/components/maintenance-checklist/maintenance-checklist.component.ts:19</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isCategoryComplete"></a>
+                    <span class="name">
+                        <span ><b>isCategoryComplete</b></span>
+                        <a href="#isCategoryComplete"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isCategoryComplete(group: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="48"
+                                    class="link-to-prism">src/app/shared/components/maintenance-checklist/maintenance-checklist.component.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>group</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleCategory"></a>
+                    <span class="name">
+                        <span ><b>toggleCategory</b></span>
+                        <a href="#toggleCategory"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleCategory(group: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, event: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="43"
+                                    class="link-to-prism">src/app/shared/components/maintenance-checklist/maintenance-checklist.component.ts:43</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>group</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleTask"></a>
+                    <span class="name">
+                        <span ><b>toggleTask</b></span>
+                        <a href="#toggleTask"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleTask(task: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="39"
+                                    class="link-to-prism">src/app/shared/components/maintenance-checklist/maintenance-checklist.component.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>task</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="trackByGroup"></a>
+                    <span class="name">
+                        <span ><b>trackByGroup</b></span>
+                        <a href="#trackByGroup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>trackByGroup(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, group: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="53"
+                                    class="link-to-prism">src/app/shared/components/maintenance-checklist/maintenance-checklist.component.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>index</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>group</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="trackByTask"></a>
+                    <span class="name">
+                        <span ><b>trackByTask</b></span>
+                        <a href="#trackByTask"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>trackByTask(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, task: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="57"
+                                    class="link-to-prism">src/app/shared/components/maintenance-checklist/maintenance-checklist.component.ts:57</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>index</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>task</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_items"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_items</b></span>
+                        <a href="#_items"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;any[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/shared/components/maintenance-checklist/maintenance-checklist.component.ts:12</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="groupedChecklist"></a>
+                    <span class="name">
+                        <span ><b>groupedChecklist</b></span>
+                        <a href="#groupedChecklist"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; {
+    const list &#x3D; this._items();
+    const groups: { categoria: string, tasks: any[] }[] &#x3D; [];
+    
+    list.forEach(item &#x3D;&gt; {
+      const categoria &#x3D; item.categoria || item.TareaMaestra?.categoria || &#x27;VARIOS&#x27;;
+      let group &#x3D; groups.find(g &#x3D;&gt; g.categoria &#x3D;&#x3D;&#x3D; categoria);
+      if (!group) {
+        group &#x3D; { categoria, tasks: [] };
+        groups.push(group);
+      }
+      group.tasks.push(item);
+    });
+
+    return groups;
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/shared/components/maintenance-checklist/maintenance-checklist.component.ts:22</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-accessors">
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="items"></a>
+                        <span class="name"><b>items</b><a href="#items"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>items()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/shared/components/maintenance-checklist/maintenance-checklist.component.ts:15</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>items(val: any[])</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/shared/components/maintenance-checklist/maintenance-checklist.component.ts:14</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>val</td>
+                                                    
+                                                            <td>
+                                                                        <code>any[]</code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, Output, EventEmitter, computed, signal } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+
+@Component({
+  selector: &#x27;app-maintenance-checklist&#x27;,
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: &#x27;./maintenance-checklist.component.html&#x27;,
+  styles: []
+})
+export class MaintenanceChecklistComponent {
+  private _items &#x3D; signal&lt;any[]&gt;([]);
+  @Input({ required: true }) 
+  set items(val: any[]) { this._items.set(val); }
+  get items() { return this._items(); }
+
+  @Input() loading: boolean &#x3D; false;
+
+  @Output() taskToggle &#x3D; new EventEmitter&lt;any&gt;();
+  @Output() categoryToggle &#x3D; new EventEmitter&lt;{ group: any, checked: boolean }&gt;();
+
+  groupedChecklist &#x3D; computed(() &#x3D;&gt; {
+    const list &#x3D; this._items();
+    const groups: { categoria: string, tasks: any[] }[] &#x3D; [];
+    
+    list.forEach(item &#x3D;&gt; {
+      const categoria &#x3D; item.categoria || item.TareaMaestra?.categoria || &#x27;VARIOS&#x27;;
+      let group &#x3D; groups.find(g &#x3D;&gt; g.categoria &#x3D;&#x3D;&#x3D; categoria);
+      if (!group) {
+        group &#x3D; { categoria, tasks: [] };
+        groups.push(group);
+      }
+      group.tasks.push(item);
+    });
+
+    return groups;
+  });
+
+  toggleTask(task: any) {
+    this.taskToggle.emit(task);
+  }
+
+  toggleCategory(group: any, event: Event) {
+    const isChecked &#x3D; (event.target as HTMLInputElement).checked;
+    this.categoryToggle.emit({ group, checked: isChecked });
+  }
+
+  isCategoryComplete(group: { categoria: string, tasks: any[] }): boolean {
+    if (!group.tasks || group.tasks.length &#x3D;&#x3D;&#x3D; 0) return false;
+    return group.tasks.every(t &#x3D;&gt; t.realizado);
+  }
+
+  trackByGroup(index: number, group: any): string {
+    return group.categoria;
+  }
+
+  trackByTask(index: number, task: any): number {
+    return task.tarea_maestra_id || task.tarea_id;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;maintenance-checklist-section pt-6 mt-6 border-t border-slate-100&quot;&gt;
+  &lt;h4 class&#x3D;&quot;text-sm font-extrabold text-[#003B73] uppercase tracking-wider mb-4 flex items-center gap-2&quot;&gt;
+    &lt;i class&#x3D;&quot;bi bi-card-checklist&quot;&gt;&lt;/i&gt; Checklist de Mantenimiento
+  &lt;/h4&gt;
+
+  &lt;div *ngIf&#x3D;&quot;loading&quot; class&#x3D;&quot;py-10 flex flex-col items-center justify-center gap-3&quot;&gt;
+     &lt;div class&#x3D;&quot;spinner-border text-primary&quot; role&#x3D;&quot;status&quot;&gt;&lt;/div&gt;
+     &lt;span class&#x3D;&quot;text-xs font-bold text-slate-400&quot;&gt;Cargando tareas...&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;div class&#x3D;&quot;checklist-groups&quot; *ngIf&#x3D;&quot;!loading &amp;&amp; items.length &gt; 0&quot;&gt;
+    &lt;div *ngFor&#x3D;&quot;let group of groupedChecklist(); trackBy: trackByGroup&quot; class&#x3D;&quot;checklist-group mb-6&quot;&gt;
+      &lt;div class&#x3D;&quot;group-header bg-slate-50 p-3 rounded-t-xl border-x border-t border-slate-200 flex items-center justify-between&quot;&gt;
+        &lt;span class&#x3D;&quot;group-title text-[10px] font-black text-slate-500 uppercase tracking-widest&quot;&gt;{{ group.categoria }}&lt;/span&gt;
+        
+        &lt;div class&#x3D;&quot;flex items-center gap-2 px-2 py-1 bg-white rounded-lg border border-slate-200 shadow-sm&quot;&gt;
+          &lt;input type&#x3D;&quot;checkbox&quot; 
+                 [checked]&#x3D;&quot;isCategoryComplete(group)&quot;
+                 (change)&#x3D;&quot;toggleCategory(group, $event)&quot;
+                 class&#x3D;&quot;w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer&quot;&gt;
+          &lt;label class&#x3D;&quot;text-[9px] font-bold text-emerald-700 uppercase cursor-pointer&quot;&gt;Marcar Todo&lt;/label&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;group-items bg-white border-x border-b border-slate-200 rounded-b-xl divide-y divide-slate-100 p-1&quot;&gt;
+        &lt;div *ngFor&#x3D;&quot;let task of group.tasks; trackBy: trackByTask&quot; class&#x3D;&quot;task-item px-3 py-3 flex items-start gap-3 hover:bg-slate-50/50 transition-colors&quot; (click)&#x3D;&quot;toggleTask(task)&quot;&gt;
+          &lt;div class&#x3D;&quot;task-checkbox-wrapper mt-0.5&quot;&gt;
+            &lt;input type&#x3D;&quot;checkbox&quot; [checked]&#x3D;&quot;task.realizado&quot; (click)&#x3D;&quot;$event.stopPropagation(); toggleTask(task)&quot; class&#x3D;&quot;w-5 h-5 rounded-md border-slate-300 text-[#003B73] focus:ring-[#003B73] transition-all cursor-pointer&quot;&gt;
+          &lt;/div&gt;
+          &lt;div class&#x3D;&quot;task-info flex-1&quot;&gt;
+            &lt;div class&#x3D;&quot;task-description text-sm font-bold text-slate-700 leading-tight&quot;&gt;{{ task.TareaMaestra?.descripcion_tarea }}&lt;/div&gt;
+            &lt;div class&#x3D;&quot;task-status text-[10px] italic font-bold&quot; [class.text-emerald-600]&#x3D;&quot;task.realizado&quot; [class.text-slate-400]&#x3D;&quot;!task.realizado&quot;&gt;
+              {{ task.realizado ? &#x27;EJECUTADO&#x27; : &#x27;PENDIENTE&#x27; }}
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="maintenance-checklist-section pt-6 mt-6 border-t border-slate-100">  <h4 class="text-sm font-extrabold text-[#003B73] uppercase tracking-wider mb-4 flex items-center gap-2">    <i class="bi bi-card-checklist"></i> Checklist de Mantenimiento  </h4>  <div *ngIf="loading" class="py-10 flex flex-col items-center justify-center gap-3">     <div class="spinner-border text-primary" role="status"></div>     <span class="text-xs font-bold text-slate-400">Cargando tareas...</span>  </div>  <div class="checklist-groups" *ngIf="!loading && items.length > 0">    <div *ngFor="let group of groupedChecklist(); trackBy: trackByGroup" class="checklist-group mb-6">      <div class="group-header bg-slate-50 p-3 rounded-t-xl border-x border-t border-slate-200 flex items-center justify-between">        <span class="group-title text-[10px] font-black text-slate-500 uppercase tracking-widest">{{ group.categoria }}</span>                <div class="flex items-center gap-2 px-2 py-1 bg-white rounded-lg border border-slate-200 shadow-sm">          <input type="checkbox"                  [checked]="isCategoryComplete(group)"                 (change)="toggleCategory(group, $event)"                 class="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer">          <label class="text-[9px] font-bold text-emerald-700 uppercase cursor-pointer">Marcar Todo</label>        </div>      </div>      <div class="group-items bg-white border-x border-b border-slate-200 rounded-b-xl divide-y divide-slate-100 p-1">        <div *ngFor="let task of group.tasks; trackBy: trackByTask" class="task-item px-3 py-3 flex items-start gap-3 hover:bg-slate-50/50 transition-colors" (click)="toggleTask(task)">          <div class="task-checkbox-wrapper mt-0.5">            <input type="checkbox" [checked]="task.realizado" (click)="$event.stopPropagation(); toggleTask(task)" class="w-5 h-5 rounded-md border-slate-300 text-[#003B73] focus:ring-[#003B73] transition-all cursor-pointer">          </div>          <div class="task-info flex-1">            <div class="task-description text-sm font-bold text-slate-700 leading-tight">{{ task.TareaMaestra?.descripcion_tarea }}</div>            <div class="task-status text-[10px] italic font-bold" [class.text-emerald-600]="task.realizado" [class.text-slate-400]="!task.realizado">              {{ task.realizado ? \'EJECUTADO\' : \'PENDIENTE\' }}            </div>          </div>        </div>      </div>    </div>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AdminLayoutComponent', 'selector': 'app-admin-layout'},{'name': 'AIAssistantComponent', 'selector': ''},{'name': 'App', 'selector': 'app-root'},{'name': 'BottomNavComponent', 'selector': 'app-bottom-nav'},{'name': 'ClientCreateComponent', 'selector': 'app-client-create'},{'name': 'ClientDeleteComponent', 'selector': 'app-client-delete'},{'name': 'ClientEditComponent', 'selector': 'app-client-edit'},{'name': 'ClientListComponent', 'selector': 'app-client-list'},{'name': 'ClientRestoreComponent', 'selector': 'app-client-restore'},{'name': 'DocumentDeleteComponent', 'selector': 'app-document-delete'},{'name': 'DocumentFormComponent', 'selector': 'app-document-form'},{'name': 'DocumentListComponent', 'selector': 'app-document-list'},{'name': 'ElevatorCreateComponent', 'selector': 'app-elevator-create'},{'name': 'ElevatorDeleteComponent', 'selector': 'app-elevator-delete'},{'name': 'ElevatorEditComponent', 'selector': 'app-elevator-edit'},{'name': 'ElevatorListComponent', 'selector': 'app-elevator-list'},{'name': 'EntityCardComponent', 'selector': 'app-entity-card'},{'name': 'EquipmentCreateModalComponent', 'selector': 'app-equipment-create-modal'},{'name': 'EquipmentDeleteModalComponent', 'selector': 'app-equipment-delete-modal'},{'name': 'EquipmentEditModalComponent', 'selector': 'app-equipment-edit-modal'},{'name': 'EquipmentListModalComponent', 'selector': 'app-equipment-list-modal'},{'name': 'FilterContainerComponent', 'selector': 'app-filter-container'},{'name': 'FilterInputComponent', 'selector': 'app-filter-input'},{'name': 'FilterSelectComponent', 'selector': 'app-filter-select'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MaintenanceChecklistComponent', 'selector': 'app-maintenance-checklist'},{'name': 'MaintenanceSchedulingComponent', 'selector': 'app-maintenance-scheduling'},{'name': 'MantenimientoFijoModalComponent', 'selector': 'app-mantenimiento-fijo-modal'},{'name': 'ModalWrapperComponent', 'selector': 'app-modal-wrapper'},{'name': 'PdfPreviewComponent', 'selector': 'app-pdf-preview'},{'name': 'PlaceholderPageComponent', 'selector': 'app-placeholder-page'},{'name': 'ProgramacionModalComponent', 'selector': 'app-programacion-modal'},{'name': 'ProgrammingComponent', 'selector': 'app-programming'},{'name': 'ReportsComponent', 'selector': ''},{'name': 'SearchableSelectComponent', 'selector': 'app-searchable-select'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'SkeletonLoaderComponent', 'selector': 'app-skeleton-loader'},{'name': 'TechnicianCreateComponent', 'selector': 'app-technician-create'},{'name': 'TechnicianDeleteComponent', 'selector': 'app-technician-delete'},{'name': 'TechnicianEditComponent', 'selector': 'app-technician-edit'},{'name': 'TechnicianListComponent', 'selector': 'app-technician-list'},{'name': 'TechnicianRestoreComponent', 'selector': 'app-technician-restore'},{'name': 'WorkerEquipmentComponent', 'selector': 'app-worker-equipment'},{'name': 'WorkerLayoutComponent', 'selector': 'app-worker-layout'},{'name': 'WorkerProfileComponent', 'selector': 'app-worker-profile'},{'name': 'WorkerReportCreateComponent', 'selector': 'app-worker-report-create'},{'name': 'WorkerReportsComponent', 'selector': 'app-worker-reports'},{'name': 'WorkerRoutesComponent', 'selector': 'app-worker-routes'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'MaintenanceChecklistComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'MaintenanceChecklistComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

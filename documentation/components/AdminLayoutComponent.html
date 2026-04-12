@@ -1,0 +1,664 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>jmg-ascensores documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">jmg-ascensores documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  AdminLayoutComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/features/admin/layout/admin-layout.component.ts</code>
+</p>
+
+
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-admin-layout</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="https://angular.io/api/common/CommonModule" target="_blank" >CommonModule</a></code>
+                                <code><a href="https://angular.io/api/router/RouterOutlet" target="_blank" >RouterOutlet</a></code>
+                                <code><a href="https://angular.io/api/router/RouterModule" target="_blank" >RouterModule</a></code>
+                                <code><a href="../components/SidebarComponent.html" target="_self" >SidebarComponent</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./admin-layout.component.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./admin-layout.component.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#authService" >authService</a>
+                            </li>
+                            <li>
+                                <a href="#showLogoutModal" >showLogoutModal</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#cancelLogout" >cancelLogout</a>
+                            </li>
+                            <li>
+                                <a href="#confirmLogout" >confirmLogout</a>
+                            </li>
+                            <li>
+                                <a href="#logout" >logout</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cancelLogout"></a>
+                    <span class="name">
+                        <span ><b>cancelLogout</b></span>
+                        <a href="#cancelLogout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>cancelLogout()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="28"
+                                    class="link-to-prism">src/app/features/admin/layout/admin-layout.component.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="confirmLogout"></a>
+                    <span class="name">
+                        <span ><b>confirmLogout</b></span>
+                        <a href="#confirmLogout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>confirmLogout()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="23"
+                                    class="link-to-prism">src/app/features/admin/layout/admin-layout.component.ts:23</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="logout"></a>
+                    <span class="name">
+                        <span ><b>logout</b></span>
+                        <a href="#logout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>logout()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="19"
+                                    class="link-to-prism">src/app/features/admin/layout/admin-layout.component.ts:19</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>authService</b></span>
+                        <a href="#authService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AuthService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/features/admin/layout/admin-layout.component.ts:15</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showLogoutModal"></a>
+                    <span class="name">
+                        <span ><b>showLogoutModal</b></span>
+                        <a href="#showLogoutModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/features/admin/layout/admin-layout.component.ts:17</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, inject } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { RouterOutlet, RouterModule } from &#x27;@angular/router&#x27;;
+import { AuthService } from &#x27;../../../core/services/auth.service&#x27;;
+import { SidebarComponent } from &#x27;../../../shared/components/sidebar/sidebar.component&#x27;;
+
+@Component({
+  selector: &#x27;app-admin-layout&#x27;,
+  standalone: true,
+  imports: [CommonModule, RouterOutlet, RouterModule, SidebarComponent],
+  templateUrl: &#x27;./admin-layout.component.html&#x27;,
+  styleUrl: &#x27;./admin-layout.component.scss&#x27;,
+})
+export class AdminLayoutComponent {
+  private authService &#x3D; inject(AuthService);
+
+  showLogoutModal &#x3D; false;
+
+  logout() {
+    this.showLogoutModal &#x3D; true;
+  }
+
+  confirmLogout() {
+    this.authService.logout();
+    this.showLogoutModal &#x3D; false;
+  }
+
+  cancelLogout() {
+    this.showLogoutModal &#x3D; false;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;flex h-screen bg-[#F8FAFC]&quot;&gt;
+  &lt;!-- Reusable Sidebar --&gt;
+  &lt;app-sidebar #sidebar (logoutRequest)&#x3D;&quot;logout()&quot; class&#x3D;&quot;hidden md:block transition-all duration-300&quot;&gt;&lt;/app-sidebar&gt;
+
+  &lt;!-- Main Content --&gt;
+  &lt;main class&#x3D;&quot;flex-1 overflow-auto flex flex-col&quot;&gt;
+    &lt;!-- Desktop Header with Hamburger --&gt;
+    &lt;header class&#x3D;&quot;hidden md:flex bg-white px-6 py-4 items-center border-b border-gray-100 shadow-sm sticky top-0 z-40&quot;&gt;
+      &lt;button (click)&#x3D;&quot;sidebar.toggleSidebar()&quot; 
+              class&#x3D;&quot;flex items-center justify-center w-10 h-10 rounded-xl hover:bg-gray-100 transition-colors text-gray-600 hover:text-green-600 mr-4&quot;&gt;
+        &lt;i class&#x3D;&quot;bi bi-list text-2xl&quot;&gt;&lt;/i&gt;
+      &lt;/button&gt;
+      &lt;h1 class&#x3D;&quot;text-xl font-bold text-gray-800&quot;&gt;Panel de Administración&lt;/h1&gt;
+    &lt;/header&gt;
+
+    &lt;!-- Mobile Header --&gt;
+    &lt;header class&#x3D;&quot;bg-white px-6 py-4 flex justify-between items-center md:hidden border-b border-gray-100 shadow-sm&quot;&gt;
+      &lt;div class&#x3D;&quot;flex items-center&quot;&gt;
+        &lt;img src&#x3D;&quot;images/jmg_logo.png&quot; alt&#x3D;&quot;JMG Logo&quot; class&#x3D;&quot;h-8 w-auto&quot;&gt;
+      &lt;/div&gt;
+      &lt;button (click)&#x3D;&quot;logout()&quot; class&#x3D;&quot;text-sm text-red-500 font-bold bg-red-50 px-4 py-2 rounded-full hover:bg-red-100 transition-colors&quot;&gt;
+        Salir
+      &lt;/button&gt;
+    &lt;/header&gt;
+
+    &lt;!-- Content Area --&gt;
+    &lt;div class&#x3D;&quot;w-full flex-1 flex flex-col min-h-0&quot;&gt;
+      &lt;router-outlet&gt;&lt;/router-outlet&gt;
+    &lt;/div&gt;
+  &lt;/main&gt;
+&lt;/div&gt;
+
+&lt;!-- Logout Confirmation Modal --&gt;
+&lt;div *ngIf&#x3D;&quot;showLogoutModal&quot; class&#x3D;&quot;fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4&quot;&gt;
+  &lt;div class&#x3D;&quot;bg-white rounded-2xl shadow-xl w-full max-w-sm overflow-hidden animate-fade-in-up transform scale-100 transition-all&quot;&gt;
+    &lt;div class&#x3D;&quot;p-6 text-center&quot;&gt;
+      &lt;div class&#x3D;&quot;w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4&quot;&gt;
+        &lt;i class&#x3D;&quot;bi bi-box-arrow-right text-3xl text-red-500 ml-1&quot;&gt;&lt;/i&gt;
+      &lt;/div&gt;
+      &lt;h3 class&#x3D;&quot;text-lg font-bold text-gray-800 mb-2&quot;&gt;¿Cerrar Sesión?&lt;/h3&gt;
+      &lt;p class&#x3D;&quot;text-sm text-gray-500 mb-6&quot;&gt;¿Estás seguro que deseas salir del sistema?&lt;/p&gt;
+      
+      &lt;div class&#x3D;&quot;flex gap-3 justify-center&quot;&gt;
+        &lt;button (click)&#x3D;&quot;cancelLogout()&quot; 
+                class&#x3D;&quot;flex-1 px-4 py-2.5 rounded-xl border border-gray-200 text-gray-700 text-sm font-semibold hover:bg-gray-50 hover:border-gray-300 transition-all duration-200&quot;&gt;
+          Cancelar
+        &lt;/button&gt;
+        &lt;button (click)&#x3D;&quot;confirmLogout()&quot; 
+                class&#x3D;&quot;flex-1 px-4 py-2.5 rounded-xl bg-red-500 text-white text-sm font-semibold hover:bg-red-600 shadow-lg shadow-red-500/20 transition-all duration-200 hover:-translate-y-0.5&quot;&gt;
+          Sí, Salir
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="flex h-screen bg-[#F8FAFC]">  <!-- Reusable Sidebar -->  <app-sidebar #sidebar (logoutRequest)="logout()" class="hidden md:block transition-all duration-300"></app-sidebar>  <!-- Main Content -->  <main class="flex-1 overflow-auto flex flex-col">    <!-- Desktop Header with Hamburger -->    <header class="hidden md:flex bg-white px-6 py-4 items-center border-b border-gray-100 shadow-sm sticky top-0 z-40">      <button (click)="sidebar.toggleSidebar()"               class="flex items-center justify-center w-10 h-10 rounded-xl hover:bg-gray-100 transition-colors text-gray-600 hover:text-green-600 mr-4">        <i class="bi bi-list text-2xl"></i>      </button>      <h1 class="text-xl font-bold text-gray-800">Panel de Administración</h1>    </header>    <!-- Mobile Header -->    <header class="bg-white px-6 py-4 flex justify-between items-center md:hidden border-b border-gray-100 shadow-sm">      <div class="flex items-center">        <img src="images/jmg_logo.png" alt="JMG Logo" class="h-8 w-auto">      </div>      <button (click)="logout()" class="text-sm text-red-500 font-bold bg-red-50 px-4 py-2 rounded-full hover:bg-red-100 transition-colors">        Salir      </button>    </header>    <!-- Content Area -->    <div class="w-full flex-1 flex flex-col min-h-0">      <router-outlet></router-outlet>    </div>  </main></div><!-- Logout Confirmation Modal --><div *ngIf="showLogoutModal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">  <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm overflow-hidden animate-fade-in-up transform scale-100 transition-all">    <div class="p-6 text-center">      <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">        <i class="bi bi-box-arrow-right text-3xl text-red-500 ml-1"></i>      </div>      <h3 class="text-lg font-bold text-gray-800 mb-2">¿Cerrar Sesión?</h3>      <p class="text-sm text-gray-500 mb-6">¿Estás seguro que deseas salir del sistema?</p>            <div class="flex gap-3 justify-center">        <button (click)="cancelLogout()"                 class="flex-1 px-4 py-2.5 rounded-xl border border-gray-200 text-gray-700 text-sm font-semibold hover:bg-gray-50 hover:border-gray-300 transition-all duration-200">          Cancelar        </button>        <button (click)="confirmLogout()"                 class="flex-1 px-4 py-2.5 rounded-xl bg-red-500 text-white text-sm font-semibold hover:bg-red-600 shadow-lg shadow-red-500/20 transition-all duration-200 hover:-translate-y-0.5">          Sí, Salir        </button>      </div>    </div>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AdminLayoutComponent', 'selector': 'app-admin-layout'},{'name': 'AIAssistantComponent', 'selector': ''},{'name': 'App', 'selector': 'app-root'},{'name': 'BottomNavComponent', 'selector': 'app-bottom-nav'},{'name': 'ClientCreateComponent', 'selector': 'app-client-create'},{'name': 'ClientDeleteComponent', 'selector': 'app-client-delete'},{'name': 'ClientEditComponent', 'selector': 'app-client-edit'},{'name': 'ClientListComponent', 'selector': 'app-client-list'},{'name': 'ClientRestoreComponent', 'selector': 'app-client-restore'},{'name': 'DocumentDeleteComponent', 'selector': 'app-document-delete'},{'name': 'DocumentFormComponent', 'selector': 'app-document-form'},{'name': 'DocumentListComponent', 'selector': 'app-document-list'},{'name': 'ElevatorCreateComponent', 'selector': 'app-elevator-create'},{'name': 'ElevatorDeleteComponent', 'selector': 'app-elevator-delete'},{'name': 'ElevatorEditComponent', 'selector': 'app-elevator-edit'},{'name': 'ElevatorListComponent', 'selector': 'app-elevator-list'},{'name': 'EntityCardComponent', 'selector': 'app-entity-card'},{'name': 'EquipmentCreateModalComponent', 'selector': 'app-equipment-create-modal'},{'name': 'EquipmentDeleteModalComponent', 'selector': 'app-equipment-delete-modal'},{'name': 'EquipmentEditModalComponent', 'selector': 'app-equipment-edit-modal'},{'name': 'EquipmentListModalComponent', 'selector': 'app-equipment-list-modal'},{'name': 'FilterContainerComponent', 'selector': 'app-filter-container'},{'name': 'FilterInputComponent', 'selector': 'app-filter-input'},{'name': 'FilterSelectComponent', 'selector': 'app-filter-select'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MaintenanceChecklistComponent', 'selector': 'app-maintenance-checklist'},{'name': 'MaintenanceSchedulingComponent', 'selector': 'app-maintenance-scheduling'},{'name': 'MantenimientoFijoModalComponent', 'selector': 'app-mantenimiento-fijo-modal'},{'name': 'ModalWrapperComponent', 'selector': 'app-modal-wrapper'},{'name': 'PdfPreviewComponent', 'selector': 'app-pdf-preview'},{'name': 'PlaceholderPageComponent', 'selector': 'app-placeholder-page'},{'name': 'ProgramacionModalComponent', 'selector': 'app-programacion-modal'},{'name': 'ProgrammingComponent', 'selector': 'app-programming'},{'name': 'ReportsComponent', 'selector': ''},{'name': 'SearchableSelectComponent', 'selector': 'app-searchable-select'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'SkeletonLoaderComponent', 'selector': 'app-skeleton-loader'},{'name': 'TechnicianCreateComponent', 'selector': 'app-technician-create'},{'name': 'TechnicianDeleteComponent', 'selector': 'app-technician-delete'},{'name': 'TechnicianEditComponent', 'selector': 'app-technician-edit'},{'name': 'TechnicianListComponent', 'selector': 'app-technician-list'},{'name': 'TechnicianRestoreComponent', 'selector': 'app-technician-restore'},{'name': 'WorkerEquipmentComponent', 'selector': 'app-worker-equipment'},{'name': 'WorkerLayoutComponent', 'selector': 'app-worker-layout'},{'name': 'WorkerProfileComponent', 'selector': 'app-worker-profile'},{'name': 'WorkerReportCreateComponent', 'selector': 'app-worker-report-create'},{'name': 'WorkerReportsComponent', 'selector': 'app-worker-reports'},{'name': 'WorkerRoutesComponent', 'selector': 'app-worker-routes'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'AdminLayoutComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'AdminLayoutComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

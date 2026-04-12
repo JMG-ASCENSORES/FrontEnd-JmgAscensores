@@ -1,0 +1,1640 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>jmg-ascensores documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">jmg-ascensores documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  SettingsComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/features/admin/settings/settings.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-settings</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="https://angular.io/api/common/CommonModule" target="_blank" >CommonModule</a></code>
+                                <code><a href="https://angular.io/api/forms/ReactiveFormsModule" target="_blank" >ReactiveFormsModule</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./settings.component.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./settings.component.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#activeTab" >activeTab</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#authService" >authService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#configService" >configService</a>
+                            </li>
+                            <li>
+                                <a href="#errorMessage" >errorMessage</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#fb" >fb</a>
+                            </li>
+                            <li>
+                                <a href="#isLoading" >isLoading</a>
+                            </li>
+                            <li>
+                                <a href="#isSaving" >isSaving</a>
+                            </li>
+                            <li>
+                                <a href="#passwordForm" >passwordForm</a>
+                            </li>
+                            <li>
+                                <a href="#profile" >profile</a>
+                            </li>
+                            <li>
+                                <a href="#profileForm" >profileForm</a>
+                            </li>
+                            <li>
+                                <a href="#saveSuccess" >saveSuccess</a>
+                            </li>
+                            <li>
+                                <a href="#showConfirmaPass" >showConfirmaPass</a>
+                            </li>
+                            <li>
+                                <a href="#showNuevaPass" >showNuevaPass</a>
+                            </li>
+                            <li>
+                                <a href="#systemSettings" >systemSettings</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#initForms" >initForms</a>
+                            </li>
+                            <li>
+                                <a href="#loadData" >loadData</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onChangePassword" >onChangePassword</a>
+                            </li>
+                            <li>
+                                <a href="#onSaveProfile" >onSaveProfile</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#passwordMatchValidator" >passwordMatchValidator</a>
+                            </li>
+                            <li>
+                                <a href="#updateSystemSetting" >updateSystemSetting</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#initials" >initials</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initForms"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>initForms</b></span>
+                        <a href="#initForms"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>initForms()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="50"
+                                    class="link-to-prism">src/app/features/admin/settings/settings.component.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadData"></a>
+                    <span class="name">
+                        <span ><b>loadData</b></span>
+                        <a href="#loadData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadData()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="70"
+                                    class="link-to-prism">src/app/features/admin/settings/settings.component.ts:70</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="45"
+                                    class="link-to-prism">src/app/features/admin/settings/settings.component.ts:45</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onChangePassword"></a>
+                    <span class="name">
+                        <span ><b>onChangePassword</b></span>
+                        <a href="#onChangePassword"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onChangePassword()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="119"
+                                    class="link-to-prism">src/app/features/admin/settings/settings.component.ts:119</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSaveProfile"></a>
+                    <span class="name">
+                        <span ><b>onSaveProfile</b></span>
+                        <a href="#onSaveProfile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onSaveProfile()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="97"
+                                    class="link-to-prism">src/app/features/admin/settings/settings.component.ts:97</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="passwordMatchValidator"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>passwordMatchValidator</b></span>
+                        <a href="#passwordMatchValidator"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>passwordMatchValidator(g: <a href="https://angular.io/api/forms/FormGroup" target="_blank">FormGroup</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="65"
+                                    class="link-to-prism">src/app/features/admin/settings/settings.component.ts:65</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>g</td>
+                                            <td>
+                                                            <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>{ passwordMismatch: boolean; }</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateSystemSetting"></a>
+                    <span class="name">
+                        <span ><b>updateSystemSetting</b></span>
+                        <a href="#updateSystemSetting"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateSystemSetting(clave: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, event: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="137"
+                                    class="link-to-prism">src/app/features/admin/settings/settings.component.ts:137</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>clave</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="activeTab"></a>
+                    <span class="name">
+                        <span ><b>activeTab</b></span>
+                        <a href="#activeTab"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;&#x27;profile&#x27; | &#x27;security&#x27; | &#x27;system&#x27;&gt;(&#x27;profile&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/features/admin/settings/settings.component.ts:25</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>authService</b></span>
+                        <a href="#authService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AuthService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/features/admin/settings/settings.component.ts:17</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="configService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>configService</b></span>
+                        <a href="#configService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ConfiguracionService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/features/admin/settings/settings.component.ts:18</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="errorMessage"></a>
+                    <span class="name">
+                        <span ><b>errorMessage</b></span>
+                        <a href="#errorMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/features/admin/settings/settings.component.ts:24</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fb"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>fb</b></span>
+                        <a href="#fb"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(FormBuilder)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/features/admin/settings/settings.component.ts:16</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isLoading"></a>
+                    <span class="name">
+                        <span ><b>isLoading</b></span>
+                        <a href="#isLoading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(true)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/features/admin/settings/settings.component.ts:21</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isSaving"></a>
+                    <span class="name">
+                        <span ><b>isSaving</b></span>
+                        <a href="#isSaving"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/features/admin/settings/settings.component.ts:22</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="passwordForm"></a>
+                    <span class="name">
+                        <span ><b>passwordForm</b></span>
+                        <a href="#passwordForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/features/admin/settings/settings.component.ts:33</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="profile"></a>
+                    <span class="name">
+                        <span ><b>profile</b></span>
+                        <a href="#profile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;any&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/features/admin/settings/settings.component.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="profileForm"></a>
+                    <span class="name">
+                        <span ><b>profileForm</b></span>
+                        <a href="#profileForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/features/admin/settings/settings.component.ts:32</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saveSuccess"></a>
+                    <span class="name">
+                        <span ><b>saveSuccess</b></span>
+                        <a href="#saveSuccess"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/features/admin/settings/settings.component.ts:23</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showConfirmaPass"></a>
+                    <span class="name">
+                        <span ><b>showConfirmaPass</b></span>
+                        <a href="#showConfirmaPass"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/features/admin/settings/settings.component.ts:37</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showNuevaPass"></a>
+                    <span class="name">
+                        <span ><b>showNuevaPass</b></span>
+                        <a href="#showNuevaPass"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/features/admin/settings/settings.component.ts:36</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="systemSettings"></a>
+                    <span class="name">
+                        <span ><b>systemSettings</b></span>
+                        <a href="#systemSettings"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;SystemSetting[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/features/admin/settings/settings.component.ts:29</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-accessors">
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="initials"></a>
+                        <span class="name"><b>initials</b><a href="#initials"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>initials()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/features/admin/settings/settings.component.ts:39</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, inject, signal, computed } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from &#x27;@angular/forms&#x27;;
+import { AuthService } from &#x27;../../../core/services/auth.service&#x27;;
+import { ConfiguracionService, SystemSetting } from &#x27;../services/configuracion.service&#x27;;
+import { finalize } from &#x27;rxjs&#x27;;
+
+@Component({
+  selector: &#x27;app-settings&#x27;,
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
+  templateUrl: &#x27;./settings.component.html&#x27;,
+  styleUrl: &#x27;./settings.component.scss&#x27;
+})
+export class SettingsComponent implements OnInit {
+  private fb &#x3D; inject(FormBuilder);
+  private authService &#x3D; inject(AuthService);
+  private configService &#x3D; inject(ConfiguracionService);
+
+  // States
+  isLoading &#x3D; signal(true);
+  isSaving &#x3D; signal(false);
+  saveSuccess &#x3D; signal(false);
+  errorMessage &#x3D; signal&lt;string | null&gt;(null);
+  activeTab &#x3D; signal&lt;&#x27;profile&#x27; | &#x27;security&#x27; | &#x27;system&#x27;&gt;(&#x27;profile&#x27;);
+  
+  // Data
+  profile &#x3D; signal&lt;any&gt;(null);
+  systemSettings &#x3D; signal&lt;SystemSetting[]&gt;([]);
+  
+  // Forms
+  profileForm!: FormGroup;
+  passwordForm!: FormGroup;
+  
+  // UI Helpers
+  showNuevaPass &#x3D; signal(false);
+  showConfirmaPass &#x3D; signal(false);
+
+  get initials(): string {
+    const p &#x3D; this.profile();
+    if (!p) return &#x27;&#x27;;
+    return &#x60;${p.nombre?.charAt(0) || &#x27;&#x27;}${p.apellido?.charAt(0) || &#x27;&#x27;}&#x60;.toUpperCase();
+  }
+
+  ngOnInit() {
+    this.initForms();
+    this.loadData();
+  }
+
+  private initForms() {
+    this.profileForm &#x3D; this.fb.group({
+      nombre: [&#x27;&#x27;, [Validators.required, Validators.minLength(2)]],
+      apellido: [&#x27;&#x27;, [Validators.required, Validators.minLength(2)]],
+      dni: [&#x27;&#x27;, [Validators.required, Validators.pattern(/^\d{8}$/)]],
+      correo: [&#x27;&#x27;, [Validators.required, Validators.email]],
+      telefono: [&#x27;&#x27;, [Validators.pattern(/^[0-9]{9}$/)]]
+    });
+
+    this.passwordForm &#x3D; this.fb.group({
+      nueva_contrasena: [&#x27;&#x27;, [Validators.required, Validators.minLength(6)]],
+      confirmar_contrasena: [&#x27;&#x27;, [Validators.required]]
+    }, { validators: this.passwordMatchValidator });
+  }
+
+  private passwordMatchValidator(g: FormGroup) {
+    return g.get(&#x27;nueva_contrasena&#x27;)?.value &#x3D;&#x3D;&#x3D; g.get(&#x27;confirmar_contrasena&#x27;)?.value
+      ? null : { passwordMismatch: true };
+  }
+
+  loadData() {
+    this.isLoading.set(true);
+    this.configService.getProfile().subscribe({
+      next: (res) &#x3D;&gt; {
+        this.profile.set(res.data);
+        this.profileForm.patchValue({
+          nombre: res.data.nombre,
+          apellido: res.data.apellido,
+          dni: res.data.dni,
+          correo: res.data.correo,
+          telefono: res.data.telefono
+        });
+        this.isLoading.set(false);
+      },
+      error: (err) &#x3D;&gt; {
+        this.errorMessage.set(&#x27;Error al cargar el perfil&#x27;);
+        this.isLoading.set(false);
+      }
+    });
+
+    this.configService.getSystemSettings().subscribe({
+      next: (res) &#x3D;&gt; {
+        this.systemSettings.set(res.data);
+      }
+    });
+  }
+
+  onSaveProfile() {
+    if (this.profileForm.invalid) return;
+    
+    this.isSaving.set(true);
+    this.errorMessage.set(null);
+    this.saveSuccess.set(false);
+
+    this.configService.updateProfile(this.profileForm.value)
+      .pipe(finalize(() &#x3D;&gt; this.isSaving.set(false)))
+      .subscribe({
+        next: (res) &#x3D;&gt; {
+          this.profile.set(res.data);
+          this.saveSuccess.set(true);
+          // Update auth service state if needed
+          setTimeout(() &#x3D;&gt; this.saveSuccess.set(false), 3000);
+        },
+        error: (err) &#x3D;&gt; {
+          this.errorMessage.set(err.error?.message || &#x27;Error al actualizar el perfil&#x27;);
+        }
+      });
+  }
+
+  onChangePassword() {
+    if (this.passwordForm.invalid) return;
+
+    this.isSaving.set(true);
+    this.errorMessage.set(null);
+    
+    this.configService.updateProfile({ contrasena: this.passwordForm.value.nueva_contrasena })
+      .pipe(finalize(() &#x3D;&gt; this.isSaving.set(false)))
+      .subscribe({
+        next: () &#x3D;&gt; {
+          this.saveSuccess.set(true);
+          this.passwordForm.reset();
+          setTimeout(() &#x3D;&gt; this.saveSuccess.set(false), 3000);
+        },
+        error: (err) &#x3D;&gt; this.errorMessage.set(&#x27;Error al cambiar la contraseña&#x27;)
+      });
+  }
+
+  updateSystemSetting(clave: string, event: any) {
+    const valor &#x3D; event.target.value;
+    this.configService.updateSystemSetting(clave, valor).subscribe({
+      next: () &#x3D;&gt; {
+        // Success feedback
+      },
+      error: () &#x3D;&gt; this.errorMessage.set(&#x27;Error al actualizar configuración del sistema&#x27;)
+    });
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;min-h-screen bg-slate-50 pb-20&quot;&gt;
+
+  &lt;!-- ── Hero ── --&gt;
+  &lt;div class&#x3D;&quot;relative h-48 md:h-56 mb-16&quot;&gt;
+    &lt;div class&#x3D;&quot;w-full h-full bg-gradient-to-br from-jmg-dark via-jmg to-jmg-light&quot;&gt;&lt;/div&gt;
+    &lt;!-- Avatar --&gt;
+    &lt;div class&#x3D;&quot;absolute -bottom-12 left-1/2 -translate-x-1/2 w-28 h-28 md:w-32 md:h-32 rounded-full border-4 border-white bg-white shadow-xl flex items-center justify-center overflow-hidden&quot;&gt;
+      &lt;div class&#x3D;&quot;w-full h-full flex items-center justify-center bg-slate-100 text-slate-500 text-3xl md:text-4xl font-bold font-display&quot;&gt;
+        &lt;span *ngIf&#x3D;&quot;!isLoading()&quot;&gt;{{ initials }}&lt;/span&gt;
+        &lt;i *ngIf&#x3D;&quot;isLoading()&quot; class&#x3D;&quot;bi bi-person-fill text-4xl text-slate-300&quot;&gt;&lt;/i&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- ── Body ── --&gt;
+  &lt;div class&#x3D;&quot;max-w-3xl mx-auto px-4 space-y-8&quot;&gt;
+
+    &lt;!-- Identidad --&gt;
+    &lt;div class&#x3D;&quot;text-center&quot;&gt;
+      &lt;h1 class&#x3D;&quot;font-display text-2xl md:text-3xl font-bold text-slate-800 mb-2&quot;&gt;
+        &lt;span *ngIf&#x3D;&quot;!isLoading()&quot;&gt;{{ profile()?.nombre }} {{ profile()?.apellido }}&lt;/span&gt;
+        &lt;div *ngIf&#x3D;&quot;isLoading()&quot; class&#x3D;&quot;h-7 w-48 bg-slate-200 rounded-lg animate-pulse mx-auto&quot;&gt;&lt;/div&gt;
+      &lt;/h1&gt;
+      &lt;span class&#x3D;&quot;inline-flex items-center gap-2 px-3 py-1 bg-jmg-muted text-jmg rounded-full text-sm font-semibold&quot;&gt;
+        &lt;i class&#x3D;&quot;bi bi-shield-check&quot;&gt;&lt;/i&gt;
+        Administrador
+      &lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Feedback alerts --&gt;
+    &lt;div *ngIf&#x3D;&quot;saveSuccess()&quot; class&#x3D;&quot;flex items-center gap-3 p-4 rounded-2xl border bg-emerald-50 text-emerald-700 border-emerald-100&quot;&gt;
+      &lt;i class&#x3D;&quot;bi bi-check-circle-fill text-lg shrink-0&quot;&gt;&lt;/i&gt;
+      Cambios guardados con éxito.
+    &lt;/div&gt;
+    &lt;div *ngIf&#x3D;&quot;errorMessage()&quot; class&#x3D;&quot;flex items-center gap-3 p-4 rounded-2xl border bg-rose-50 text-rose-700 border-rose-100&quot;&gt;
+      &lt;i class&#x3D;&quot;bi bi-exclamation-circle-fill text-lg shrink-0&quot;&gt;&lt;/i&gt;
+      {{ errorMessage() }}
+    &lt;/div&gt;
+
+    &lt;!-- ── Tabs ── --&gt;
+    &lt;div class&#x3D;&quot;flex bg-white p-1.5 rounded-2xl shadow-sm border border-slate-100&quot;&gt;
+      &lt;button
+        class&#x3D;&quot;flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-all&quot;
+        [ngClass]&#x3D;&quot;activeTab() &#x3D;&#x3D;&#x3D; &#x27;profile&#x27;
+          ? &#x27;bg-jmg text-white shadow-md&#x27;
+          : &#x27;text-slate-500 hover:bg-slate-50 hover:text-slate-700&#x27;&quot;
+        (click)&#x3D;&quot;activeTab.set(&#x27;profile&#x27;)&quot;
+      &gt;
+        &lt;i class&#x3D;&quot;bi bi-person text-base&quot;&gt;&lt;/i&gt; Mi Perfil
+      &lt;/button&gt;
+      &lt;button
+        class&#x3D;&quot;flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-all&quot;
+        [ngClass]&#x3D;&quot;activeTab() &#x3D;&#x3D;&#x3D; &#x27;security&#x27;
+          ? &#x27;bg-jmg text-white shadow-md&#x27;
+          : &#x27;text-slate-500 hover:bg-slate-50 hover:text-slate-700&#x27;&quot;
+        (click)&#x3D;&quot;activeTab.set(&#x27;security&#x27;)&quot;
+      &gt;
+        &lt;i class&#x3D;&quot;bi bi-shield-lock text-base&quot;&gt;&lt;/i&gt; Seguridad
+      &lt;/button&gt;
+      &lt;button
+        class&#x3D;&quot;flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-all&quot;
+        [ngClass]&#x3D;&quot;activeTab() &#x3D;&#x3D;&#x3D; &#x27;system&#x27;
+          ? &#x27;bg-jmg text-white shadow-md&#x27;
+          : &#x27;text-slate-500 hover:bg-slate-50 hover:text-slate-700&#x27;&quot;
+        (click)&#x3D;&quot;activeTab.set(&#x27;system&#x27;)&quot;
+      &gt;
+        &lt;i class&#x3D;&quot;bi bi-gear-wide-connected text-base&quot;&gt;&lt;/i&gt; Sistema
+      &lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ── Loading Skeleton ── --&gt;
+    &lt;div *ngIf&#x3D;&quot;isLoading()&quot; class&#x3D;&quot;bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100 space-y-5&quot;&gt;
+      &lt;div *ngFor&#x3D;&quot;let i of [1,2,3,4]&quot; class&#x3D;&quot;space-y-1.5&quot;&gt;
+        &lt;div class&#x3D;&quot;h-3 w-20 bg-slate-200 rounded-lg animate-pulse&quot;&gt;&lt;/div&gt;
+        &lt;div class&#x3D;&quot;h-11 w-full bg-slate-100 rounded-xl animate-pulse&quot;&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ── Tab: Perfil ── --&gt;
+    &lt;div *ngIf&#x3D;&quot;!isLoading() &amp;&amp; activeTab() &#x3D;&#x3D;&#x3D; &#x27;profile&#x27;&quot;
+      class&#x3D;&quot;bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100&quot;&gt;
+
+      &lt;form [formGroup]&#x3D;&quot;profileForm&quot; (ngSubmit)&#x3D;&quot;onSaveProfile()&quot; class&#x3D;&quot;space-y-5&quot;&gt;
+
+        &lt;!-- Section title --&gt;
+        &lt;div class&#x3D;&quot;flex items-center gap-3 mb-2&quot;&gt;
+          &lt;span class&#x3D;&quot;font-display font-bold text-slate-800 text-base&quot;&gt;Datos Personales&lt;/span&gt;
+          &lt;div class&#x3D;&quot;flex-1 h-px bg-slate-100&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;grid grid-cols-1 md:grid-cols-2 gap-5&quot;&gt;
+          &lt;div class&#x3D;&quot;space-y-1.5&quot;&gt;
+            &lt;label class&#x3D;&quot;block text-sm font-semibold text-slate-600&quot; for&#x3D;&quot;p_nombre&quot;&gt;Nombre&lt;/label&gt;
+            &lt;input id&#x3D;&quot;p_nombre&quot; type&#x3D;&quot;text&quot; formControlName&#x3D;&quot;nombre&quot;
+              class&#x3D;&quot;w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none&quot;&gt;
+          &lt;/div&gt;
+          &lt;div class&#x3D;&quot;space-y-1.5&quot;&gt;
+            &lt;label class&#x3D;&quot;block text-sm font-semibold text-slate-600&quot; for&#x3D;&quot;p_apellido&quot;&gt;Apellidos&lt;/label&gt;
+            &lt;input id&#x3D;&quot;p_apellido&quot; type&#x3D;&quot;text&quot; formControlName&#x3D;&quot;apellido&quot;
+              class&#x3D;&quot;w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none&quot;&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;space-y-1.5&quot;&gt;
+          &lt;label class&#x3D;&quot;block text-sm font-semibold text-slate-600&quot; for&#x3D;&quot;p_dni&quot;&gt;DNI&lt;/label&gt;
+          &lt;input id&#x3D;&quot;p_dni&quot; type&#x3D;&quot;text&quot; formControlName&#x3D;&quot;dni&quot; maxlength&#x3D;&quot;8&quot;
+            class&#x3D;&quot;w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none&quot;&gt;
+          &lt;p *ngIf&#x3D;&quot;profileForm.get(&#x27;dni&#x27;)?.invalid &amp;&amp; profileForm.get(&#x27;dni&#x27;)?.touched&quot;
+            class&#x3D;&quot;text-xs text-red-500 font-medium mt-1&quot;&gt;
+            DNI inválido (debe tener 8 dígitos).
+          &lt;/p&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;space-y-1.5&quot;&gt;
+          &lt;label class&#x3D;&quot;block text-sm font-semibold text-slate-600&quot; for&#x3D;&quot;p_correo&quot;&gt;Correo Electrónico&lt;/label&gt;
+          &lt;input id&#x3D;&quot;p_correo&quot; type&#x3D;&quot;email&quot; formControlName&#x3D;&quot;correo&quot;
+            class&#x3D;&quot;w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none&quot;&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;space-y-1.5&quot;&gt;
+          &lt;label class&#x3D;&quot;block text-sm font-semibold text-slate-600&quot; for&#x3D;&quot;p_telefono&quot;&gt;Teléfono&lt;/label&gt;
+          &lt;div class&#x3D;&quot;relative flex items-center&quot;&gt;
+            &lt;span class&#x3D;&quot;absolute left-4 text-slate-400 text-sm font-bold border-r border-slate-200 pr-3 select-none&quot;&gt;+51&lt;/span&gt;
+            &lt;input id&#x3D;&quot;p_telefono&quot; type&#x3D;&quot;tel&quot; formControlName&#x3D;&quot;telefono&quot; maxlength&#x3D;&quot;9&quot;
+              class&#x3D;&quot;w-full h-11 pl-16 pr-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none&quot;&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;button type&#x3D;&quot;submit&quot;
+          class&#x3D;&quot;inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-6 h-11 text-sm transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed active:scale-95&quot;
+          [disabled]&#x3D;&quot;profileForm.pristine || profileForm.invalid || isSaving()&quot;
+        &gt;
+          &lt;span *ngIf&#x3D;&quot;isSaving()&quot; class&#x3D;&quot;w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin&quot;&gt;&lt;/span&gt;
+          &lt;i *ngIf&#x3D;&quot;!isSaving()&quot; class&#x3D;&quot;bi bi-check-lg&quot;&gt;&lt;/i&gt;
+          {{ isSaving() ? &#x27;Guardando...&#x27; : &#x27;Guardar Cambios&#x27; }}
+        &lt;/button&gt;
+
+      &lt;/form&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ── Tab: Seguridad ── --&gt;
+    &lt;div *ngIf&#x3D;&quot;!isLoading() &amp;&amp; activeTab() &#x3D;&#x3D;&#x3D; &#x27;security&#x27;&quot;
+      class&#x3D;&quot;bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100&quot;&gt;
+
+      &lt;form [formGroup]&#x3D;&quot;passwordForm&quot; (ngSubmit)&#x3D;&quot;onChangePassword()&quot; class&#x3D;&quot;space-y-5&quot;&gt;
+
+        &lt;div class&#x3D;&quot;flex items-center gap-3 mb-2&quot;&gt;
+          &lt;span class&#x3D;&quot;font-display font-bold text-slate-800 text-base&quot;&gt;Cambiar Contraseña&lt;/span&gt;
+          &lt;div class&#x3D;&quot;flex-1 h-px bg-slate-100&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;space-y-1.5&quot;&gt;
+          &lt;label class&#x3D;&quot;block text-sm font-semibold text-slate-600&quot; for&#x3D;&quot;p_nueva&quot;&gt;Nueva Contraseña&lt;/label&gt;
+          &lt;div class&#x3D;&quot;relative flex items-center&quot;&gt;
+            &lt;input id&#x3D;&quot;p_nueva&quot;
+              [type]&#x3D;&quot;showNuevaPass() ? &#x27;text&#x27; : &#x27;password&#x27;&quot;
+              formControlName&#x3D;&quot;nueva_contrasena&quot;
+              placeholder&#x3D;&quot;Mín. 6 caracteres&quot;
+              class&#x3D;&quot;w-full h-11 px-4 pr-12 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none&quot;&gt;
+            &lt;button type&#x3D;&quot;button&quot;
+              class&#x3D;&quot;absolute right-3 w-9 h-9 flex items-center justify-center text-slate-400 hover:text-jmg transition-colors&quot;
+              (click)&#x3D;&quot;showNuevaPass.set(!showNuevaPass())&quot;&gt;
+              &lt;i class&#x3D;&quot;bi&quot; [ngClass]&#x3D;&quot;showNuevaPass() ? &#x27;bi-eye-slash&#x27; : &#x27;bi-eye&#x27;&quot;&gt;&lt;/i&gt;
+            &lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;space-y-1.5&quot;&gt;
+          &lt;label class&#x3D;&quot;block text-sm font-semibold text-slate-600&quot; for&#x3D;&quot;p_confirma&quot;&gt;Confirmar Contraseña&lt;/label&gt;
+          &lt;div class&#x3D;&quot;relative flex items-center&quot;&gt;
+            &lt;input id&#x3D;&quot;p_confirma&quot;
+              [type]&#x3D;&quot;showConfirmaPass() ? &#x27;text&#x27; : &#x27;password&#x27;&quot;
+              formControlName&#x3D;&quot;confirmar_contrasena&quot;
+              placeholder&#x3D;&quot;Repetí la contraseña&quot;
+              class&#x3D;&quot;w-full h-11 px-4 pr-12 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none&quot;&gt;
+            &lt;button type&#x3D;&quot;button&quot;
+              class&#x3D;&quot;absolute right-3 w-9 h-9 flex items-center justify-center text-slate-400 hover:text-jmg transition-colors&quot;
+              (click)&#x3D;&quot;showConfirmaPass.set(!showConfirmaPass())&quot;&gt;
+              &lt;i class&#x3D;&quot;bi&quot; [ngClass]&#x3D;&quot;showConfirmaPass() ? &#x27;bi-eye-slash&#x27; : &#x27;bi-eye&#x27;&quot;&gt;&lt;/i&gt;
+            &lt;/button&gt;
+          &lt;/div&gt;
+          &lt;p *ngIf&#x3D;&quot;passwordForm.hasError(&#x27;passwordMismatch&#x27;) &amp;&amp; passwordForm.get(&#x27;confirmar_contrasena&#x27;)?.touched&quot;
+            class&#x3D;&quot;text-xs text-red-500 font-medium&quot;&gt;
+            Las contraseñas no coinciden.
+          &lt;/p&gt;
+        &lt;/div&gt;
+
+        &lt;button type&#x3D;&quot;submit&quot;
+          class&#x3D;&quot;inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-6 h-11 text-sm transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed active:scale-95&quot;
+          [disabled]&#x3D;&quot;passwordForm.invalid || isSaving()&quot;
+        &gt;
+          &lt;span *ngIf&#x3D;&quot;isSaving()&quot; class&#x3D;&quot;w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin&quot;&gt;&lt;/span&gt;
+          &lt;i *ngIf&#x3D;&quot;!isSaving()&quot; class&#x3D;&quot;bi bi-shield-lock&quot;&gt;&lt;/i&gt;
+          Actualizar Contraseña
+        &lt;/button&gt;
+
+      &lt;/form&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ── Tab: Sistema ── --&gt;
+    &lt;div *ngIf&#x3D;&quot;!isLoading() &amp;&amp; activeTab() &#x3D;&#x3D;&#x3D; &#x27;system&#x27;&quot;
+      class&#x3D;&quot;bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100&quot;&gt;
+
+      &lt;div class&#x3D;&quot;flex items-center gap-3 mb-2&quot;&gt;
+        &lt;span class&#x3D;&quot;font-display font-bold text-slate-800 text-base&quot;&gt;Configuración Global&lt;/span&gt;
+        &lt;div class&#x3D;&quot;flex-1 h-px bg-slate-100&quot;&gt;&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;p class&#x3D;&quot;text-sm text-slate-400 mb-6&quot;&gt;Ajustes generales que afectan a toda la plataforma y clientes.&lt;/p&gt;
+
+      &lt;div class&#x3D;&quot;grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3&quot;&gt;
+        &lt;div *ngFor&#x3D;&quot;let setting of systemSettings()&quot;
+          class&#x3D;&quot;bg-slate-50 border border-slate-100 p-4 rounded-2xl hover:border-jmg/20 transition-colors space-y-1.5&quot;&gt;
+          &lt;div class&#x3D;&quot;flex justify-between items-center&quot;&gt;
+            &lt;label class&#x3D;&quot;block text-sm font-semibold text-slate-600&quot; [for]&#x3D;&quot;setting.clave&quot;&gt;{{ setting.descripcion }}&lt;/label&gt;
+            &lt;span class&#x3D;&quot;text-[10px] text-slate-400 font-mono&quot;&gt;{{ setting.clave }}&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;input
+            [id]&#x3D;&quot;setting.clave&quot;
+            type&#x3D;&quot;text&quot;
+            [value]&#x3D;&quot;setting.valor&quot;
+            (change)&#x3D;&quot;updateSystemSetting(setting.clave, $event)&quot;
+            class&#x3D;&quot;w-full h-11 px-4 rounded-xl border border-slate-200 bg-white text-sm transition-colors focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none&quot;
+            [placeholder]&#x3D;&quot;&#x27;Valor para &#x27; + setting.clave&quot;
+          &gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="min-h-screen bg-slate-50 pb-20">  <!-- ── Hero ── -->  <div class="relative h-48 md:h-56 mb-16">    <div class="w-full h-full bg-gradient-to-br from-jmg-dark via-jmg to-jmg-light"></div>    <!-- Avatar -->    <div class="absolute -bottom-12 left-1/2 -translate-x-1/2 w-28 h-28 md:w-32 md:h-32 rounded-full border-4 border-white bg-white shadow-xl flex items-center justify-center overflow-hidden">      <div class="w-full h-full flex items-center justify-center bg-slate-100 text-slate-500 text-3xl md:text-4xl font-bold font-display">        <span *ngIf="!isLoading()">{{ initials }}</span>        <i *ngIf="isLoading()" class="bi bi-person-fill text-4xl text-slate-300"></i>      </div>    </div>  </div>  <!-- ── Body ── -->  <div class="max-w-3xl mx-auto px-4 space-y-8">    <!-- Identidad -->    <div class="text-center">      <h1 class="font-display text-2xl md:text-3xl font-bold text-slate-800 mb-2">        <span *ngIf="!isLoading()">{{ profile()?.nombre }} {{ profile()?.apellido }}</span>        <div *ngIf="isLoading()" class="h-7 w-48 bg-slate-200 rounded-lg animate-pulse mx-auto"></div>      </h1>      <span class="inline-flex items-center gap-2 px-3 py-1 bg-jmg-muted text-jmg rounded-full text-sm font-semibold">        <i class="bi bi-shield-check"></i>        Administrador      </span>    </div>    <!-- Feedback alerts -->    <div *ngIf="saveSuccess()" class="flex items-center gap-3 p-4 rounded-2xl border bg-emerald-50 text-emerald-700 border-emerald-100">      <i class="bi bi-check-circle-fill text-lg shrink-0"></i>      Cambios guardados con éxito.    </div>    <div *ngIf="errorMessage()" class="flex items-center gap-3 p-4 rounded-2xl border bg-rose-50 text-rose-700 border-rose-100">      <i class="bi bi-exclamation-circle-fill text-lg shrink-0"></i>      {{ errorMessage() }}    </div>    <!-- ── Tabs ── -->    <div class="flex bg-white p-1.5 rounded-2xl shadow-sm border border-slate-100">      <button        class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-all"        [ngClass]="activeTab() === \'profile\'          ? \'bg-jmg text-white shadow-md\'          : \'text-slate-500 hover:bg-slate-50 hover:text-slate-700\'"        (click)="activeTab.set(\'profile\')"      >        <i class="bi bi-person text-base"></i> Mi Perfil      </button>      <button        class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-all"        [ngClass]="activeTab() === \'security\'          ? \'bg-jmg text-white shadow-md\'          : \'text-slate-500 hover:bg-slate-50 hover:text-slate-700\'"        (click)="activeTab.set(\'security\')"      >        <i class="bi bi-shield-lock text-base"></i> Seguridad      </button>      <button        class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-all"        [ngClass]="activeTab() === \'system\'          ? \'bg-jmg text-white shadow-md\'          : \'text-slate-500 hover:bg-slate-50 hover:text-slate-700\'"        (click)="activeTab.set(\'system\')"      >        <i class="bi bi-gear-wide-connected text-base"></i> Sistema      </button>    </div>    <!-- ── Loading Skeleton ── -->    <div *ngIf="isLoading()" class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100 space-y-5">      <div *ngFor="let i of [1,2,3,4]" class="space-y-1.5">        <div class="h-3 w-20 bg-slate-200 rounded-lg animate-pulse"></div>        <div class="h-11 w-full bg-slate-100 rounded-xl animate-pulse"></div>      </div>    </div>    <!-- ── Tab: Perfil ── -->    <div *ngIf="!isLoading() && activeTab() === \'profile\'"      class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">      <form [formGroup]="profileForm" (ngSubmit)="onSaveProfile()" class="space-y-5">        <!-- Section title -->        <div class="flex items-center gap-3 mb-2">          <span class="font-display font-bold text-slate-800 text-base">Datos Personales</span>          <div class="flex-1 h-px bg-slate-100"></div>        </div>        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">          <div class="space-y-1.5">            <label class="block text-sm font-semibold text-slate-600" for="p_nombre">Nombre</label>            <input id="p_nombre" type="text" formControlName="nombre"              class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">          </div>          <div class="space-y-1.5">            <label class="block text-sm font-semibold text-slate-600" for="p_apellido">Apellidos</label>            <input id="p_apellido" type="text" formControlName="apellido"              class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">          </div>        </div>        <div class="space-y-1.5">          <label class="block text-sm font-semibold text-slate-600" for="p_dni">DNI</label>          <input id="p_dni" type="text" formControlName="dni" maxlength="8"            class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">          <p *ngIf="profileForm.get(\'dni\')?.invalid && profileForm.get(\'dni\')?.touched"            class="text-xs text-red-500 font-medium mt-1">            DNI inválido (debe tener 8 dígitos).          </p>        </div>        <div class="space-y-1.5">          <label class="block text-sm font-semibold text-slate-600" for="p_correo">Correo Electrónico</label>          <input id="p_correo" type="email" formControlName="correo"            class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">        </div>        <div class="space-y-1.5">          <label class="block text-sm font-semibold text-slate-600" for="p_telefono">Teléfono</label>          <div class="relative flex items-center">            <span class="absolute left-4 text-slate-400 text-sm font-bold border-r border-slate-200 pr-3 select-none">+51</span>            <input id="p_telefono" type="tel" formControlName="telefono" maxlength="9"              class="w-full h-11 pl-16 pr-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">          </div>        </div>        <button type="submit"          class="inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-6 h-11 text-sm transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"          [disabled]="profileForm.pristine || profileForm.invalid || isSaving()"        >          <span *ngIf="isSaving()" class="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin"></span>          <i *ngIf="!isSaving()" class="bi bi-check-lg"></i>          {{ isSaving() ? \'Guardando...\' : \'Guardar Cambios\' }}        </button>      </form>    </div>    <!-- ── Tab: Seguridad ── -->    <div *ngIf="!isLoading() && activeTab() === \'security\'"      class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">      <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()" class="space-y-5">        <div class="flex items-center gap-3 mb-2">          <span class="font-display font-bold text-slate-800 text-base">Cambiar Contraseña</span>          <div class="flex-1 h-px bg-slate-100"></div>        </div>        <div class="space-y-1.5">          <label class="block text-sm font-semibold text-slate-600" for="p_nueva">Nueva Contraseña</label>          <div class="relative flex items-center">            <input id="p_nueva"              [type]="showNuevaPass() ? \'text\' : \'password\'"              formControlName="nueva_contrasena"              placeholder="Mín. 6 caracteres"              class="w-full h-11 px-4 pr-12 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">            <button type="button"              class="absolute right-3 w-9 h-9 flex items-center justify-center text-slate-400 hover:text-jmg transition-colors"              (click)="showNuevaPass.set(!showNuevaPass())">              <i class="bi" [ngClass]="showNuevaPass() ? \'bi-eye-slash\' : \'bi-eye\'"></i>            </button>          </div>        </div>        <div class="space-y-1.5">          <label class="block text-sm font-semibold text-slate-600" for="p_confirma">Confirmar Contraseña</label>          <div class="relative flex items-center">            <input id="p_confirma"              [type]="showConfirmaPass() ? \'text\' : \'password\'"              formControlName="confirmar_contrasena"              placeholder="Repetí la contraseña"              class="w-full h-11 px-4 pr-12 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">            <button type="button"              class="absolute right-3 w-9 h-9 flex items-center justify-center text-slate-400 hover:text-jmg transition-colors"              (click)="showConfirmaPass.set(!showConfirmaPass())">              <i class="bi" [ngClass]="showConfirmaPass() ? \'bi-eye-slash\' : \'bi-eye\'"></i>            </button>          </div>          <p *ngIf="passwordForm.hasError(\'passwordMismatch\') && passwordForm.get(\'confirmar_contrasena\')?.touched"            class="text-xs text-red-500 font-medium">            Las contraseñas no coinciden.          </p>        </div>        <button type="submit"          class="inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-6 h-11 text-sm transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"          [disabled]="passwordForm.invalid || isSaving()"        >          <span *ngIf="isSaving()" class="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin"></span>          <i *ngIf="!isSaving()" class="bi bi-shield-lock"></i>          Actualizar Contraseña        </button>      </form>    </div>    <!-- ── Tab: Sistema ── -->    <div *ngIf="!isLoading() && activeTab() === \'system\'"      class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">      <div class="flex items-center gap-3 mb-2">        <span class="font-display font-bold text-slate-800 text-base">Configuración Global</span>        <div class="flex-1 h-px bg-slate-100"></div>      </div>      <p class="text-sm text-slate-400 mb-6">Ajustes generales que afectan a toda la plataforma y clientes.</p>      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">        <div *ngFor="let setting of systemSettings()"          class="bg-slate-50 border border-slate-100 p-4 rounded-2xl hover:border-jmg/20 transition-colors space-y-1.5">          <div class="flex justify-between items-center">            <label class="block text-sm font-semibold text-slate-600" [for]="setting.clave">{{ setting.descripcion }}</label>            <span class="text-[10px] text-slate-400 font-mono">{{ setting.clave }}</span>          </div>          <input            [id]="setting.clave"            type="text"            [value]="setting.valor"            (change)="updateSystemSetting(setting.clave, $event)"            class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-white text-sm transition-colors focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none"            [placeholder]="\'Valor para \' + setting.clave"          >        </div>      </div>    </div>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AdminLayoutComponent', 'selector': 'app-admin-layout'},{'name': 'AIAssistantComponent', 'selector': ''},{'name': 'App', 'selector': 'app-root'},{'name': 'BottomNavComponent', 'selector': 'app-bottom-nav'},{'name': 'ClientCreateComponent', 'selector': 'app-client-create'},{'name': 'ClientDeleteComponent', 'selector': 'app-client-delete'},{'name': 'ClientEditComponent', 'selector': 'app-client-edit'},{'name': 'ClientListComponent', 'selector': 'app-client-list'},{'name': 'ClientRestoreComponent', 'selector': 'app-client-restore'},{'name': 'DocumentDeleteComponent', 'selector': 'app-document-delete'},{'name': 'DocumentFormComponent', 'selector': 'app-document-form'},{'name': 'DocumentListComponent', 'selector': 'app-document-list'},{'name': 'ElevatorCreateComponent', 'selector': 'app-elevator-create'},{'name': 'ElevatorDeleteComponent', 'selector': 'app-elevator-delete'},{'name': 'ElevatorEditComponent', 'selector': 'app-elevator-edit'},{'name': 'ElevatorListComponent', 'selector': 'app-elevator-list'},{'name': 'EntityCardComponent', 'selector': 'app-entity-card'},{'name': 'EquipmentCreateModalComponent', 'selector': 'app-equipment-create-modal'},{'name': 'EquipmentDeleteModalComponent', 'selector': 'app-equipment-delete-modal'},{'name': 'EquipmentEditModalComponent', 'selector': 'app-equipment-edit-modal'},{'name': 'EquipmentListModalComponent', 'selector': 'app-equipment-list-modal'},{'name': 'FilterContainerComponent', 'selector': 'app-filter-container'},{'name': 'FilterInputComponent', 'selector': 'app-filter-input'},{'name': 'FilterSelectComponent', 'selector': 'app-filter-select'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MaintenanceChecklistComponent', 'selector': 'app-maintenance-checklist'},{'name': 'MaintenanceSchedulingComponent', 'selector': 'app-maintenance-scheduling'},{'name': 'MantenimientoFijoModalComponent', 'selector': 'app-mantenimiento-fijo-modal'},{'name': 'ModalWrapperComponent', 'selector': 'app-modal-wrapper'},{'name': 'PdfPreviewComponent', 'selector': 'app-pdf-preview'},{'name': 'PlaceholderPageComponent', 'selector': 'app-placeholder-page'},{'name': 'ProgramacionModalComponent', 'selector': 'app-programacion-modal'},{'name': 'ProgrammingComponent', 'selector': 'app-programming'},{'name': 'ReportsComponent', 'selector': ''},{'name': 'SearchableSelectComponent', 'selector': 'app-searchable-select'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'SkeletonLoaderComponent', 'selector': 'app-skeleton-loader'},{'name': 'TechnicianCreateComponent', 'selector': 'app-technician-create'},{'name': 'TechnicianDeleteComponent', 'selector': 'app-technician-delete'},{'name': 'TechnicianEditComponent', 'selector': 'app-technician-edit'},{'name': 'TechnicianListComponent', 'selector': 'app-technician-list'},{'name': 'TechnicianRestoreComponent', 'selector': 'app-technician-restore'},{'name': 'WorkerEquipmentComponent', 'selector': 'app-worker-equipment'},{'name': 'WorkerLayoutComponent', 'selector': 'app-worker-layout'},{'name': 'WorkerProfileComponent', 'selector': 'app-worker-profile'},{'name': 'WorkerReportCreateComponent', 'selector': 'app-worker-report-create'},{'name': 'WorkerReportsComponent', 'selector': 'app-worker-reports'},{'name': 'WorkerRoutesComponent', 'selector': 'app-worker-routes'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'SettingsComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'SettingsComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

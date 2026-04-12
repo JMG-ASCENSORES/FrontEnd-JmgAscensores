@@ -1,0 +1,1090 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>jmg-ascensores documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">jmg-ascensores documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
+  >
+  Schedule</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/features/admin/programming/programming.component.ts</code>
+        </p>
+
+
+
+
+        <section data-compodoc="block-index">
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#address" 
+>
+                                            address
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#avatarColor" 
+>
+                                            avatarColor
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#clientName" 
+>
+                                            clientName
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#id" 
+>
+                                            id
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#originalData" 
+>
+                                            originalData
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#technicianName" 
+>
+                                            technicianName
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#time" 
+>
+                                            time
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#type" 
+>
+                                            type
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section data-compodoc="block-properties">
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="address"></a>
+                                        <span class="name "><b>address</b>
+                                            <a href="#address">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>address:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="avatarColor"></a>
+                                        <span class="name "><b>avatarColor</b>
+                                            <a href="#avatarColor">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>avatarColor:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="clientName"></a>
+                                        <span class="name "><b>clientName</b>
+                                            <a href="#clientName">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>clientName:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="id"></a>
+                                        <span class="name "><b>id</b>
+                                            <a href="#id">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>id:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="originalData"></a>
+                                        <span class="name "><b>originalData</b>
+                                            <a href="#originalData">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>originalData:         <code><a href="../interfaces/Mantenimiento.html" target="_self" >Mantenimiento</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="../interfaces/Mantenimiento.html" target="_self" >Mantenimiento</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="technicianName"></a>
+                                        <span class="name "><b>technicianName</b>
+                                            <a href="#technicianName">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>technicianName:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="time"></a>
+                                        <span class="name "><b>time</b>
+                                            <a href="#time">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>time:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="type"></a>
+                                        <span class="name "><b>type</b>
+                                            <a href="#type">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>type:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, inject, ChangeDetectorRef, signal } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { RouterModule, Router } from &#x27;@angular/router&#x27;; // Import RouterModule for routerLink
+import { FullCalendarModule } from &#x27;@fullcalendar/angular&#x27;;
+import { CalendarOptions } from &#x27;@fullcalendar/core&#x27;;
+import dayGridPlugin from &#x27;@fullcalendar/daygrid&#x27;;
+import interactionPlugin from &#x27;@fullcalendar/interaction&#x27;;
+import { TechnicianService, Technician } from &#x27;../services/technician.service&#x27;;
+import { MantenimientoService } from &#x27;../services/mantenimiento.service&#x27;;
+import { Mantenimiento } from &#x27;../models/mantenimiento.interface&#x27;;
+
+interface Worker {
+  id: number;
+  name: string;
+  role: string;
+  roleColor: string; // For the icon background
+  icon: string;
+  dni?: string;
+}
+
+interface Schedule {
+  id: number;
+  clientName: string;
+  type: string;
+  technicianName: string;
+  time: string;
+  address: string;
+  avatarColor: string; // Tailwind class for circle
+  originalData: Mantenimiento;
+}
+
+interface TimelineItem {
+  date: string;
+  description: string;
+  completed: boolean;
+}
+
+@Component({
+  selector: &#x27;app-programming&#x27;,
+  standalone: true,
+  imports: [CommonModule, FullCalendarModule, RouterModule],
+  templateUrl: &#x27;./programming.component.html&#x27;,
+  styleUrls: [&#x27;./programming.component.css&#x27;],
+  host: {
+    class: &#x27;flex-1 flex flex-col min-h-0&#x27;
+  }
+})
+export class ProgrammingComponent implements OnInit {
+  private technicianService &#x3D; inject(TechnicianService);
+  private mantenimientoService &#x3D; inject(MantenimientoService);
+  private router &#x3D; inject(Router);
+  private cdr &#x3D; inject(ChangeDetectorRef);
+  
+  currentDate &#x3D; new Date();
+  currentDateStr &#x3D; (() &#x3D;&gt; {
+    const d &#x3D; new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+    return d.toISOString().split(&#x27;T&#x27;)[0];
+  })();
+  
+  // Mock Data
+  clientCount &#x3D; 78;
+  equipmentCount &#x3D; 106;
+
+  workers: Worker[] &#x3D; [];
+  isLoading &#x3D; true;
+
+  allMantenimientos: Mantenimiento[] &#x3D; [];
+  schedules: Schedule[] &#x3D; [];
+  selectedSchedule: Schedule | null &#x3D; null;
+  
+  todayStats &#x3D; { total: 0, pending: 0, emergencies: 0 };
+  pastPending: Schedule[] &#x3D; [];
+  hasEmergencyToday &#x3D; false;
+  // Tech ID -&gt; count of services today
+  techWorkload &#x3D; new Map&lt;number, number&gt;();
+
+  firstJobClientName: string &#x3D; &#x27;Sin selección&#x27;;
+  firstJobClientAddress: string &#x3D; &#x27;Seleccione una programación&#x27;;
+  firstJobAvatarColor: string &#x3D; &#x27;bg-slate-300&#x27;;
+  timeline: TimelineItem[] &#x3D; [];
+
+  upcoming: any[] &#x3D; [];
+
+  // Notification state: date string -&gt; set of notified technician IDs
+  notifiedTechIdsByDate &#x3D; new Map&lt;string, Set&lt;number&gt;&gt;();
+
+  // Toast state
+  toast &#x3D; signal&lt;{ message: string; type: &#x27;success&#x27; | &#x27;error&#x27;; title: string } | null&gt;(null);
+  private toastTimeout: any;
+
+  calendarOptions: CalendarOptions &#x3D; {
+    plugins: [dayGridPlugin, interactionPlugin],
+    initialView: &#x27;dayGridMonth&#x27;,
+    headerToolbar: {
+      left: &#x27;title&#x27;,
+      center: &#x27;&#x27;,
+      right: &#x27;prev,next&#x27;
+    },
+    contentHeight: &#x27;auto&#x27;,
+    locale: &#x27;es&#x27;, 
+    firstDay: 0, // Sunday
+    fixedWeekCount: false, // Hide extra rows if not needed
+    showNonCurrentDates: true, // Show next/prev month dates (opaque)
+    
+    dayHeaderContent: (arg) &#x3D;&gt; {
+        const days &#x3D; [&#x27;D&#x27;, &#x27;L&#x27;, &#x27;M&#x27;, &#x27;M&#x27;, &#x27;J&#x27;, &#x27;V&#x27;, &#x27;S&#x27;];
+        return days[arg.date.getDay()];
+    },
+    
+    dayCellClassNames: (arg) &#x3D;&gt; {
+        const d &#x3D; arg.date;
+        const localDateStr &#x3D; [d.getFullYear(), String(d.getMonth() + 1).padStart(2, &#x27;0&#x27;), String(d.getDate()).padStart(2, &#x27;0&#x27;)].join(&#x27;-&#x27;);
+        
+        // Verifica si hay mantenimientos en este día
+        const tieneSchedules &#x3D; (this.allMantenimientos || []).some(m &#x3D;&gt; m.start &amp;&amp; m.start.split(&#x27;T&#x27;)[0] &#x3D;&#x3D;&#x3D; localDateStr);
+        if (tieneSchedules) {
+            return [&#x27;blue-day&#x27;]; // Esta clase ya existe en CSS (blue rounded square)
+        }
+        
+        return [];
+    },
+    
+    dateClick: (info) &#x3D;&gt; {
+        this.router.navigate([&#x27;/admin/programation&#x27;], { queryParams: { date: info.dateStr } });
+    }
+  };
+
+  constructor() {}
+
+  ngOnInit(): void {
+    this.loadWorkers();
+    this.loadSchedules();
+  }
+
+  loadWorkers() {
+    this.isLoading &#x3D; true;
+    this.technicianService.getTechnicians().subscribe({
+      next: (data) &#x3D;&gt; {
+        // Ordenar primero (Jerarquía personalizada)
+        const orderMap: Record&lt;string, number&gt; &#x3D; {
+            &#x27;Supervisor Técnico&#x27;: 1,
+            &#x27;Técnico de Mantenimiento&#x27;: 2,
+            &#x27;Técnico de Reparaciones&#x27;: 3,
+            &#x27;Técnico General&#x27;: 4
+        };
+        
+        const sortedData &#x3D; data.sort((a, b) &#x3D;&gt; {
+            const orderA &#x3D; orderMap[a.especialidad] || 99;
+            const orderB &#x3D; orderMap[b.especialidad] || 99;
+            return orderA - orderB;
+        });
+
+        this.workers &#x3D; sortedData.map(tech &#x3D;&gt; ({
+          id: tech.id,
+          name: &#x60;${tech.nombre} ${tech.apellido}&#x60;,
+          role: tech.especialidad,
+          roleColor: this.getRoleColor(tech.especialidad),
+          icon: this.getRoleIcon(tech.especialidad),
+          dni: tech.dni
+        }));
+        this.isLoading &#x3D; false;
+        this.cdr.detectChanges();
+      },
+      error: (err) &#x3D;&gt; {
+        console.error(&#x27;Error loading workers for summary&#x27;, err);
+        this.isLoading &#x3D; false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  goToTechnicianDetails(worker: Worker) {
+      if (worker.dni) {
+          // Pass the worker DNI as a query parameter so the technician list can auto-filter or know who to open
+          this.router.navigate([&#x27;/admin/technicians&#x27;], { queryParams: { search: worker.dni }});
+      }
+  }
+
+  selectSchedule(schedule: Schedule) {
+      this.selectedSchedule &#x3D; schedule;
+      this.updateDetailView(schedule);
+  }
+
+  loadSchedules() {
+      this.mantenimientoService.listar(undefined, undefined, undefined, true).subscribe({
+          next: (data) &#x3D;&gt; {
+              this.allMantenimientos &#x3D; data || [];
+              this.processSchedules();
+              
+              setTimeout(() &#x3D;&gt; {
+                  this.calendarOptions &#x3D; { 
+                      ...this.calendarOptions,
+                      dayCellClassNames: (arg) &#x3D;&gt; {
+                          const d &#x3D; arg.date;
+                          const localDateStr &#x3D; [d.getFullYear(), String(d.getMonth() + 1).padStart(2, &#x27;0&#x27;), String(d.getDate()).padStart(2, &#x27;0&#x27;)].join(&#x27;-&#x27;);
+                          const tiene &#x3D; this.allMantenimientos.some(m &#x3D;&gt; m.start &amp;&amp; m.start.split(&#x27;T&#x27;)[0] &#x3D;&#x3D;&#x3D; localDateStr);
+                          return tiene ? [&#x27;blue-day&#x27;] : [];
+                      }
+                  };
+                  this.cdr.detectChanges();
+              }, 0);
+          },
+          error: (err) &#x3D;&gt; {
+              console.error(&#x27;Error loading schedules&#x27;, err);
+          }
+      });
+  }
+  
+  processSchedules() {
+      const todayStr &#x3D; this.currentDateStr;
+      
+      // 1. &quot;Programaciones del día&quot;
+      const todayMantenimientos &#x3D; this.allMantenimientos.filter(m &#x3D;&gt; m.start.startsWith(todayStr));
+      this.schedules &#x3D; todayMantenimientos.map((m, index) &#x3D;&gt; this.mapToSchedule(m, index));
+      
+      // 2. Initial Selection
+      if (this.schedules.length &gt; 0) {
+          this.selectedSchedule &#x3D; this.schedules[0];
+          this.updateDetailView(this.selectedSchedule);
+      } else {
+          this.selectedSchedule &#x3D; null;
+          this.updateDetailView(null);
+      }
+      
+      // 3. Próximos días (Upcoming)
+      const futureMantenimientos &#x3D; this.allMantenimientos.filter(m &#x3D;&gt; {
+          const mDate &#x3D; m.start.split(&#x27;T&#x27;)[0];
+          return mDate &gt; todayStr;
+      }).sort((a, b) &#x3D;&gt; a.start.localeCompare(b.start));
+      
+      this.upcoming &#x3D; futureMantenimientos.slice(0, 5).map(m &#x3D;&gt; {
+          const isEmergency &#x3D; m.extendedProps?.tipo_trabajo &#x3D;&#x3D;&#x3D; &#x27;emergencia&#x27;;
+          return {
+              date: this.formatDateShort(m.start.split(&#x27;T&#x27;)[0]),
+              type: this.formatType(m.extendedProps?.tipo_trabajo),
+              alert: isEmergency
+          };
+      });
+
+      // 4. Estadísticas del Día (Stats reales)
+      this.todayStats &#x3D; {
+          total: this.schedules.length,
+          pending: todayMantenimientos.filter(m &#x3D;&gt; m.extendedProps?.estado &#x3D;&#x3D;&#x3D; &#x27;pendiente&#x27; || !m.extendedProps?.estado).length,
+          emergencies: todayMantenimientos.filter(m &#x3D;&gt; m.extendedProps?.tipo_trabajo &#x3D;&#x3D;&#x3D; &#x27;emergencia&#x27;).length
+      };
+      this.hasEmergencyToday &#x3D; this.todayStats.emergencies &gt; 0;
+
+      // 5. Pendientes de cierre (Días anteriores)
+      const pastMantenimientos &#x3D; this.allMantenimientos.filter(m &#x3D;&gt; {
+          const mDate &#x3D; m.start.split(&#x27;T&#x27;)[0];
+          const isPast &#x3D; mDate &lt; todayStr;
+          const isPending &#x3D; m.extendedProps?.estado &#x3D;&#x3D;&#x3D; &#x27;pendiente&#x27; || m.extendedProps?.estado &#x3D;&#x3D;&#x3D; &#x27;en_progreso&#x27; || !m.extendedProps?.estado;
+          return isPast &amp;&amp; isPending;
+      }).sort((a, b) &#x3D;&gt; b.start.localeCompare(a.start));
+
+      this.pastPending &#x3D; pastMantenimientos.map(m &#x3D;&gt; this.mapToSchedule(m, 0));
+
+      // 6. Carga de Trabajo de Técnicos (Workload)
+      this.techWorkload.clear();
+      this.schedules.forEach(s &#x3D;&gt; {
+          const techs &#x3D; s.originalData.extendedProps?.trabajador_ids || [];
+          if (techs.length &#x3D;&#x3D;&#x3D; 0 &amp;&amp; s.originalData.extendedProps?.trabajador_id) {
+              techs.push(s.originalData.extendedProps.trabajador_id);
+          }
+          techs.forEach(id &#x3D;&gt; {
+              this.techWorkload.set(id, (this.techWorkload.get(id) || 0) + 1);
+          });
+      });
+  }
+
+  private mapToSchedule(m: Mantenimiento, index: number): Schedule {
+      const avatarColors &#x3D; [&#x27;bg-yellow-400&#x27;, &#x27;bg-red-400&#x27;, &#x27;bg-blue-400&#x27;, &#x27;bg-green-400&#x27;];
+      let clientName &#x3D; &#x27;Sin Cliente&#x27;;
+      let address &#x3D; &#x27;Sin dirección&#x27;;
+      
+      if (m.extendedProps?.cliente) {
+          clientName &#x3D; m.extendedProps.cliente.nombre_comercial || 
+                       &#x60;${m.extendedProps.cliente.contacto_nombre || &#x27;&#x27;} ${m.extendedProps.cliente.contacto_apellido || &#x27;&#x27;}&#x60;.trim() || 
+                       &#x27;Sin Cliente&#x27;;
+          address &#x3D; m.extendedProps.cliente.direccion || &#x27;Sin dirección registrada&#x27;;
+      }
+      
+      if (m.extendedProps?.ascensor) {
+          const asc &#x3D; m.extendedProps.ascensor;
+          address &#x3D; &#x60;${asc.tipo_equipo || &#x27;Equipo&#x27;} - ${asc.marca || &#x27;&#x27;} ${asc.modelo || &#x27;&#x27;}&#x60;.trim();
+      }
+      
+      let techName &#x3D; &#x27;No asignado&#x27;;
+      if (m.extendedProps?.trabajadores &amp;&amp; m.extendedProps.trabajadores.length &gt; 0) {
+          techName &#x3D; m.extendedProps.trabajadores.map((t: any) &#x3D;&gt; t.nombre).join(&#x27;, &#x27;);
+      } else if (m.extendedProps?.trabajador) {
+          techName &#x3D; &#x60;${m.extendedProps.trabajador.nombre} ${m.extendedProps.trabajador.apellido}&#x60;.trim() || &#x27;No asignado&#x27;;
+      }
+      
+      let time &#x3D; &#x27;&#x27;;
+      if (m.start.includes(&#x27;T&#x27;)) {
+          time &#x3D; m.start.split(&#x27;T&#x27;)[1].substring(0, 5);
+      }
+      
+      return {
+          id: m.id,
+          clientName,
+          type: this.formatType(m.extendedProps?.tipo_trabajo),
+          technicianName: techName,
+          time,
+          address,
+          avatarColor: avatarColors[index % avatarColors.length],
+          originalData: m
+      };
+  }
+  
+  updateDetailView(schedule: Schedule | null) {
+      if (schedule) {
+          this.firstJobClientName &#x3D; schedule.clientName;
+          const mant &#x3D; schedule.originalData;
+          
+          if (mant.extendedProps?.cliente?.direccion) {
+              this.firstJobClientAddress &#x3D; mant.extendedProps.cliente.direccion;
+          } else if (mant.extendedProps?.ascensor) {
+              const asc &#x3D; mant.extendedProps.ascensor;
+              this.firstJobClientAddress &#x3D; &#x60;${asc.tipo_equipo} | ${asc.marca} (S/N: ${asc.numero_serie || &#x27;N/A&#x27;})&#x60;;
+          } else {
+              this.firstJobClientAddress &#x3D; schedule.address;
+          }
+          
+          this.firstJobAvatarColor &#x3D; schedule.avatarColor;
+          
+          const dateFmt &#x3D; this.formatDate(schedule.originalData.start.split(&#x27;T&#x27;)[0]);
+          this.timeline &#x3D; [
+              { date: dateFmt, description: &#x27;Inicio programado: &#x27; + schedule.time, completed: true },
+              { date: &#x27;Detalle&#x27;, description: schedule.originalData.title || &#x27;Trabajo asignado&#x27;, completed: true }
+          ];
+          
+          if (mant.extendedProps?.descripcion) {
+              this.timeline.push({ date: &#x27;Notas&#x27;, description: mant.extendedProps.descripcion, completed: false });
+          }
+          
+          if (mant.extendedProps?.orden_id) {
+              this.timeline.push({ date: &#x27;Referencia&#x27;, description: &#x27;Orden de trabajo #&#x27; + mant.extendedProps.orden_id, completed: true });
+          }
+      } else {
+          this.firstJobClientName &#x3D; &#x27;Sin selección&#x27;;
+          this.firstJobClientAddress &#x3D; &#x27;Seleccione una programación&#x27;;
+          this.firstJobAvatarColor &#x3D; &#x27;bg-slate-300&#x27;;
+          this.timeline &#x3D; [];
+      }
+  }
+  
+  formatDate(dateStr: string): string {
+      if (!dateStr) return &#x27;&#x27;;
+      const d &#x3D; new Date(dateStr + &#x27;T00:00:00&#x27;);
+      return d.toLocaleDateString(&#x27;es-ES&#x27;, { day: &#x27;2-digit&#x27;, month: &#x27;short&#x27;, year: &#x27;numeric&#x27; });
+  }
+
+  formatDateShort(dateStr: string): string {
+      if (!dateStr) return &#x27;&#x27;;
+      const d &#x3D; new Date(dateStr + &#x27;T00:00:00&#x27;);
+      return d.toLocaleDateString(&#x27;es-ES&#x27;, { day: &#x27;2-digit&#x27;, month: &#x27;short&#x27;, year: &#x27;numeric&#x27; });
+  }
+  
+  formatType(type: string | undefined): string {
+      if (!type) return &#x27;Desconocido&#x27;;
+      const map: any &#x3D; {
+          &#x27;mantenimiento&#x27;: &#x27;Mantenimiento&#x27;,
+          &#x27;reparacion&#x27;: &#x27;Reparación&#x27;,
+          &#x27;inspeccion&#x27;: &#x27;Inspección&#x27;,
+          &#x27;emergencia&#x27;: &#x27;Emergencia&#x27;
+      };
+      return map[type] || type;
+  }
+
+  getRoleColor(specialty: string): string {
+    switch (specialty) {
+      case &#x27;Supervisor Técnico&#x27;: return &#x27;bg-purple-100 text-purple-600&#x27;;
+      case &#x27;Técnico de Mantenimiento&#x27;: return &#x27;bg-teal-100 text-teal-600&#x27;;
+      case &#x27;Técnico de Reparaciones&#x27;: return &#x27;bg-orange-100 text-orange-600&#x27;;
+      case &#x27;Técnico General&#x27;: return &#x27;bg-blue-100 text-blue-600&#x27;;     
+      default: return &#x27;bg-slate-100 text-slate-600&#x27;;
+    }
+  }
+
+  getRoleIcon(specialty: string): string {
+    switch (specialty) {
+      case &#x27;Supervisor Técnico&#x27;: return &#x27;bi-person-fill-gear&#x27;;
+      case &#x27;Técnico de Mantenimiento&#x27;: return &#x27;bi-gear-wide-connected&#x27;;
+      case &#x27;Técnico de Reparaciones&#x27;: return &#x27;bi-hammer&#x27;;
+      case &#x27;Técnico General&#x27;: return &#x27;bi-person-badge&#x27;;
+      default: return &#x27;bi-person&#x27;;
+    }
+  }
+
+  // ─── WhatsApp Integration ──────────────────────────────────────────────
+
+  getTechniciansFromSchedules(): { tech: any; services: Mantenimiento[] }[] {
+    const techGroups &#x3D; new Map&lt;number, { tech: any; services: Mantenimiento[] }&gt;();
+
+    // We use originalData from schedules because it only contains today&#x27;s filtered items
+    this.schedules.forEach(schedule &#x3D;&gt; {
+      const mant &#x3D; schedule.originalData;
+      const techs &#x3D; (mant.extendedProps?.trabajadores || []).filter((t: any) &#x3D;&gt; t &amp;&amp; t.trabajador_id);
+
+      techs.forEach((t: any) &#x3D;&gt; {
+        if (!techGroups.has(t.trabajador_id)) {
+          techGroups.set(t.trabajador_id, { tech: t, services: [] });
+        }
+        techGroups.get(t.trabajador_id)!.services.push(mant);
+      });
+    });
+
+    return Array.from(techGroups.values())
+      .sort((a, b) &#x3D;&gt; (a.tech.nombre || &#x27;&#x27;).localeCompare(b.tech.nombre || &#x27;&#x27;));
+  }
+
+  sendWhatsAppRoute(techData: { tech: any; services: Mantenimiento[] }): void {
+    const { tech, services } &#x3D; techData;
+    if (!tech.telefono || tech.telefono.trim() &#x3D;&#x3D;&#x3D; &#x27;&#x27;) {
+      this.showToast(&#x60;El técnico ${tech.nombre} no tiene un teléfono registrado.&#x60;, &#x27;error&#x27;, &#x27;Datos incompletos&#x27;);
+      return;
+    }
+
+    const fechaStr &#x3D; this.formatDate(services[0]?.start?.split(&#x27;T&#x27;)[0] || this.currentDateStr);
+    let message &#x3D; &#x60;Estimado(a) *${tech.nombre}*, se le informa su ruta de trabajo programada para el día *${fechaStr}*, la cual consta de ${services.length} servicios:\n\n&#x60;;
+
+    services.forEach((s, index) &#x3D;&gt; {
+      let hora &#x3D; &#x27;&#x27;;
+      if (s.start &amp;&amp; s.start.includes(&#x27;T&#x27;)) {
+         hora &#x3D; s.start.split(&#x27;T&#x27;)[1].substring(0, 5);
+      }
+      
+      const cliente &#x3D; s.extendedProps?.cliente?.nombre_comercial || &#x60;${s.extendedProps?.cliente?.contacto_nombre || &#x27;&#x27;} ${s.extendedProps?.cliente?.contacto_apellido || &#x27;&#x27;}&#x60;.trim() || &#x27;Cliente desconocido&#x27;;
+      const equipo &#x3D; s.extendedProps?.ascensor?.numero_serie || &#x27;Equipo&#x27;;
+      const tipo &#x3D; this.formatType(s.extendedProps?.tipo_trabajo);
+      
+      message +&#x3D; &#x60;${index + 1}. *${hora}* - ${cliente} (${tipo})\n&#x60;;
+      message +&#x3D; &#x60;   Ref: ${equipo}\n\n&#x60;;
+    });
+
+    message +&#x3D; &#x60;Por favor, confirmar la recepción de este mensaje. Atentamente, Administración JMG Ascensores.&#x60;;
+
+    const encodedMessage &#x3D; encodeURIComponent(message);
+    const cleanPhone &#x3D; tech.telefono.replace(/\s+/g, &#x27;&#x27;);
+    const whatsappUrl &#x3D; &#x60;https://wa.me/51${cleanPhone}?text&#x3D;${encodedMessage}&#x60;;
+    
+    window.open(whatsappUrl, &#x27;_blank&#x27;);
+    
+    // Marcar como notificado
+    if (!this.notifiedTechIdsByDate.has(this.currentDateStr)) {
+      this.notifiedTechIdsByDate.set(this.currentDateStr, new Set&lt;number&gt;());
+    }
+    this.notifiedTechIdsByDate.get(this.currentDateStr)?.add(tech.trabajador_id);
+    this.cdr.detectChanges();
+  }
+
+  sendWhatsAppClient(schedule: Schedule): void {
+    const raw &#x3D; schedule.originalData;
+    const cliente &#x3D; raw.extendedProps?.cliente;
+    
+    if (!cliente) {
+        this.showToast(&#x27;No se encontró información del cliente para este trabajo.&#x27;, &#x27;error&#x27;, &#x27;Error de Datos&#x27;);
+        return;
+    }
+
+    // Lógica robusta por tipo de cliente para obtener el teléfono
+    let telefono &#x3D; &#x27;&#x27;;
+    if (cliente.tipo_cliente &#x3D;&#x3D;&#x3D; &#x27;persona&#x27;) {
+        // Para personas, prioritarios &#x27;telefono&#x27;, si no está, usamos &#x27;contacto_telefono&#x27; (por compatibilidad con datos viejos)
+        telefono &#x3D; cliente.telefono || cliente.contacto_telefono;
+    } else {
+        // Para empresas, prioritarios &#x27;contacto_telefono&#x27;, si no está, usamos &#x27;telefono&#x27;
+        telefono &#x3D; cliente.contacto_telefono || cliente.telefono;
+    }
+    
+    if (!telefono || telefono.trim() &#x3D;&#x3D;&#x3D; &#x27;&#x27;) {
+        this.showToast(&#x60;El cliente ${schedule.clientName} no tiene un teléfono registrado para este tipo de contacto.&#x60;, &#x27;error&#x27;, &#x27;Datos incompletos&#x27;);
+        return;
+    }
+
+    const fechaStr &#x3D; this.formatDate(raw.start?.split(&#x27;T&#x27;)[0] || this.currentDateStr);
+    let hora &#x3D; &#x27;&#x27;;
+    if (raw.start &amp;&amp; raw.start.includes(&#x27;T&#x27;)) {
+        hora &#x3D; raw.start.split(&#x27;T&#x27;)[1].substring(0, 5);
+    }
+
+    const nombreCliente &#x3D; &#x60;${cliente.contacto_nombre || &#x27;&#x27;} ${cliente.contacto_apellido || &#x27;&#x27;}&#x60;.trim() || cliente.nombre_comercial || &#x27;Estimado Cliente&#x27;;
+    const tipoTrabajo &#x3D; this.formatType(raw.extendedProps?.tipo_trabajo);
+    const equipo &#x3D; raw.extendedProps?.ascensor?.numero_serie || &#x27;su equipo&#x27;;
+
+    let message &#x3D; &#x60;Estimado(a) *${nombreCliente}*,\n\n&#x60;;
+    message +&#x3D; &#x60;JMG Ascensores le informa que tiene programado un servicio de *${tipoTrabajo}* para el día *${fechaStr}* a las *${hora}* para el equipo [Ref: ${equipo}].\n\n&#x60;;
+    message +&#x3D; &#x60;Atentamente,\nAdministración JMG Ascensores.&#x60;;
+
+    const encodedMessage &#x3D; encodeURIComponent(message);
+    const cleanPhone &#x3D; telefono.replace(/\s+/g, &#x27;&#x27;).replace(&#x27;+&#x27;, &#x27;&#x27;);
+    // Asumimos código de país 51 (Perú) si no tiene caracteres internacionales
+    const finalPhone &#x3D; cleanPhone.length &#x3D;&#x3D;&#x3D; 9 ? &#x60;51${cleanPhone}&#x60; : cleanPhone;
+    
+    const whatsappUrl &#x3D; &#x60;https://wa.me/${finalPhone}?text&#x3D;${encodedMessage}&#x60;;
+    window.open(whatsappUrl, &#x27;_blank&#x27;);
+    
+    this.showToast(&#x60;Enlace de WhatsApp generado para ${schedule.clientName}&#x60;, &#x27;success&#x27;, &#x27;Notificación&#x27;);
+  }
+
+  isTechNotified(techId: number): boolean {
+    return !!this.notifiedTechIdsByDate.get(this.currentDateStr)?.has(techId);
+  }
+
+  getWorkloadBadge(techId: number): string | null {
+      const count &#x3D; this.techWorkload.get(techId);
+      if (!count) return null;
+      return count &#x3D;&#x3D;&#x3D; 1 ? &#x27;1 servicio&#x27; : &#x60;${count} servicios&#x60;;
+  }
+
+  showToast(message: string, type: &#x27;success&#x27; | &#x27;error&#x27; &#x3D; &#x27;error&#x27;, title: string &#x3D; &#x27;Aviso&#x27;): void {
+    if (this.toastTimeout) clearTimeout(this.toastTimeout);
+    this.toast.set({ message, type, title });
+    this.toastTimeout &#x3D; setTimeout(() &#x3D;&gt; {
+      this.toast.set(null);
+    }, 3500);
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'Schedule.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

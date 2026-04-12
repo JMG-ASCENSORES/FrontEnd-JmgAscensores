@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, Output, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ClientService, Client } from '../../services/client.service';
 
 @Component({
   selector: 'app-client-delete',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './client-delete.component.html',
 })
 export class ClientDeleteComponent {

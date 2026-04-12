@@ -6,8 +6,12 @@
     <!-- Avatar -->
     <div class="absolute -bottom-12 left-1/2 -translate-x-1/2 w-28 h-28 md:w-32 md:h-32 rounded-full border-4 border-white bg-white shadow-xl flex items-center justify-center overflow-hidden">
       <div class="w-full h-full flex items-center justify-center bg-slate-100 text-slate-500 text-3xl md:text-4xl font-bold font-display">
-        <span *ngIf="!isLoading()">{{ initials }}</span>
-        <i *ngIf="isLoading()" class="bi bi-person-fill text-4xl text-slate-300"></i>
+        @if (!isLoading()) {
+          <span>{{ initials }}</span>
+        }
+        @if (isLoading()) {
+          <i class="bi bi-person-fill text-4xl text-slate-300"></i>
+        }
       </div>
     </div>
   </div>
@@ -18,8 +22,12 @@
     <!-- Identidad -->
     <div class="text-center">
       <h1 class="font-display text-2xl md:text-3xl font-bold text-slate-800 mb-2">
-        <span *ngIf="!isLoading()">{{ profile()?.nombre }} {{ profile()?.apellido }}</span>
-        <div *ngIf="isLoading()" class="h-7 w-48 bg-slate-200 rounded-lg animate-pulse mx-auto"></div>
+        @if (!isLoading()) {
+          <span>{{ profile()?.nombre }} {{ profile()?.apellido }}</span>
+        }
+        @if (isLoading()) {
+          <div class="h-7 w-48 bg-slate-200 rounded-lg animate-pulse mx-auto"></div>
+        }
       </h1>
       <span class="inline-flex items-center gap-2 px-3 py-1 bg-jmg-muted text-jmg rounded-full text-sm font-semibold">
         <i class="bi bi-shield-check"></i>
@@ -28,14 +36,18 @@
     </div>
 
     <!-- Feedback alerts -->
-    <div *ngIf="saveSuccess()" class="flex items-center gap-3 p-4 rounded-2xl border bg-emerald-50 text-emerald-700 border-emerald-100">
-      <i class="bi bi-check-circle-fill text-lg shrink-0"></i>
-      Cambios guardados con éxito.
-    </div>
-    <div *ngIf="errorMessage()" class="flex items-center gap-3 p-4 rounded-2xl border bg-rose-50 text-rose-700 border-rose-100">
-      <i class="bi bi-exclamation-circle-fill text-lg shrink-0"></i>
-      {{ errorMessage() }}
-    </div>
+    @if (saveSuccess()) {
+      <div class="flex items-center gap-3 p-4 rounded-2xl border bg-emerald-50 text-emerald-700 border-emerald-100">
+        <i class="bi bi-check-circle-fill text-lg shrink-0"></i>
+        Cambios guardados con éxito.
+      </div>
+    }
+    @if (errorMessage()) {
+      <div class="flex items-center gap-3 p-4 rounded-2xl border bg-rose-50 text-rose-700 border-rose-100">
+        <i class="bi bi-exclamation-circle-fill text-lg shrink-0"></i>
+        {{ errorMessage() }}
+      </div>
+    }
 
     <!-- ── Tabs ── -->
     <div class="flex bg-white p-1.5 rounded-2xl shadow-sm border border-slate-100">
@@ -45,7 +57,7 @@
           ? 'bg-jmg text-white shadow-md'
           : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'"
         (click)="activeTab.set('profile')"
-      >
+        >
         <i class="bi bi-person text-base"></i> Mi Perfil
       </button>
       <button
@@ -54,7 +66,7 @@
           ? 'bg-jmg text-white shadow-md'
           : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'"
         (click)="activeTab.set('security')"
-      >
+        >
         <i class="bi bi-shield-lock text-base"></i> Seguridad
       </button>
       <button
@@ -63,169 +75,176 @@
           ? 'bg-jmg text-white shadow-md'
           : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'"
         (click)="activeTab.set('system')"
-      >
+        >
         <i class="bi bi-gear-wide-connected text-base"></i> Sistema
       </button>
     </div>
 
     <!-- ── Loading Skeleton ── -->
-    <div *ngIf="isLoading()" class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100 space-y-5">
-      <div *ngFor="let i of [1,2,3,4]" class="space-y-1.5">
-        <div class="h-3 w-20 bg-slate-200 rounded-lg animate-pulse"></div>
-        <div class="h-11 w-full bg-slate-100 rounded-xl animate-pulse"></div>
+    @if (isLoading()) {
+      <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100 space-y-5">
+        @for (i of [1,2,3,4]; track i) {
+          <div class="space-y-1.5">
+            <div class="h-3 w-20 bg-slate-200 rounded-lg animate-pulse"></div>
+            <div class="h-11 w-full bg-slate-100 rounded-xl animate-pulse"></div>
+          </div>
+        }
       </div>
-    </div>
+    }
 
     <!-- ── Tab: Perfil ── -->
-    <div *ngIf="!isLoading() && activeTab() === 'profile'"
-      class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
-
-      <form [formGroup]="profileForm" (ngSubmit)="onSaveProfile()" class="space-y-5">
-
-        <!-- Section title -->
-        <div class="flex items-center gap-3 mb-2">
-          <span class="font-display font-bold text-slate-800 text-base">Datos Personales</span>
-          <div class="flex-1 h-px bg-slate-100"></div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <div class="space-y-1.5">
-            <label class="block text-sm font-semibold text-slate-600" for="p_nombre">Nombre</label>
-            <input id="p_nombre" type="text" formControlName="nombre"
-              class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
+    @if (!isLoading() && activeTab() === 'profile') {
+      <div
+        class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
+        <form [formGroup]="profileForm" (ngSubmit)="onSaveProfile()" class="space-y-5">
+          <!-- Section title -->
+          <div class="flex items-center gap-3 mb-2">
+            <span class="font-display font-bold text-slate-800 text-base">Datos Personales</span>
+            <div class="flex-1 h-px bg-slate-100"></div>
           </div>
-          <div class="space-y-1.5">
-            <label class="block text-sm font-semibold text-slate-600" for="p_apellido">Apellidos</label>
-            <input id="p_apellido" type="text" formControlName="apellido"
-              class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
-          </div>
-        </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div class="space-y-1.5">
+              <label class="block text-sm font-semibold text-slate-600" for="p_nombre">Nombre</label>
+              <input id="p_nombre" type="text" formControlName="nombre"
+                class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
+              </div>
+              <div class="space-y-1.5">
+                <label class="block text-sm font-semibold text-slate-600" for="p_apellido">Apellidos</label>
+                <input id="p_apellido" type="text" formControlName="apellido"
+                  class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
+                </div>
+              </div>
+              <div class="space-y-1.5">
+                <label class="block text-sm font-semibold text-slate-600" for="p_dni">DNI</label>
+                <input id="p_dni" type="text" formControlName="dni" maxlength="8"
+                  class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
+                  @if (profileForm.get('dni')?.invalid && profileForm.get('dni')?.touched) {
+                    <p
+                      class="text-xs text-red-500 font-medium mt-1">
+                      DNI inválido (debe tener 8 dígitos).
+                    </p>
+                  }
+                </div>
+                <div class="space-y-1.5">
+                  <label class="block text-sm font-semibold text-slate-600" for="p_correo">Correo Electrónico</label>
+                  <input id="p_correo" type="email" formControlName="correo"
+                    class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
+                  </div>
+                  <div class="space-y-1.5">
+                    <label class="block text-sm font-semibold text-slate-600" for="p_telefono">Teléfono</label>
+                    <div class="relative flex items-center">
+                      <span class="absolute left-4 text-slate-400 text-sm font-bold border-r border-slate-200 pr-3 select-none">+51</span>
+                      <input id="p_telefono" type="tel" formControlName="telefono" maxlength="9"
+                        class="w-full h-11 pl-16 pr-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
+                      </div>
+                    </div>
+                    <button type="submit"
+                      class="inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-6 h-11 text-sm transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
+                      [disabled]="profileForm.pristine || profileForm.invalid || isSaving()"
+                      >
+                      @if (isSaving()) {
+                        <span class="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin"></span>
+                      }
+                      @if (!isSaving()) {
+                        <i class="bi bi-check-lg"></i>
+                      }
+                      {{ isSaving() ? 'Guardando...' : 'Guardar Cambios' }}
+                    </button>
+                  </form>
+                </div>
+              }
 
-        <div class="space-y-1.5">
-          <label class="block text-sm font-semibold text-slate-600" for="p_dni">DNI</label>
-          <input id="p_dni" type="text" formControlName="dni" maxlength="8"
-            class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
-          <p *ngIf="profileForm.get('dni')?.invalid && profileForm.get('dni')?.touched"
-            class="text-xs text-red-500 font-medium mt-1">
-            DNI inválido (debe tener 8 dígitos).
-          </p>
-        </div>
+              <!-- ── Tab: Seguridad ── -->
+              @if (!isLoading() && activeTab() === 'security') {
+                <div
+                  class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
+                  <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()" class="space-y-5">
+                    <div class="flex items-center gap-3 mb-2">
+                      <span class="font-display font-bold text-slate-800 text-base">Cambiar Contraseña</span>
+                      <div class="flex-1 h-px bg-slate-100"></div>
+                    </div>
+                    <div class="space-y-1.5">
+                      <label class="block text-sm font-semibold text-slate-600" for="p_nueva">Nueva Contraseña</label>
+                      <div class="relative flex items-center">
+                        <input id="p_nueva"
+                          [type]="showNuevaPass() ? 'text' : 'password'"
+                          formControlName="nueva_contrasena"
+                          placeholder="Mín. 6 caracteres"
+                          class="w-full h-11 px-4 pr-12 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
+                          <button type="button"
+                            class="absolute right-3 w-9 h-9 flex items-center justify-center text-slate-400 hover:text-jmg transition-colors"
+                            (click)="showNuevaPass.set(!showNuevaPass())">
+                            <i class="bi" [ngClass]="showNuevaPass() ? 'bi-eye-slash' : 'bi-eye'"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="space-y-1.5">
+                        <label class="block text-sm font-semibold text-slate-600" for="p_confirma">Confirmar Contraseña</label>
+                        <div class="relative flex items-center">
+                          <input id="p_confirma"
+                            [type]="showConfirmaPass() ? 'text' : 'password'"
+                            formControlName="confirmar_contrasena"
+                            placeholder="Repetí la contraseña"
+                            class="w-full h-11 px-4 pr-12 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
+                            <button type="button"
+                              class="absolute right-3 w-9 h-9 flex items-center justify-center text-slate-400 hover:text-jmg transition-colors"
+                              (click)="showConfirmaPass.set(!showConfirmaPass())">
+                              <i class="bi" [ngClass]="showConfirmaPass() ? 'bi-eye-slash' : 'bi-eye'"></i>
+                            </button>
+                          </div>
+                          @if (passwordForm.hasError('passwordMismatch') && passwordForm.get('confirmar_contrasena')?.touched) {
+                            <p
+                              class="text-xs text-red-500 font-medium">
+                              Las contraseñas no coinciden.
+                            </p>
+                          }
+                        </div>
+                        <button type="submit"
+                          class="inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-6 h-11 text-sm transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
+                          [disabled]="passwordForm.invalid || isSaving()"
+                          >
+                          @if (isSaving()) {
+                            <span class="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin"></span>
+                          }
+                          @if (!isSaving()) {
+                            <i class="bi bi-shield-lock"></i>
+                          }
+                          Actualizar Contraseña
+                        </button>
+                      </form>
+                    </div>
+                  }
 
-        <div class="space-y-1.5">
-          <label class="block text-sm font-semibold text-slate-600" for="p_correo">Correo Electrónico</label>
-          <input id="p_correo" type="email" formControlName="correo"
-            class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
-        </div>
+                  <!-- ── Tab: Sistema ── -->
+                  @if (!isLoading() && activeTab() === 'system') {
+                    <div
+                      class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
+                      <div class="flex items-center gap-3 mb-2">
+                        <span class="font-display font-bold text-slate-800 text-base">Configuración Global</span>
+                        <div class="flex-1 h-px bg-slate-100"></div>
+                      </div>
+                      <p class="text-sm text-slate-400 mb-6">Ajustes generales que afectan a toda la plataforma y clientes.</p>
+                      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
+                        @for (setting of systemSettings(); track setting) {
+                          <div
+                            class="bg-slate-50 border border-slate-100 p-4 rounded-2xl hover:border-jmg/20 transition-colors space-y-1.5">
+                            <div class="flex justify-between items-center">
+                              <label class="block text-sm font-semibold text-slate-600" [for]="setting.clave">{{ setting.descripcion }}</label>
+                              <span class="text-[10px] text-slate-400 font-mono">{{ setting.clave }}</span>
+                            </div>
+                            <input
+                              [id]="setting.clave"
+                              type="text"
+                              [value]="setting.valor"
+                              (change)="updateSystemSetting(setting.clave, $event)"
+                              class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-white text-sm transition-colors focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none"
+                              [placeholder]="'Valor para ' + setting.clave"
+                              >
+                            </div>
+                          }
+                        </div>
+                      </div>
+                    }
 
-        <div class="space-y-1.5">
-          <label class="block text-sm font-semibold text-slate-600" for="p_telefono">Teléfono</label>
-          <div class="relative flex items-center">
-            <span class="absolute left-4 text-slate-400 text-sm font-bold border-r border-slate-200 pr-3 select-none">+51</span>
-            <input id="p_telefono" type="tel" formControlName="telefono" maxlength="9"
-              class="w-full h-11 pl-16 pr-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
-          </div>
-        </div>
-
-        <button type="submit"
-          class="inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-6 h-11 text-sm transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
-          [disabled]="profileForm.pristine || profileForm.invalid || isSaving()"
-        >
-          <span *ngIf="isSaving()" class="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin"></span>
-          <i *ngIf="!isSaving()" class="bi bi-check-lg"></i>
-          {{ isSaving() ? 'Guardando...' : 'Guardar Cambios' }}
-        </button>
-
-      </form>
-    </div>
-
-    <!-- ── Tab: Seguridad ── -->
-    <div *ngIf="!isLoading() && activeTab() === 'security'"
-      class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
-
-      <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()" class="space-y-5">
-
-        <div class="flex items-center gap-3 mb-2">
-          <span class="font-display font-bold text-slate-800 text-base">Cambiar Contraseña</span>
-          <div class="flex-1 h-px bg-slate-100"></div>
-        </div>
-
-        <div class="space-y-1.5">
-          <label class="block text-sm font-semibold text-slate-600" for="p_nueva">Nueva Contraseña</label>
-          <div class="relative flex items-center">
-            <input id="p_nueva"
-              [type]="showNuevaPass() ? 'text' : 'password'"
-              formControlName="nueva_contrasena"
-              placeholder="Mín. 6 caracteres"
-              class="w-full h-11 px-4 pr-12 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
-            <button type="button"
-              class="absolute right-3 w-9 h-9 flex items-center justify-center text-slate-400 hover:text-jmg transition-colors"
-              (click)="showNuevaPass.set(!showNuevaPass())">
-              <i class="bi" [ngClass]="showNuevaPass() ? 'bi-eye-slash' : 'bi-eye'"></i>
-            </button>
-          </div>
-        </div>
-
-        <div class="space-y-1.5">
-          <label class="block text-sm font-semibold text-slate-600" for="p_confirma">Confirmar Contraseña</label>
-          <div class="relative flex items-center">
-            <input id="p_confirma"
-              [type]="showConfirmaPass() ? 'text' : 'password'"
-              formControlName="confirmar_contrasena"
-              placeholder="Repetí la contraseña"
-              class="w-full h-11 px-4 pr-12 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
-            <button type="button"
-              class="absolute right-3 w-9 h-9 flex items-center justify-center text-slate-400 hover:text-jmg transition-colors"
-              (click)="showConfirmaPass.set(!showConfirmaPass())">
-              <i class="bi" [ngClass]="showConfirmaPass() ? 'bi-eye-slash' : 'bi-eye'"></i>
-            </button>
-          </div>
-          <p *ngIf="passwordForm.hasError('passwordMismatch') && passwordForm.get('confirmar_contrasena')?.touched"
-            class="text-xs text-red-500 font-medium">
-            Las contraseñas no coinciden.
-          </p>
-        </div>
-
-        <button type="submit"
-          class="inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-6 h-11 text-sm transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
-          [disabled]="passwordForm.invalid || isSaving()"
-        >
-          <span *ngIf="isSaving()" class="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin"></span>
-          <i *ngIf="!isSaving()" class="bi bi-shield-lock"></i>
-          Actualizar Contraseña
-        </button>
-
-      </form>
-    </div>
-
-    <!-- ── Tab: Sistema ── -->
-    <div *ngIf="!isLoading() && activeTab() === 'system'"
-      class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
-
-      <div class="flex items-center gap-3 mb-2">
-        <span class="font-display font-bold text-slate-800 text-base">Configuración Global</span>
-        <div class="flex-1 h-px bg-slate-100"></div>
-      </div>
-      <p class="text-sm text-slate-400 mb-6">Ajustes generales que afectan a toda la plataforma y clientes.</p>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
-        <div *ngFor="let setting of systemSettings()"
-          class="bg-slate-50 border border-slate-100 p-4 rounded-2xl hover:border-jmg/20 transition-colors space-y-1.5">
-          <div class="flex justify-between items-center">
-            <label class="block text-sm font-semibold text-slate-600" [for]="setting.clave">{{ setting.descripcion }}</label>
-            <span class="text-[10px] text-slate-400 font-mono">{{ setting.clave }}</span>
-          </div>
-          <input
-            [id]="setting.clave"
-            type="text"
-            [value]="setting.valor"
-            (change)="updateSystemSetting(setting.clave, $event)"
-            class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-white text-sm transition-colors focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none"
-            [placeholder]="'Valor para ' + setting.clave"
-          >
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-</div>
+                  </div>
+                </div>

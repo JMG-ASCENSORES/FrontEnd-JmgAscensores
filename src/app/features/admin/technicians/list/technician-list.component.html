@@ -94,155 +94,163 @@
     <button
       (click)="openRestoreModal()"
       class="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-600 font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors border border-slate-200 shadow-sm"
-    >
+      >
       <i class="bi bi-arrow-counterclockwise"></i>
       Restaurar Técnicos
     </button>
     <button
       (click)="openCreateModal()"
       class="inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors shadow-sm"
-    >
+      >
       <i class="bi bi-plus-lg"></i>
       Registrar Nuevo Técnico
     </button>
   </div>
 
   <!-- ── Loading ── -->
-  <div *ngIf="isLoading()" class="flex flex-col items-center justify-center py-20 gap-3">
-    <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-jmg"></div>
-    <p class="text-slate-400 text-sm font-medium">Cargando técnicos...</p>
-  </div>
+  @if (isLoading()) {
+    <div class="flex flex-col items-center justify-center py-20 gap-3">
+      <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-jmg"></div>
+      <p class="text-slate-400 text-sm font-medium">Cargando técnicos...</p>
+    </div>
+  }
 
   <!-- ── Error ── -->
-  <div *ngIf="error()" class="bg-red-50 border border-red-100 text-red-600 px-5 py-4 rounded-2xl flex items-center gap-3 text-sm font-medium">
-    <i class="bi bi-exclamation-triangle-fill text-lg shrink-0"></i>
-    {{ error() }}
-  </div>
+  @if (error()) {
+    <div class="bg-red-50 border border-red-100 text-red-600 px-5 py-4 rounded-2xl flex items-center gap-3 text-sm font-medium">
+      <i class="bi bi-exclamation-triangle-fill text-lg shrink-0"></i>
+      {{ error() }}
+    </div>
+  }
 
   <!-- ── Grid ── -->
-  <div *ngIf="!isLoading()" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-    <div *ngFor="let tech of filteredTechnicians()" class="h-full">
-      <app-entity-card>
-
-        <!-- Edit Action -->
-        <button action-top (click)="openEditModal(tech)"
-          class="text-emerald-600 hover:text-emerald-700 p-2 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors"
-          title="Editar Técnico">
-          <i class="bi bi-pencil-square"></i>
-        </button>
-
-        <!-- Main Content -->
-        <div>
-          <div class="flex items-start gap-4">
-            <!-- Avatar / Foto -->
-            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-jmg to-jmg-light flex items-center justify-center text-white text-lg font-bold shrink-0 shadow-sm overflow-hidden transition-transform hover:scale-105">
-              <img *ngIf="tech.foto" [src]="tech.foto" class="w-full h-full object-cover" alt="Foto">
-              <span *ngIf="!tech.foto">{{ getInitials(tech.nombre, tech.apellido) }}</span>
-            </div>
-
-            <!-- Info -->
-            <div class="pt-0.5 min-w-0">
-              <h3 class="font-display font-bold text-slate-900 text-base leading-snug">
-                {{ tech.nombre }} {{ tech.apellido }}
-              </h3>
-              <p class="text-xs text-slate-400 font-medium mt-0.5">DNI: {{ tech.dni }}</p>
-              <div class="mt-2">
-                <span
-                  class="inline-flex items-center px-2.5 py-0.5 text-[11px] font-semibold uppercase rounded-full tracking-wide"
-                  [ngClass]="getSpecialtyColor(tech.especialidad)"
-                >
-                  {{ tech.especialidad }}
-                </span>
+  @if (!isLoading()) {
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+      @for (tech of filteredTechnicians(); track tech) {
+        <div class="h-full">
+          <app-entity-card>
+            <!-- Edit Action -->
+            <button action-top (click)="openEditModal(tech)"
+              class="text-emerald-600 hover:text-emerald-700 p-2 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors"
+              title="Editar Técnico">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+            <!-- Main Content -->
+            <div>
+              <div class="flex items-start gap-4">
+                <!-- Avatar / Foto -->
+                <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-jmg to-jmg-light flex items-center justify-center text-white text-lg font-bold shrink-0 shadow-sm overflow-hidden transition-transform hover:scale-105">
+                  @if (tech.foto) {
+                    <img [src]="tech.foto" class="w-full h-full object-cover" alt="Foto">
+                  }
+                  @if (!tech.foto) {
+                    <span>{{ getInitials(tech.nombre, tech.apellido) }}</span>
+                  }
+                </div>
+                <!-- Info -->
+                <div class="pt-0.5 min-w-0">
+                  <h3 class="font-display font-bold text-slate-900 text-base leading-snug">
+                    {{ tech.nombre }} {{ tech.apellido }}
+                  </h3>
+                  <p class="text-xs text-slate-400 font-medium mt-0.5">DNI: {{ tech.dni }}</p>
+                  <div class="mt-2">
+                    <span
+                      class="inline-flex items-center px-2.5 py-0.5 text-[11px] font-semibold uppercase rounded-full tracking-wide"
+                      [ngClass]="getSpecialtyColor(tech.especialidad)"
+                      >
+                      {{ tech.especialidad }}
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+            <!-- Footer: Contact Info -->
+            <ng-container footer>
+              <div class="space-y-3 w-full">
+                <div class="flex items-center gap-3 text-slate-600">
+                  <div class="w-7 h-7 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">
+                    <i class="bi bi-envelope-fill text-[11px] text-slate-400"></i>
+                  </div>
+                  <div class="min-w-0">
+                    <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider leading-none mb-0.5">Correo</p>
+                    <p class="text-sm font-medium truncate">{{ tech.correo }}</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-3 text-slate-600">
+                  <div class="w-7 h-7 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">
+                    <i class="bi bi-telephone-fill text-[11px] text-slate-400"></i>
+                  </div>
+                  <div>
+                    <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider leading-none mb-0.5">Teléfono</p>
+                    <p class="text-sm font-medium">{{ tech.telefono }}</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-3 text-slate-600">
+                  <div class="w-7 h-7 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">
+                    <i class="bi bi-cake2-fill text-[11px] text-slate-400"></i>
+                  </div>
+                  <div>
+                    <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider leading-none mb-0.5">Edad</p>
+                    <p class="text-sm font-medium">{{ tech.edad }} años</p>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <!-- Delete -->
+            <button (click)="openDeleteModal(tech)"
+              class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity text-red-400 hover:text-red-600 hover:bg-red-50 p-1.5 rounded-lg border border-transparent hover:border-red-100 z-30"
+              title="Eliminar Técnico">
+              <i class="bi bi-trash3-fill text-sm"></i>
+            </button>
+          </app-entity-card>
         </div>
-
-        <!-- Footer: Contact Info -->
-        <ng-container footer>
-          <div class="space-y-3 w-full">
-
-            <div class="flex items-center gap-3 text-slate-600">
-              <div class="w-7 h-7 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">
-                <i class="bi bi-envelope-fill text-[11px] text-slate-400"></i>
-              </div>
-              <div class="min-w-0">
-                <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider leading-none mb-0.5">Correo</p>
-                <p class="text-sm font-medium truncate">{{ tech.correo }}</p>
-              </div>
-            </div>
-
-            <div class="flex items-center gap-3 text-slate-600">
-              <div class="w-7 h-7 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">
-                <i class="bi bi-telephone-fill text-[11px] text-slate-400"></i>
-              </div>
-              <div>
-                <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider leading-none mb-0.5">Teléfono</p>
-                <p class="text-sm font-medium">{{ tech.telefono }}</p>
-              </div>
-            </div>
-
-            <div class="flex items-center gap-3 text-slate-600">
-              <div class="w-7 h-7 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">
-                <i class="bi bi-cake2-fill text-[11px] text-slate-400"></i>
-              </div>
-              <div>
-                <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider leading-none mb-0.5">Edad</p>
-                <p class="text-sm font-medium">{{ tech.edad }} años</p>
-              </div>
-            </div>
-
-          </div>
-        </ng-container>
-
-        <!-- Delete -->
-        <button (click)="openDeleteModal(tech)"
-          class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity text-red-400 hover:text-red-600 hover:bg-red-50 p-1.5 rounded-lg border border-transparent hover:border-red-100 z-30"
-          title="Eliminar Técnico">
-          <i class="bi bi-trash3-fill text-sm"></i>
-        </button>
-
-      </app-entity-card>
+      }
     </div>
-  </div>
+  }
 
   <!-- ── Empty State ── -->
-  <div *ngIf="!isLoading() && filteredTechnicians().length === 0"
-    class="py-20 flex flex-col items-center gap-4 bg-white rounded-2xl border border-dashed border-slate-200">
-    <div class="w-20 h-20 bg-slate-100 rounded-2xl flex items-center justify-center">
-      <i class="bi bi-search text-slate-300 text-3xl"></i>
+  @if (!isLoading() && filteredTechnicians().length === 0) {
+    <div
+      class="py-20 flex flex-col items-center gap-4 bg-white rounded-2xl border border-dashed border-slate-200">
+      <div class="w-20 h-20 bg-slate-100 rounded-2xl flex items-center justify-center">
+        <i class="bi bi-search text-slate-300 text-3xl"></i>
+      </div>
+      <div class="text-center">
+        <h3 class="font-display font-bold text-slate-800 text-lg">Sin resultados</h3>
+        <p class="text-slate-400 text-sm mt-1 max-w-xs mx-auto">No hay técnicos que coincidan. Intentá simplificar los filtros.</p>
+      </div>
     </div>
-    <div class="text-center">
-      <h3 class="font-display font-bold text-slate-800 text-lg">Sin resultados</h3>
-      <p class="text-slate-400 text-sm mt-1 max-w-xs mx-auto">No hay técnicos que coincidan. Intentá simplificar los filtros.</p>
-    </div>
-  </div>
+  }
 
 </div>
 
 <!-- Modals -->
-<app-technician-create
-  *ngIf="showCreateModal()"
-  (close)="closeCreateModal()"
-  (technicianCreated)="onTechnicianCreated()">
-</app-technician-create>
+@if (showCreateModal()) {
+  <app-technician-create
+    (close)="closeCreateModal()"
+    (technicianCreated)="onTechnicianCreated()">
+  </app-technician-create>
+}
 
-<app-technician-edit
-  *ngIf="showEditModal() && selectedTechnician()"
-  [technician]="selectedTechnician()!"
-  (close)="closeEditModal()"
-  (technicianUpdated)="onTechnicianUpdated()">
-</app-technician-edit>
+@if (showEditModal() && selectedTechnician()) {
+  <app-technician-edit
+    [technician]="selectedTechnician()!"
+    (close)="closeEditModal()"
+    (technicianUpdated)="onTechnicianUpdated()">
+  </app-technician-edit>
+}
 
-<app-technician-delete
-  *ngIf="showDeleteModal() && technicianToDelete()"
-  [technician]="technicianToDelete()!"
-  (close)="closeDeleteModal()"
-  (technicianDeleted)="onTechnicianDeleted()">
-</app-technician-delete>
+@if (showDeleteModal() && technicianToDelete()) {
+  <app-technician-delete
+    [technician]="technicianToDelete()!"
+    (close)="closeDeleteModal()"
+    (technicianDeleted)="onTechnicianDeleted()">
+  </app-technician-delete>
+}
 
-<app-technician-restore
-  *ngIf="showRestoreModal()"
-  (close)="closeRestoreModal()"
-  (technicianRestored)="onTechnicianRestored()">
-</app-technician-restore>
+@if (showRestoreModal()) {
+  <app-technician-restore
+    (close)="closeRestoreModal()"
+    (technicianRestored)="onTechnicianRestored()">
+  </app-technician-restore>
+}

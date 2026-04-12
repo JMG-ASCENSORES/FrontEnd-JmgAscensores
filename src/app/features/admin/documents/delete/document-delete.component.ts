@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, Output, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ReportService } from '../../services/report.service';
 import { Report } from '../../../../core/models/report.model';
 
 @Component({
   selector: 'app-document-delete',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './document-delete.component.html',
   styleUrl: './document-delete.component.scss'
 })

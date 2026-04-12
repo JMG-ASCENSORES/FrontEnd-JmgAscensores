@@ -1,40 +1,42 @@
-<aside [ngClass]="{'w-72': !isCollapsed, 'w-20': isCollapsed}" 
-       class="flex flex-col h-screen bg-slate-800 border-r border-slate-700 transition-all duration-300 ease-in-out relative z-50 shadow-2xl">
+<aside [ngClass]="{'w-72': !isCollapsed, 'w-20': isCollapsed}"
+  class="flex flex-col h-screen bg-slate-800 border-r border-slate-700 transition-all duration-300 ease-in-out relative z-50 shadow-2xl">
 
   <!-- Logo Area -->
   <div class="p-6 flex justify-center border-b border-slate-700/50 min-h-[100px] items-center overflow-hidden bg-slate-900/30">
     <div class="transition-all duration-300 flex items-center justify-center">
-      <img src="images/jmg_logo.png" alt="JMG Logo" 
-           [ngClass]="{'max-h-14': !isCollapsed, 'max-h-10': isCollapsed}"
-           class="w-auto object-contain transition-all duration-300 drop-shadow-lg">
+      <img src="images/jmg_logo.png" alt="JMG Logo"
+        [ngClass]="{'max-h-14': !isCollapsed, 'max-h-10': isCollapsed}"
+        class="w-auto object-contain transition-all duration-300 drop-shadow-lg">
+      </div>
     </div>
-  </div>
 
-  <!-- Navigation Menu -->
-  <nav class="flex-1 px-3 py-6 space-y-1.5 overflow-y-auto overflow-x-hidden">
-    <a *ngFor="let item of menuItems" 
-       [routerLink]="item.route" 
-       routerLinkActive="active-link"
-       [title]="isCollapsed ? item.label : ''"
-       class="flex items-center gap-4 px-4 py-3.5 text-slate-300 rounded-2xl transition-all duration-200 hover:bg-slate-700/50 hover:text-white group no-underline relative">
-      <i [class]="item.icon" class="text-xl flex-shrink-0 transition-colors group-hover:text-emerald-400"></i>
-      <span class="text-[15px] font-semibold whitespace-nowrap transition-all duration-300" 
+    <!-- Navigation Menu -->
+    <nav class="flex-1 px-3 py-6 space-y-1.5 overflow-y-auto overflow-x-hidden">
+      @for (item of menuItems; track item) {
+        <a
+          [routerLink]="item.route"
+          routerLinkActive="active-link"
+          [title]="isCollapsed ? item.label : ''"
+          class="flex items-center gap-4 px-4 py-3.5 text-slate-300 rounded-2xl transition-all duration-200 hover:bg-slate-700/50 hover:text-white group no-underline relative">
+          <i [class]="item.icon" class="text-xl flex-shrink-0 transition-colors group-hover:text-emerald-400"></i>
+          <span class="text-[15px] font-semibold whitespace-nowrap transition-all duration-300"
             [ngClass]="{'opacity-100 w-auto': !isCollapsed, 'opacity-0 w-0 absolute': isCollapsed}">
-        {{ item.label }}
-      </span>
-    </a>
-  </nav>
+            {{ item.label }}
+          </span>
+        </a>
+      }
+    </nav>
 
-  <!-- Logout Section -->
-  <div class="p-4 border-t border-slate-700/50 bg-slate-900/20">
-    <button (click)="logout()" 
-            [title]="isCollapsed ? 'Cerrar Sesión' : ''"
-            class="flex items-center gap-4 w-full px-4 py-3.5 text-slate-400 rounded-2xl hover:bg-red-900/30 hover:text-red-400 transition-all duration-200 relative group">
-      <i class="bi bi-box-arrow-right text-xl flex-shrink-0 group-hover:scale-110 transition-transform"></i>
-      <span class="text-[15px] font-semibold whitespace-nowrap transition-all duration-300"
-            [ngClass]="{'opacity-100 w-auto': !isCollapsed, 'opacity-0 w-0 absolute': isCollapsed}">
-        Cerrar Sesión
-      </span>
-    </button>
-  </div>
-</aside>
+    <!-- Logout Section -->
+    <div class="p-4 border-t border-slate-700/50 bg-slate-900/20">
+      <button (click)="logout()"
+        [title]="isCollapsed ? 'Cerrar Sesión' : ''"
+        class="flex items-center gap-4 w-full px-4 py-3.5 text-slate-400 rounded-2xl hover:bg-red-900/30 hover:text-red-400 transition-all duration-200 relative group">
+        <i class="bi bi-box-arrow-right text-xl flex-shrink-0 group-hover:scale-110 transition-transform"></i>
+        <span class="text-[15px] font-semibold whitespace-nowrap transition-all duration-300"
+          [ngClass]="{'opacity-100 w-auto': !isCollapsed, 'opacity-0 w-0 absolute': isCollapsed}">
+          Cerrar Sesión
+        </span>
+      </button>
+    </div>
+  </aside>

@@ -1,0 +1,4223 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>jmg-ascensores documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">jmg-ascensores documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  MaintenanceSchedulingComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-maintenance-scheduling</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="https://angular.io/api/common/CommonModule" target="_blank" >CommonModule</a></code>
+                            <code>FullCalendarModule</code>
+                                <code><a href="../components/ProgramacionModalComponent.html" target="_self" >ProgramacionModalComponent</a></code>
+                                <code><a href="../components/MantenimientoFijoModalComponent.html" target="_self" >MantenimientoFijoModalComponent</a></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./maintenance-scheduling.component.css</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./maintenance-scheduling.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#calendarComponent" >calendarComponent</a>
+                            </li>
+                            <li>
+                                <a href="#calendarOptions" >calendarOptions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#cdr" >cdr</a>
+                            </li>
+                            <li>
+                                <a href="#deleteTargetId" >deleteTargetId</a>
+                            </li>
+                            <li>
+                                <a href="#deleteTargetName" >deleteTargetName</a>
+                            </li>
+                            <li>
+                                <a href="#errorMessage" >errorMessage</a>
+                            </li>
+                            <li>
+                                <a href="#filteredMantenimientos" >filteredMantenimientos</a>
+                            </li>
+                            <li>
+                                <a href="#isFixedDeletion" >isFixedDeletion</a>
+                            </li>
+                            <li>
+                                <a href="#isLoading" >isLoading</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#mantenimientoFijoService" >mantenimientoFijoService</a>
+                            </li>
+                            <li>
+                                <a href="#mantenimientos" >mantenimientos</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#mantenimientoService" >mantenimientoService</a>
+                            </li>
+                            <li>
+                                <a href="#notifiedTechsByDate" >notifiedTechsByDate</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#route" >route</a>
+                            </li>
+                            <li>
+                                <a href="#selectedDate" >selectedDate</a>
+                            </li>
+                            <li>
+                                <a href="#selectedFilterDate" >selectedFilterDate</a>
+                            </li>
+                            <li>
+                                <a href="#selectedFixedMantenimiento" >selectedFixedMantenimiento</a>
+                            </li>
+                            <li>
+                                <a href="#selectedMantenimiento" >selectedMantenimiento</a>
+                            </li>
+                            <li>
+                                <a href="#showDeleteConfirm" >showDeleteConfirm</a>
+                            </li>
+                            <li>
+                                <a href="#showFixedModal" >showFixedModal</a>
+                            </li>
+                            <li>
+                                <a href="#showModal" >showModal</a>
+                            </li>
+                            <li>
+                                <a href="#toast" >toast</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#toastTimeout" >toastTimeout</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#cancelDelete" >cancelDelete</a>
+                            </li>
+                            <li>
+                                <a href="#closeFixedModal" >closeFixedModal</a>
+                            </li>
+                            <li>
+                                <a href="#closeModal" >closeModal</a>
+                            </li>
+                            <li>
+                                <a href="#confirmDelete" >confirmDelete</a>
+                            </li>
+                            <li>
+                                <a href="#editFixedMantenimientoFromJob" >editFixedMantenimientoFromJob</a>
+                            </li>
+                            <li>
+                                <a href="#editMantenimiento" >editMantenimiento</a>
+                            </li>
+                            <li>
+                                <a href="#filterMantenimientos" >filterMantenimientos</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#finishDeletion" >finishDeletion</a>
+                            </li>
+                            <li>
+                                <a href="#formatFecha" >formatFecha</a>
+                            </li>
+                            <li>
+                                <a href="#formatHora" >formatHora</a>
+                            </li>
+                            <li>
+                                <a href="#formatSelectedDate" >formatSelectedDate</a>
+                            </li>
+                            <li>
+                                <a href="#getEstadoColor" >getEstadoColor</a>
+                            </li>
+                            <li>
+                                <a href="#getEstadoLabel" >getEstadoLabel</a>
+                            </li>
+                            <li>
+                                <a href="#getEventColor" >getEventColor</a>
+                            </li>
+                            <li>
+                                <a href="#getTechniciansForDay" >getTechniciansForDay</a>
+                            </li>
+                            <li>
+                                <a href="#getTipoTrabajoColor" >getTipoTrabajoColor</a>
+                            </li>
+                            <li>
+                                <a href="#getTipoTrabajoLabel" >getTipoTrabajoLabel</a>
+                            </li>
+                            <li>
+                                <a href="#getTrabajadorNombre" >getTrabajadorNombre</a>
+                            </li>
+                            <li>
+                                <a href="#goToToday" >goToToday</a>
+                            </li>
+                            <li>
+                                <a href="#isTechNotified" >isTechNotified</a>
+                            </li>
+                            <li>
+                                <a href="#loadDayDetails" >loadDayDetails</a>
+                            </li>
+                            <li>
+                                <a href="#loadMantenimientos" >loadMantenimientos</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onFixedMantenimientoSaved" >onFixedMantenimientoSaved</a>
+                            </li>
+                            <li>
+                                <a href="#onMantenimientoSaved" >onMantenimientoSaved</a>
+                            </li>
+                            <li>
+                                <a href="#openFixedModal" >openFixedModal</a>
+                            </li>
+                            <li>
+                                <a href="#openModal" >openModal</a>
+                            </li>
+                            <li>
+                                <a href="#openModalWithDate" >openModalWithDate</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#refreshView" >refreshView</a>
+                            </li>
+                            <li>
+                                <a href="#requestDelete" >requestDelete</a>
+                            </li>
+                            <li>
+                                <a href="#requestDeleteFixed" >requestDeleteFixed</a>
+                            </li>
+                            <li>
+                                <a href="#sendWhatsAppRoute" >sendWhatsAppRoute</a>
+                            </li>
+                            <li>
+                                <a href="#showToast" >showToast</a>
+                            </li>
+                            <li>
+                                <a href="#updateCalendarEvents" >updateCalendarEvents</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="123" class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:123</a></div>
+                            </td>
+                        </tr>
+
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cancelDelete"></a>
+                    <span class="name">
+                        <span ><b>cancelDelete</b></span>
+                        <a href="#cancelDelete"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>cancelDelete()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="340"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:340</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeFixedModal"></a>
+                    <span class="name">
+                        <span ><b>closeFixedModal</b></span>
+                        <a href="#closeFixedModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closeFixedModal()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="253"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:253</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeModal"></a>
+                    <span class="name">
+                        <span ><b>closeModal</b></span>
+                        <a href="#closeModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closeModal()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="241"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:241</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="confirmDelete"></a>
+                    <span class="name">
+                        <span ><b>confirmDelete</b></span>
+                        <a href="#confirmDelete"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>confirmDelete()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="306"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:306</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="editFixedMantenimientoFromJob"></a>
+                    <span class="name">
+                        <span ><b>editFixedMantenimientoFromJob</b></span>
+                        <a href="#editFixedMantenimientoFromJob"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>editFixedMantenimientoFromJob(mFijoId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="279"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:279</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>mFijoId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="editMantenimiento"></a>
+                    <span class="name">
+                        <span ><b>editMantenimiento</b></span>
+                        <a href="#editMantenimiento"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>editMantenimiento(mantenimiento: <a href="../interfaces/Mantenimiento.html" target="_self">Mantenimiento</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="235"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:235</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>mantenimiento</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Mantenimiento.html" target="_self" >Mantenimiento</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filterMantenimientos"></a>
+                    <span class="name">
+                        <span ><b>filterMantenimientos</b></span>
+                        <a href="#filterMantenimientos"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>filterMantenimientos()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="165"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:165</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="finishDeletion"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>finishDeletion</b></span>
+                        <a href="#finishDeletion"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>finishDeletion()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="333"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:333</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="formatFecha"></a>
+                    <span class="name">
+                        <span ><b>formatFecha</b></span>
+                        <a href="#formatFecha"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>formatFecha(isoString: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="413"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:413</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>isoString</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="formatHora"></a>
+                    <span class="name">
+                        <span ><b>formatHora</b></span>
+                        <a href="#formatHora"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>formatHora(isoString: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="417"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:417</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>isoString</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="formatSelectedDate"></a>
+                    <span class="name">
+                        <span ><b>formatSelectedDate</b></span>
+                        <a href="#formatSelectedDate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>formatSelectedDate()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="402"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:402</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getEstadoColor"></a>
+                    <span class="name">
+                        <span ><b>getEstadoColor</b></span>
+                        <a href="#getEstadoColor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getEstadoColor(estado: string | undefined)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="380"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:380</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>estado</td>
+                                            <td>
+                                                        <code>string | undefined</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getEstadoLabel"></a>
+                    <span class="name">
+                        <span ><b>getEstadoLabel</b></span>
+                        <a href="#getEstadoLabel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getEstadoLabel(estado: string | undefined)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="391"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:391</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>estado</td>
+                                            <td>
+                                                        <code>string | undefined</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getEventColor"></a>
+                    <span class="name">
+                        <span ><b>getEventColor</b></span>
+                        <a href="#getEventColor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getEventColor(tipo: string | undefined)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="358"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:358</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>tipo</td>
+                                            <td>
+                                                        <code>string | undefined</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTechniciansForDay"></a>
+                    <span class="name">
+                        <span ><b>getTechniciansForDay</b></span>
+                        <a href="#getTechniciansForDay"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getTechniciansForDay()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="430"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:430</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>literal type[]</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTipoTrabajoColor"></a>
+                    <span class="name">
+                        <span ><b>getTipoTrabajoColor</b></span>
+                        <a href="#getTipoTrabajoColor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getTipoTrabajoColor(tipo: string | undefined)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="369"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:369</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>tipo</td>
+                                            <td>
+                                                        <code>string | undefined</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTipoTrabajoLabel"></a>
+                    <span class="name">
+                        <span ><b>getTipoTrabajoLabel</b></span>
+                        <a href="#getTipoTrabajoLabel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getTipoTrabajoLabel(tipo: string | undefined)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="347"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:347</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>tipo</td>
+                                            <td>
+                                                        <code>string | undefined</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTrabajadorNombre"></a>
+                    <span class="name">
+                        <span ><b>getTrabajadorNombre</b></span>
+                        <a href="#getTrabajadorNombre"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getTrabajadorNombre(mant: <a href="../interfaces/Mantenimiento.html" target="_self">Mantenimiento</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="425"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:425</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>mant</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Mantenimiento.html" target="_self" >Mantenimiento</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="goToToday"></a>
+                    <span class="name">
+                        <span ><b>goToToday</b></span>
+                        <a href="#goToToday"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>goToToday()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="136"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:136</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isTechNotified"></a>
+                    <span class="name">
+                        <span ><b>isTechNotified</b></span>
+                        <a href="#isTechNotified"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isTechNotified(techId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="465"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:465</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>techId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadDayDetails"></a>
+                    <span class="name">
+                        <span ><b>loadDayDetails</b></span>
+                        <a href="#loadDayDetails"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadDayDetails()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="179"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:179</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadMantenimientos"></a>
+                    <span class="name">
+                        <span ><b>loadMantenimientos</b></span>
+                        <a href="#loadMantenimientos"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadMantenimientos(start?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, end?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="147"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:147</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>start</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>end</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="127"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:127</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onFixedMantenimientoSaved"></a>
+                    <span class="name">
+                        <span ><b>onFixedMantenimientoSaved</b></span>
+                        <a href="#onFixedMantenimientoSaved"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onFixedMantenimientoSaved()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="263"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:263</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onMantenimientoSaved"></a>
+                    <span class="name">
+                        <span ><b>onMantenimientoSaved</b></span>
+                        <a href="#onMantenimientoSaved"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onMantenimientoSaved()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="258"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:258</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openFixedModal"></a>
+                    <span class="name">
+                        <span ><b>openFixedModal</b></span>
+                        <a href="#openFixedModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openFixedModal(fixed?: <a href="../interfaces/MantenimientoFijo.html" target="_self">MantenimientoFijo</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="248"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:248</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>fixed</td>
+                                            <td>
+                                                            <code><a href="../interfaces/MantenimientoFijo.html" target="_self" >MantenimientoFijo</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openModal"></a>
+                    <span class="name">
+                        <span ><b>openModal</b></span>
+                        <a href="#openModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openModal()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="223"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:223</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openModalWithDate"></a>
+                    <span class="name">
+                        <span ><b>openModalWithDate</b></span>
+                        <a href="#openModalWithDate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openModalWithDate(dateStr: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="229"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:229</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>dateStr</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="refreshView"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>refreshView</b></span>
+                        <a href="#refreshView"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>refreshView()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="269"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:269</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="requestDelete"></a>
+                    <span class="name">
+                        <span ><b>requestDelete</b></span>
+                        <a href="#requestDelete"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>requestDelete(mant: <a href="../interfaces/Mantenimiento.html" target="_self">Mantenimiento</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="299"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:299</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>mant</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Mantenimiento.html" target="_self" >Mantenimiento</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="requestDeleteFixed"></a>
+                    <span class="name">
+                        <span ><b>requestDeleteFixed</b></span>
+                        <a href="#requestDeleteFixed"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>requestDeleteFixed(mFijoId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="292"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:292</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>mFijoId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>name</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sendWhatsAppRoute"></a>
+                    <span class="name">
+                        <span ><b>sendWhatsAppRoute</b></span>
+                        <a href="#sendWhatsAppRoute"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>sendWhatsAppRoute(techData: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="444"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:444</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>techData</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showToast"></a>
+                    <span class="name">
+                        <span ><b>showToast</b></span>
+                        <a href="#showToast"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>showToast(message: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, type: "success" | "error", title: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="469"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:469</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>message</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>type</td>
+                                            <td>
+                                                        <code>&quot;success&quot; | &quot;error&quot;</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&#x27;error&#x27;</code>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>title</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&#x27;Aviso&#x27;</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateCalendarEvents"></a>
+                    <span class="name">
+                        <span ><b>updateCalendarEvents</b></span>
+                        <a href="#updateCalendarEvents"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateCalendarEvents()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="203"
+                                    class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:203</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="calendarComponent"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>calendarComponent</b></span>
+                        <a href="#calendarComponent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>FullCalendarComponent</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;calendar&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:27</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="calendarOptions"></a>
+                    <span class="name">
+                        <span ><b>calendarOptions</b></span>
+                        <a href="#calendarOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>CalendarOptions</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    plugins: [dayGridPlugin, interactionPlugin],
+    initialView: &#x27;dayGridMonth&#x27;,
+    customButtons: {
+      miHoy: {
+        text: &#x27;Hoy&#x27;,
+        click: this.goToToday.bind(this)
+      }
+    },
+    headerToolbar: {
+      left: &#x27;title&#x27;,
+      center: &#x27;&#x27;,
+      right: &#x27;prev,next miHoy&#x27;
+    },
+    locale: &#x27;es&#x27;,
+    firstDay: 0,
+    contentHeight: &#x27;auto&#x27;,
+    fixedWeekCount: false,
+    showNonCurrentDates: true,
+    dayMaxEvents: 4,
+    eventDisplay: &#x27;block&#x27;,
+    
+    dayHeaderContent: (arg) &#x3D;&gt; {
+      const days &#x3D; [&#x27;D&#x27;, &#x27;L&#x27;, &#x27;M&#x27;, &#x27;M&#x27;, &#x27;J&#x27;, &#x27;V&#x27;, &#x27;S&#x27;];
+      return days[arg.date.getDay()];
+    },
+    
+    dayCellClassNames: (arg: any) &#x3D;&gt; {
+      const d &#x3D; arg.date as Date;
+      const localDateStr &#x3D; [d.getFullYear(), String(d.getMonth() + 1).padStart(2, &#x27;0&#x27;), String(d.getDate()).padStart(2, &#x27;0&#x27;)].join(&#x27;-&#x27;);
+      const isSelected &#x3D; localDateStr &#x3D;&#x3D;&#x3D; this.selectedFilterDate;
+      return isSelected ? [&#x27;selected-date-cell&#x27;] : [];
+    },
+    
+    events: [],
+    
+    eventClick: (info) &#x3D;&gt; {
+      const id &#x3D; parseInt(info.event.id);
+      const mantenimiento &#x3D; this.mantenimientos.find(m &#x3D;&gt; m.id &#x3D;&#x3D;&#x3D; id);
+      if (mantenimiento) {
+        const eventDate &#x3D; mantenimiento.start.split(&#x27;T&#x27;)[0];
+        if (this.selectedFilterDate !&#x3D;&#x3D; eventDate) {
+          this.selectedFilterDate &#x3D; eventDate;
+          this.filterMantenimientos();
+        }
+      }
+    },
+    
+    dateClick: (info) &#x3D;&gt; {
+      this.selectedFilterDate &#x3D; info.dateStr;
+      this.filterMantenimientos();
+    },
+    
+    datesSet: (info) &#x3D;&gt; {
+      setTimeout(() &#x3D;&gt; {
+        const start &#x3D; info.startStr.split(&#x27;T&#x27;)[0];
+        const end &#x3D; info.endStr.split(&#x27;T&#x27;)[0];
+        this.loadMantenimientos(start, end);
+      }, 0);
+    }
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:63</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cdr"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>cdr</b></span>
+                        <a href="#cdr"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ChangeDetectorRef)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:25</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deleteTargetId"></a>
+                    <span class="name">
+                        <span ><b>deleteTargetId</b></span>
+                        <a href="#deleteTargetId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deleteTargetName"></a>
+                    <span class="name">
+                        <span ><b>deleteTargetName</b></span>
+                        <a href="#deleteTargetName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="errorMessage"></a>
+                    <span class="name">
+                        <span ><b>errorMessage</b></span>
+                        <a href="#errorMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:32</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filteredMantenimientos"></a>
+                    <span class="name">
+                        <span ><b>filteredMantenimientos</b></span>
+                        <a href="#filteredMantenimientos"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Mantenimiento.html" target="_self" >Mantenimiento[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:30</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isFixedDeletion"></a>
+                    <span class="name">
+                        <span ><b>isFixedDeletion</b></span>
+                        <a href="#isFixedDeletion"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isLoading"></a>
+                    <span class="name">
+                        <span ><b>isLoading</b></span>
+                        <a href="#isLoading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:31</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mantenimientoFijoService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>mantenimientoFijoService</b></span>
+                        <a href="#mantenimientoFijoService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(MantenimientoFijoService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:23</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mantenimientos"></a>
+                    <span class="name">
+                        <span ><b>mantenimientos</b></span>
+                        <a href="#mantenimientos"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Mantenimiento.html" target="_self" >Mantenimiento[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:29</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mantenimientoService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>mantenimientoService</b></span>
+                        <a href="#mantenimientoService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(MantenimientoService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:22</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="notifiedTechsByDate"></a>
+                    <span class="name">
+                        <span ><b>notifiedTechsByDate</b></span>
+                        <a href="#notifiedTechsByDate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Map&lt;string, Set&lt;number&gt;&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:56</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="route"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>route</b></span>
+                        <a href="#route"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ActivatedRoute)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:24</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedDate"></a>
+                    <span class="name">
+                        <span ><b>selectedDate</b></span>
+                        <a href="#selectedDate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:43</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedFilterDate"></a>
+                    <span class="name">
+                        <span ><b>selectedFilterDate</b></span>
+                        <a href="#selectedFilterDate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(() &#x3D;&gt; {
+    const d &#x3D; new Date();
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+    return d.toISOString().split(&#x27;T&#x27;)[0];
+  })()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:34</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedFixedMantenimiento"></a>
+                    <span class="name">
+                        <span ><b>selectedFixedMantenimiento</b></span>
+                        <a href="#selectedFixedMantenimiento"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MantenimientoFijo | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedMantenimiento"></a>
+                    <span class="name">
+                        <span ><b>selectedMantenimiento</b></span>
+                        <a href="#selectedMantenimiento"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Mantenimiento.html" target="_self" >Mantenimiento | null</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:42</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showDeleteConfirm"></a>
+                    <span class="name">
+                        <span ><b>showDeleteConfirm</b></span>
+                        <a href="#showDeleteConfirm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showFixedModal"></a>
+                    <span class="name">
+                        <span ><b>showFixedModal</b></span>
+                        <a href="#showFixedModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showModal"></a>
+                    <span class="name">
+                        <span ><b>showModal</b></span>
+                        <a href="#showModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toast"></a>
+                    <span class="name">
+                        <span ><b>toast</b></span>
+                        <a href="#toast"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;{ message: string; type: &#x27;success&#x27; | &#x27;error&#x27;; title: string } | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toastTimeout"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>toastTimeout</b></span>
+                        <a href="#toastTimeout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/features/admin/maintenance-scheduling/maintenance-scheduling.component.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, inject, ChangeDetectorRef, ViewChild, signal } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { ActivatedRoute } from &#x27;@angular/router&#x27;;
+import { FullCalendarModule, FullCalendarComponent } from &#x27;@fullcalendar/angular&#x27;;
+import { CalendarOptions, EventInput } from &#x27;@fullcalendar/core&#x27;;
+import dayGridPlugin from &#x27;@fullcalendar/daygrid&#x27;;
+import interactionPlugin from &#x27;@fullcalendar/interaction&#x27;;
+import { MantenimientoService } from &#x27;../services/mantenimiento.service&#x27;;
+import { MantenimientoFijoService } from &#x27;../services/mantenimiento-fijo.service&#x27;;
+import { Mantenimiento, MantenimientoFijo } from &#x27;../models/mantenimiento.interface&#x27;;
+import { ProgramacionModalComponent } from &#x27;./programacion-modal.component&#x27;;
+import { MantenimientoFijoModalComponent } from &#x27;./mantenimiento-fijo-modal/mantenimiento-fijo-modal.component&#x27;;
+
+@Component({
+  selector: &#x27;app-maintenance-scheduling&#x27;,
+  standalone: true,
+  imports: [CommonModule, FullCalendarModule, ProgramacionModalComponent, MantenimientoFijoModalComponent],
+  templateUrl: &#x27;./maintenance-scheduling.component.html&#x27;,
+  styleUrls: [&#x27;./maintenance-scheduling.component.css&#x27;]
+})
+export class MaintenanceSchedulingComponent implements OnInit {
+  private mantenimientoService &#x3D; inject(MantenimientoService);
+  private mantenimientoFijoService &#x3D; inject(MantenimientoFijoService);
+  private route &#x3D; inject(ActivatedRoute);
+  private cdr &#x3D; inject(ChangeDetectorRef);
+
+  @ViewChild(&#x27;calendar&#x27;) calendarComponent!: FullCalendarComponent;
+
+  mantenimientos: Mantenimiento[] &#x3D; [];
+  filteredMantenimientos: Mantenimiento[] &#x3D; [];
+  isLoading &#x3D; true;
+  errorMessage &#x3D; &#x27;&#x27;;
+  
+  selectedFilterDate: string &#x3D; (() &#x3D;&gt; {
+    const d &#x3D; new Date();
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+    return d.toISOString().split(&#x27;T&#x27;)[0];
+  })();
+  
+  // Modal state
+  showModal &#x3D; false;
+  selectedMantenimiento: Mantenimiento | null &#x3D; null;
+  selectedDate: string | null &#x3D; null;
+
+  // Fixed Maintenance Modal State
+  showFixedModal &#x3D; false;
+  selectedFixedMantenimiento: MantenimientoFijo | null &#x3D; null;
+
+  // Delete confirmation state
+  showDeleteConfirm &#x3D; false;
+  deleteTargetId: number | null &#x3D; null;
+  deleteTargetName &#x3D; &#x27;&#x27;;
+  isFixedDeletion &#x3D; false;
+
+  // Notification state
+  notifiedTechsByDate &#x3D; new Map&lt;string, Set&lt;number&gt;&gt;();
+
+  // Toast state
+  toast &#x3D; signal&lt;{ message: string; type: &#x27;success&#x27; | &#x27;error&#x27;; title: string } | null&gt;(null);
+  private toastTimeout: any;
+
+  // Calendar
+  calendarOptions: CalendarOptions &#x3D; {
+    plugins: [dayGridPlugin, interactionPlugin],
+    initialView: &#x27;dayGridMonth&#x27;,
+    customButtons: {
+      miHoy: {
+        text: &#x27;Hoy&#x27;,
+        click: this.goToToday.bind(this)
+      }
+    },
+    headerToolbar: {
+      left: &#x27;title&#x27;,
+      center: &#x27;&#x27;,
+      right: &#x27;prev,next miHoy&#x27;
+    },
+    locale: &#x27;es&#x27;,
+    firstDay: 0,
+    contentHeight: &#x27;auto&#x27;,
+    fixedWeekCount: false,
+    showNonCurrentDates: true,
+    dayMaxEvents: 4,
+    eventDisplay: &#x27;block&#x27;,
+    
+    dayHeaderContent: (arg) &#x3D;&gt; {
+      const days &#x3D; [&#x27;D&#x27;, &#x27;L&#x27;, &#x27;M&#x27;, &#x27;M&#x27;, &#x27;J&#x27;, &#x27;V&#x27;, &#x27;S&#x27;];
+      return days[arg.date.getDay()];
+    },
+    
+    dayCellClassNames: (arg: any) &#x3D;&gt; {
+      const d &#x3D; arg.date as Date;
+      const localDateStr &#x3D; [d.getFullYear(), String(d.getMonth() + 1).padStart(2, &#x27;0&#x27;), String(d.getDate()).padStart(2, &#x27;0&#x27;)].join(&#x27;-&#x27;);
+      const isSelected &#x3D; localDateStr &#x3D;&#x3D;&#x3D; this.selectedFilterDate;
+      return isSelected ? [&#x27;selected-date-cell&#x27;] : [];
+    },
+    
+    events: [],
+    
+    eventClick: (info) &#x3D;&gt; {
+      const id &#x3D; parseInt(info.event.id);
+      const mantenimiento &#x3D; this.mantenimientos.find(m &#x3D;&gt; m.id &#x3D;&#x3D;&#x3D; id);
+      if (mantenimiento) {
+        const eventDate &#x3D; mantenimiento.start.split(&#x27;T&#x27;)[0];
+        if (this.selectedFilterDate !&#x3D;&#x3D; eventDate) {
+          this.selectedFilterDate &#x3D; eventDate;
+          this.filterMantenimientos();
+        }
+      }
+    },
+    
+    dateClick: (info) &#x3D;&gt; {
+      this.selectedFilterDate &#x3D; info.dateStr;
+      this.filterMantenimientos();
+    },
+    
+    datesSet: (info) &#x3D;&gt; {
+      setTimeout(() &#x3D;&gt; {
+        const start &#x3D; info.startStr.split(&#x27;T&#x27;)[0];
+        const end &#x3D; info.endStr.split(&#x27;T&#x27;)[0];
+        this.loadMantenimientos(start, end);
+      }, 0);
+    }
+  };
+
+  constructor() {}
+
+  ngOnInit(): void {
+    const paramDate &#x3D; this.route.snapshot.queryParamMap.get(&#x27;date&#x27;);
+    if (paramDate) {
+      this.selectedFilterDate &#x3D; paramDate;
+      this.calendarOptions.initialDate &#x3D; paramDate;
+      this.cdr.detectChanges();
+    }
+  }
+
+  goToToday(): void {
+    if (this.calendarComponent) {
+      const api &#x3D; this.calendarComponent.getApi();
+      api.today();
+    }
+    const d &#x3D; new Date();
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+    this.selectedFilterDate &#x3D; d.toISOString().split(&#x27;T&#x27;)[0];
+    this.filterMantenimientos();
+  }
+
+  loadMantenimientos(start?: string, end?: string): void {
+    this.isLoading &#x3D; true;
+    this.errorMessage &#x3D; &#x27;&#x27;;
+    
+    this.mantenimientoService.listar(start, end, undefined, false).subscribe({
+      next: (data) &#x3D;&gt; {
+        this.mantenimientos &#x3D; data;
+        this.updateCalendarEvents();
+        this.loadDayDetails(); 
+      },
+      error: (err) &#x3D;&gt; {
+        this.errorMessage &#x3D; err.message || &#x27;Error al cargar los mantenimientos&#x27;;
+        this.isLoading &#x3D; false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  filterMantenimientos(): void {
+    this.calendarOptions &#x3D; {
+      ...this.calendarOptions,
+      dayCellClassNames: (arg: any) &#x3D;&gt; {
+        const d &#x3D; arg.date as Date;
+        const localDateStr &#x3D; [d.getFullYear(), String(d.getMonth() + 1).padStart(2, &#x27;0&#x27;), String(d.getDate()).padStart(2, &#x27;0&#x27;)].join(&#x27;-&#x27;);
+        const isSelected &#x3D; localDateStr &#x3D;&#x3D;&#x3D; this.selectedFilterDate;
+        return isSelected ? [&#x27;selected-date-cell&#x27;] : [];
+      }
+    };
+    this.cdr.detectChanges();
+    this.loadDayDetails();
+  }
+
+  loadDayDetails(): void {
+    if (!this.selectedFilterDate) {
+      this.filteredMantenimientos &#x3D; [];
+      this.isLoading &#x3D; false;
+      return;
+    }
+    this.isLoading &#x3D; true;
+    const dayStart &#x3D; &#x60;${this.selectedFilterDate}T00:00:00&#x60;;
+    const dayEnd &#x3D; &#x60;${this.selectedFilterDate}T23:59:59&#x60;;
+
+    this.mantenimientoService.listar(dayStart, dayEnd, undefined, true).subscribe({
+      next: (data) &#x3D;&gt; {
+        this.filteredMantenimientos &#x3D; data;
+        this.filteredMantenimientos.sort((a, b) &#x3D;&gt; a.start.localeCompare(b.start));
+        this.isLoading &#x3D; false;
+        this.cdr.detectChanges();
+      },
+      error: () &#x3D;&gt; {
+        this.isLoading &#x3D; false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  updateCalendarEvents(): void {
+    const events: EventInput[] &#x3D; this.mantenimientos.map(mant &#x3D;&gt; ({
+      id: mant.id.toString(),
+      title: this.getTipoTrabajoLabel(mant.extendedProps?.tipo_trabajo) || mant.title,
+      start: mant.start,
+      end: mant.end,
+      backgroundColor: this.getEventColor(mant.extendedProps?.tipo_trabajo),
+      borderColor: this.getEventColor(mant.extendedProps?.tipo_trabajo),
+      textColor: &#x27;#ffffff&#x27;,
+      extendedProps: mant.extendedProps
+    }));
+
+    this.calendarOptions &#x3D; {
+      ...this.calendarOptions,
+      events: events
+    };
+    this.cdr.detectChanges();
+  }
+
+  // Modal methods
+  openModal(): void {
+    this.selectedMantenimiento &#x3D; null;
+    this.selectedDate &#x3D; this.selectedFilterDate || null;
+    this.showModal &#x3D; true;
+  }
+
+  openModalWithDate(dateStr: string): void {
+    this.selectedMantenimiento &#x3D; null;
+    this.selectedDate &#x3D; dateStr;
+    this.showModal &#x3D; true;
+  }
+
+  editMantenimiento(mantenimiento: Mantenimiento): void {
+    this.selectedMantenimiento &#x3D; mantenimiento;
+    this.selectedDate &#x3D; null;
+    this.showModal &#x3D; true;
+  }
+
+  closeModal(): void {
+    this.showModal &#x3D; false;
+    this.selectedMantenimiento &#x3D; null;
+    this.selectedDate &#x3D; null;
+  }
+
+  // Fixed Maintenance Modal methods
+  openFixedModal(fixed?: MantenimientoFijo): void {
+    this.selectedFixedMantenimiento &#x3D; fixed || null;
+    this.showFixedModal &#x3D; true;
+  }
+
+  closeFixedModal(): void {
+    this.showFixedModal &#x3D; false;
+    this.selectedFixedMantenimiento &#x3D; null;
+  }
+
+  onMantenimientoSaved(): void {
+    this.closeModal();
+    this.refreshView();
+  }
+
+  onFixedMantenimientoSaved(): void {
+    this.closeFixedModal();
+    this.showToast(&#x27;Mantenimiento fijo programado para los próximos 12 meses.&#x27;, &#x27;success&#x27;, &#x27;Éxito&#x27;);
+    this.refreshView();
+  }
+
+  private refreshView(): void {
+    if (this.calendarComponent) {
+      const api &#x3D; this.calendarComponent.getApi();
+      const view &#x3D; api.view;
+      this.loadMantenimientos(view.activeStart.toISOString().split(&#x27;T&#x27;)[0], view.activeEnd.toISOString().split(&#x27;T&#x27;)[0]);
+    } else {
+      this.loadMantenimientos();
+    }
+  }
+
+  editFixedMantenimientoFromJob(mFijoId: number): void {
+    this.mantenimientoFijoService.listar().subscribe({
+      next: (list) &#x3D;&gt; {
+        const found &#x3D; list.find(f &#x3D;&gt; f.mantenimiento_fijo_id &#x3D;&#x3D;&#x3D; mFijoId);
+        if (found) {
+          this.openFixedModal(found);
+        } else {
+          this.showToast(&#x27;No se encontró la configuración original del mantenimiento fijo.&#x27;, &#x27;error&#x27;);
+        }
+      }
+    });
+  }
+
+  requestDeleteFixed(mFijoId: number, name: string): void {
+    this.deleteTargetId &#x3D; mFijoId;
+    this.deleteTargetName &#x3D; &#x60;Toda la serie de mantenimientos fijos para: ${name}&#x60;;
+    this.isFixedDeletion &#x3D; true;
+    this.showDeleteConfirm &#x3D; true;
+  }
+
+  requestDelete(mant: Mantenimiento): void {
+    this.deleteTargetId   &#x3D; mant.id;
+    this.deleteTargetName &#x3D; mant.title || &#x60;Programación #${mant.id}&#x60;;
+    this.isFixedDeletion &#x3D; false;
+    this.showDeleteConfirm &#x3D; true;
+  }
+
+  confirmDelete(): void {
+    if (!this.deleteTargetId) return;
+
+    if (this.isFixedDeletion) {
+      this.mantenimientoFijoService.eliminar(this.deleteTargetId).subscribe({
+        next: () &#x3D;&gt; {
+          this.showToast(&#x27;Mantenimientos fijos eliminados correctamente.&#x27;, &#x27;success&#x27;);
+          this.finishDeletion();
+        },
+        error: (err) &#x3D;&gt; {
+          this.showToast(err.message || &#x27;Error al eliminar la serie completa.&#x27;, &#x27;error&#x27;);
+          this.showDeleteConfirm &#x3D; false;
+        }
+      });
+    } else {
+      this.mantenimientoService.eliminar(this.deleteTargetId).subscribe({
+        next: () &#x3D;&gt; {
+          this.finishDeletion();
+        },
+        error: () &#x3D;&gt; {
+          this.errorMessage &#x3D; &#x27;Error al eliminar la programación&#x27;;
+          this.showDeleteConfirm &#x3D; false;
+        }
+      });
+    }
+  }
+
+  private finishDeletion(): void {
+    this.showDeleteConfirm &#x3D; false;
+    this.deleteTargetId &#x3D; null;
+    this.isFixedDeletion &#x3D; false;
+    this.refreshView();
+  }
+
+  cancelDelete(): void {
+    this.showDeleteConfirm &#x3D; false;
+    this.deleteTargetId &#x3D; null;
+    this.deleteTargetName &#x3D; &#x27;&#x27;;
+  }
+
+  // Helpers
+  getTipoTrabajoLabel(tipo: string | undefined): string {
+    if (!tipo) return &#x27;Desconocido&#x27;;
+    const labels: Record&lt;string, string&gt; &#x3D; {
+      &#x27;mantenimiento&#x27;: &#x27;Mantenimiento&#x27;,
+      &#x27;reparacion&#x27;: &#x27;Reparación&#x27;,
+      &#x27;inspeccion&#x27;: &#x27;Inspección&#x27;,
+      &#x27;emergencia&#x27;: &#x27;Emergencia&#x27;
+    };
+    return labels[tipo] || tipo;
+  }
+
+  getEventColor(tipo: string | undefined): string {
+    const typeStr &#x3D; (tipo || &#x27;&#x27;).toLowerCase();
+    switch (typeStr) {
+      case &#x27;mantenimiento&#x27;: return &#x27;#003B73&#x27;; 
+      case &#x27;reparacion&#x27;: return &#x27;#C2410C&#x27;; 
+      case &#x27;inspeccion&#x27;: return &#x27;#15803D&#x27;; 
+      case &#x27;emergencia&#x27;: return &#x27;#B91C1C&#x27;; 
+      default: return &#x27;#475569&#x27;; 
+    }
+  }
+
+  getTipoTrabajoColor(tipo: string | undefined): string {
+     if (!tipo) return &#x27;bg-gray-100 text-gray-700&#x27;;
+    const colors: Record&lt;string, string&gt; &#x3D; {
+      &#x27;mantenimiento&#x27;: &#x27;bg-blue-100 text-blue-700&#x27;,
+      &#x27;reparacion&#x27;: &#x27;bg-orange-100 text-orange-700&#x27;,
+      &#x27;inspeccion&#x27;: &#x27;bg-green-100 text-green-700&#x27;,
+      &#x27;emergencia&#x27;: &#x27;bg-red-100 text-red-700&#x27;
+    };
+    return colors[tipo] || &#x27;bg-gray-100 text-gray-700&#x27;;
+  }
+
+  getEstadoColor(estado: string | undefined): string {
+    if (!estado) return &#x27;bg-gray-100 text-gray-700&#x27;;
+    const colors: Record&lt;string, string&gt; &#x3D; {
+      &#x27;pendiente&#x27;: &#x27;bg-yellow-100 text-yellow-700&#x27;,
+      &#x27;en_progreso&#x27;: &#x27;bg-blue-100 text-blue-700&#x27;,
+      &#x27;completado&#x27;: &#x27;bg-green-100 text-green-700&#x27;,
+      &#x27;cancelado&#x27;: &#x27;bg-red-100 text-red-700&#x27;
+    };
+    return colors[estado] || &#x27;bg-gray-100 text-gray-700&#x27;;
+  }
+
+  getEstadoLabel(estado: string | undefined): string {
+    if (!estado) return &#x27;Desconocido&#x27;;
+    const labels: Record&lt;string, string&gt; &#x3D; {
+      &#x27;pendiente&#x27;: &#x27;Pendiente&#x27;,
+      &#x27;en_progreso&#x27;: &#x27;En Progreso&#x27;,
+      &#x27;completado&#x27;: &#x27;Completado&#x27;,
+      &#x27;cancelado&#x27;: &#x27;Cancelado&#x27;
+    };
+    return labels[estado] || estado;
+  }
+
+  formatSelectedDate(): string {
+    if (!this.selectedFilterDate) return &#x27;fechas seleccionadas&#x27;;
+    const d &#x3D; new Date(this.selectedFilterDate + &#x27;T00:00:00&#x27;);
+    return d.toLocaleDateString(&#x27;es-ES&#x27;, { 
+      weekday: &#x27;long&#x27;, 
+      year: &#x27;numeric&#x27;, 
+      month: &#x27;long&#x27;, 
+      day: &#x27;numeric&#x27; 
+    });
+  }
+
+  formatFecha(isoString: string): string {
+    return isoString ? new Date(isoString).toLocaleDateString(&#x27;es-ES&#x27;) : &#x27;&#x27;;
+  }
+
+  formatHora(isoString: string): string {
+    if (!isoString) return &#x27;&#x27;;
+    return new Date(isoString).toLocaleTimeString(&#x27;es-ES&#x27;, {
+      hour: &#x27;2-digit&#x27;,
+      minute: &#x27;2-digit&#x27;
+    });
+  }
+
+  getTrabajadorNombre(mant: Mantenimiento): string {
+    const trabajador &#x3D; mant.extendedProps?.trabajador;
+    return trabajador ? &#x60;${trabajador.nombre || &#x27;&#x27;} ${trabajador.apellido || &#x27;&#x27;}&#x60;.trim() : &#x27;No asignado&#x27;;
+  }
+
+  getTechniciansForDay(): { tech: any; services: Mantenimiento[] }[] {
+    const techGroups &#x3D; new Map&lt;number, { tech: any; services: Mantenimiento[] }&gt;();
+    this.filteredMantenimientos.forEach(mant &#x3D;&gt; {
+      const techs &#x3D; (mant.extendedProps?.trabajadores || []).filter((t: any) &#x3D;&gt; t &amp;&amp; t.trabajador_id);
+      techs.forEach((t: any) &#x3D;&gt; {
+        if (!techGroups.has(t.trabajador_id)) {
+          techGroups.set(t.trabajador_id, { tech: t, services: [] });
+        }
+        techGroups.get(t.trabajador_id)!.services.push(mant);
+      });
+    });
+    return Array.from(techGroups.values()).sort((a, b) &#x3D;&gt; (a.tech.nombre || &#x27;&#x27;).localeCompare(b.tech.nombre || &#x27;&#x27;));
+  }
+
+  sendWhatsAppRoute(techData: { tech: any; services: Mantenimiento[] }): void {
+    const { tech, services } &#x3D; techData;
+    if (!tech.telefono) {
+      this.showToast(&#x60;El técnico ${tech.nombre} no tiene un teléfono registrado.&#x60;, &#x27;error&#x27;, &#x27;Datos incompletos&#x27;);
+      return;
+    }
+    const fechaStr &#x3D; this.formatSelectedDate();
+    let message &#x3D; &#x60;Estimado(a) *${tech.nombre}*, se le informa su ruta de trabajo programada para el día *${fechaStr}*, la cual consta de ${services.length} servicios:\n\n&#x60;;
+    services.forEach((s, index) &#x3D;&gt; {
+      message +&#x3D; &#x60;${index + 1}. *${this.formatHora(s.start)}* - ${s.extendedProps?.cliente?.nombre_comercial || &#x27;Cliente&#x27;} (${this.getTipoTrabajoLabel(s.extendedProps?.tipo_trabajo)})\n&#x60;;
+      message +&#x3D; &#x60;   Ref: ${s.extendedProps?.ascensor?.numero_serie || &#x27;Equipo&#x27;}\n\n&#x60;;
+    });
+    message +&#x3D; &#x60;Por favor, confirmar la recepción de este mensaje. Atentamente, Administración JMG Ascensores.&#x60;;
+    window.open(&#x60;https://wa.me/51${tech.telefono.replace(/\s+/g, &#x27;&#x27;)}?text&#x3D;${encodeURIComponent(message)}&#x60;, &#x27;_blank&#x27;);
+    if (!this.notifiedTechsByDate.has(this.selectedFilterDate)) {
+      this.notifiedTechsByDate.set(this.selectedFilterDate, new Set&lt;number&gt;());
+    }
+    this.notifiedTechsByDate.get(this.selectedFilterDate)?.add(tech.trabajador_id);
+    this.cdr.detectChanges();
+  }
+
+  isTechNotified(techId: number): boolean {
+    return !!this.notifiedTechsByDate.get(this.selectedFilterDate)?.has(techId);
+  }
+
+  showToast(message: string, type: &#x27;success&#x27; | &#x27;error&#x27; &#x3D; &#x27;error&#x27;, title: string &#x3D; &#x27;Aviso&#x27;): void {
+    if (this.toastTimeout) clearTimeout(this.toastTimeout);
+    this.toast.set({ message, type, title });
+    this.toastTimeout &#x3D; setTimeout(() &#x3D;&gt; this.toast.set(null), 3500);
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;p-8 max-w-[1800px] mx-auto space-y-8 bg-slate-50 min-h-screen&quot;&gt;
+
+  &lt;!-- ── Page Header ── --&gt;
+  &lt;div class&#x3D;&quot;flex items-end justify-between flex-wrap gap-4&quot;&gt;
+    &lt;div&gt;
+      &lt;p class&#x3D;&quot;text-xs font-semibold text-slate-400 uppercase tracking-widest mb-1&quot;&gt;Panel de Administración&lt;/p&gt;
+      &lt;div class&#x3D;&quot;flex items-center gap-3&quot;&gt;
+        &lt;i class&#x3D;&quot;bi bi-calendar-check text-jmg text-2xl&quot;&gt;&lt;/i&gt;
+        &lt;h1 class&#x3D;&quot;font-display text-3xl font-bold text-slate-900 tracking-tight&quot;&gt;Programación de Trabajos&lt;/h1&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;flex items-center gap-3&quot;&gt;
+      &lt;!-- Mantenimiento Fijo --&gt;
+      &lt;button
+        class&#x3D;&quot;inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-jmg font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors border border-jmg/30 hover:border-jmg/60 shadow-sm&quot;
+        (click)&#x3D;&quot;openFixedModal()&quot;
+      &gt;
+        &lt;i class&#x3D;&quot;bi bi-calendar-repeat&quot;&gt;&lt;/i&gt;
+        Mantenimiento Fijo
+      &lt;/button&gt;
+      &lt;!-- Nueva Programación --&gt;
+      &lt;button
+        class&#x3D;&quot;inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors shadow-sm&quot;
+        (click)&#x3D;&quot;openModal()&quot;
+      &gt;
+        &lt;i class&#x3D;&quot;bi bi-plus-lg&quot;&gt;&lt;/i&gt;
+        Nueva Programación
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- ── Error ── --&gt;
+  &lt;div *ngIf&#x3D;&quot;errorMessage&quot; class&#x3D;&quot;bg-red-50 border border-red-100 text-red-600 px-5 py-4 rounded-2xl flex items-center gap-3 text-sm font-medium&quot;&gt;
+    &lt;i class&#x3D;&quot;bi bi-exclamation-triangle-fill text-lg shrink-0&quot;&gt;&lt;/i&gt;
+    {{ errorMessage }}
+  &lt;/div&gt;
+
+  &lt;!-- ── Main Content: Lista + Calendario ── --&gt;
+  &lt;div class&#x3D;&quot;grid grid-cols-1 lg:grid-cols-[minmax(380px,44%)_1fr] gap-6 items-start&quot;&gt;
+
+    &lt;!-- ── Panel Izquierdo: Programaciones ── --&gt;
+    &lt;div class&#x3D;&quot;bg-white rounded-2xl border border-slate-100 shadow-sm p-6&quot;&gt;
+
+      &lt;!-- Section Header --&gt;
+      &lt;div class&#x3D;&quot;flex items-center gap-3 mb-5&quot;&gt;
+        &lt;h2 class&#x3D;&quot;font-display font-bold text-slate-800 text-xl flex-1 leading-none tracking-tight&quot;&gt;
+          Programaciones
+          &lt;span class&#x3D;&quot;block text-xs font-semibold text-slate-400 uppercase tracking-wider mt-1 font-body&quot;&gt;
+            {{ formatSelectedDate() }}
+          &lt;/span&gt;
+        &lt;/h2&gt;
+        &lt;span class&#x3D;&quot;inline-flex items-center px-3 py-1 bg-jmg-muted text-jmg text-sm font-bold rounded-full&quot;&gt;
+          {{ filteredMantenimientos.length }}
+        &lt;/span&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Loading --&gt;
+      &lt;div *ngIf&#x3D;&quot;isLoading&quot; class&#x3D;&quot;flex flex-col items-center gap-3 py-12&quot;&gt;
+        &lt;div class&#x3D;&quot;animate-spin rounded-full h-9 w-9 border-t-2 border-b-2 border-jmg&quot;&gt;&lt;/div&gt;
+        &lt;p class&#x3D;&quot;text-slate-400 text-sm font-medium&quot;&gt;Cargando programaciones...&lt;/p&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Lista --&gt;
+      &lt;div *ngIf&#x3D;&quot;!isLoading&quot; class&#x3D;&quot;programaciones-list flex flex-col gap-4&quot;&gt;
+
+        &lt;!-- Empty State --&gt;
+        &lt;div *ngIf&#x3D;&quot;filteredMantenimientos.length &#x3D;&#x3D;&#x3D; 0&quot; class&#x3D;&quot;flex flex-col items-center gap-4 py-12 text-center&quot;&gt;
+          &lt;div class&#x3D;&quot;w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center&quot;&gt;
+            &lt;i class&#x3D;&quot;bi bi-calendar-x text-slate-300 text-2xl&quot;&gt;&lt;/i&gt;
+          &lt;/div&gt;
+          &lt;div&gt;
+            &lt;p class&#x3D;&quot;font-display font-bold text-slate-700&quot;&gt;Sin trabajos para esta fecha&lt;/p&gt;
+            &lt;p class&#x3D;&quot;text-slate-400 text-sm mt-1&quot;&gt;Seleccioná otro día o creá una programación.&lt;/p&gt;
+          &lt;/div&gt;
+          &lt;button
+            class&#x3D;&quot;inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-600 font-semibold rounded-xl px-4 py-2 text-sm transition-colors border border-slate-200&quot;
+            (click)&#x3D;&quot;openModal()&quot;
+          &gt;
+            &lt;i class&#x3D;&quot;bi bi-plus-lg&quot;&gt;&lt;/i&gt;
+            Crear programación
+          &lt;/button&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Cards --&gt;
+        &lt;div *ngFor&#x3D;&quot;let mant of filteredMantenimientos&quot;
+          class&#x3D;&quot;bg-slate-50 border border-slate-200 rounded-xl p-4 transition-all hover:border-jmg/30 hover:shadow-sm&quot;&gt;
+
+          &lt;!-- Card Header: fecha + hora + acciones --&gt;
+          &lt;div class&#x3D;&quot;flex justify-between items-center mb-3&quot;&gt;
+            &lt;div class&#x3D;&quot;flex gap-4 text-xs text-slate-500 font-medium&quot;&gt;
+              &lt;span class&#x3D;&quot;flex items-center gap-1.5&quot;&gt;
+                &lt;i class&#x3D;&quot;bi bi-calendar3 text-slate-400&quot;&gt;&lt;/i&gt;
+                {{ formatFecha(mant.start) }}
+              &lt;/span&gt;
+              &lt;span class&#x3D;&quot;flex items-center gap-1.5&quot;&gt;
+                &lt;i class&#x3D;&quot;bi bi-clock text-slate-400&quot;&gt;&lt;/i&gt;
+                {{ formatHora(mant.start) }}
+              &lt;/span&gt;
+            &lt;/div&gt;
+
+            &lt;div class&#x3D;&quot;flex items-center gap-1&quot;&gt;
+              &lt;!-- Acciones de serie fija --&gt;
+              &lt;ng-container *ngIf&#x3D;&quot;mant.extendedProps.mantenimiento_fijo_id&quot;&gt;
+                &lt;button
+                  class&#x3D;&quot;p-1.5 rounded-lg text-jmg hover:bg-jmg-muted transition-colors&quot;
+                  (click)&#x3D;&quot;editFixedMantenimientoFromJob(mant.extendedProps.mantenimiento_fijo_id)&quot;
+                  title&#x3D;&quot;Editar serie completa&quot;
+                &gt;
+                  &lt;i class&#x3D;&quot;bi bi-calendar-range text-sm&quot;&gt;&lt;/i&gt;
+                &lt;/button&gt;
+                &lt;button
+                  class&#x3D;&quot;p-1.5 rounded-lg text-orange-700 hover:bg-orange-50 transition-colors&quot;
+                  (click)&#x3D;&quot;requestDeleteFixed(mant.extendedProps.mantenimiento_fijo_id, mant.extendedProps.cliente?.nombre_comercial || &#x27;Equipo&#x27;)&quot;
+                  title&#x3D;&quot;Eliminar serie completa&quot;
+                &gt;
+                  &lt;i class&#x3D;&quot;bi bi-calendar-x text-sm&quot;&gt;&lt;/i&gt;
+                &lt;/button&gt;
+                &lt;div class&#x3D;&quot;w-px h-5 bg-slate-200 mx-0.5 self-center&quot;&gt;&lt;/div&gt;
+              &lt;/ng-container&gt;
+
+              &lt;button
+                class&#x3D;&quot;p-1.5 rounded-lg text-slate-500 hover:bg-slate-200 hover:text-slate-800 transition-colors&quot;
+                (click)&#x3D;&quot;editMantenimiento(mant)&quot;
+                title&#x3D;&quot;Editar este trabajo&quot;
+              &gt;
+                &lt;i class&#x3D;&quot;bi bi-pencil text-sm&quot;&gt;&lt;/i&gt;
+              &lt;/button&gt;
+              &lt;button
+                class&#x3D;&quot;p-1.5 rounded-lg text-slate-500 hover:bg-red-50 hover:text-red-600 transition-colors&quot;
+                (click)&#x3D;&quot;requestDelete(mant)&quot;
+                title&#x3D;&quot;Eliminar este trabajo&quot;
+              &gt;
+                &lt;i class&#x3D;&quot;bi bi-trash text-sm&quot;&gt;&lt;/i&gt;
+              &lt;/button&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;!-- Card Body --&gt;
+          &lt;div class&#x3D;&quot;pt-3 border-t border-slate-200&quot;&gt;
+            &lt;h3 class&#x3D;&quot;font-display font-semibold text-slate-800 text-base mb-3 leading-snug&quot;&gt;{{ mant.title }}&lt;/h3&gt;
+
+            &lt;div class&#x3D;&quot;grid grid-cols-2 gap-3 mb-3&quot;&gt;
+
+              &lt;!-- Tipo --&gt;
+              &lt;div class&#x3D;&quot;flex flex-col gap-0.5&quot;&gt;
+                &lt;span class&#x3D;&quot;text-[10px] font-semibold text-slate-400 uppercase tracking-wider&quot;&gt;Tipo&lt;/span&gt;
+                &lt;span
+                  class&#x3D;&quot;inline-flex items-center self-start px-2.5 py-0.5 rounded-md text-[11px] font-semibold uppercase tracking-wide&quot;
+                  [ngClass]&#x3D;&quot;getTipoTrabajoColor(mant.extendedProps.tipo_trabajo)&quot;
+                &gt;
+                  {{ getTipoTrabajoLabel(mant.extendedProps.tipo_trabajo) }}
+                &lt;/span&gt;
+              &lt;/div&gt;
+
+              &lt;!-- Cliente --&gt;
+              &lt;div *ngIf&#x3D;&quot;mant.extendedProps.cliente&quot; class&#x3D;&quot;flex flex-col gap-0.5&quot;&gt;
+                &lt;span class&#x3D;&quot;text-[10px] font-semibold text-slate-400 uppercase tracking-wider&quot;&gt;Cliente&lt;/span&gt;
+                &lt;span class&#x3D;&quot;text-sm text-slate-700 flex items-center gap-1&quot;&gt;
+                  &lt;i class&#x3D;&quot;bi bi-building text-slate-400 text-xs&quot;&gt;&lt;/i&gt;
+                  {{ mant.extendedProps.cliente.nombre_comercial || mant.extendedProps.cliente.contacto_nombre }}
+                &lt;/span&gt;
+              &lt;/div&gt;
+
+              &lt;!-- Técnicos (full width) --&gt;
+              &lt;div class&#x3D;&quot;col-span-2 flex flex-col gap-0.5&quot;&gt;
+                &lt;span class&#x3D;&quot;text-[10px] font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1&quot;&gt;
+                  &lt;i class&#x3D;&quot;bi bi-people-fill text-slate-300&quot;&gt;&lt;/i&gt;
+                  Técnicos
+                &lt;/span&gt;
+                &lt;div class&#x3D;&quot;flex flex-wrap gap-1 mt-0.5&quot;&gt;
+                  &lt;ng-container *ngIf&#x3D;&quot;$any(mant.extendedProps).trabajadores &amp;&amp; $any(mant.extendedProps).trabajadores.length &gt; 0; else singleTech&quot;&gt;
+                    &lt;span
+                      *ngFor&#x3D;&quot;let w of $any(mant.extendedProps).trabajadores&quot;
+                      class&#x3D;&quot;inline-flex items-center bg-jmg-muted text-jmg text-xs font-semibold px-2.5 py-0.5 rounded-full border border-jmg/20&quot;
+                    &gt;
+                      {{ w.nombre }} {{ w.apellido }}
+                    &lt;/span&gt;
+                  &lt;/ng-container&gt;
+                  &lt;ng-template #singleTech&gt;
+                    &lt;span class&#x3D;&quot;inline-flex items-center bg-jmg-muted text-jmg text-xs font-semibold px-2.5 py-0.5 rounded-full border border-jmg/20&quot;&gt;
+                      {{ getTrabajadorNombre(mant) }}
+                    &lt;/span&gt;
+                  &lt;/ng-template&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+
+              &lt;!-- Equipo --&gt;
+              &lt;div *ngIf&#x3D;&quot;mant.extendedProps.ascensor&quot; class&#x3D;&quot;flex flex-col gap-0.5&quot;&gt;
+                &lt;span class&#x3D;&quot;text-[10px] font-semibold text-slate-400 uppercase tracking-wider&quot;&gt;Equipo&lt;/span&gt;
+                &lt;span class&#x3D;&quot;text-sm text-slate-700 flex items-center gap-1&quot;&gt;
+                  &lt;i class&#x3D;&quot;bi bi-box text-slate-400 text-xs&quot;&gt;&lt;/i&gt;
+                  {{ mant.extendedProps.ascensor.tipo_equipo }} — {{ mant.extendedProps.ascensor.marca }}
+                &lt;/span&gt;
+              &lt;/div&gt;
+
+              &lt;!-- Descripción (full width) --&gt;
+              &lt;div *ngIf&#x3D;&quot;mant.extendedProps.descripcion&quot; class&#x3D;&quot;col-span-2 flex flex-col gap-0.5&quot;&gt;
+                &lt;span class&#x3D;&quot;text-[10px] font-semibold text-slate-400 uppercase tracking-wider&quot;&gt;Descripción&lt;/span&gt;
+                &lt;p class&#x3D;&quot;text-sm text-slate-500 leading-relaxed&quot;&gt;{{ mant.extendedProps.descripcion }}&lt;/p&gt;
+              &lt;/div&gt;
+
+            &lt;/div&gt;
+
+            &lt;!-- Footer: estado + fijo badge --&gt;
+            &lt;div class&#x3D;&quot;flex justify-end items-center gap-2&quot;&gt;
+              &lt;span *ngIf&#x3D;&quot;mant.extendedProps.mantenimiento_fijo_id&quot;
+                class&#x3D;&quot;inline-flex items-center gap-1 px-2.5 py-0.5 bg-jmg text-white text-[10px] font-bold uppercase rounded-full tracking-wide border border-white/20&quot;&gt;
+                &lt;i class&#x3D;&quot;bi bi-pin-angle-fill&quot;&gt;&lt;/i&gt; Fijo
+              &lt;/span&gt;
+              &lt;span
+                class&#x3D;&quot;inline-flex items-center self-start px-2.5 py-0.5 rounded-md text-[11px] font-semibold uppercase tracking-wide&quot;
+                [ngClass]&#x3D;&quot;getEstadoColor(mant.extendedProps.estado)&quot;
+              &gt;
+                {{ getEstadoLabel(mant.extendedProps.estado) }}
+              &lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ── Panel Derecho: Calendario ── --&gt;
+    &lt;div class&#x3D;&quot;bg-white rounded-2xl border border-slate-100 shadow-sm p-6 flex flex-col gap-5&quot;&gt;
+
+      &lt;!-- Calendario --&gt;
+      &lt;div&gt;
+        &lt;full-calendar #calendar [options]&#x3D;&quot;calendarOptions&quot;&gt;&lt;/full-calendar&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Leyenda --&gt;
+      &lt;div class&#x3D;&quot;pt-5 border-t border-slate-100&quot;&gt;
+        &lt;p class&#x3D;&quot;text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-3&quot;&gt;Tipos de Trabajo&lt;/p&gt;
+        &lt;div class&#x3D;&quot;flex flex-wrap gap-5&quot;&gt;
+          &lt;div class&#x3D;&quot;flex items-center gap-2 text-sm text-slate-500 font-medium&quot;&gt;
+            &lt;span class&#x3D;&quot;w-3 h-3 rounded-full ring-2 ring-white ring-offset-1&quot; style&#x3D;&quot;background-color: #003B73;&quot;&gt;&lt;/span&gt;
+            Mantenimiento
+          &lt;/div&gt;
+          &lt;div class&#x3D;&quot;flex items-center gap-2 text-sm text-slate-500 font-medium&quot;&gt;
+            &lt;span class&#x3D;&quot;w-3 h-3 rounded-full ring-2 ring-white ring-offset-1&quot; style&#x3D;&quot;background-color: #C2410C;&quot;&gt;&lt;/span&gt;
+            Reparación
+          &lt;/div&gt;
+          &lt;div class&#x3D;&quot;flex items-center gap-2 text-sm text-slate-500 font-medium&quot;&gt;
+            &lt;span class&#x3D;&quot;w-3 h-3 rounded-full ring-2 ring-white ring-offset-1&quot; style&#x3D;&quot;background-color: #15803D;&quot;&gt;&lt;/span&gt;
+            Inspección
+          &lt;/div&gt;
+          &lt;div class&#x3D;&quot;flex items-center gap-2 text-sm text-slate-500 font-medium&quot;&gt;
+            &lt;span class&#x3D;&quot;w-3 h-3 rounded-full ring-2 ring-white ring-offset-1&quot; style&#x3D;&quot;background-color: #B91C1C;&quot;&gt;&lt;/span&gt;
+            Emergencia
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Notificaciones WhatsApp --&gt;
+      &lt;div *ngIf&#x3D;&quot;!isLoading &amp;&amp; filteredMantenimientos.length &gt; 0&quot;
+        class&#x3D;&quot;bg-emerald-50 border border-dashed border-emerald-300 rounded-xl p-4&quot;&gt;
+        &lt;p class&#x3D;&quot;text-[10px] font-bold text-emerald-800 uppercase tracking-wider mb-3&quot;&gt;
+          Notificación a Técnicos
+        &lt;/p&gt;
+        &lt;div class&#x3D;&quot;tech-notification-list flex flex-col gap-2 max-h-72 overflow-y-auto pr-1&quot;&gt;
+          &lt;div *ngFor&#x3D;&quot;let group of getTechniciansForDay()&quot;
+            class&#x3D;&quot;flex justify-between items-center bg-white rounded-xl px-3 py-2.5 shadow-sm border border-emerald-100&quot;&gt;
+            &lt;div class&#x3D;&quot;flex flex-col min-w-0&quot;&gt;
+              &lt;span class&#x3D;&quot;text-sm font-semibold text-slate-800 truncate&quot;&gt;{{ group.tech.nombre }} {{ group.tech.apellido }}&lt;/span&gt;
+              &lt;span class&#x3D;&quot;text-[11px] text-slate-400&quot;&gt;{{ group.services.length }} servicio{{ group.services.length !&#x3D;&#x3D; 1 ? &#x27;s&#x27; : &#x27;&#x27; }}&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;button
+              class&#x3D;&quot;w-8 h-8 rounded-lg flex items-center justify-center transition-colors shrink-0 text-base font-bold ml-3&quot;
+              [class]&#x3D;&quot;isTechNotified(group.tech.trabajador_id)
+                ? &#x27;bg-white text-emerald-600 border border-emerald-300 hover:bg-emerald-50&#x27;
+                : &#x27;bg-[#25d366] hover:bg-[#128c7e] text-white&#x27;&quot;
+              (click)&#x3D;&quot;sendWhatsAppRoute(group)&quot;
+              [title]&#x3D;&quot;isTechNotified(group.tech.trabajador_id) ? &#x27;Notificado en esta sesión&#x27; : &#x27;Enviar ruta por WhatsApp&#x27;&quot;
+            &gt;
+              &lt;i [class]&#x3D;&quot;isTechNotified(group.tech.trabajador_id) ? &#x27;bi bi-check-all&#x27; : &#x27;bi bi-whatsapp&#x27;&quot;&gt;&lt;/i&gt;
+            &lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- ── Modal Programación ── --&gt;
+&lt;app-programacion-modal
+  *ngIf&#x3D;&quot;showModal&quot;
+  [mantenimiento]&#x3D;&quot;selectedMantenimiento&quot;
+  [date]&#x3D;&quot;selectedDate&quot;
+  (close)&#x3D;&quot;closeModal()&quot;
+  (saved)&#x3D;&quot;onMantenimientoSaved()&quot;
+&gt;&lt;/app-programacion-modal&gt;
+
+&lt;!-- ── Modal Mantenimiento Fijo ── --&gt;
+&lt;app-mantenimiento-fijo-modal
+  *ngIf&#x3D;&quot;showFixedModal&quot;
+  [mantenimientoFijo]&#x3D;&quot;selectedFixedMantenimiento&quot;
+  (close)&#x3D;&quot;closeFixedModal()&quot;
+  (saved)&#x3D;&quot;onFixedMantenimientoSaved()&quot;
+&gt;&lt;/app-mantenimiento-fijo-modal&gt;
+
+&lt;!-- ── Confirm Delete Modal ── --&gt;
+&lt;div *ngIf&#x3D;&quot;showDeleteConfirm&quot;
+  class&#x3D;&quot;fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[1100] animate-fade-in&quot;
+  (click)&#x3D;&quot;cancelDelete()&quot;
+&gt;
+  &lt;div
+    class&#x3D;&quot;bg-white rounded-2xl p-8 max-w-sm w-[90%] text-center shadow-2xl animate-fade-in-up&quot;
+    (click)&#x3D;&quot;$event.stopPropagation()&quot;
+  &gt;
+    &lt;div class&#x3D;&quot;w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-5&quot;&gt;
+      &lt;i class&#x3D;&quot;bi bi-trash3 text-red-500 text-2xl&quot;&gt;&lt;/i&gt;
+    &lt;/div&gt;
+    &lt;h3 class&#x3D;&quot;font-display font-bold text-slate-900 text-xl mb-3&quot;&gt;
+      {{ isFixedDeletion ? &#x27;¿Eliminar serie de mantenimientos?&#x27; : &#x27;¿Eliminar programación?&#x27; }}
+    &lt;/h3&gt;
+    &lt;p class&#x3D;&quot;text-slate-500 text-sm leading-relaxed mb-7&quot;&gt;
+      {{ isFixedDeletion
+        ? &#x27;Se eliminarán todos los mantenimientos futuros &quot;Pendientes&quot; vinculados a esta serie. Esta acción no se puede deshacer.&#x27;
+        : &#x27;Esta acción no se puede deshacer. Se eliminará permanentemente:&#x27; }}
+      &lt;strong class&#x3D;&quot;block text-slate-800 font-semibold mt-2&quot;&gt;{{ deleteTargetName }}&lt;/strong&gt;
+    &lt;/p&gt;
+    &lt;div class&#x3D;&quot;flex gap-3 justify-center&quot;&gt;
+      &lt;button
+        class&#x3D;&quot;px-5 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-600 font-semibold text-sm hover:bg-slate-50 transition-colors&quot;
+        (click)&#x3D;&quot;cancelDelete()&quot;
+      &gt;
+        &lt;i class&#x3D;&quot;bi bi-x mr-1&quot;&gt;&lt;/i&gt; Cancelar
+      &lt;/button&gt;
+      &lt;button
+        class&#x3D;&quot;inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white font-semibold text-sm transition-colors&quot;
+        (click)&#x3D;&quot;confirmDelete()&quot;
+      &gt;
+        &lt;i class&#x3D;&quot;bi bi-trash3&quot;&gt;&lt;/i&gt; Eliminar
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- ── Toast ── --&gt;
+&lt;div class&#x3D;&quot;toast-container&quot; *ngIf&#x3D;&quot;toast()&quot;&gt;
+  &lt;div class&#x3D;&quot;toast-item&quot; [ngClass]&#x3D;&quot;toast()?.type&quot;&gt;
+    &lt;div class&#x3D;&quot;toast-icon&quot;&gt;
+      &lt;i class&#x3D;&quot;bi&quot; [ngClass]&#x3D;&quot;toast()?.type &#x3D;&#x3D;&#x3D; &#x27;success&#x27; ? &#x27;bi-check-circle-fill&#x27; : &#x27;bi-exclamation-triangle-fill&#x27;&quot;&gt;&lt;/i&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;toast-content&quot;&gt;
+      &lt;div class&#x3D;&quot;toast-title&quot;&gt;{{ toast()?.title }}&lt;/div&gt;
+      &lt;div class&#x3D;&quot;toast-message&quot;&gt;{{ toast()?.message }}&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./maintenance-scheduling.component.css</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">/* ─────────────────────────────────────────────────────────────────────────────
+   ESTE ARCHIVO CONTIENE ÚNICAMENTE:
+   1. Estilos de FullCalendar (::ng-deep — imposible en Tailwind)
+   2. .selected-date-cell — usado por dayCellClassNames() en el TS
+   3. Scrollbars custom — no soportados por Tailwind sin plugins
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Lista programaciones: scrollbar ── */
+.programaciones-list {
+  max-height: calc(100vh - 220px);
+  min-height: 500px;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.programaciones-list::-webkit-scrollbar { width: 6px; }
+.programaciones-list::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+.programaciones-list::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+.programaciones-list::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* ── Notificaciones: scrollbar ── */
+.tech-notification-list::-webkit-scrollbar { width: 4px; }
+.tech-notification-list::-webkit-scrollbar-thumb { background: #22c55e44; border-radius: 2px; }
+
+/* ── FullCalendar: selected date cell ── */
+:host ::ng-deep .selected-date-cell {
+  background-color: #e0e7ff !important;
+  box-shadow: inset 0 0 0 2px #4f46e5 !important;
+  transition: all 0.2s ease;
+}
+
+/* ── FullCalendar: design system overrides ── */
+:host ::ng-deep .fc {
+  font-family: &#x27;DM Sans&#x27;, system-ui, sans-serif;
+  --fc-border-color: #e2e8f0;
+  --fc-button-text-color: #fff;
+  --fc-button-bg-color: #003B73;
+  --fc-button-border-color: #003B73;
+  --fc-button-hover-bg-color: #002a52;
+  --fc-button-hover-border-color: #002a52;
+  --fc-button-active-bg-color: #001a33;
+  --fc-button-active-border-color: #001a33;
+  --fc-event-bg-color: #003B73;
+  --fc-event-border-color: #003B73;
+  --fc-today-bg-color: #f8fafc;
+}
+
+:host ::ng-deep .fc-toolbar-title {
+  font-family: &#x27;Syne&#x27;, sans-serif !important;
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  color: #003B73 !important;
+  letter-spacing: -0.025em !important;
+  text-transform: capitalize !important;
+}
+
+:host ::ng-deep .fc-toolbar-chunk {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+:host ::ng-deep .fc-button-group {
+  gap: 0.5rem;
+  display: flex !important;
+}
+
+:host ::ng-deep .fc-direction-ltr .fc-button-group &gt; .fc-button {
+  border-radius: 0.625rem !important;
+  margin: 0 !important;
+}
+
+:host ::ng-deep .fc-button {
+  border-radius: 0.625rem !important;
+  box-shadow: 0 2px 4px 0 rgba(0, 59, 115, 0.15) !important;
+  font-weight: 600;
+  padding: 0.5rem 1.1rem !important;
+  text-transform: uppercase;
+  font-size: 0.75rem !important;
+  letter-spacing: 0.05em;
+  transition: all 0.2s;
+}
+
+:host ::ng-deep .fc-button:focus {
+  box-shadow: 0 0 0 3px rgba(0, 59, 115, 0.35) !important;
+}
+
+:host ::ng-deep .fc .fc-button-primary:not(:disabled).fc-button-active,
+:host ::ng-deep .fc .fc-button-primary:not(:disabled):active {
+  background-color: #001a33;
+  border-color: #001a33;
+  transform: translateY(1px);
+}
+
+:host ::ng-deep .fc-theme-standard .fc-scrollgrid {
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+:host ::ng-deep .fc-col-header-cell {
+  background-color: #f8fafc;
+  padding: 0.75rem 0;
+}
+
+:host ::ng-deep .fc-col-header-cell-cushion {
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+}
+
+:host ::ng-deep .fc-daygrid-day-number {
+  color: #475569;
+  font-weight: 500;
+  padding: 0.4rem !important;
+  font-size: 0.8rem;
+}
+
+:host ::ng-deep .fc-daygrid-event {
+  border-radius: 4px;
+  padding: 3px 6px !important;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin: 2px 4px !important;
+  border: none !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  text-transform: capitalize;
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+:host ::ng-deep .fc-daygrid-event:hover {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  z-index: 5;
+}
+
+:host ::ng-deep .fc-h-event {
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+:host ::ng-deep .fc-event-title,
+:host ::ng-deep .fc-event-main {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+:host ::ng-deep .fc-day-today {
+  background-color: #eff6ff !important;
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="p-8 max-w-[1800px] mx-auto space-y-8 bg-slate-50 min-h-screen">  <!-- ── Page Header ── -->  <div class="flex items-end justify-between flex-wrap gap-4">    <div>      <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-1">Panel de Administración</p>      <div class="flex items-center gap-3">        <i class="bi bi-calendar-check text-jmg text-2xl"></i>        <h1 class="font-display text-3xl font-bold text-slate-900 tracking-tight">Programación de Trabajos</h1>      </div>    </div>    <div class="flex items-center gap-3">      <!-- Mantenimiento Fijo -->      <button        class="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-jmg font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors border border-jmg/30 hover:border-jmg/60 shadow-sm"        (click)="openFixedModal()"      >        <i class="bi bi-calendar-repeat"></i>        Mantenimiento Fijo      </button>      <!-- Nueva Programación -->      <button        class="inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors shadow-sm"        (click)="openModal()"      >        <i class="bi bi-plus-lg"></i>        Nueva Programación      </button>    </div>  </div>  <!-- ── Error ── -->  <div *ngIf="errorMessage" class="bg-red-50 border border-red-100 text-red-600 px-5 py-4 rounded-2xl flex items-center gap-3 text-sm font-medium">    <i class="bi bi-exclamation-triangle-fill text-lg shrink-0"></i>    {{ errorMessage }}  </div>  <!-- ── Main Content: Lista + Calendario ── -->  <div class="grid grid-cols-1 lg:grid-cols-[minmax(380px,44%)_1fr] gap-6 items-start">    <!-- ── Panel Izquierdo: Programaciones ── -->    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">      <!-- Section Header -->      <div class="flex items-center gap-3 mb-5">        <h2 class="font-display font-bold text-slate-800 text-xl flex-1 leading-none tracking-tight">          Programaciones          <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mt-1 font-body">            {{ formatSelectedDate() }}          </span>        </h2>        <span class="inline-flex items-center px-3 py-1 bg-jmg-muted text-jmg text-sm font-bold rounded-full">          {{ filteredMantenimientos.length }}        </span>      </div>      <!-- Loading -->      <div *ngIf="isLoading" class="flex flex-col items-center gap-3 py-12">        <div class="animate-spin rounded-full h-9 w-9 border-t-2 border-b-2 border-jmg"></div>        <p class="text-slate-400 text-sm font-medium">Cargando programaciones...</p>      </div>      <!-- Lista -->      <div *ngIf="!isLoading" class="programaciones-list flex flex-col gap-4">        <!-- Empty State -->        <div *ngIf="filteredMantenimientos.length === 0" class="flex flex-col items-center gap-4 py-12 text-center">          <div class="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center">            <i class="bi bi-calendar-x text-slate-300 text-2xl"></i>          </div>          <div>            <p class="font-display font-bold text-slate-700">Sin trabajos para esta fecha</p>            <p class="text-slate-400 text-sm mt-1">Seleccioná otro día o creá una programación.</p>          </div>          <button            class="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-600 font-semibold rounded-xl px-4 py-2 text-sm transition-colors border border-slate-200"            (click)="openModal()"          >            <i class="bi bi-plus-lg"></i>            Crear programación          </button>        </div>        <!-- Cards -->        <div *ngFor="let mant of filteredMantenimientos"          class="bg-slate-50 border border-slate-200 rounded-xl p-4 transition-all hover:border-jmg/30 hover:shadow-sm">          <!-- Card Header: fecha + hora + acciones -->          <div class="flex justify-between items-center mb-3">            <div class="flex gap-4 text-xs text-slate-500 font-medium">              <span class="flex items-center gap-1.5">                <i class="bi bi-calendar3 text-slate-400"></i>                {{ formatFecha(mant.start) }}              </span>              <span class="flex items-center gap-1.5">                <i class="bi bi-clock text-slate-400"></i>                {{ formatHora(mant.start) }}              </span>            </div>            <div class="flex items-center gap-1">              <!-- Acciones de serie fija -->              <ng-container *ngIf="mant.extendedProps.mantenimiento_fijo_id">                <button                  class="p-1.5 rounded-lg text-jmg hover:bg-jmg-muted transition-colors"                  (click)="editFixedMantenimientoFromJob(mant.extendedProps.mantenimiento_fijo_id)"                  title="Editar serie completa"                >                  <i class="bi bi-calendar-range text-sm"></i>                </button>                <button                  class="p-1.5 rounded-lg text-orange-700 hover:bg-orange-50 transition-colors"                  (click)="requestDeleteFixed(mant.extendedProps.mantenimiento_fijo_id, mant.extendedProps.cliente?.nombre_comercial || \'Equipo\')"                  title="Eliminar serie completa"                >                  <i class="bi bi-calendar-x text-sm"></i>                </button>                <div class="w-px h-5 bg-slate-200 mx-0.5 self-center"></div>              </ng-container>              <button                class="p-1.5 rounded-lg text-slate-500 hover:bg-slate-200 hover:text-slate-800 transition-colors"                (click)="editMantenimiento(mant)"                title="Editar este trabajo"              >                <i class="bi bi-pencil text-sm"></i>              </button>              <button                class="p-1.5 rounded-lg text-slate-500 hover:bg-red-50 hover:text-red-600 transition-colors"                (click)="requestDelete(mant)"                title="Eliminar este trabajo"              >                <i class="bi bi-trash text-sm"></i>              </button>            </div>          </div>          <!-- Card Body -->          <div class="pt-3 border-t border-slate-200">            <h3 class="font-display font-semibold text-slate-800 text-base mb-3 leading-snug">{{ mant.title }}</h3>            <div class="grid grid-cols-2 gap-3 mb-3">              <!-- Tipo -->              <div class="flex flex-col gap-0.5">                <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Tipo</span>                <span                  class="inline-flex items-center self-start px-2.5 py-0.5 rounded-md text-[11px] font-semibold uppercase tracking-wide"                  [ngClass]="getTipoTrabajoColor(mant.extendedProps.tipo_trabajo)"                >                  {{ getTipoTrabajoLabel(mant.extendedProps.tipo_trabajo) }}                </span>              </div>              <!-- Cliente -->              <div *ngIf="mant.extendedProps.cliente" class="flex flex-col gap-0.5">                <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Cliente</span>                <span class="text-sm text-slate-700 flex items-center gap-1">                  <i class="bi bi-building text-slate-400 text-xs"></i>                  {{ mant.extendedProps.cliente.nombre_comercial || mant.extendedProps.cliente.contacto_nombre }}                </span>              </div>              <!-- Técnicos (full width) -->              <div class="col-span-2 flex flex-col gap-0.5">                <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1">                  <i class="bi bi-people-fill text-slate-300"></i>                  Técnicos                </span>                <div class="flex flex-wrap gap-1 mt-0.5">                  <ng-container *ngIf="$any(mant.extendedProps).trabajadores && $any(mant.extendedProps).trabajadores.length > 0; else singleTech">                    <span                      *ngFor="let w of $any(mant.extendedProps).trabajadores"                      class="inline-flex items-center bg-jmg-muted text-jmg text-xs font-semibold px-2.5 py-0.5 rounded-full border border-jmg/20"                    >                      {{ w.nombre }} {{ w.apellido }}                    </span>                  </ng-container>                  <ng-template #singleTech>                    <span class="inline-flex items-center bg-jmg-muted text-jmg text-xs font-semibold px-2.5 py-0.5 rounded-full border border-jmg/20">                      {{ getTrabajadorNombre(mant) }}                    </span>                  </ng-template>                </div>              </div>              <!-- Equipo -->              <div *ngIf="mant.extendedProps.ascensor" class="flex flex-col gap-0.5">                <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Equipo</span>                <span class="text-sm text-slate-700 flex items-center gap-1">                  <i class="bi bi-box text-slate-400 text-xs"></i>                  {{ mant.extendedProps.ascensor.tipo_equipo }} — {{ mant.extendedProps.ascensor.marca }}                </span>              </div>              <!-- Descripción (full width) -->              <div *ngIf="mant.extendedProps.descripcion" class="col-span-2 flex flex-col gap-0.5">                <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Descripción</span>                <p class="text-sm text-slate-500 leading-relaxed">{{ mant.extendedProps.descripcion }}</p>              </div>            </div>            <!-- Footer: estado + fijo badge -->            <div class="flex justify-end items-center gap-2">              <span *ngIf="mant.extendedProps.mantenimiento_fijo_id"                class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-jmg text-white text-[10px] font-bold uppercase rounded-full tracking-wide border border-white/20">                <i class="bi bi-pin-angle-fill"></i> Fijo              </span>              <span                class="inline-flex items-center self-start px-2.5 py-0.5 rounded-md text-[11px] font-semibold uppercase tracking-wide"                [ngClass]="getEstadoColor(mant.extendedProps.estado)"              >                {{ getEstadoLabel(mant.extendedProps.estado) }}              </span>            </div>          </div>        </div>      </div>    </div>    <!-- ── Panel Derecho: Calendario ── -->    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 flex flex-col gap-5">      <!-- Calendario -->      <div>        <full-calendar #calendar [options]="calendarOptions"></full-calendar>      </div>      <!-- Leyenda -->      <div class="pt-5 border-t border-slate-100">        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-3">Tipos de Trabajo</p>        <div class="flex flex-wrap gap-5">          <div class="flex items-center gap-2 text-sm text-slate-500 font-medium">            <span class="w-3 h-3 rounded-full ring-2 ring-white ring-offset-1" style="background-color: #003B73;"></span>            Mantenimiento          </div>          <div class="flex items-center gap-2 text-sm text-slate-500 font-medium">            <span class="w-3 h-3 rounded-full ring-2 ring-white ring-offset-1" style="background-color: #C2410C;"></span>            Reparación          </div>          <div class="flex items-center gap-2 text-sm text-slate-500 font-medium">            <span class="w-3 h-3 rounded-full ring-2 ring-white ring-offset-1" style="background-color: #15803D;"></span>            Inspección          </div>          <div class="flex items-center gap-2 text-sm text-slate-500 font-medium">            <span class="w-3 h-3 rounded-full ring-2 ring-white ring-offset-1" style="background-color: #B91C1C;"></span>            Emergencia          </div>        </div>      </div>      <!-- Notificaciones WhatsApp -->      <div *ngIf="!isLoading && filteredMantenimientos.length > 0"        class="bg-emerald-50 border border-dashed border-emerald-300 rounded-xl p-4">        <p class="text-[10px] font-bold text-emerald-800 uppercase tracking-wider mb-3">          Notificación a Técnicos        </p>        <div class="tech-notification-list flex flex-col gap-2 max-h-72 overflow-y-auto pr-1">          <div *ngFor="let group of getTechniciansForDay()"            class="flex justify-between items-center bg-white rounded-xl px-3 py-2.5 shadow-sm border border-emerald-100">            <div class="flex flex-col min-w-0">              <span class="text-sm font-semibold text-slate-800 truncate">{{ group.tech.nombre }} {{ group.tech.apellido }}</span>              <span class="text-[11px] text-slate-400">{{ group.services.length }} servicio{{ group.services.length !== 1 ? \'s\' : \'\' }}</span>            </div>            <button              class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors shrink-0 text-base font-bold ml-3"              [class]="isTechNotified(group.tech.trabajador_id)                ? \'bg-white text-emerald-600 border border-emerald-300 hover:bg-emerald-50\'                : \'bg-[#25d366] hover:bg-[#128c7e] text-white\'"              (click)="sendWhatsAppRoute(group)"              [title]="isTechNotified(group.tech.trabajador_id) ? \'Notificado en esta sesión\' : \'Enviar ruta por WhatsApp\'"            >              <i [class]="isTechNotified(group.tech.trabajador_id) ? \'bi bi-check-all\' : \'bi bi-whatsapp\'"></i>            </button>          </div>        </div>      </div>    </div>  </div></div><!-- ── Modal Programación ── --><app-programacion-modal  *ngIf="showModal"  [mantenimiento]="selectedMantenimiento"  [date]="selectedDate"  (close)="closeModal()"  (saved)="onMantenimientoSaved()"></app-programacion-modal><!-- ── Modal Mantenimiento Fijo ── --><app-mantenimiento-fijo-modal  *ngIf="showFixedModal"  [mantenimientoFijo]="selectedFixedMantenimiento"  (close)="closeFixedModal()"  (saved)="onFixedMantenimientoSaved()"></app-mantenimiento-fijo-modal><!-- ── Confirm Delete Modal ── --><div *ngIf="showDeleteConfirm"  class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[1100] animate-fade-in"  (click)="cancelDelete()">  <div    class="bg-white rounded-2xl p-8 max-w-sm w-[90%] text-center shadow-2xl animate-fade-in-up"    (click)="$event.stopPropagation()"  >    <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-5">      <i class="bi bi-trash3 text-red-500 text-2xl"></i>    </div>    <h3 class="font-display font-bold text-slate-900 text-xl mb-3">      {{ isFixedDeletion ? \'¿Eliminar serie de mantenimientos?\' : \'¿Eliminar programación?\' }}    </h3>    <p class="text-slate-500 text-sm leading-relaxed mb-7">      {{ isFixedDeletion        ? \'Se eliminarán todos los mantenimientos futuros "Pendientes" vinculados a esta serie. Esta acción no se puede deshacer.\'        : \'Esta acción no se puede deshacer. Se eliminará permanentemente:\' }}      <strong class="block text-slate-800 font-semibold mt-2">{{ deleteTargetName }}</strong>    </p>    <div class="flex gap-3 justify-center">      <button        class="px-5 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-600 font-semibold text-sm hover:bg-slate-50 transition-colors"        (click)="cancelDelete()"      >        <i class="bi bi-x mr-1"></i> Cancelar      </button>      <button        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white font-semibold text-sm transition-colors"        (click)="confirmDelete()"      >        <i class="bi bi-trash3"></i> Eliminar      </button>    </div>  </div></div><!-- ── Toast ── --><div class="toast-container" *ngIf="toast()">  <div class="toast-item" [ngClass]="toast()?.type">    <div class="toast-icon">      <i class="bi" [ngClass]="toast()?.type === \'success\' ? \'bi-check-circle-fill\' : \'bi-exclamation-triangle-fill\'"></i>    </div>    <div class="toast-content">      <div class="toast-title">{{ toast()?.title }}</div>      <div class="toast-message">{{ toast()?.message }}</div>    </div>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AdminLayoutComponent', 'selector': 'app-admin-layout'},{'name': 'AIAssistantComponent', 'selector': ''},{'name': 'App', 'selector': 'app-root'},{'name': 'BottomNavComponent', 'selector': 'app-bottom-nav'},{'name': 'ClientCreateComponent', 'selector': 'app-client-create'},{'name': 'ClientDeleteComponent', 'selector': 'app-client-delete'},{'name': 'ClientEditComponent', 'selector': 'app-client-edit'},{'name': 'ClientListComponent', 'selector': 'app-client-list'},{'name': 'ClientRestoreComponent', 'selector': 'app-client-restore'},{'name': 'DocumentDeleteComponent', 'selector': 'app-document-delete'},{'name': 'DocumentFormComponent', 'selector': 'app-document-form'},{'name': 'DocumentListComponent', 'selector': 'app-document-list'},{'name': 'ElevatorCreateComponent', 'selector': 'app-elevator-create'},{'name': 'ElevatorDeleteComponent', 'selector': 'app-elevator-delete'},{'name': 'ElevatorEditComponent', 'selector': 'app-elevator-edit'},{'name': 'ElevatorListComponent', 'selector': 'app-elevator-list'},{'name': 'EntityCardComponent', 'selector': 'app-entity-card'},{'name': 'EquipmentCreateModalComponent', 'selector': 'app-equipment-create-modal'},{'name': 'EquipmentDeleteModalComponent', 'selector': 'app-equipment-delete-modal'},{'name': 'EquipmentEditModalComponent', 'selector': 'app-equipment-edit-modal'},{'name': 'EquipmentListModalComponent', 'selector': 'app-equipment-list-modal'},{'name': 'FilterContainerComponent', 'selector': 'app-filter-container'},{'name': 'FilterInputComponent', 'selector': 'app-filter-input'},{'name': 'FilterSelectComponent', 'selector': 'app-filter-select'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MaintenanceChecklistComponent', 'selector': 'app-maintenance-checklist'},{'name': 'MaintenanceSchedulingComponent', 'selector': 'app-maintenance-scheduling'},{'name': 'MantenimientoFijoModalComponent', 'selector': 'app-mantenimiento-fijo-modal'},{'name': 'ModalWrapperComponent', 'selector': 'app-modal-wrapper'},{'name': 'PdfPreviewComponent', 'selector': 'app-pdf-preview'},{'name': 'PlaceholderPageComponent', 'selector': 'app-placeholder-page'},{'name': 'ProgramacionModalComponent', 'selector': 'app-programacion-modal'},{'name': 'ProgrammingComponent', 'selector': 'app-programming'},{'name': 'ReportsComponent', 'selector': ''},{'name': 'SearchableSelectComponent', 'selector': 'app-searchable-select'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'SkeletonLoaderComponent', 'selector': 'app-skeleton-loader'},{'name': 'TechnicianCreateComponent', 'selector': 'app-technician-create'},{'name': 'TechnicianDeleteComponent', 'selector': 'app-technician-delete'},{'name': 'TechnicianEditComponent', 'selector': 'app-technician-edit'},{'name': 'TechnicianListComponent', 'selector': 'app-technician-list'},{'name': 'TechnicianRestoreComponent', 'selector': 'app-technician-restore'},{'name': 'WorkerEquipmentComponent', 'selector': 'app-worker-equipment'},{'name': 'WorkerLayoutComponent', 'selector': 'app-worker-layout'},{'name': 'WorkerProfileComponent', 'selector': 'app-worker-profile'},{'name': 'WorkerReportCreateComponent', 'selector': 'app-worker-report-create'},{'name': 'WorkerReportsComponent', 'selector': 'app-worker-reports'},{'name': 'WorkerRoutesComponent', 'selector': 'app-worker-routes'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'MaintenanceSchedulingComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'MaintenanceSchedulingComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

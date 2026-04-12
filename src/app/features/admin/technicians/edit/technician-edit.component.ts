@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, OnInit, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TechnicianService, Technician } from '../../services/technician.service';
 import { ModalWrapperComponent } from '../../../../shared/components/modal-wrapper/modal-wrapper.component';
@@ -7,7 +7,7 @@ import { ModalWrapperComponent } from '../../../../shared/components/modal-wrapp
 @Component({
   selector: 'app-technician-edit',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ModalWrapperComponent],
+  imports: [ReactiveFormsModule, ModalWrapperComponent],
   templateUrl: './technician-edit.component.html',
   styleUrl: './technician-edit.component.scss'
 })

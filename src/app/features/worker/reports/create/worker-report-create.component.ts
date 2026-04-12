@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output, Input, inject, signal, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import SignaturePad from 'signature_pad';
-import { CommonModule } from '@angular/common';
+
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ClientService, Client, Elevator } from '../../../admin/services/client.service';
 import { ReportService } from '../../../admin/services/report.service';
@@ -12,7 +12,7 @@ import { LoadingSpinnerComponent } from '../../../../shared/components/loading-s
 @Component({
   selector: 'app-worker-report-create',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, LoadingSpinnerComponent],
+  imports: [ReactiveFormsModule, LoadingSpinnerComponent],
   templateUrl: './worker-report-create.component.html',
   styleUrl: './worker-report-create.component.scss'
 })

@@ -1,0 +1,3109 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>jmg-ascensores documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">jmg-ascensores documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  WorkerReportCreateComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/features/worker/reports/create/worker-report-create.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+                    <code><a href="https://angular.io/api/core/AfterViewInit" target="_blank" >AfterViewInit</a></code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-worker-report-create</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="https://angular.io/api/common/CommonModule" target="_blank" >CommonModule</a></code>
+                                <code><a href="https://angular.io/api/forms/ReactiveFormsModule" target="_blank" >ReactiveFormsModule</a></code>
+                                <code><a href="../components/LoadingSpinnerComponent.html" target="_self" >LoadingSpinnerComponent</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./worker-report-create.component.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./worker-report-create.component.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#allElevators" >allElevators</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#authService" >authService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#clientCanvas" >clientCanvas</a>
+                            </li>
+                            <li>
+                                <a href="#clientElevators" >clientElevators</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#clientPad" >clientPad</a>
+                            </li>
+                            <li>
+                                <a href="#clients" >clients</a>
+                            </li>
+                            <li>
+                                <a href="#clientSearch" >clientSearch</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#clientService" >clientService</a>
+                            </li>
+                            <li>
+                                <a href="#createForm" >createForm</a>
+                            </li>
+                            <li>
+                                <a href="#defaultTechSignatureId" >defaultTechSignatureId</a>
+                            </li>
+                            <li>
+                                <a href="#error" >error</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#fb" >fb</a>
+                            </li>
+                            <li>
+                                <a href="#filteredClients" >filteredClients</a>
+                            </li>
+                            <li>
+                                <a href="#isEditing" >isEditing</a>
+                            </li>
+                            <li>
+                                <a href="#isMaintenanceReport" >isMaintenanceReport</a>
+                            </li>
+                            <li>
+                                <a href="#isSubmitting" >isSubmitting</a>
+                            </li>
+                            <li>
+                                <a href="#lastClientSignatureId" >lastClientSignatureId</a>
+                            </li>
+                            <li>
+                                <a href="#loadingChecklist" >loadingChecklist</a>
+                            </li>
+                            <li>
+                                <a href="#maintenanceChecklist" >maintenanceChecklist</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#reportService" >reportService</a>
+                            </li>
+                            <li>
+                                <a href="#showClientDropdown" >showClientDropdown</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#techCanvas" >techCanvas</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#techPad" >techPad</a>
+                            </li>
+                            <li>
+                                <a href="#useDefaultTechSignature" >useDefaultTechSignature</a>
+                            </li>
+                            <li>
+                                <a href="#useLastClientSignature" >useLastClientSignature</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#workerService" >workerService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#clearSignature" >clearSignature</a>
+                            </li>
+                            <li>
+                                <a href="#closeDropdowns" >closeDropdowns</a>
+                            </li>
+                            <li>
+                                <a href="#filterElevators" >filterElevators</a>
+                            </li>
+                            <li>
+                                <a href="#isCategoryComplete" >isCategoryComplete</a>
+                            </li>
+                            <li>
+                                <a href="#loadChecklist" >loadChecklist</a>
+                            </li>
+                            <li>
+                                <a href="#loadInitialData" >loadInitialData</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterViewInit" >ngAfterViewInit</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onClientSearch" >onClientSearch</a>
+                            </li>
+                            <li>
+                                <a href="#onClose" >onClose</a>
+                            </li>
+                            <li>
+                                <a href="#onSubmit" >onSubmit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#resizeCanvas" >resizeCanvas</a>
+                            </li>
+                            <li>
+                                <a href="#selectClient" >selectClient</a>
+                            </li>
+                            <li>
+                                <a href="#toggleCategory" >toggleCategory</a>
+                            </li>
+                            <li>
+                                <a href="#toggleTask" >toggleTask</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#editingId" >editingId</a>
+                            </li>
+                            <li>
+                                <a href="#prefilledData" >prefilledData</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#close" >close</a>
+                            </li>
+                            <li>
+                                <a href="#reportCreated" >reportCreated</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#groupedChecklist" >groupedChecklist</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:60</a></div>
+                            </td>
+                        </tr>
+
+            </tbody>
+        </table>
+</section>
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="editingId"></a>
+                        <b>editingId</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:28</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="prefilledData"></a>
+                        <b>prefilledData</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:27</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section data-compodoc="block-outputs">
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="close"></a>
+                        <b>close</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:25</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="reportCreated"></a>
+                        <b>reportCreated</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:26</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clearSignature"></a>
+                    <span class="name">
+                        <span ><b>clearSignature</b></span>
+                        <a href="#clearSignature"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>clearSignature(type: "tech" | "client")</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="207"
+                                    class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:207</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>type</td>
+                                            <td>
+                                                        <code>&quot;tech&quot; | &quot;client&quot;</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeDropdowns"></a>
+                    <span class="name">
+                        <span ><b>closeDropdowns</b></span>
+                        <a href="#closeDropdowns"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closeDropdowns()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="254"
+                                    class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:254</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filterElevators"></a>
+                    <span class="name">
+                        <span ><b>filterElevators</b></span>
+                        <a href="#filterElevators"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>filterElevators(clientId: number | string)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="260"
+                                    class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:260</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>clientId</td>
+                                            <td>
+                                                        <code>number | string</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isCategoryComplete"></a>
+                    <span class="name">
+                        <span ><b>isCategoryComplete</b></span>
+                        <a href="#isCategoryComplete"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isCategoryComplete(group: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="340"
+                                    class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:340</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>group</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadChecklist"></a>
+                    <span class="name">
+                        <span ><b>loadChecklist</b></span>
+                        <a href="#loadChecklist"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadChecklist(ordenId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="297"
+                                    class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:297</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>ordenId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadInitialData"></a>
+                    <span class="name">
+                        <span ><b>loadInitialData</b></span>
+                        <a href="#loadInitialData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadInitialData()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="212"
+                                    class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:212</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewInit"></a>
+                    <span class="name">
+                        <span ><b>ngAfterViewInit</b></span>
+                        <a href="#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterViewInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="184"
+                                    class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:184</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="180"
+                                    class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:180</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="75"
+                                    class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:75</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onClientSearch"></a>
+                    <span class="name">
+                        <span ><b>onClientSearch</b></span>
+                        <a href="#onClientSearch"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onClientSearch(event: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="229"
+                                    class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:229</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onClose"></a>
+                    <span class="name">
+                        <span ><b>onClose</b></span>
+                        <a href="#onClose"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onClose()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="461"
+                                    class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:461</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSubmit"></a>
+                    <span class="name">
+                        <span ><b>onSubmit</b></span>
+                        <a href="#onSubmit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onSubmit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="345"
+                                    class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:345</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resizeCanvas"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>resizeCanvas</b></span>
+                        <a href="#resizeCanvas"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>resizeCanvas()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="194"
+                                    class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:194</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectClient"></a>
+                    <span class="name">
+                        <span ><b>selectClient</b></span>
+                        <a href="#selectClient"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>selectClient(client: <a href="../interfaces/Client.html" target="_self">Client</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="246"
+                                    class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:246</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>client</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Client.html" target="_self" >Client</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleCategory"></a>
+                    <span class="name">
+                        <span ><b>toggleCategory</b></span>
+                        <a href="#toggleCategory"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleCategory(group: literal type, event: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="335"
+                                    class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:335</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>group</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleTask"></a>
+                    <span class="name">
+                        <span ><b>toggleTask</b></span>
+                        <a href="#toggleTask"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleTask(task: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="331"
+                                    class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:331</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>task</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="allElevators"></a>
+                    <span class="name">
+                        <span ><b>allElevators</b></span>
+                        <a href="#allElevators"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Elevator[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:49</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>authService</b></span>
+                        <a href="#authService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AuthService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:33</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clientCanvas"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>clientCanvas</b></span>
+                        <a href="#clientCanvas"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;HTMLCanvasElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;clientCanvas&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:21</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clientElevators"></a>
+                    <span class="name">
+                        <span ><b>clientElevators</b></span>
+                        <a href="#clientElevators"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Elevator[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clientPad"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>clientPad</b></span>
+                        <a href="#clientPad"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>SignaturePad</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:24</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clients"></a>
+                    <span class="name">
+                        <span ><b>clients</b></span>
+                        <a href="#clients"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Client[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clientSearch"></a>
+                    <span class="name">
+                        <span ><b>clientSearch</b></span>
+                        <a href="#clientSearch"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(&#x27;&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clientService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>clientService</b></span>
+                        <a href="#clientService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ClientService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:31</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createForm"></a>
+                    <span class="name">
+                        <span ><b>createForm</b></span>
+                        <a href="#createForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:36</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="defaultTechSignatureId"></a>
+                    <span class="name">
+                        <span ><b>defaultTechSignatureId</b></span>
+                        <a href="#defaultTechSignatureId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;number | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:42</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="error"></a>
+                    <span class="name">
+                        <span ><b>error</b></span>
+                        <a href="#error"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fb"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>fb</b></span>
+                        <a href="#fb"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(FormBuilder)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:30</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filteredClients"></a>
+                    <span class="name">
+                        <span ><b>filteredClients</b></span>
+                        <a href="#filteredClients"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Client[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:55</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isEditing"></a>
+                    <span class="name">
+                        <span ><b>isEditing</b></span>
+                        <a href="#isEditing"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:38</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isMaintenanceReport"></a>
+                    <span class="name">
+                        <span ><b>isMaintenanceReport</b></span>
+                        <a href="#isMaintenanceReport"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isSubmitting"></a>
+                    <span class="name">
+                        <span ><b>isSubmitting</b></span>
+                        <a href="#isSubmitting"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:37</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="lastClientSignatureId"></a>
+                    <span class="name">
+                        <span ><b>lastClientSignatureId</b></span>
+                        <a href="#lastClientSignatureId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;number | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:45</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadingChecklist"></a>
+                    <span class="name">
+                        <span ><b>loadingChecklist</b></span>
+                        <a href="#loadingChecklist"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="maintenanceChecklist"></a>
+                    <span class="name">
+                        <span ><b>maintenanceChecklist</b></span>
+                        <a href="#maintenanceChecklist"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;any[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:58</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="reportService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>reportService</b></span>
+                        <a href="#reportService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ReportService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:32</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showClientDropdown"></a>
+                    <span class="name">
+                        <span ><b>showClientDropdown</b></span>
+                        <a href="#showClientDropdown"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="techCanvas"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>techCanvas</b></span>
+                        <a href="#techCanvas"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;HTMLCanvasElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;techCanvas&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:20</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="techPad"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>techPad</b></span>
+                        <a href="#techPad"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>SignaturePad</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:23</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="useDefaultTechSignature"></a>
+                    <span class="name">
+                        <span ><b>useDefaultTechSignature</b></span>
+                        <a href="#useDefaultTechSignature"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;boolean&gt;(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:43</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="useLastClientSignature"></a>
+                    <span class="name">
+                        <span ><b>useLastClientSignature</b></span>
+                        <a href="#useLastClientSignature"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;boolean&gt;(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="workerService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>workerService</b></span>
+                        <a href="#workerService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(WorkerService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:34</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-accessors">
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="groupedChecklist"></a>
+                        <span class="name"><b>groupedChecklist</b><a href="#groupedChecklist"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>groupedChecklist()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="314" class="link-to-prism">src/app/features/worker/reports/create/worker-report-create.component.ts:314</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, EventEmitter, Output, Input, inject, signal, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from &#x27;@angular/core&#x27;;
+import SignaturePad from &#x27;signature_pad&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from &#x27;@angular/forms&#x27;;
+import { ClientService, Client, Elevator } from &#x27;../../../admin/services/client.service&#x27;;
+import { ReportService } from &#x27;../../../admin/services/report.service&#x27;;
+import { AuthService } from &#x27;../../../../core/services/auth.service&#x27;;
+import { WorkerService, WorkerProfile } from &#x27;../../services/worker.service&#x27;;
+
+import { LoadingSpinnerComponent } from &#x27;../../../../shared/components/loading-spinner/loading-spinner.component&#x27;;
+
+@Component({
+  selector: &#x27;app-worker-report-create&#x27;,
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, LoadingSpinnerComponent],
+  templateUrl: &#x27;./worker-report-create.component.html&#x27;,
+  styleUrl: &#x27;./worker-report-create.component.scss&#x27;
+})
+export class WorkerReportCreateComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild(&#x27;techCanvas&#x27;) techCanvas!: ElementRef&lt;HTMLCanvasElement&gt;;
+  @ViewChild(&#x27;clientCanvas&#x27;) clientCanvas!: ElementRef&lt;HTMLCanvasElement&gt;;
+
+  private techPad!: SignaturePad;
+  private clientPad!: SignaturePad;
+  @Output() close &#x3D; new EventEmitter&lt;void&gt;();
+  @Output() reportCreated &#x3D; new EventEmitter&lt;void&gt;();
+  @Input() prefilledData: any &#x3D; null;
+  @Input() editingId: number | null &#x3D; null;
+
+  private fb &#x3D; inject(FormBuilder);
+  private clientService &#x3D; inject(ClientService);
+  private reportService &#x3D; inject(ReportService);
+  private authService &#x3D; inject(AuthService);
+  private workerService &#x3D; inject(WorkerService);
+
+  createForm: FormGroup;
+  isSubmitting &#x3D; signal(false);
+  isEditing &#x3D; signal(false);
+  error &#x3D; signal&lt;string | null&gt;(null);
+
+  // Signatures State
+  defaultTechSignatureId &#x3D; signal&lt;number | null&gt;(null);
+  useDefaultTechSignature &#x3D; signal&lt;boolean&gt;(false);
+  
+  lastClientSignatureId &#x3D; signal&lt;number | null&gt;(null);
+  useLastClientSignature &#x3D; signal&lt;boolean&gt;(false);
+
+  clients &#x3D; signal&lt;Client[]&gt;([]);
+  allElevators &#x3D; signal&lt;Elevator[]&gt;([]);
+  clientElevators &#x3D; signal&lt;Elevator[]&gt;([]);
+
+  // Autocomplete state for Client
+  clientSearch &#x3D; signal(&#x27;&#x27;);
+  showClientDropdown &#x3D; signal(false);
+  filteredClients &#x3D; signal&lt;Client[]&gt;([]);
+
+  // Maintenance Checklist State
+  maintenanceChecklist &#x3D; signal&lt;any[]&gt;([]); // DetalleOrden[]
+  loadingChecklist &#x3D; signal(false);
+  isMaintenanceReport &#x3D; signal(false);
+
+  constructor() {
+    this.createForm &#x3D; this.fb.group({
+      cliente_id: [&#x27;&#x27;, [Validators.required]],
+      ascensor_id: [&#x27;&#x27;, [Validators.required]],
+      orden_id: [&#x27;&#x27;],
+      tipo_informe: [&#x27;Técnico&#x27;, [Validators.required]],
+      descripcion_trabajo: [&#x27;&#x27;, [Validators.maxLength(5000)]],
+      observaciones: [&#x27;&#x27;, [Validators.maxLength(1000)]],
+      fecha_informe: [new Date().toISOString().split(&#x27;T&#x27;)[0], [Validators.required]],
+      hora_informe: [&#x27;12:00&#x27;, [Validators.required]]
+    });
+  }
+
+  ngOnInit(): void {
+    document.body.style.overflow &#x3D; &#x27;hidden&#x27;; // Prevent background scrolling
+    
+    if (this.editingId) {
+      this.isEditing.set(true);
+      // Fetch existing data
+      this.reportService.getReportById(this.editingId).subscribe({
+        next: (report: any) &#x3D;&gt; {
+          this.createForm.patchValue({
+            cliente_id: report.cliente_id,
+            ascensor_id: report.ascensor_id,
+            orden_id: report.orden_id,
+            tipo_informe: report.tipo_informe,
+            descripcion_trabajo: report.descripcion_trabajo,
+            observaciones: report.observaciones,
+            fecha_informe: report.fecha_informe,
+            hora_informe: report.hora_informe
+          });
+          
+          if (report.tipo_informe &#x3D;&#x3D;&#x3D; &#x27;Mantenimiento&#x27;) {
+            this.isMaintenanceReport.set(true);
+            const descControl &#x3D; this.createForm.get(&#x27;descripcion_trabajo&#x27;);
+            descControl?.setValidators([Validators.maxLength(5000)]);
+            descControl?.updateValueAndValidity();
+            if (report.orden_id) {
+               this.loadChecklist(report.orden_id);
+            }
+          }
+          const cliente &#x3D; report.Cliente || report.cliente;
+          if (cliente) {
+              this.clientSearch.set(cliente.nombre_comercial || cliente.contacto_nombre);
+          }
+          this.createForm.get(&#x27;cliente_id&#x27;)?.disable();
+          this.createForm.get(&#x27;ascensor_id&#x27;)?.disable();
+          this.loadInitialData();
+        },
+        error: (err) &#x3D;&gt; {
+          console.error(&#x27;Failed to load report for editing&#x27;, err);
+          this.error.set(&#x27;No se pudo cargar la información del informe.&#x27;);
+        }
+      });
+    } else {
+      if (this.prefilledData) {
+        this.createForm.patchValue({
+          cliente_id: this.prefilledData.cliente_id,
+          ascensor_id: this.prefilledData.ascensor_id,
+          orden_id: this.prefilledData.orden_id,
+          tipo_informe: this.prefilledData.tipo_informe || &#x27;Técnico&#x27;
+        });
+        if (this.prefilledData.cliente_nombre) {
+          this.clientSearch.set(this.prefilledData.cliente_nombre);
+        }
+        this.createForm.get(&#x27;cliente_id&#x27;)?.disable();
+        this.createForm.get(&#x27;ascensor_id&#x27;)?.disable();
+      }
+      this.loadInitialData();
+    }
+
+    // Check if it&#x27;s a maintenance report to load checklist
+    this.createForm.get(&#x27;tipo_informe&#x27;)?.valueChanges.subscribe(val &#x3D;&gt; {
+      const isMaint &#x3D; val &#x3D;&#x3D;&#x3D; &#x27;Mantenimiento&#x27;;
+      this.isMaintenanceReport.set(isMaint);
+      
+      const descControl &#x3D; this.createForm.get(&#x27;descripcion_trabajo&#x27;);
+      if (isMaint) {
+        descControl?.setValidators([Validators.maxLength(5000)]);
+        if (!descControl?.value || descControl.value.length &lt; 5) {
+          descControl?.setValue(&#x27;Mantenimiento preventivo realizado según checklist de inspección.&#x27;);
+        }
+        if (this.createForm.get(&#x27;orden_id&#x27;)?.value) {
+          this.loadChecklist(this.createForm.get(&#x27;orden_id&#x27;)?.value);
+        }
+      } else {
+        descControl?.setValidators([Validators.required, Validators.minLength(10), Validators.maxLength(5000)]);
+      }
+      descControl?.updateValueAndValidity();
+    });
+
+    // Initial check for prefilled orden_id
+    const initialOrdenId &#x3D; this.createForm.get(&#x27;orden_id&#x27;)?.value;
+    const initialTipo &#x3D; this.createForm.get(&#x27;tipo_informe&#x27;)?.value;
+    if (initialTipo &#x3D;&#x3D;&#x3D; &#x27;Mantenimiento&#x27;) {
+       this.isMaintenanceReport.set(true);
+       const descControl &#x3D; this.createForm.get(&#x27;descripcion_trabajo&#x27;);
+       descControl?.setValidators([Validators.maxLength(5000)]);
+       descControl?.updateValueAndValidity();
+       if (initialOrdenId) {
+          this.loadChecklist(initialOrdenId);
+       }
+    }
+
+    // Always fetch profile signature if available
+    this.workerService.getMyProfile().subscribe({
+      next: (profile: WorkerProfile) &#x3D;&gt; {
+        if (profile.firma_defecto_id) {
+          this.defaultTechSignatureId.set(profile.firma_defecto_id);
+          // If NOT editing, or if editing but no signature yet, enable by default
+          if (!this.editingId) {
+            this.useDefaultTechSignature.set(true);
+          }
+        }
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    document.body.style.overflow &#x3D; &#x27;&#x27;; // Restore
+  }
+
+  ngAfterViewInit(): void {
+    this.techPad &#x3D; new SignaturePad(this.techCanvas.nativeElement, {
+      backgroundColor: &#x27;rgb(255, 255, 255)&#x27;
+    });
+    this.clientPad &#x3D; new SignaturePad(this.clientCanvas.nativeElement, {
+      backgroundColor: &#x27;rgb(255, 255, 255)&#x27;
+    });
+    this.resizeCanvas();
+  }
+
+  private resizeCanvas() {
+    // Limitamos el ratio para no generar imágenes excesivamente pesadas en pantallas de alta densidad
+    const ratio &#x3D; Math.min(window.devicePixelRatio || 1, 1.5);
+    [this.techCanvas, this.clientCanvas].forEach(canvasRef &#x3D;&gt; {
+      const canvas &#x3D; canvasRef.nativeElement;
+      canvas.width &#x3D; canvas.offsetWidth * ratio;
+      canvas.height &#x3D; canvas.offsetHeight * ratio;
+      canvas.getContext(&#x27;2d&#x27;)?.scale(ratio, ratio);
+    });
+    if (this.techPad) this.techPad.clear();
+    if (this.clientPad) this.clientPad.clear();
+  }
+
+  clearSignature(type: &#x27;tech&#x27; | &#x27;client&#x27;) {
+    if (type &#x3D;&#x3D;&#x3D; &#x27;tech&#x27;) this.techPad.clear();
+    else this.clientPad.clear();
+  }
+
+  loadInitialData() {
+    this.clientService.getClients().subscribe({
+      next: (data) &#x3D;&gt; this.clients.set(data),
+      error: (err) &#x3D;&gt; console.error(&#x27;Error loading clients&#x27;, err)
+    });
+
+    this.clientService.getElevators().subscribe({
+        next: (data) &#x3D;&gt; {
+            this.allElevators.set(data);
+            const currentClient &#x3D; this.createForm.get(&#x27;cliente_id&#x27;)?.value;
+            if (currentClient) this.filterElevators(currentClient);
+        },
+        error: (err) &#x3D;&gt; console.error(&#x27;Error loading elevators&#x27;, err)
+    });
+  }
+
+  // Client Autocomplete Logic
+  onClientSearch(event: Event) {
+    const query &#x3D; (event.target as HTMLInputElement).value.toLowerCase();
+    this.clientSearch.set(query);
+    this.showClientDropdown.set(true);
+
+    if (query.length &lt; 2) {
+      this.filteredClients.set([]);
+      return;
+    }
+
+    const filtered &#x3D; this.clients().filter(c &#x3D;&gt; 
+      (c.nombre_comercial?.toLowerCase().includes(query) || 
+       c.contacto_nombre?.toLowerCase().includes(query))
+    );
+    this.filteredClients.set(filtered);
+  }
+
+  selectClient(client: Client) {
+    if (!client || !client.cliente_id) return;
+    this.createForm.patchValue({ cliente_id: client.cliente_id });
+    this.clientSearch.set(client.nombre_comercial || client.contacto_nombre || &#x27;&#x27;);
+    this.showClientDropdown.set(false);
+    this.filterElevators(client.cliente_id); 
+  }
+
+  closeDropdowns() {
+    setTimeout(() &#x3D;&gt; {
+      this.showClientDropdown.set(false);
+    }, 200); 
+  }
+
+  filterElevators(clientId: number | string) {
+    if (!clientId) {
+        this.clientElevators.set([]);
+        this.createForm.get(&#x27;ascensor_id&#x27;)?.disable();
+        return;
+    }
+    const filtered &#x3D; this.allElevators().filter(e &#x3D;&gt; e.cliente_id &#x3D;&#x3D; clientId);
+    this.clientElevators.set(filtered);
+    
+    if (filtered.length &gt; 0) {
+        if (!this.prefilledData) {
+            this.createForm.get(&#x27;ascensor_id&#x27;)?.enable();
+        }
+    } else {
+        this.createForm.get(&#x27;ascensor_id&#x27;)?.disable();
+    }
+
+    // Try to find the last client signature
+    this.reportService.getReports({ cliente_id: clientId, limit: 10 }).subscribe({
+      next: (res) &#x3D;&gt; {
+         // Find the most recent report with a signature
+         const reportWithSignature &#x3D; res.informes.find((r: any) &#x3D;&gt; r.firma_cliente_id !&#x3D; null);
+         if (reportWithSignature) {
+            this.lastClientSignatureId.set((reportWithSignature as any).firma_cliente_id);
+            this.useLastClientSignature.set(true);
+         } else {
+            this.lastClientSignatureId.set(null);
+            this.useLastClientSignature.set(false);
+         }
+      },
+      error: () &#x3D;&gt; {
+         this.lastClientSignatureId.set(null);
+         this.useLastClientSignature.set(false);
+      }
+    });
+  }
+
+  loadChecklist(ordenId: number) {
+    if (!ordenId) return;
+    this.loadingChecklist.set(true);
+    this.reportService.getWorkOrderById(ordenId).subscribe({
+      next: (order) &#x3D;&gt; {
+        if (order &amp;&amp; order.detalles) {
+          this.maintenanceChecklist.set(order.detalles);
+        }
+        this.loadingChecklist.set(false);
+      },
+      error: (err) &#x3D;&gt; {
+        console.error(&#x27;Error loading checklist&#x27;, err);
+        this.loadingChecklist.set(false);
+      }
+    });
+  }
+
+  get groupedChecklist() {
+    const checklist &#x3D; this.maintenanceChecklist();
+    const groups: { categoria: string, tasks: any[] }[] &#x3D; [];
+    
+    checklist.forEach(item &#x3D;&gt; {
+      const cat &#x3D; item.TareaMaestra?.categoria || &#x27;General&#x27;;
+      let group &#x3D; groups.find(g &#x3D;&gt; g.categoria &#x3D;&#x3D;&#x3D; cat);
+      if (!group) {
+        group &#x3D; { categoria: cat, tasks: [] };
+        groups.push(group);
+      }
+      group.tasks.push(item);
+    });
+    
+    return groups;
+  }
+
+  toggleTask(task: any) {
+    task.realizado &#x3D; !task.realizado;
+  }
+
+  toggleCategory(group: { categoria: string, tasks: any[] }, event: Event) {
+    const isChecked &#x3D; (event.target as HTMLInputElement).checked;
+    group.tasks.forEach(t &#x3D;&gt; t.realizado &#x3D; isChecked);
+  }
+
+  isCategoryComplete(group: { categoria: string, tasks: any[] }): boolean {
+    if (!group.tasks || group.tasks.length &#x3D;&#x3D;&#x3D; 0) return false;
+    return group.tasks.every(t &#x3D;&gt; t.realizado);
+  }
+
+  onSubmit() {
+    if (this.createForm.invalid) {
+      this.createForm.markAllAsTouched();
+      return;
+    }
+
+    const rawData &#x3D; this.createForm.getRawValue();
+    const currentUser &#x3D; this.authService.currentUser();
+    
+    const selectedClientId &#x3D; Number(rawData.cliente_id);
+    const selectedElevatorId &#x3D; Number(rawData.ascensor_id);
+    const selectedWorkerId &#x3D; currentUser ? currentUser.id : null;
+
+    if (!selectedWorkerId) {
+        this.error.set(&#x27;Error: No se pudo identificar al trabajador actual.&#x27;);
+        return;
+    }
+
+    if (!rawData.orden_id) {
+        this.error.set(&#x27;Error: El informe debe estar asociado a una orden de trabajo. Por favor, inicia este reporte desde una ruta asignada.&#x27;);
+        return;
+    }
+
+    // &#x3D;&#x3D;&#x3D; LÓGICA DE FIRMA DEL TÉCNICO &#x3D;&#x3D;&#x3D;
+    let firmaTecnico: string | null &#x3D; null;
+    let firmaTecnicoId: number | null &#x3D; null;
+
+    if (this.useDefaultTechSignature() &amp;&amp; this.defaultTechSignatureId()) {
+      // Caso 1: Reutilizar firma predeterminada (ya existe en BD)
+      firmaTecnicoId &#x3D; this.defaultTechSignatureId();
+    } else if (!this.useDefaultTechSignature() &amp;&amp; !this.techPad.isEmpty()) {
+      // Caso 2: Nueva firma dibujada manualmente
+      firmaTecnico &#x3D; this.techPad.toDataURL(&#x27;image/png&#x27;);
+    } else if (this.useDefaultTechSignature() &amp;&amp; !this.defaultTechSignatureId()) {
+      // Condición de carrera: el checkbox está marcado pero el ID aún no cargó
+      this.error.set(&#x27;Cargando firma del técnico, por favor espera un momento e intenta de nuevo.&#x27;);
+      return;
+    }
+
+    // En modo creación, la firma del técnico es obligatoria
+    if (!firmaTecnico &amp;&amp; !firmaTecnicoId &amp;&amp; !this.isEditing()) {
+        this.error.set(&#x27;Error: La firma del técnico es obligatoria. Usa tu firma predeterminada o dibuja una nueva.&#x27;);
+        return;
+    }
+
+    // &#x3D;&#x3D;&#x3D; LÓGICA DE FIRMA DEL CLIENTE &#x3D;&#x3D;&#x3D;
+    let firmaCliente: string | null &#x3D; null;
+    let firmaClienteId: number | null &#x3D; null;
+
+    if (this.useLastClientSignature() &amp;&amp; this.lastClientSignatureId()) {
+      // Caso 1: Reutilizar última firma del cliente
+      firmaClienteId &#x3D; this.lastClientSignatureId();
+    } else if (!this.useLastClientSignature() &amp;&amp; !this.clientPad.isEmpty()) {
+      // Caso 2: Nueva firma del cliente dibujada
+      firmaCliente &#x3D; this.clientPad.toDataURL(&#x27;image/png&#x27;);
+    }
+
+    this.isSubmitting.set(true);
+    this.error.set(null);
+
+    const payload: any &#x3D; {
+        ...rawData,
+        cliente_id: selectedClientId,
+        ascensor_id: selectedElevatorId,
+        trabajador_id: selectedWorkerId,
+        tipo_informe: rawData.tipo_informe,
+        orden_id: rawData.orden_id ? Number(rawData.orden_id) : null
+    };
+
+    // Agregar datos de firma solo si existen
+    if (firmaTecnico) payload.firma_tecnico &#x3D; firmaTecnico;
+    if (firmaTecnicoId) payload.firma_tecnico_id &#x3D; firmaTecnicoId;
+    if (firmaCliente) payload.firma_cliente &#x3D; firmaCliente;
+    if (firmaClienteId) payload.firma_cliente_id &#x3D; firmaClienteId;
+
+    console.log(&#x27;[onSubmit] Payload firmas - firma_tecnico_id:&#x27;, payload.firma_tecnico_id, &#x27;| firma_cliente_id:&#x27;, payload.firma_cliente_id, &#x27;| firma_tecnico (tiene data):&#x27;, !!payload.firma_tecnico);
+    
+    // Si es mantenimiento, actualizar los DetalleOrden primariamente
+    if (this.isMaintenanceReport() &amp;&amp; this.maintenanceChecklist().length &gt; 0) {
+        this.reportService.updateWorkOrder(payload.orden_id, { detalles: this.maintenanceChecklist() }).subscribe({
+           error: (err) &#x3D;&gt; console.error(&#x27;Error updating checklist items&#x27;, err)
+        });
+    }
+
+    if (this.isEditing() &amp;&amp; this.editingId) {
+        this.reportService.updateReport(this.editingId, payload).subscribe({
+          next: () &#x3D;&gt; {
+            this.isSubmitting.set(false);
+            this.reportCreated.emit();
+            this.onClose();
+          },
+          error: (err) &#x3D;&gt; {
+            const errorMsg &#x3D; err.error?.message || err.message || &#x27;Error desconocido&#x27;;
+            const details &#x3D; err.error?.details ? &#x60; (${JSON.stringify(err.error.details)})&#x60; : &#x27;&#x27;;
+            this.error.set(&#x60;Error al actualizar el informe: ${errorMsg}${details}&#x60;);
+            this.isSubmitting.set(false);
+          }
+        });
+    } else {
+        this.reportService.createReport(payload).subscribe({
+          next: () &#x3D;&gt; {
+            this.isSubmitting.set(false);
+            this.reportCreated.emit();
+            this.onClose();
+          },
+          error: (err) &#x3D;&gt; {
+            const errorMsg &#x3D; err.error?.message || err.message || &#x27;Error desconocido&#x27;;
+            const details &#x3D; err.error?.details ? &#x60; (${JSON.stringify(err.error.details)})&#x60; : &#x27;&#x27;;
+            this.error.set(&#x60;Error al crear el informe: ${errorMsg}${details}&#x60;);
+            this.isSubmitting.set(false);
+          }
+        });
+    }
+  }
+
+
+  onClose() {
+    this.close.emit();
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;worker-modal-overlay&quot;&gt;
+  &lt;div class&#x3D;&quot;worker-modal-content&quot;&gt;
+    
+    &lt;!-- Header --&gt;
+    &lt;div class&#x3D;&quot;worker-modal-header&quot;&gt;
+      &lt;button class&#x3D;&quot;worker-btn-back&quot; (click)&#x3D;&quot;onClose()&quot;&gt;
+        &lt;i class&#x3D;&quot;bi bi-arrow-left&quot;&gt;&lt;/i&gt;
+      &lt;/button&gt;
+      &lt;h3 class&#x3D;&quot;worker-modal-title&quot;&gt;{{ isEditing() ? &#x27;Editar Informe&#x27; : &#x27;Nuevo Informe&#x27; }}&lt;/h3&gt;
+      &lt;div class&#x3D;&quot;spacer&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Body --&gt;
+    &lt;div class&#x3D;&quot;worker-modal-body&quot;&gt;
+      &lt;form [formGroup]&#x3D;&quot;createForm&quot; (ngSubmit)&#x3D;&quot;onSubmit()&quot; class&#x3D;&quot;worker-form&quot;&gt;
+        
+        &lt;!-- Cliente Autocomplete --&gt;
+        &lt;div class&#x3D;&quot;worker-form-group&quot;&gt;
+          &lt;label&gt;Cliente&lt;/label&gt;
+          &lt;div class&#x3D;&quot;autocomplete-wrapper&quot;&gt;
+            &lt;div class&#x3D;&quot;input-icon&quot;&gt;
+              &lt;i class&#x3D;&quot;bi bi-search&quot;&gt;&lt;/i&gt;
+              &lt;input 
+                type&#x3D;&quot;text&quot; 
+                class&#x3D;&quot;worker-input&quot; 
+                placeholder&#x3D;&quot;Buscar cliente...&quot; 
+                [value]&#x3D;&quot;clientSearch()&quot;
+                (input)&#x3D;&quot;onClientSearch($event)&quot;
+                (focus)&#x3D;&quot;!prefilledData &amp;&amp; showClientDropdown.set(true)&quot;
+                (blur)&#x3D;&quot;closeDropdowns()&quot;
+                [disabled]&#x3D;&quot;!!prefilledData&quot;
+              &gt;
+            &lt;/div&gt;
+            
+            &lt;div class&#x3D;&quot;autocomplete-dropdown&quot; *ngIf&#x3D;&quot;showClientDropdown() &amp;&amp; filteredClients().length &gt; 0&quot;&gt;
+              &lt;div 
+                *ngFor&#x3D;&quot;let client of filteredClients()&quot; 
+                class&#x3D;&quot;dropdown-item&quot; 
+                (click)&#x3D;&quot;selectClient(client)&quot;
+              &gt;
+                &lt;div class&#x3D;&quot;client-name&quot;&gt;{{ client.nombre_comercial || client.contacto_nombre }}&lt;/div&gt;
+                &lt;div class&#x3D;&quot;client-address&quot; *ngIf&#x3D;&quot;client.ubicacion&quot;&gt;{{ client.ubicacion }}&lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class&#x3D;&quot;error-text&quot; *ngIf&#x3D;&quot;createForm.get(&#x27;cliente_id&#x27;)?.touched &amp;&amp; createForm.get(&#x27;cliente_id&#x27;)?.invalid&quot;&gt;
+             Debes seleccionar un cliente válido.
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Equipo (Ascensor) --&gt;
+        &lt;div class&#x3D;&quot;worker-form-group&quot;&gt;
+          &lt;label&gt;Equipo (Ascensor)&lt;/label&gt;
+          &lt;div class&#x3D;&quot;select-wrapper&quot;&gt;
+            &lt;select class&#x3D;&quot;worker-input&quot; formControlName&#x3D;&quot;ascensor_id&quot;&gt;
+              &lt;option value&#x3D;&quot;&quot;&gt;Selecciona un equipo&lt;/option&gt;
+              &lt;option *ngFor&#x3D;&quot;let ascensor of clientElevators()&quot; [value]&#x3D;&quot;ascensor.ascensor_id&quot;&gt;
+                {{ ascensor.marca }} - {{ ascensor.modelo }} ({{ ascensor.tipo_equipo }})
+              &lt;/option&gt;
+            &lt;/select&gt;
+            &lt;i class&#x3D;&quot;bi bi-chevron-down select-icon&quot;&gt;&lt;/i&gt;
+          &lt;/div&gt;
+          &lt;div class&#x3D;&quot;error-text&quot; *ngIf&#x3D;&quot;createForm.get(&#x27;ascensor_id&#x27;)?.touched &amp;&amp; createForm.get(&#x27;ascensor_id&#x27;)?.invalid&quot;&gt;
+            Selecciona un equipo asociado al cliente.
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Tipo Informe --&gt;
+        &lt;div class&#x3D;&quot;worker-form-group&quot;&gt;
+          &lt;label&gt;Tipo de Informe&lt;/label&gt;
+          &lt;div class&#x3D;&quot;select-wrapper&quot;&gt;
+            &lt;select class&#x3D;&quot;worker-input&quot; formControlName&#x3D;&quot;tipo_informe&quot;&gt;
+              &lt;option value&#x3D;&quot;Técnico&quot;&gt;Técnico&lt;/option&gt;
+              &lt;option value&#x3D;&quot;Mantenimiento&quot;&gt;Mantenimiento&lt;/option&gt;
+            &lt;/select&gt;
+            &lt;i class&#x3D;&quot;bi bi-chevron-down select-icon&quot;&gt;&lt;/i&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;row-group&quot;&gt;
+          &lt;!-- Fecha --&gt;
+          &lt;div class&#x3D;&quot;worker-form-group half-width&quot;&gt;
+            &lt;label&gt;Fecha&lt;/label&gt;
+            &lt;input type&#x3D;&quot;date&quot; class&#x3D;&quot;worker-input&quot; formControlName&#x3D;&quot;fecha_informe&quot;&gt;
+          &lt;/div&gt;
+          
+          &lt;!-- Hora --&gt;
+          &lt;div class&#x3D;&quot;worker-form-group half-width&quot;&gt;
+            &lt;label&gt;Hora&lt;/label&gt;
+            &lt;input type&#x3D;&quot;time&quot; class&#x3D;&quot;worker-input&quot; formControlName&#x3D;&quot;hora_informe&quot;&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Trabajo Realizado (Oculto en Mantenimiento) --&gt;
+        &lt;div class&#x3D;&quot;worker-form-group&quot; *ngIf&#x3D;&quot;!isMaintenanceReport()&quot;&gt;
+          &lt;label&gt;Trabajo Realizado&lt;/label&gt;
+          &lt;textarea 
+            class&#x3D;&quot;worker-input&quot; 
+            rows&#x3D;&quot;4&quot; 
+            placeholder&#x3D;&quot;Describe las tareas ejecutadas...&quot;
+            formControlName&#x3D;&quot;descripcion_trabajo&quot;
+          &gt;&lt;/textarea&gt;
+          &lt;div class&#x3D;&quot;flex justify-between items-center mt-1 px-1&quot;&gt;
+            &lt;div class&#x3D;&quot;error-text&quot; *ngIf&#x3D;&quot;createForm.get(&#x27;descripcion_trabajo&#x27;)?.touched &amp;&amp; createForm.get(&#x27;descripcion_trabajo&#x27;)?.invalid&quot;&gt;
+              &lt;span *ngIf&#x3D;&quot;createForm.get(&#x27;descripcion_trabajo&#x27;)?.errors?.[&#x27;required&#x27;]&quot;&gt;La descripción es obligatoria.&lt;/span&gt;
+              &lt;span *ngIf&#x3D;&quot;createForm.get(&#x27;descripcion_trabajo&#x27;)?.errors?.[&#x27;minlength&#x27;]&quot;&gt;Mínimo 10 caracteres.&lt;/span&gt;
+              &lt;span *ngIf&#x3D;&quot;createForm.get(&#x27;descripcion_trabajo&#x27;)?.errors?.[&#x27;maxlength&#x27;]&quot;&gt;Máximo 5000 caracteres.&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;text-[10px] text-slate-400 font-bold ml-auto opacity-70&quot;&gt;
+               {{ createForm.get(&#x27;descripcion_trabajo&#x27;)?.value?.length || 0 }}/5000
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Observaciones --&gt;
+        &lt;div class&#x3D;&quot;worker-form-group&quot;&gt;
+          &lt;label&gt;Observaciones Adicionales&lt;/label&gt;
+          &lt;textarea 
+            class&#x3D;&quot;worker-input&quot; 
+            rows&#x3D;&quot;3&quot; 
+            placeholder&#x3D;&quot;Detalles extra, piezas requeridas, etc.&quot;
+            formControlName&#x3D;&quot;observaciones&quot;
+          &gt;&lt;/textarea&gt;
+          &lt;div class&#x3D;&quot;flex justify-between items-center mt-1 px-1&quot;&gt;
+            &lt;div class&#x3D;&quot;error-text&quot; *ngIf&#x3D;&quot;createForm.get(&#x27;observaciones&#x27;)?.touched &amp;&amp; createForm.get(&#x27;observaciones&#x27;)?.invalid&quot;&gt;
+                &lt;span *ngIf&#x3D;&quot;createForm.get(&#x27;observaciones&#x27;)?.errors?.[&#x27;maxlength&#x27;]&quot;&gt;Máximo 1000 caracteres.&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;text-[10px] text-slate-400 font-bold ml-auto opacity-70&quot;&gt;
+              {{ createForm.get(&#x27;observaciones&#x27;)?.value?.length || 0 }}/1000
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Checklist de Mantenimiento --&gt;
+        &lt;div class&#x3D;&quot;maintenance-checklist-section pt-6 mt-6 border-t border-slate-100&quot; *ngIf&#x3D;&quot;isMaintenanceReport()&quot;&gt;
+          &lt;h4 class&#x3D;&quot;text-sm font-extrabold text-[#003B73] uppercase tracking-wider mb-4 flex items-center gap-2&quot;&gt;
+            &lt;i class&#x3D;&quot;bi bi-card-checklist&quot;&gt;&lt;/i&gt; Checklist de Mantenimiento
+          &lt;/h4&gt;
+
+          &lt;app-loading-spinner *ngIf&#x3D;&quot;loadingChecklist()&quot; 
+                               message&#x3D;&quot;Cargando tareas...&quot; 
+                               size&#x3D;&quot;sm&quot;&gt;
+          &lt;/app-loading-spinner&gt;
+
+          &lt;div *ngIf&#x3D;&quot;!loadingChecklist() &amp;&amp; maintenanceChecklist().length &#x3D;&#x3D;&#x3D; 0&quot; class&#x3D;&quot;p-4 bg-amber-50 rounded-xl border border-amber-200 text-amber-700 text-xs font-semibold flex items-center gap-3&quot;&gt;
+            &lt;i class&#x3D;&quot;bi bi-exclamation-triangle-fill text-lg&quot;&gt;&lt;/i&gt;
+            Esta orden no tiene tareas asociadas. Por favor, verifica que la ruta sea de mantenimiento.
+          &lt;/div&gt;
+
+          &lt;div class&#x3D;&quot;checklist-groups&quot; *ngIf&#x3D;&quot;!loadingChecklist() &amp;&amp; maintenanceChecklist().length &gt; 0&quot;&gt;
+            &lt;div *ngFor&#x3D;&quot;let group of groupedChecklist&quot; class&#x3D;&quot;checklist-group mb-6&quot;&gt;
+              &lt;div class&#x3D;&quot;group-header bg-slate-50 p-3 rounded-t-xl border-x border-t border-slate-200 flex items-center justify-between&quot;&gt;
+                &lt;span class&#x3D;&quot;group-title text-[10px] font-black text-slate-500 uppercase tracking-widest&quot;&gt;{{ group.categoria }}&lt;/span&gt;
+                
+                &lt;div class&#x3D;&quot;flex items-center gap-2 px-2 py-1 bg-white rounded-lg border border-slate-200 shadow-sm&quot;&gt;
+                  &lt;input type&#x3D;&quot;checkbox&quot; 
+                         [checked]&#x3D;&quot;isCategoryComplete(group)&quot;
+                         (change)&#x3D;&quot;toggleCategory(group, $event)&quot;
+                         class&#x3D;&quot;w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer&quot;&gt;
+                  &lt;label class&#x3D;&quot;text-[9px] font-bold text-emerald-700 uppercase cursor-pointer&quot;&gt;Marcar Todo&lt;/label&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+              &lt;div class&#x3D;&quot;group-items bg-white border-x border-b border-slate-200 rounded-b-xl divide-y divide-slate-100 p-1&quot;&gt;
+                &lt;div *ngFor&#x3D;&quot;let task of group.tasks&quot; class&#x3D;&quot;task-item px-3 py-3 flex items-start gap-3 hover:bg-slate-50/50 transition-colors&quot; (click)&#x3D;&quot;toggleTask(task)&quot;&gt;
+                  &lt;div class&#x3D;&quot;task-checkbox-wrapper mt-0.5&quot;&gt;
+                    &lt;input type&#x3D;&quot;checkbox&quot; [checked]&#x3D;&quot;task.realizado&quot; (click)&#x3D;&quot;$event.stopPropagation(); toggleTask(task)&quot; class&#x3D;&quot;w-5 h-5 rounded-md border-slate-300 text-[#003B73] focus:ring-[#003B73] transition-all cursor-pointer&quot;&gt;
+                  &lt;/div&gt;
+                  &lt;div class&#x3D;&quot;task-info flex-1&quot;&gt;
+                    &lt;div class&#x3D;&quot;task-description text-sm font-bold text-slate-700 leading-tight&quot;&gt;{{ task.TareaMaestra?.descripcion_tarea }}&lt;/div&gt;
+                    &lt;div class&#x3D;&quot;task-status text-[10px] italic font-bold&quot; [class.text-emerald-600]&#x3D;&quot;task.realizado&quot; [class.text-slate-400]&#x3D;&quot;!task.realizado&quot;&gt;
+                      {{ task.realizado ? &#x27;EJECUTADO&#x27; : &#x27;PENDIENTE&#x27; }}
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Signatures Section --&gt;
+        &lt;div class&#x3D;&quot;mt-8 border-t border-slate-100 pt-6&quot;&gt;
+          &lt;h4 class&#x3D;&quot;text-sm font-extrabold text-[#003B73] uppercase tracking-wider mb-6 flex items-center gap-2&quot;&gt;
+            &lt;i class&#x3D;&quot;bi bi-pen-fill&quot;&gt;&lt;/i&gt; Firmas Digitales
+          &lt;/h4&gt;
+
+          &lt;div class&#x3D;&quot;grid grid-cols-1 md:grid-cols-2 gap-8&quot;&gt;
+            &lt;!-- Técnico Signature --&gt;
+            &lt;div class&#x3D;&quot;signature-box flex flex-col gap-2&quot;&gt;
+              &lt;div class&#x3D;&quot;flex items-center justify-between px-1&quot;&gt;
+                &lt;label class&#x3D;&quot;text-xs font-bold text-slate-500 uppercase tracking-tight&quot;&gt;Firma del Técnico&lt;/label&gt;
+                &lt;button type&#x3D;&quot;button&quot; *ngIf&#x3D;&quot;!useDefaultTechSignature()&quot; (click)&#x3D;&quot;clearSignature(&#x27;tech&#x27;)&quot; class&#x3D;&quot;text-[10px] font-black text-red-500 hover:text-red-600 uppercase flex items-center gap-1&quot;&gt;
+                   &lt;i class&#x3D;&quot;bi bi-eraser&quot;&gt;&lt;/i&gt; Limpiar
+                &lt;/button&gt;
+              &lt;/div&gt;
+
+              &lt;!-- Reutilizar Opcion --&gt;
+              &lt;div class&#x3D;&quot;flex items-center gap-2 px-1 mb-1&quot; *ngIf&#x3D;&quot;defaultTechSignatureId()&quot;&gt;
+                &lt;input type&#x3D;&quot;checkbox&quot; id&#x3D;&quot;useDefaultTech&quot; class&#x3D;&quot;w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer&quot; 
+                       [checked]&#x3D;&quot;useDefaultTechSignature()&quot; (change)&#x3D;&quot;useDefaultTechSignature.set(!useDefaultTechSignature())&quot;&gt;
+                &lt;label for&#x3D;&quot;useDefaultTech&quot; class&#x3D;&quot;text-xs font-semibold text-emerald-700 cursor-pointer flex items-center gap-1&quot;&gt;
+                   &lt;i class&#x3D;&quot;bi bi-person-check-fill&quot;&gt;&lt;/i&gt; Usar mi firma predeterminada
+                &lt;/label&gt;
+              &lt;/div&gt;
+
+              &lt;!-- Canvas o Mensaje --&gt;
+              &lt;div class&#x3D;&quot;signature-canvas-container border-2 border-slate-200 rounded-2xl bg-white shadow-inner overflow-hidden aspect-[3/2] relative&quot;
+                   [class.opacity-50]&#x3D;&quot;useDefaultTechSignature()&quot; [class.pointer-events-none]&#x3D;&quot;useDefaultTechSignature()&quot;&gt;
+                &lt;div *ngIf&#x3D;&quot;useDefaultTechSignature()&quot; class&#x3D;&quot;absolute inset-0 z-10 flex flex-col items-center justify-center bg-white/80 backdrop-blur-sm&quot;&gt;
+                   &lt;i class&#x3D;&quot;bi bi-check-circle-fill text-3xl text-emerald-500 mb-2&quot;&gt;&lt;/i&gt;
+                   &lt;span class&#x3D;&quot;text-xs font-bold text-slate-600&quot;&gt;Reutilizando firma predeterminada&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;canvas #techCanvas class&#x3D;&quot;w-full h-full touch-none&quot;&gt;&lt;/canvas&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;!-- Cliente Signature --&gt;
+            &lt;div class&#x3D;&quot;signature-box flex flex-col gap-2&quot;&gt;
+              &lt;div class&#x3D;&quot;flex items-center justify-between px-1&quot;&gt;
+                &lt;label class&#x3D;&quot;text-xs font-bold text-slate-500 uppercase tracking-tight&quot;&gt;Firma del Cliente (Opcional)&lt;/label&gt;
+                &lt;button type&#x3D;&quot;button&quot; *ngIf&#x3D;&quot;!useLastClientSignature()&quot; (click)&#x3D;&quot;clearSignature(&#x27;client&#x27;)&quot; class&#x3D;&quot;text-[10px] font-black text-red-500 hover:text-red-600 uppercase flex items-center gap-1&quot;&gt;
+                   &lt;i class&#x3D;&quot;bi bi-eraser&quot;&gt;&lt;/i&gt; Limpiar
+                &lt;/button&gt;
+              &lt;/div&gt;
+
+              &lt;!-- Reutilizar Opcion --&gt;
+              &lt;div class&#x3D;&quot;flex items-center gap-2 px-1 mb-1&quot; *ngIf&#x3D;&quot;lastClientSignatureId()&quot;&gt;
+                &lt;input type&#x3D;&quot;checkbox&quot; id&#x3D;&quot;useLastClient&quot; class&#x3D;&quot;w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer&quot; 
+                       [checked]&#x3D;&quot;useLastClientSignature()&quot; (change)&#x3D;&quot;useLastClientSignature.set(!useLastClientSignature())&quot;&gt;
+                &lt;label for&#x3D;&quot;useLastClient&quot; class&#x3D;&quot;text-xs font-semibold text-emerald-700 cursor-pointer flex items-center gap-1&quot;&gt;
+                   &lt;i class&#x3D;&quot;bi bi-clock-history&quot;&gt;&lt;/i&gt; Reutilizar última firma del cliente
+                &lt;/label&gt;
+              &lt;/div&gt;
+
+              &lt;!-- Mensaje si no hay firma --&gt;
+              &lt;div class&#x3D;&quot;px-1 mb-1 flex items-center gap-2 text-[10px] text-slate-400 font-medium italic&quot; *ngIf&#x3D;&quot;!lastClientSignatureId() &amp;&amp; createForm.get(&#x27;cliente_id&#x27;)?.value&quot;&gt;
+                &lt;i class&#x3D;&quot;bi bi-info-circle&quot;&gt;&lt;/i&gt; No se encontró una firma anterior para este cliente.
+              &lt;/div&gt;
+
+              &lt;!-- Canvas o Mensaje --&gt;
+              &lt;div class&#x3D;&quot;signature-canvas-container border-2 border-slate-200 rounded-2xl bg-white shadow-inner overflow-hidden aspect-[3/2] relative&quot;
+                   [class.opacity-50]&#x3D;&quot;useLastClientSignature()&quot; [class.pointer-events-none]&#x3D;&quot;useLastClientSignature()&quot;&gt;
+                &lt;div *ngIf&#x3D;&quot;useLastClientSignature()&quot; class&#x3D;&quot;absolute inset-0 z-10 flex flex-col items-center justify-center bg-white/80 backdrop-blur-sm&quot;&gt;
+                   &lt;i class&#x3D;&quot;bi bi-people-fill text-3xl text-emerald-500 mb-2&quot;&gt;&lt;/i&gt;
+                   &lt;span class&#x3D;&quot;text-xs font-bold text-slate-600&quot;&gt;Reutilizando última firma&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;canvas #clientCanvas class&#x3D;&quot;w-full h-full touch-none&quot;&gt;&lt;/canvas&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Error global --&gt;
+        &lt;div class&#x3D;&quot;global-error&quot; *ngIf&#x3D;&quot;error()&quot;&gt;
+          &lt;i class&#x3D;&quot;bi bi-exclamation-triangle&quot;&gt;&lt;/i&gt; {{ error() }}
+        &lt;/div&gt;
+
+      &lt;/form&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Footer --&gt;
+    &lt;div class&#x3D;&quot;worker-modal-footer&quot;&gt;
+      &lt;button class&#x3D;&quot;worker-btn-primary&quot; (click)&#x3D;&quot;onSubmit()&quot; [disabled]&#x3D;&quot;isSubmitting()&quot;&gt;
+        &lt;span *ngIf&#x3D;&quot;!isSubmitting()&quot;&gt;&lt;i class&#x3D;&quot;bi bi-check2-circle&quot;&gt;&lt;/i&gt; {{ isEditing() ? &#x27;Actualizar Informe&#x27; : &#x27;Guardar Informe&#x27; }}&lt;/span&gt;
+        &lt;app-loading-spinner *ngIf&#x3D;&quot;isSubmitting()&quot; size&#x3D;&quot;sm&quot;&gt;&lt;/app-loading-spinner&gt;
+      &lt;/button&gt;
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="worker-modal-overlay">  <div class="worker-modal-content">        <!-- Header -->    <div class="worker-modal-header">      <button class="worker-btn-back" (click)="onClose()">        <i class="bi bi-arrow-left"></i>      </button>      <h3 class="worker-modal-title">{{ isEditing() ? \'Editar Informe\' : \'Nuevo Informe\' }}</h3>      <div class="spacer"></div>    </div>    <!-- Body -->    <div class="worker-modal-body">      <form [formGroup]="createForm" (ngSubmit)="onSubmit()" class="worker-form">                <!-- Cliente Autocomplete -->        <div class="worker-form-group">          <label>Cliente</label>          <div class="autocomplete-wrapper">            <div class="input-icon">              <i class="bi bi-search"></i>              <input                 type="text"                 class="worker-input"                 placeholder="Buscar cliente..."                 [value]="clientSearch()"                (input)="onClientSearch($event)"                (focus)="!prefilledData && showClientDropdown.set(true)"                (blur)="closeDropdowns()"                [disabled]="!!prefilledData"              >            </div>                        <div class="autocomplete-dropdown" *ngIf="showClientDropdown() && filteredClients().length > 0">              <div                 *ngFor="let client of filteredClients()"                 class="dropdown-item"                 (click)="selectClient(client)"              >                <div class="client-name">{{ client.nombre_comercial || client.contacto_nombre }}</div>                <div class="client-address" *ngIf="client.ubicacion">{{ client.ubicacion }}</div>              </div>            </div>          </div>          <div class="error-text" *ngIf="createForm.get(\'cliente_id\')?.touched && createForm.get(\'cliente_id\')?.invalid">             Debes seleccionar un cliente válido.          </div>        </div>        <!-- Equipo (Ascensor) -->        <div class="worker-form-group">          <label>Equipo (Ascensor)</label>          <div class="select-wrapper">            <select class="worker-input" formControlName="ascensor_id">              <option value="">Selecciona un equipo</option>              <option *ngFor="let ascensor of clientElevators()" [value]="ascensor.ascensor_id">                {{ ascensor.marca }} - {{ ascensor.modelo }} ({{ ascensor.tipo_equipo }})              </option>            </select>            <i class="bi bi-chevron-down select-icon"></i>          </div>          <div class="error-text" *ngIf="createForm.get(\'ascensor_id\')?.touched && createForm.get(\'ascensor_id\')?.invalid">            Selecciona un equipo asociado al cliente.          </div>        </div>        <!-- Tipo Informe -->        <div class="worker-form-group">          <label>Tipo de Informe</label>          <div class="select-wrapper">            <select class="worker-input" formControlName="tipo_informe">              <option value="Técnico">Técnico</option>              <option value="Mantenimiento">Mantenimiento</option>            </select>            <i class="bi bi-chevron-down select-icon"></i>          </div>        </div>        <div class="row-group">          <!-- Fecha -->          <div class="worker-form-group half-width">            <label>Fecha</label>            <input type="date" class="worker-input" formControlName="fecha_informe">          </div>                    <!-- Hora -->          <div class="worker-form-group half-width">            <label>Hora</label>            <input type="time" class="worker-input" formControlName="hora_informe">          </div>        </div>        <!-- Trabajo Realizado (Oculto en Mantenimiento) -->        <div class="worker-form-group" *ngIf="!isMaintenanceReport()">          <label>Trabajo Realizado</label>          <textarea             class="worker-input"             rows="4"             placeholder="Describe las tareas ejecutadas..."            formControlName="descripcion_trabajo"          ></textarea>          <div class="flex justify-between items-center mt-1 px-1">            <div class="error-text" *ngIf="createForm.get(\'descripcion_trabajo\')?.touched && createForm.get(\'descripcion_trabajo\')?.invalid">              <span *ngIf="createForm.get(\'descripcion_trabajo\')?.errors?.[\'required\']">La descripción es obligatoria.</span>              <span *ngIf="createForm.get(\'descripcion_trabajo\')?.errors?.[\'minlength\']">Mínimo 10 caracteres.</span>              <span *ngIf="createForm.get(\'descripcion_trabajo\')?.errors?.[\'maxlength\']">Máximo 5000 caracteres.</span>            </div>            <div class="text-[10px] text-slate-400 font-bold ml-auto opacity-70">               {{ createForm.get(\'descripcion_trabajo\')?.value?.length || 0 }}/5000            </div>          </div>        </div>        <!-- Observaciones -->        <div class="worker-form-group">          <label>Observaciones Adicionales</label>          <textarea             class="worker-input"             rows="3"             placeholder="Detalles extra, piezas requeridas, etc."            formControlName="observaciones"          ></textarea>          <div class="flex justify-between items-center mt-1 px-1">            <div class="error-text" *ngIf="createForm.get(\'observaciones\')?.touched && createForm.get(\'observaciones\')?.invalid">                <span *ngIf="createForm.get(\'observaciones\')?.errors?.[\'maxlength\']">Máximo 1000 caracteres.</span>            </div>            <div class="text-[10px] text-slate-400 font-bold ml-auto opacity-70">              {{ createForm.get(\'observaciones\')?.value?.length || 0 }}/1000            </div>          </div>        </div>        <!-- Checklist de Mantenimiento -->        <div class="maintenance-checklist-section pt-6 mt-6 border-t border-slate-100" *ngIf="isMaintenanceReport()">          <h4 class="text-sm font-extrabold text-[#003B73] uppercase tracking-wider mb-4 flex items-center gap-2">            <i class="bi bi-card-checklist"></i> Checklist de Mantenimiento          </h4>          <app-loading-spinner *ngIf="loadingChecklist()"                                message="Cargando tareas..."                                size="sm">          </app-loading-spinner>          <div *ngIf="!loadingChecklist() && maintenanceChecklist().length === 0" class="p-4 bg-amber-50 rounded-xl border border-amber-200 text-amber-700 text-xs font-semibold flex items-center gap-3">            <i class="bi bi-exclamation-triangle-fill text-lg"></i>            Esta orden no tiene tareas asociadas. Por favor, verifica que la ruta sea de mantenimiento.          </div>          <div class="checklist-groups" *ngIf="!loadingChecklist() && maintenanceChecklist().length > 0">            <div *ngFor="let group of groupedChecklist" class="checklist-group mb-6">              <div class="group-header bg-slate-50 p-3 rounded-t-xl border-x border-t border-slate-200 flex items-center justify-between">                <span class="group-title text-[10px] font-black text-slate-500 uppercase tracking-widest">{{ group.categoria }}</span>                                <div class="flex items-center gap-2 px-2 py-1 bg-white rounded-lg border border-slate-200 shadow-sm">                  <input type="checkbox"                          [checked]="isCategoryComplete(group)"                         (change)="toggleCategory(group, $event)"                         class="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer">                  <label class="text-[9px] font-bold text-emerald-700 uppercase cursor-pointer">Marcar Todo</label>                </div>              </div>              <div class="group-items bg-white border-x border-b border-slate-200 rounded-b-xl divide-y divide-slate-100 p-1">                <div *ngFor="let task of group.tasks" class="task-item px-3 py-3 flex items-start gap-3 hover:bg-slate-50/50 transition-colors" (click)="toggleTask(task)">                  <div class="task-checkbox-wrapper mt-0.5">                    <input type="checkbox" [checked]="task.realizado" (click)="$event.stopPropagation(); toggleTask(task)" class="w-5 h-5 rounded-md border-slate-300 text-[#003B73] focus:ring-[#003B73] transition-all cursor-pointer">                  </div>                  <div class="task-info flex-1">                    <div class="task-description text-sm font-bold text-slate-700 leading-tight">{{ task.TareaMaestra?.descripcion_tarea }}</div>                    <div class="task-status text-[10px] italic font-bold" [class.text-emerald-600]="task.realizado" [class.text-slate-400]="!task.realizado">                      {{ task.realizado ? \'EJECUTADO\' : \'PENDIENTE\' }}                    </div>                  </div>                </div>              </div>            </div>          </div>        </div>        <!-- Signatures Section -->        <div class="mt-8 border-t border-slate-100 pt-6">          <h4 class="text-sm font-extrabold text-[#003B73] uppercase tracking-wider mb-6 flex items-center gap-2">            <i class="bi bi-pen-fill"></i> Firmas Digitales          </h4>          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">            <!-- Técnico Signature -->            <div class="signature-box flex flex-col gap-2">              <div class="flex items-center justify-between px-1">                <label class="text-xs font-bold text-slate-500 uppercase tracking-tight">Firma del Técnico</label>                <button type="button" *ngIf="!useDefaultTechSignature()" (click)="clearSignature(\'tech\')" class="text-[10px] font-black text-red-500 hover:text-red-600 uppercase flex items-center gap-1">                   <i class="bi bi-eraser"></i> Limpiar                </button>              </div>              <!-- Reutilizar Opcion -->              <div class="flex items-center gap-2 px-1 mb-1" *ngIf="defaultTechSignatureId()">                <input type="checkbox" id="useDefaultTech" class="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"                        [checked]="useDefaultTechSignature()" (change)="useDefaultTechSignature.set(!useDefaultTechSignature())">                <label for="useDefaultTech" class="text-xs font-semibold text-emerald-700 cursor-pointer flex items-center gap-1">                   <i class="bi bi-person-check-fill"></i> Usar mi firma predeterminada                </label>              </div>              <!-- Canvas o Mensaje -->              <div class="signature-canvas-container border-2 border-slate-200 rounded-2xl bg-white shadow-inner overflow-hidden aspect-[3/2] relative"                   [class.opacity-50]="useDefaultTechSignature()" [class.pointer-events-none]="useDefaultTechSignature()">                <div *ngIf="useDefaultTechSignature()" class="absolute inset-0 z-10 flex flex-col items-center justify-center bg-white/80 backdrop-blur-sm">                   <i class="bi bi-check-circle-fill text-3xl text-emerald-500 mb-2"></i>                   <span class="text-xs font-bold text-slate-600">Reutilizando firma predeterminada</span>                </div>                <canvas #techCanvas class="w-full h-full touch-none"></canvas>              </div>            </div>            <!-- Cliente Signature -->            <div class="signature-box flex flex-col gap-2">              <div class="flex items-center justify-between px-1">                <label class="text-xs font-bold text-slate-500 uppercase tracking-tight">Firma del Cliente (Opcional)</label>                <button type="button" *ngIf="!useLastClientSignature()" (click)="clearSignature(\'client\')" class="text-[10px] font-black text-red-500 hover:text-red-600 uppercase flex items-center gap-1">                   <i class="bi bi-eraser"></i> Limpiar                </button>              </div>              <!-- Reutilizar Opcion -->              <div class="flex items-center gap-2 px-1 mb-1" *ngIf="lastClientSignatureId()">                <input type="checkbox" id="useLastClient" class="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"                        [checked]="useLastClientSignature()" (change)="useLastClientSignature.set(!useLastClientSignature())">                <label for="useLastClient" class="text-xs font-semibold text-emerald-700 cursor-pointer flex items-center gap-1">                   <i class="bi bi-clock-history"></i> Reutilizar última firma del cliente                </label>              </div>              <!-- Mensaje si no hay firma -->              <div class="px-1 mb-1 flex items-center gap-2 text-[10px] text-slate-400 font-medium italic" *ngIf="!lastClientSignatureId() && createForm.get(\'cliente_id\')?.value">                <i class="bi bi-info-circle"></i> No se encontró una firma anterior para este cliente.              </div>              <!-- Canvas o Mensaje -->              <div class="signature-canvas-container border-2 border-slate-200 rounded-2xl bg-white shadow-inner overflow-hidden aspect-[3/2] relative"                   [class.opacity-50]="useLastClientSignature()" [class.pointer-events-none]="useLastClientSignature()">                <div *ngIf="useLastClientSignature()" class="absolute inset-0 z-10 flex flex-col items-center justify-center bg-white/80 backdrop-blur-sm">                   <i class="bi bi-people-fill text-3xl text-emerald-500 mb-2"></i>                   <span class="text-xs font-bold text-slate-600">Reutilizando última firma</span>                </div>                <canvas #clientCanvas class="w-full h-full touch-none"></canvas>              </div>            </div>          </div>        </div>        <!-- Error global -->        <div class="global-error" *ngIf="error()">          <i class="bi bi-exclamation-triangle"></i> {{ error() }}        </div>      </form>    </div>    <!-- Footer -->    <div class="worker-modal-footer">      <button class="worker-btn-primary" (click)="onSubmit()" [disabled]="isSubmitting()">        <span *ngIf="!isSubmitting()"><i class="bi bi-check2-circle"></i> {{ isEditing() ? \'Actualizar Informe\' : \'Guardar Informe\' }}</span>        <app-loading-spinner *ngIf="isSubmitting()" size="sm"></app-loading-spinner>      </button>    </div>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AdminLayoutComponent', 'selector': 'app-admin-layout'},{'name': 'AIAssistantComponent', 'selector': ''},{'name': 'App', 'selector': 'app-root'},{'name': 'BottomNavComponent', 'selector': 'app-bottom-nav'},{'name': 'ClientCreateComponent', 'selector': 'app-client-create'},{'name': 'ClientDeleteComponent', 'selector': 'app-client-delete'},{'name': 'ClientEditComponent', 'selector': 'app-client-edit'},{'name': 'ClientListComponent', 'selector': 'app-client-list'},{'name': 'ClientRestoreComponent', 'selector': 'app-client-restore'},{'name': 'DocumentDeleteComponent', 'selector': 'app-document-delete'},{'name': 'DocumentFormComponent', 'selector': 'app-document-form'},{'name': 'DocumentListComponent', 'selector': 'app-document-list'},{'name': 'ElevatorCreateComponent', 'selector': 'app-elevator-create'},{'name': 'ElevatorDeleteComponent', 'selector': 'app-elevator-delete'},{'name': 'ElevatorEditComponent', 'selector': 'app-elevator-edit'},{'name': 'ElevatorListComponent', 'selector': 'app-elevator-list'},{'name': 'EntityCardComponent', 'selector': 'app-entity-card'},{'name': 'EquipmentCreateModalComponent', 'selector': 'app-equipment-create-modal'},{'name': 'EquipmentDeleteModalComponent', 'selector': 'app-equipment-delete-modal'},{'name': 'EquipmentEditModalComponent', 'selector': 'app-equipment-edit-modal'},{'name': 'EquipmentListModalComponent', 'selector': 'app-equipment-list-modal'},{'name': 'FilterContainerComponent', 'selector': 'app-filter-container'},{'name': 'FilterInputComponent', 'selector': 'app-filter-input'},{'name': 'FilterSelectComponent', 'selector': 'app-filter-select'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MaintenanceChecklistComponent', 'selector': 'app-maintenance-checklist'},{'name': 'MaintenanceSchedulingComponent', 'selector': 'app-maintenance-scheduling'},{'name': 'MantenimientoFijoModalComponent', 'selector': 'app-mantenimiento-fijo-modal'},{'name': 'ModalWrapperComponent', 'selector': 'app-modal-wrapper'},{'name': 'PdfPreviewComponent', 'selector': 'app-pdf-preview'},{'name': 'PlaceholderPageComponent', 'selector': 'app-placeholder-page'},{'name': 'ProgramacionModalComponent', 'selector': 'app-programacion-modal'},{'name': 'ProgrammingComponent', 'selector': 'app-programming'},{'name': 'ReportsComponent', 'selector': ''},{'name': 'SearchableSelectComponent', 'selector': 'app-searchable-select'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'SkeletonLoaderComponent', 'selector': 'app-skeleton-loader'},{'name': 'TechnicianCreateComponent', 'selector': 'app-technician-create'},{'name': 'TechnicianDeleteComponent', 'selector': 'app-technician-delete'},{'name': 'TechnicianEditComponent', 'selector': 'app-technician-edit'},{'name': 'TechnicianListComponent', 'selector': 'app-technician-list'},{'name': 'TechnicianRestoreComponent', 'selector': 'app-technician-restore'},{'name': 'WorkerEquipmentComponent', 'selector': 'app-worker-equipment'},{'name': 'WorkerLayoutComponent', 'selector': 'app-worker-layout'},{'name': 'WorkerProfileComponent', 'selector': 'app-worker-profile'},{'name': 'WorkerReportCreateComponent', 'selector': 'app-worker-report-create'},{'name': 'WorkerReportsComponent', 'selector': 'app-worker-reports'},{'name': 'WorkerRoutesComponent', 'selector': 'app-worker-routes'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'WorkerReportCreateComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'WorkerReportCreateComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { ElevatorService } from '../../services/elevator.service';
 import { ClientService, Client } from '../../services/client.service';
@@ -8,7 +8,7 @@ import { Elevator } from '../../../../core/models/elevator.model';
 @Component({
   selector: 'app-elevator-create',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: './elevator-create.component.html',
   styleUrl: './elevator-create.component.scss'
 })

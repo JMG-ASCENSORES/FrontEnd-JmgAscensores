@@ -1,10 +1,10 @@
 import { Component, Input, Output, EventEmitter, signal, computed, ElementRef, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-searchable-select',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './searchable-select.component.html',
   styles: []
 })

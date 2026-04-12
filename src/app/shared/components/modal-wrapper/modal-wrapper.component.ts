@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 export type ModalVariant = 'primary' | 'neutral' | 'danger';
 export type ModalSize = 'sm' | 'md' | 'lg' | 'xl';
@@ -7,7 +7,7 @@ export type ModalSize = 'sm' | 'md' | 'lg' | 'xl';
 @Component({
   selector: 'app-modal-wrapper',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './modal-wrapper.component.html',
 })
 export class ModalWrapperComponent {

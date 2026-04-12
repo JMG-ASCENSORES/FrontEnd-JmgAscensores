@@ -1,0 +1,2373 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>jmg-ascensores documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">jmg-ascensores documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  TechnicianListComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/features/admin/technicians/list/technician-list.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-technician-list</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="https://angular.io/api/common/CommonModule" target="_blank" >CommonModule</a></code>
+                                <code><a href="https://angular.io/api/forms/FormsModule" target="_blank" >FormsModule</a></code>
+                                <code><a href="../components/TechnicianCreateComponent.html" target="_self" >TechnicianCreateComponent</a></code>
+                                <code><a href="../components/TechnicianEditComponent.html" target="_self" >TechnicianEditComponent</a></code>
+                                <code><a href="../components/TechnicianDeleteComponent.html" target="_self" >TechnicianDeleteComponent</a></code>
+                                <code><a href="../components/TechnicianRestoreComponent.html" target="_self" >TechnicianRestoreComponent</a></code>
+                                <code><a href="../components/EntityCardComponent.html" target="_self" >EntityCardComponent</a></code>
+                                <code><a href="../components/FilterContainerComponent.html" target="_self" >FilterContainerComponent</a></code>
+                                <code><a href="../components/FilterInputComponent.html" target="_self" >FilterInputComponent</a></code>
+                                <code><a href="../components/FilterSelectComponent.html" target="_self" >FilterSelectComponent</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./technician-list.component.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./technician-list.component.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#error" >error</a>
+                            </li>
+                            <li>
+                                <a href="#filteredTechnicians" >filteredTechnicians</a>
+                            </li>
+                            <li>
+                                <a href="#generalCount" >generalCount</a>
+                            </li>
+                            <li>
+                                <a href="#isLoading" >isLoading</a>
+                            </li>
+                            <li>
+                                <a href="#maintenanceCount" >maintenanceCount</a>
+                            </li>
+                            <li>
+                                <a href="#repairsCount" >repairsCount</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#route" >route</a>
+                            </li>
+                            <li>
+                                <a href="#searchQuery" >searchQuery</a>
+                            </li>
+                            <li>
+                                <a href="#selectedSpecialty" >selectedSpecialty</a>
+                            </li>
+                            <li>
+                                <a href="#selectedTechnician" >selectedTechnician</a>
+                            </li>
+                            <li>
+                                <a href="#showCreateModal" >showCreateModal</a>
+                            </li>
+                            <li>
+                                <a href="#showDeleteModal" >showDeleteModal</a>
+                            </li>
+                            <li>
+                                <a href="#showEditModal" >showEditModal</a>
+                            </li>
+                            <li>
+                                <a href="#showRestoreModal" >showRestoreModal</a>
+                            </li>
+                            <li>
+                                <a href="#specialties" >specialties</a>
+                            </li>
+                            <li>
+                                <a href="#supervisorCount" >supervisorCount</a>
+                            </li>
+                            <li>
+                                <a href="#technicians" >technicians</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#technicianService" >technicianService</a>
+                            </li>
+                            <li>
+                                <a href="#technicianToDelete" >technicianToDelete</a>
+                            </li>
+                            <li>
+                                <a href="#totalTechnicians" >totalTechnicians</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#checkQueryParams" >checkQueryParams</a>
+                            </li>
+                            <li>
+                                <a href="#closeCreateModal" >closeCreateModal</a>
+                            </li>
+                            <li>
+                                <a href="#closeDeleteModal" >closeDeleteModal</a>
+                            </li>
+                            <li>
+                                <a href="#closeEditModal" >closeEditModal</a>
+                            </li>
+                            <li>
+                                <a href="#closeRestoreModal" >closeRestoreModal</a>
+                            </li>
+                            <li>
+                                <a href="#getInitials" >getInitials</a>
+                            </li>
+                            <li>
+                                <a href="#getSpecialtyColor" >getSpecialtyColor</a>
+                            </li>
+                            <li>
+                                <a href="#loadTechnicians" >loadTechnicians</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onTechnicianCreated" >onTechnicianCreated</a>
+                            </li>
+                            <li>
+                                <a href="#onTechnicianDeleted" >onTechnicianDeleted</a>
+                            </li>
+                            <li>
+                                <a href="#onTechnicianRestored" >onTechnicianRestored</a>
+                            </li>
+                            <li>
+                                <a href="#onTechnicianUpdated" >onTechnicianUpdated</a>
+                            </li>
+                            <li>
+                                <a href="#openCreateModal" >openCreateModal</a>
+                            </li>
+                            <li>
+                                <a href="#openDeleteModal" >openDeleteModal</a>
+                            </li>
+                            <li>
+                                <a href="#openEditModal" >openEditModal</a>
+                            </li>
+                            <li>
+                                <a href="#openRestoreModal" >openRestoreModal</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkQueryParams"></a>
+                    <span class="name">
+                        <span ><b>checkQueryParams</b></span>
+                        <a href="#checkQueryParams"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>checkQueryParams()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="93"
+                                    class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:93</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeCreateModal"></a>
+                    <span class="name">
+                        <span ><b>closeCreateModal</b></span>
+                        <a href="#closeCreateModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closeCreateModal()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="158"
+                                    class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:158</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeDeleteModal"></a>
+                    <span class="name">
+                        <span ><b>closeDeleteModal</b></span>
+                        <a href="#closeDeleteModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closeDeleteModal()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="186"
+                                    class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:186</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeEditModal"></a>
+                    <span class="name">
+                        <span ><b>closeEditModal</b></span>
+                        <a href="#closeEditModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closeEditModal()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="172"
+                                    class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:172</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeRestoreModal"></a>
+                    <span class="name">
+                        <span ><b>closeRestoreModal</b></span>
+                        <a href="#closeRestoreModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closeRestoreModal()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="199"
+                                    class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:199</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getInitials"></a>
+                    <span class="name">
+                        <span ><b>getInitials</b></span>
+                        <a href="#getInitials"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getInitials(nombre: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, apellido: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="140"
+                                    class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:140</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>nombre</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>apellido</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSpecialtyColor"></a>
+                    <span class="name">
+                        <span ><b>getSpecialtyColor</b></span>
+                        <a href="#getSpecialtyColor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getSpecialtyColor(specialty: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="144"
+                                    class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:144</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>specialty</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadTechnicians"></a>
+                    <span class="name">
+                        <span ><b>loadTechnicians</b></span>
+                        <a href="#loadTechnicians"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadTechnicians()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="71"
+                                    class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:71</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="67"
+                                    class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:67</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onTechnicianCreated"></a>
+                    <span class="name">
+                        <span ><b>onTechnicianCreated</b></span>
+                        <a href="#onTechnicianCreated"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onTechnicianCreated()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="162"
+                                    class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:162</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onTechnicianDeleted"></a>
+                    <span class="name">
+                        <span ><b>onTechnicianDeleted</b></span>
+                        <a href="#onTechnicianDeleted"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onTechnicianDeleted()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="191"
+                                    class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:191</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onTechnicianRestored"></a>
+                    <span class="name">
+                        <span ><b>onTechnicianRestored</b></span>
+                        <a href="#onTechnicianRestored"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onTechnicianRestored()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="203"
+                                    class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:203</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onTechnicianUpdated"></a>
+                    <span class="name">
+                        <span ><b>onTechnicianUpdated</b></span>
+                        <a href="#onTechnicianUpdated"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onTechnicianUpdated()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="177"
+                                    class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:177</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openCreateModal"></a>
+                    <span class="name">
+                        <span ><b>openCreateModal</b></span>
+                        <a href="#openCreateModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openCreateModal()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="154"
+                                    class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:154</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openDeleteModal"></a>
+                    <span class="name">
+                        <span ><b>openDeleteModal</b></span>
+                        <a href="#openDeleteModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openDeleteModal(technician: <a href="../interfaces/Technician.html" target="_self">Technician</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="181"
+                                    class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:181</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>technician</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Technician.html" target="_self" >Technician</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openEditModal"></a>
+                    <span class="name">
+                        <span ><b>openEditModal</b></span>
+                        <a href="#openEditModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openEditModal(technician: <a href="../interfaces/Technician.html" target="_self">Technician</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="167"
+                                    class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:167</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>technician</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Technician.html" target="_self" >Technician</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openRestoreModal"></a>
+                    <span class="name">
+                        <span ><b>openRestoreModal</b></span>
+                        <a href="#openRestoreModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openRestoreModal()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="195"
+                                    class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:195</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="error"></a>
+                    <span class="name">
+                        <span ><b>error</b></span>
+                        <a href="#error"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:43</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filteredTechnicians"></a>
+                    <span class="name">
+                        <span ><b>filteredTechnicians</b></span>
+                        <a href="#filteredTechnicians"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; {
+    const query &#x3D; this.searchQuery().toLowerCase();
+    const specialty &#x3D; this.selectedSpecialty();
+    
+    return this.technicians().filter(tech &#x3D;&gt; {
+      const fullName &#x3D; &#x60;${tech.nombre} ${tech.apellido}&#x60;.toLowerCase();
+      const matchesSearch &#x3D; fullName.includes(query) || tech.dni.includes(query);
+      const matchesSpecialty &#x3D; specialty ? tech.especialidad &#x3D;&#x3D;&#x3D; specialty : true;
+      return matchesSearch &amp;&amp; matchesSpecialty;
+    });
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="107" class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:107</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="generalCount"></a>
+                    <span class="name">
+                        <span ><b>generalCount</b></span>
+                        <a href="#generalCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; 
+    this.technicians().filter(t &#x3D;&gt; t.especialidad &#x3D;&#x3D;&#x3D; &#x27;Técnico General&#x27;).length
+  )</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="126" class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:126</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isLoading"></a>
+                    <span class="name">
+                        <span ><b>isLoading</b></span>
+                        <a href="#isLoading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(true)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:42</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="maintenanceCount"></a>
+                    <span class="name">
+                        <span ><b>maintenanceCount</b></span>
+                        <a href="#maintenanceCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; 
+    this.technicians().filter(t &#x3D;&gt; t.especialidad &#x3D;&#x3D;&#x3D; &#x27;Técnico de Mantenimiento&#x27;).length
+  )</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="122" class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:122</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="repairsCount"></a>
+                    <span class="name">
+                        <span ><b>repairsCount</b></span>
+                        <a href="#repairsCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; 
+    this.technicians().filter(t &#x3D;&gt; t.especialidad &#x3D;&#x3D;&#x3D; &#x27;Técnico de Reparaciones&#x27;).length
+  )</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="130" class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:130</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="route"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>route</b></span>
+                        <a href="#route"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ActivatedRoute)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:37</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="searchQuery"></a>
+                    <span class="name">
+                        <span ><b>searchQuery</b></span>
+                        <a href="#searchQuery"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(&#x27;&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedSpecialty"></a>
+                    <span class="name">
+                        <span ><b>selectedSpecialty</b></span>
+                        <a href="#selectedSpecialty"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(&#x27;&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedTechnician"></a>
+                    <span class="name">
+                        <span ><b>selectedTechnician</b></span>
+                        <a href="#selectedTechnician"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Technician | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showCreateModal"></a>
+                    <span class="name">
+                        <span ><b>showCreateModal</b></span>
+                        <a href="#showCreateModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:44</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showDeleteModal"></a>
+                    <span class="name">
+                        <span ><b>showDeleteModal</b></span>
+                        <a href="#showDeleteModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showEditModal"></a>
+                    <span class="name">
+                        <span ><b>showEditModal</b></span>
+                        <a href="#showEditModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showRestoreModal"></a>
+                    <span class="name">
+                        <span ><b>showRestoreModal</b></span>
+                        <a href="#showRestoreModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:55</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="specialties"></a>
+                    <span class="name">
+                        <span ><b>specialties</b></span>
+                        <a href="#specialties"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+    &#x27;Técnico General&#x27;,
+    &#x27;Técnico de Mantenimiento&#x27;,
+    &#x27;Supervisor Técnico&#x27;,
+    &#x27;Técnico de Reparaciones&#x27;
+  ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:57</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="supervisorCount"></a>
+                    <span class="name">
+                        <span ><b>supervisorCount</b></span>
+                        <a href="#supervisorCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; 
+    this.technicians().filter(t &#x3D;&gt; t.especialidad &#x3D;&#x3D;&#x3D; &#x27;Supervisor Técnico&#x27;).length
+  )</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="134" class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:134</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="technicians"></a>
+                    <span class="name">
+                        <span ><b>technicians</b></span>
+                        <a href="#technicians"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Technician[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:65</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="technicianService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>technicianService</b></span>
+                        <a href="#technicianService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(TechnicianService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:36</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="technicianToDelete"></a>
+                    <span class="name">
+                        <span ><b>technicianToDelete</b></span>
+                        <a href="#technicianToDelete"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Technician | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="totalTechnicians"></a>
+                    <span class="name">
+                        <span ><b>totalTechnicians</b></span>
+                        <a href="#totalTechnicians"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.technicians().length)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="120" class="link-to-prism">src/app/features/admin/technicians/list/technician-list.component.ts:120</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, computed, inject, signal, OnInit, effect } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { FormsModule } from &#x27;@angular/forms&#x27;;
+import { ActivatedRoute } from &#x27;@angular/router&#x27;;
+import { TechnicianService, Technician } from &#x27;../../services/technician.service&#x27;;
+import { TechnicianCreateComponent } from &#x27;../create/technician-create.component&#x27;;
+import { TechnicianEditComponent } from &#x27;../edit/technician-edit.component&#x27;;
+import { TechnicianDeleteComponent } from &#x27;../delete/technician-delete.component&#x27;;
+import { TechnicianRestoreComponent } from &#x27;../restore/technician-restore.component&#x27;;
+
+import { EntityCardComponent } from &#x27;../../../../shared/components/entity-card/entity-card.component&#x27;;
+
+import { FilterContainerComponent } from &#x27;../../../../shared/components/filters/filter-container/filter-container.component&#x27;;
+import { FilterInputComponent } from &#x27;../../../../shared/components/filters/filter-input/filter-input.component&#x27;;
+import { FilterSelectComponent } from &#x27;../../../../shared/components/filters/filter-select/filter-select.component&#x27;;
+
+@Component({
+  selector: &#x27;app-technician-list&#x27;,
+  standalone: true,
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    TechnicianCreateComponent, 
+    TechnicianEditComponent, 
+    TechnicianDeleteComponent,
+    TechnicianRestoreComponent,
+    EntityCardComponent,
+    FilterContainerComponent,
+    FilterInputComponent,
+    FilterSelectComponent
+  ],
+  templateUrl: &#x27;./technician-list.component.html&#x27;,
+  styleUrl: &#x27;./technician-list.component.scss&#x27;
+})
+export class TechnicianListComponent implements OnInit {
+  private technicianService &#x3D; inject(TechnicianService);
+  private route &#x3D; inject(ActivatedRoute);
+
+  // Signals for state
+  searchQuery &#x3D; signal(&#x27;&#x27;);
+  selectedSpecialty &#x3D; signal(&#x27;&#x27;);
+  isLoading &#x3D; signal(true);
+  error &#x3D; signal&lt;string | null&gt;(null);
+  showCreateModal &#x3D; signal(false);
+  
+  // Edit State
+  showEditModal &#x3D; signal(false);
+  selectedTechnician &#x3D; signal&lt;Technician | null&gt;(null);
+
+  // Delete State
+  showDeleteModal &#x3D; signal(false);
+  technicianToDelete &#x3D; signal&lt;Technician | null&gt;(null);
+
+  // Restore State
+  showRestoreModal &#x3D; signal(false);
+
+  specialties &#x3D; [
+    &#x27;Técnico General&#x27;,
+    &#x27;Técnico de Mantenimiento&#x27;,
+    &#x27;Supervisor Técnico&#x27;,
+    &#x27;Técnico de Reparaciones&#x27;
+  ];
+
+  // Data
+  technicians &#x3D; signal&lt;Technician[]&gt;([]); // ... (rest of the file content)
+
+  ngOnInit(): void {
+    this.loadTechnicians();
+  }
+
+  loadTechnicians(): void {
+    this.isLoading.set(true);
+    this.error.set(null); // Reset error
+    // Fetch only active technicians
+    this.technicianService.getTechnicians({ estado_activo: true }).subscribe({
+      next: (data) &#x3D;&gt; {
+        this.technicians.set(data);
+        this.isLoading.set(false);
+        this.checkQueryParams(); // Check if we need to auto-open someone after data loads
+      },
+      error: (err) &#x3D;&gt; {
+        console.error(&#x27;Error loading technicians&#x27;, err);
+        if (err.status &#x3D;&#x3D;&#x3D; 403) {
+          this.error.set(&#x27;Acceso Denegado: No tienes permisos de Administrador para ver esta sección.&#x27;);
+        } else {
+          this.error.set(&#x27;Error al cargar los técnicos. Por favor verifica tu conexión o inicia sesión nuevamente.&#x27;);
+        }
+        this.isLoading.set(false);
+      }
+    });
+  }
+
+  checkQueryParams() {
+    const searchParam &#x3D; this.route.snapshot.queryParamMap.get(&#x27;search&#x27;);
+    if (searchParam) {
+      this.searchQuery.set(searchParam);
+      
+      // Auto-open logic if there&#x27;s exactly one match, or it exactly matches a DNI
+      const match &#x3D; this.technicians().find(t &#x3D;&gt; t.dni &#x3D;&#x3D;&#x3D; searchParam);
+      if (match) {
+        this.openEditModal(match);
+      }
+    }
+  }
+
+  // Computed Values
+  filteredTechnicians &#x3D; computed(() &#x3D;&gt; {
+    const query &#x3D; this.searchQuery().toLowerCase();
+    const specialty &#x3D; this.selectedSpecialty();
+    
+    return this.technicians().filter(tech &#x3D;&gt; {
+      const fullName &#x3D; &#x60;${tech.nombre} ${tech.apellido}&#x60;.toLowerCase();
+      const matchesSearch &#x3D; fullName.includes(query) || tech.dni.includes(query);
+      const matchesSpecialty &#x3D; specialty ? tech.especialidad &#x3D;&#x3D;&#x3D; specialty : true;
+      return matchesSearch &amp;&amp; matchesSpecialty;
+    });
+  });
+
+  // Stats
+  totalTechnicians &#x3D; computed(() &#x3D;&gt; this.technicians().length);
+  
+  maintenanceCount &#x3D; computed(() &#x3D;&gt; 
+    this.technicians().filter(t &#x3D;&gt; t.especialidad &#x3D;&#x3D;&#x3D; &#x27;Técnico de Mantenimiento&#x27;).length
+  );
+  
+  generalCount &#x3D; computed(() &#x3D;&gt; 
+    this.technicians().filter(t &#x3D;&gt; t.especialidad &#x3D;&#x3D;&#x3D; &#x27;Técnico General&#x27;).length
+  );
+  
+  repairsCount &#x3D; computed(() &#x3D;&gt; 
+    this.technicians().filter(t &#x3D;&gt; t.especialidad &#x3D;&#x3D;&#x3D; &#x27;Técnico de Reparaciones&#x27;).length
+  );
+  
+  supervisorCount &#x3D; computed(() &#x3D;&gt; 
+    this.technicians().filter(t &#x3D;&gt; t.especialidad &#x3D;&#x3D;&#x3D; &#x27;Supervisor Técnico&#x27;).length
+  );
+
+
+  // Helpers
+  getInitials(nombre: string, apellido: string): string {
+    return (nombre.charAt(0) + apellido.charAt(0)).toUpperCase();
+  }
+
+  getSpecialtyColor(specialty: string): string {
+    switch (specialty) {
+      case &#x27;Técnico General&#x27;: return &#x27;bg-emerald-100 text-emerald-700&#x27;;
+      case &#x27;Técnico de Mantenimiento&#x27;: return &#x27;bg-blue-100 text-blue-700&#x27;;
+      case &#x27;Supervisor Técnico&#x27;: return &#x27;bg-purple-100 text-purple-700&#x27;;
+      case &#x27;Técnico de Reparaciones&#x27;: return &#x27;bg-orange-100 text-orange-700&#x27;;
+      default: return &#x27;bg-gray-100 text-gray-700&#x27;;
+    }
+  }
+
+  openCreateModal() {
+    this.showCreateModal.set(true);
+  }
+
+  closeCreateModal() {
+    this.showCreateModal.set(false);
+  }
+
+  onTechnicianCreated() {
+    this.loadTechnicians(); // Refresh list
+    // Optional: Show success toast/notification
+  }
+
+  openEditModal(technician: Technician) {
+    this.selectedTechnician.set(technician);
+    this.showEditModal.set(true);
+  }
+
+  closeEditModal() {
+    this.showEditModal.set(false);
+    this.selectedTechnician.set(null);
+  }
+
+  onTechnicianUpdated() {
+    this.loadTechnicians();
+  }
+
+  openDeleteModal(technician: Technician) {
+    this.technicianToDelete.set(technician);
+    this.showDeleteModal.set(true);
+  }
+
+  closeDeleteModal() {
+    this.showDeleteModal.set(false);
+    this.technicianToDelete.set(null);
+  }
+
+  onTechnicianDeleted() {
+    this.loadTechnicians();
+  }
+  
+  openRestoreModal() {
+    this.showRestoreModal.set(true);
+  }
+
+  closeRestoreModal() {
+    this.showRestoreModal.set(false);
+  }
+
+  onTechnicianRestored() {
+    this.loadTechnicians();
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;p-8 space-y-8 bg-slate-50 min-h-screen&quot;&gt;
+
+  &lt;!-- ── Page Header ── --&gt;
+  &lt;div class&#x3D;&quot;flex items-end justify-between&quot;&gt;
+    &lt;div&gt;
+      &lt;p class&#x3D;&quot;text-xs font-semibold text-slate-400 uppercase tracking-widest mb-1&quot;&gt;Panel de Administración&lt;/p&gt;
+      &lt;h1 class&#x3D;&quot;font-display text-3xl font-bold text-slate-900 tracking-tight&quot;&gt;Gestión de Técnicos&lt;/h1&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- ── Stat Cards ── --&gt;
+  &lt;div class&#x3D;&quot;grid grid-cols-2 lg:grid-cols-5 gap-5&quot;&gt;
+
+    &lt;!-- Total --&gt;
+    &lt;div class&#x3D;&quot;bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4&quot;&gt;
+      &lt;div class&#x3D;&quot;w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center shrink-0&quot;&gt;
+        &lt;i class&#x3D;&quot;bi bi-people-fill text-xl text-slate-600&quot;&gt;&lt;/i&gt;
+      &lt;/div&gt;
+      &lt;div&gt;
+        &lt;p class&#x3D;&quot;font-display text-3xl font-bold text-slate-900 leading-none&quot;&gt;{{ totalTechnicians() }}&lt;/p&gt;
+        &lt;p class&#x3D;&quot;text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1&quot;&gt;Total Técnicos&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Mantenimiento --&gt;
+    &lt;div class&#x3D;&quot;bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4&quot;&gt;
+      &lt;div class&#x3D;&quot;w-12 h-12 rounded-xl bg-jmg-muted flex items-center justify-center shrink-0&quot;&gt;
+        &lt;i class&#x3D;&quot;bi bi-tools text-xl text-jmg&quot;&gt;&lt;/i&gt;
+      &lt;/div&gt;
+      &lt;div&gt;
+        &lt;p class&#x3D;&quot;font-display text-3xl font-bold text-slate-900 leading-none&quot;&gt;{{ maintenanceCount() }}&lt;/p&gt;
+        &lt;p class&#x3D;&quot;text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1&quot;&gt;Mantenimiento&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- General --&gt;
+    &lt;div class&#x3D;&quot;bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4&quot;&gt;
+      &lt;div class&#x3D;&quot;w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0&quot;&gt;
+        &lt;i class&#x3D;&quot;bi bi-person-gear text-xl text-emerald-600&quot;&gt;&lt;/i&gt;
+      &lt;/div&gt;
+      &lt;div&gt;
+        &lt;p class&#x3D;&quot;font-display text-3xl font-bold text-slate-900 leading-none&quot;&gt;{{ generalCount() }}&lt;/p&gt;
+        &lt;p class&#x3D;&quot;text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1&quot;&gt;Técnico General&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Reparaciones --&gt;
+    &lt;div class&#x3D;&quot;bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4&quot;&gt;
+      &lt;div class&#x3D;&quot;w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center shrink-0&quot;&gt;
+        &lt;i class&#x3D;&quot;bi bi-wrench-adjustable text-xl text-orange-500&quot;&gt;&lt;/i&gt;
+      &lt;/div&gt;
+      &lt;div&gt;
+        &lt;p class&#x3D;&quot;font-display text-3xl font-bold text-slate-900 leading-none&quot;&gt;{{ repairsCount() }}&lt;/p&gt;
+        &lt;p class&#x3D;&quot;text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1&quot;&gt;Reparaciones&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Supervisor --&gt;
+    &lt;div class&#x3D;&quot;bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4&quot;&gt;
+      &lt;div class&#x3D;&quot;w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center shrink-0&quot;&gt;
+        &lt;i class&#x3D;&quot;bi bi-person-badge-fill text-xl text-purple-600&quot;&gt;&lt;/i&gt;
+      &lt;/div&gt;
+      &lt;div&gt;
+        &lt;p class&#x3D;&quot;font-display text-3xl font-bold text-slate-900 leading-none&quot;&gt;{{ supervisorCount() }}&lt;/p&gt;
+        &lt;p class&#x3D;&quot;text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1&quot;&gt;Supervisor&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+
+  &lt;!-- ── Filters &amp; Search ── --&gt;
+  &lt;app-filter-container&gt;
+    &lt;div class&#x3D;&quot;w-full md:w-1/3&quot;&gt;
+      &lt;app-filter-select
+        label&#x3D;&quot;Filtrar por Especialidad&quot;
+        placeholder&#x3D;&quot;Todas las especialidades&quot;
+        [options]&#x3D;&quot;specialties&quot;
+        [value]&#x3D;&quot;selectedSpecialty()&quot;
+        (valueChange)&#x3D;&quot;selectedSpecialty.set($event)&quot;
+      &gt;&lt;/app-filter-select&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;w-full md:w-1/2 flex-1&quot;&gt;
+      &lt;app-filter-input
+        label&#x3D;&quot;Búsqueda Rápida&quot;
+        placeholder&#x3D;&quot;Buscar por nombre o DNI...&quot;
+        [value]&#x3D;&quot;searchQuery()&quot;
+        (valueChange)&#x3D;&quot;searchQuery.set($event)&quot;
+      &gt;&lt;/app-filter-input&gt;
+    &lt;/div&gt;
+  &lt;/app-filter-container&gt;
+
+  &lt;!-- ── Actions Row ── --&gt;
+  &lt;div class&#x3D;&quot;flex justify-end gap-3&quot;&gt;
+    &lt;button
+      (click)&#x3D;&quot;openRestoreModal()&quot;
+      class&#x3D;&quot;inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-600 font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors border border-slate-200 shadow-sm&quot;
+    &gt;
+      &lt;i class&#x3D;&quot;bi bi-arrow-counterclockwise&quot;&gt;&lt;/i&gt;
+      Restaurar Técnicos
+    &lt;/button&gt;
+    &lt;button
+      (click)&#x3D;&quot;openCreateModal()&quot;
+      class&#x3D;&quot;inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors shadow-sm&quot;
+    &gt;
+      &lt;i class&#x3D;&quot;bi bi-plus-lg&quot;&gt;&lt;/i&gt;
+      Registrar Nuevo Técnico
+    &lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;!-- ── Loading ── --&gt;
+  &lt;div *ngIf&#x3D;&quot;isLoading()&quot; class&#x3D;&quot;flex flex-col items-center justify-center py-20 gap-3&quot;&gt;
+    &lt;div class&#x3D;&quot;animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-jmg&quot;&gt;&lt;/div&gt;
+    &lt;p class&#x3D;&quot;text-slate-400 text-sm font-medium&quot;&gt;Cargando técnicos...&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;!-- ── Error ── --&gt;
+  &lt;div *ngIf&#x3D;&quot;error()&quot; class&#x3D;&quot;bg-red-50 border border-red-100 text-red-600 px-5 py-4 rounded-2xl flex items-center gap-3 text-sm font-medium&quot;&gt;
+    &lt;i class&#x3D;&quot;bi bi-exclamation-triangle-fill text-lg shrink-0&quot;&gt;&lt;/i&gt;
+    {{ error() }}
+  &lt;/div&gt;
+
+  &lt;!-- ── Grid ── --&gt;
+  &lt;div *ngIf&#x3D;&quot;!isLoading()&quot; class&#x3D;&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5&quot;&gt;
+    &lt;div *ngFor&#x3D;&quot;let tech of filteredTechnicians()&quot; class&#x3D;&quot;h-full&quot;&gt;
+      &lt;app-entity-card&gt;
+
+        &lt;!-- Edit Action --&gt;
+        &lt;button action-top (click)&#x3D;&quot;openEditModal(tech)&quot;
+          class&#x3D;&quot;text-emerald-600 hover:text-emerald-700 p-2 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors&quot;
+          title&#x3D;&quot;Editar Técnico&quot;&gt;
+          &lt;i class&#x3D;&quot;bi bi-pencil-square&quot;&gt;&lt;/i&gt;
+        &lt;/button&gt;
+
+        &lt;!-- Main Content --&gt;
+        &lt;div&gt;
+          &lt;div class&#x3D;&quot;flex items-start gap-4&quot;&gt;
+            &lt;!-- Avatar / Foto --&gt;
+            &lt;div class&#x3D;&quot;w-14 h-14 rounded-xl bg-gradient-to-br from-jmg to-jmg-light flex items-center justify-center text-white text-lg font-bold shrink-0 shadow-sm overflow-hidden transition-transform hover:scale-105&quot;&gt;
+              &lt;img *ngIf&#x3D;&quot;tech.foto&quot; [src]&#x3D;&quot;tech.foto&quot; class&#x3D;&quot;w-full h-full object-cover&quot; alt&#x3D;&quot;Foto&quot;&gt;
+              &lt;span *ngIf&#x3D;&quot;!tech.foto&quot;&gt;{{ getInitials(tech.nombre, tech.apellido) }}&lt;/span&gt;
+            &lt;/div&gt;
+
+            &lt;!-- Info --&gt;
+            &lt;div class&#x3D;&quot;pt-0.5 min-w-0&quot;&gt;
+              &lt;h3 class&#x3D;&quot;font-display font-bold text-slate-900 text-base leading-snug&quot;&gt;
+                {{ tech.nombre }} {{ tech.apellido }}
+              &lt;/h3&gt;
+              &lt;p class&#x3D;&quot;text-xs text-slate-400 font-medium mt-0.5&quot;&gt;DNI: {{ tech.dni }}&lt;/p&gt;
+              &lt;div class&#x3D;&quot;mt-2&quot;&gt;
+                &lt;span
+                  class&#x3D;&quot;inline-flex items-center px-2.5 py-0.5 text-[11px] font-semibold uppercase rounded-full tracking-wide&quot;
+                  [ngClass]&#x3D;&quot;getSpecialtyColor(tech.especialidad)&quot;
+                &gt;
+                  {{ tech.especialidad }}
+                &lt;/span&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Footer: Contact Info --&gt;
+        &lt;ng-container footer&gt;
+          &lt;div class&#x3D;&quot;space-y-3 w-full&quot;&gt;
+
+            &lt;div class&#x3D;&quot;flex items-center gap-3 text-slate-600&quot;&gt;
+              &lt;div class&#x3D;&quot;w-7 h-7 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0&quot;&gt;
+                &lt;i class&#x3D;&quot;bi bi-envelope-fill text-[11px] text-slate-400&quot;&gt;&lt;/i&gt;
+              &lt;/div&gt;
+              &lt;div class&#x3D;&quot;min-w-0&quot;&gt;
+                &lt;p class&#x3D;&quot;text-[10px] text-slate-400 uppercase font-semibold tracking-wider leading-none mb-0.5&quot;&gt;Correo&lt;/p&gt;
+                &lt;p class&#x3D;&quot;text-sm font-medium truncate&quot;&gt;{{ tech.correo }}&lt;/p&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class&#x3D;&quot;flex items-center gap-3 text-slate-600&quot;&gt;
+              &lt;div class&#x3D;&quot;w-7 h-7 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0&quot;&gt;
+                &lt;i class&#x3D;&quot;bi bi-telephone-fill text-[11px] text-slate-400&quot;&gt;&lt;/i&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;p class&#x3D;&quot;text-[10px] text-slate-400 uppercase font-semibold tracking-wider leading-none mb-0.5&quot;&gt;Teléfono&lt;/p&gt;
+                &lt;p class&#x3D;&quot;text-sm font-medium&quot;&gt;{{ tech.telefono }}&lt;/p&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class&#x3D;&quot;flex items-center gap-3 text-slate-600&quot;&gt;
+              &lt;div class&#x3D;&quot;w-7 h-7 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0&quot;&gt;
+                &lt;i class&#x3D;&quot;bi bi-cake2-fill text-[11px] text-slate-400&quot;&gt;&lt;/i&gt;
+              &lt;/div&gt;
+              &lt;div&gt;
+                &lt;p class&#x3D;&quot;text-[10px] text-slate-400 uppercase font-semibold tracking-wider leading-none mb-0.5&quot;&gt;Edad&lt;/p&gt;
+                &lt;p class&#x3D;&quot;text-sm font-medium&quot;&gt;{{ tech.edad }} años&lt;/p&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+          &lt;/div&gt;
+        &lt;/ng-container&gt;
+
+        &lt;!-- Delete --&gt;
+        &lt;button (click)&#x3D;&quot;openDeleteModal(tech)&quot;
+          class&#x3D;&quot;absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity text-red-400 hover:text-red-600 hover:bg-red-50 p-1.5 rounded-lg border border-transparent hover:border-red-100 z-30&quot;
+          title&#x3D;&quot;Eliminar Técnico&quot;&gt;
+          &lt;i class&#x3D;&quot;bi bi-trash3-fill text-sm&quot;&gt;&lt;/i&gt;
+        &lt;/button&gt;
+
+      &lt;/app-entity-card&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- ── Empty State ── --&gt;
+  &lt;div *ngIf&#x3D;&quot;!isLoading() &amp;&amp; filteredTechnicians().length &#x3D;&#x3D;&#x3D; 0&quot;
+    class&#x3D;&quot;py-20 flex flex-col items-center gap-4 bg-white rounded-2xl border border-dashed border-slate-200&quot;&gt;
+    &lt;div class&#x3D;&quot;w-20 h-20 bg-slate-100 rounded-2xl flex items-center justify-center&quot;&gt;
+      &lt;i class&#x3D;&quot;bi bi-search text-slate-300 text-3xl&quot;&gt;&lt;/i&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;text-center&quot;&gt;
+      &lt;h3 class&#x3D;&quot;font-display font-bold text-slate-800 text-lg&quot;&gt;Sin resultados&lt;/h3&gt;
+      &lt;p class&#x3D;&quot;text-slate-400 text-sm mt-1 max-w-xs mx-auto&quot;&gt;No hay técnicos que coincidan. Intentá simplificar los filtros.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;!-- Modals --&gt;
+&lt;app-technician-create
+  *ngIf&#x3D;&quot;showCreateModal()&quot;
+  (close)&#x3D;&quot;closeCreateModal()&quot;
+  (technicianCreated)&#x3D;&quot;onTechnicianCreated()&quot;&gt;
+&lt;/app-technician-create&gt;
+
+&lt;app-technician-edit
+  *ngIf&#x3D;&quot;showEditModal() &amp;&amp; selectedTechnician()&quot;
+  [technician]&#x3D;&quot;selectedTechnician()!&quot;
+  (close)&#x3D;&quot;closeEditModal()&quot;
+  (technicianUpdated)&#x3D;&quot;onTechnicianUpdated()&quot;&gt;
+&lt;/app-technician-edit&gt;
+
+&lt;app-technician-delete
+  *ngIf&#x3D;&quot;showDeleteModal() &amp;&amp; technicianToDelete()&quot;
+  [technician]&#x3D;&quot;technicianToDelete()!&quot;
+  (close)&#x3D;&quot;closeDeleteModal()&quot;
+  (technicianDeleted)&#x3D;&quot;onTechnicianDeleted()&quot;&gt;
+&lt;/app-technician-delete&gt;
+
+&lt;app-technician-restore
+  *ngIf&#x3D;&quot;showRestoreModal()&quot;
+  (close)&#x3D;&quot;closeRestoreModal()&quot;
+  (technicianRestored)&#x3D;&quot;onTechnicianRestored()&quot;&gt;
+&lt;/app-technician-restore&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="p-8 space-y-8 bg-slate-50 min-h-screen">  <!-- ── Page Header ── -->  <div class="flex items-end justify-between">    <div>      <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-1">Panel de Administración</p>      <h1 class="font-display text-3xl font-bold text-slate-900 tracking-tight">Gestión de Técnicos</h1>    </div>  </div>  <!-- ── Stat Cards ── -->  <div class="grid grid-cols-2 lg:grid-cols-5 gap-5">    <!-- Total -->    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">      <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center shrink-0">        <i class="bi bi-people-fill text-xl text-slate-600"></i>      </div>      <div>        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ totalTechnicians() }}</p>        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Total Técnicos</p>      </div>    </div>    <!-- Mantenimiento -->    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">      <div class="w-12 h-12 rounded-xl bg-jmg-muted flex items-center justify-center shrink-0">        <i class="bi bi-tools text-xl text-jmg"></i>      </div>      <div>        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ maintenanceCount() }}</p>        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Mantenimiento</p>      </div>    </div>    <!-- General -->    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">      <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">        <i class="bi bi-person-gear text-xl text-emerald-600"></i>      </div>      <div>        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ generalCount() }}</p>        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Técnico General</p>      </div>    </div>    <!-- Reparaciones -->    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">      <div class="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center shrink-0">        <i class="bi bi-wrench-adjustable text-xl text-orange-500"></i>      </div>      <div>        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ repairsCount() }}</p>        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Reparaciones</p>      </div>    </div>    <!-- Supervisor -->    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">      <div class="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center shrink-0">        <i class="bi bi-person-badge-fill text-xl text-purple-600"></i>      </div>      <div>        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ supervisorCount() }}</p>        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Supervisor</p>      </div>    </div>  </div>  <!-- ── Filters & Search ── -->  <app-filter-container>    <div class="w-full md:w-1/3">      <app-filter-select        label="Filtrar por Especialidad"        placeholder="Todas las especialidades"        [options]="specialties"        [value]="selectedSpecialty()"        (valueChange)="selectedSpecialty.set($event)"      ></app-filter-select>    </div>    <div class="w-full md:w-1/2 flex-1">      <app-filter-input        label="Búsqueda Rápida"        placeholder="Buscar por nombre o DNI..."        [value]="searchQuery()"        (valueChange)="searchQuery.set($event)"      ></app-filter-input>    </div>  </app-filter-container>  <!-- ── Actions Row ── -->  <div class="flex justify-end gap-3">    <button      (click)="openRestoreModal()"      class="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-600 font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors border border-slate-200 shadow-sm"    >      <i class="bi bi-arrow-counterclockwise"></i>      Restaurar Técnicos    </button>    <button      (click)="openCreateModal()"      class="inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors shadow-sm"    >      <i class="bi bi-plus-lg"></i>      Registrar Nuevo Técnico    </button>  </div>  <!-- ── Loading ── -->  <div *ngIf="isLoading()" class="flex flex-col items-center justify-center py-20 gap-3">    <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-jmg"></div>    <p class="text-slate-400 text-sm font-medium">Cargando técnicos...</p>  </div>  <!-- ── Error ── -->  <div *ngIf="error()" class="bg-red-50 border border-red-100 text-red-600 px-5 py-4 rounded-2xl flex items-center gap-3 text-sm font-medium">    <i class="bi bi-exclamation-triangle-fill text-lg shrink-0"></i>    {{ error() }}  </div>  <!-- ── Grid ── -->  <div *ngIf="!isLoading()" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">    <div *ngFor="let tech of filteredTechnicians()" class="h-full">      <app-entity-card>        <!-- Edit Action -->        <button action-top (click)="openEditModal(tech)"          class="text-emerald-600 hover:text-emerald-700 p-2 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors"          title="Editar Técnico">          <i class="bi bi-pencil-square"></i>        </button>        <!-- Main Content -->        <div>          <div class="flex items-start gap-4">            <!-- Avatar / Foto -->            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-jmg to-jmg-light flex items-center justify-center text-white text-lg font-bold shrink-0 shadow-sm overflow-hidden transition-transform hover:scale-105">              <img *ngIf="tech.foto" [src]="tech.foto" class="w-full h-full object-cover" alt="Foto">              <span *ngIf="!tech.foto">{{ getInitials(tech.nombre, tech.apellido) }}</span>            </div>            <!-- Info -->            <div class="pt-0.5 min-w-0">              <h3 class="font-display font-bold text-slate-900 text-base leading-snug">                {{ tech.nombre }} {{ tech.apellido }}              </h3>              <p class="text-xs text-slate-400 font-medium mt-0.5">DNI: {{ tech.dni }}</p>              <div class="mt-2">                <span                  class="inline-flex items-center px-2.5 py-0.5 text-[11px] font-semibold uppercase rounded-full tracking-wide"                  [ngClass]="getSpecialtyColor(tech.especialidad)"                >                  {{ tech.especialidad }}                </span>              </div>            </div>          </div>        </div>        <!-- Footer: Contact Info -->        <ng-container footer>          <div class="space-y-3 w-full">            <div class="flex items-center gap-3 text-slate-600">              <div class="w-7 h-7 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">                <i class="bi bi-envelope-fill text-[11px] text-slate-400"></i>              </div>              <div class="min-w-0">                <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider leading-none mb-0.5">Correo</p>                <p class="text-sm font-medium truncate">{{ tech.correo }}</p>              </div>            </div>            <div class="flex items-center gap-3 text-slate-600">              <div class="w-7 h-7 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">                <i class="bi bi-telephone-fill text-[11px] text-slate-400"></i>              </div>              <div>                <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider leading-none mb-0.5">Teléfono</p>                <p class="text-sm font-medium">{{ tech.telefono }}</p>              </div>            </div>            <div class="flex items-center gap-3 text-slate-600">              <div class="w-7 h-7 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">                <i class="bi bi-cake2-fill text-[11px] text-slate-400"></i>              </div>              <div>                <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider leading-none mb-0.5">Edad</p>                <p class="text-sm font-medium">{{ tech.edad }} años</p>              </div>            </div>          </div>        </ng-container>        <!-- Delete -->        <button (click)="openDeleteModal(tech)"          class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity text-red-400 hover:text-red-600 hover:bg-red-50 p-1.5 rounded-lg border border-transparent hover:border-red-100 z-30"          title="Eliminar Técnico">          <i class="bi bi-trash3-fill text-sm"></i>        </button>      </app-entity-card>    </div>  </div>  <!-- ── Empty State ── -->  <div *ngIf="!isLoading() && filteredTechnicians().length === 0"    class="py-20 flex flex-col items-center gap-4 bg-white rounded-2xl border border-dashed border-slate-200">    <div class="w-20 h-20 bg-slate-100 rounded-2xl flex items-center justify-center">      <i class="bi bi-search text-slate-300 text-3xl"></i>    </div>    <div class="text-center">      <h3 class="font-display font-bold text-slate-800 text-lg">Sin resultados</h3>      <p class="text-slate-400 text-sm mt-1 max-w-xs mx-auto">No hay técnicos que coincidan. Intentá simplificar los filtros.</p>    </div>  </div></div><!-- Modals --><app-technician-create  *ngIf="showCreateModal()"  (close)="closeCreateModal()"  (technicianCreated)="onTechnicianCreated()"></app-technician-create><app-technician-edit  *ngIf="showEditModal() && selectedTechnician()"  [technician]="selectedTechnician()!"  (close)="closeEditModal()"  (technicianUpdated)="onTechnicianUpdated()"></app-technician-edit><app-technician-delete  *ngIf="showDeleteModal() && technicianToDelete()"  [technician]="technicianToDelete()!"  (close)="closeDeleteModal()"  (technicianDeleted)="onTechnicianDeleted()"></app-technician-delete><app-technician-restore  *ngIf="showRestoreModal()"  (close)="closeRestoreModal()"  (technicianRestored)="onTechnicianRestored()"></app-technician-restore></div>'
+    var COMPONENTS = [{'name': 'AdminLayoutComponent', 'selector': 'app-admin-layout'},{'name': 'AIAssistantComponent', 'selector': ''},{'name': 'App', 'selector': 'app-root'},{'name': 'BottomNavComponent', 'selector': 'app-bottom-nav'},{'name': 'ClientCreateComponent', 'selector': 'app-client-create'},{'name': 'ClientDeleteComponent', 'selector': 'app-client-delete'},{'name': 'ClientEditComponent', 'selector': 'app-client-edit'},{'name': 'ClientListComponent', 'selector': 'app-client-list'},{'name': 'ClientRestoreComponent', 'selector': 'app-client-restore'},{'name': 'DocumentDeleteComponent', 'selector': 'app-document-delete'},{'name': 'DocumentFormComponent', 'selector': 'app-document-form'},{'name': 'DocumentListComponent', 'selector': 'app-document-list'},{'name': 'ElevatorCreateComponent', 'selector': 'app-elevator-create'},{'name': 'ElevatorDeleteComponent', 'selector': 'app-elevator-delete'},{'name': 'ElevatorEditComponent', 'selector': 'app-elevator-edit'},{'name': 'ElevatorListComponent', 'selector': 'app-elevator-list'},{'name': 'EntityCardComponent', 'selector': 'app-entity-card'},{'name': 'EquipmentCreateModalComponent', 'selector': 'app-equipment-create-modal'},{'name': 'EquipmentDeleteModalComponent', 'selector': 'app-equipment-delete-modal'},{'name': 'EquipmentEditModalComponent', 'selector': 'app-equipment-edit-modal'},{'name': 'EquipmentListModalComponent', 'selector': 'app-equipment-list-modal'},{'name': 'FilterContainerComponent', 'selector': 'app-filter-container'},{'name': 'FilterInputComponent', 'selector': 'app-filter-input'},{'name': 'FilterSelectComponent', 'selector': 'app-filter-select'},{'name': 'LoadingSpinnerComponent', 'selector': 'app-loading-spinner'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MaintenanceChecklistComponent', 'selector': 'app-maintenance-checklist'},{'name': 'MaintenanceSchedulingComponent', 'selector': 'app-maintenance-scheduling'},{'name': 'MantenimientoFijoModalComponent', 'selector': 'app-mantenimiento-fijo-modal'},{'name': 'ModalWrapperComponent', 'selector': 'app-modal-wrapper'},{'name': 'PdfPreviewComponent', 'selector': 'app-pdf-preview'},{'name': 'PlaceholderPageComponent', 'selector': 'app-placeholder-page'},{'name': 'ProgramacionModalComponent', 'selector': 'app-programacion-modal'},{'name': 'ProgrammingComponent', 'selector': 'app-programming'},{'name': 'ReportsComponent', 'selector': ''},{'name': 'SearchableSelectComponent', 'selector': 'app-searchable-select'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SidebarComponent', 'selector': 'app-sidebar'},{'name': 'SkeletonLoaderComponent', 'selector': 'app-skeleton-loader'},{'name': 'TechnicianCreateComponent', 'selector': 'app-technician-create'},{'name': 'TechnicianDeleteComponent', 'selector': 'app-technician-delete'},{'name': 'TechnicianEditComponent', 'selector': 'app-technician-edit'},{'name': 'TechnicianListComponent', 'selector': 'app-technician-list'},{'name': 'TechnicianRestoreComponent', 'selector': 'app-technician-restore'},{'name': 'WorkerEquipmentComponent', 'selector': 'app-worker-equipment'},{'name': 'WorkerLayoutComponent', 'selector': 'app-worker-layout'},{'name': 'WorkerProfileComponent', 'selector': 'app-worker-profile'},{'name': 'WorkerReportCreateComponent', 'selector': 'app-worker-report-create'},{'name': 'WorkerReportsComponent', 'selector': 'app-worker-reports'},{'name': 'WorkerRoutesComponent', 'selector': 'app-worker-routes'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'TechnicianListComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'TechnicianListComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
