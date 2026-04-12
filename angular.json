@@ -3,10 +3,7 @@
   "version": 1,
   "cli": {
     "packageManager": "npm",
-    "analytics": false,
-    "schematicCollections": [
-      "angular-eslint"
-    ]
+    "analytics": false
   },
   "newProjectRoot": "projects",
   "projects": {
@@ -80,15 +77,10 @@
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test"
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+            "tsConfig": "tsconfig.spec.json",
+            "setupFiles": ["src/test-setup.ts"]
           }
         }
       }
