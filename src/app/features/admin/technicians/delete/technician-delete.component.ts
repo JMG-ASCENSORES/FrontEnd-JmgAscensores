@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, Output, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { TechnicianService, Technician } from '../../services/technician.service';
 
 @Component({
   selector: 'app-technician-delete',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './technician-delete.component.html',
   styleUrl: './technician-delete.component.scss'
 })

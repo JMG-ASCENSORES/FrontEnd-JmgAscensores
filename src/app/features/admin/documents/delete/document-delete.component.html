@@ -1,36 +1,42 @@
-<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm transition-opacity" (click)="onCancel()">
-  <div class="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden transform transition-all" (click)="$event.stopPropagation()">
-    
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm transition-opacity" (click)="onCancel()" tabindex="0" (keydown.enter)="onCancel()">
+  <div class="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden transform transition-all" (click)="$event.stopPropagation()" tabindex="0" (keydown.enter)="$event.stopPropagation()">
+
     <div class="p-6 text-center">
       <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
         <i class="bi bi-trash-fill text-red-500 text-3xl"></i>
       </div>
-      
+
       <h3 class="text-xl font-bold text-slate-800 mb-2">¿Eliminar Documento?</h3>
       <p class="text-slate-500 text-sm mb-6">
-        Estás a punto de eliminar el documento <strong class="text-slate-700">#{{ report.informe_id }}</strong>. 
+        Estás a punto de eliminar el documento <strong class="text-slate-700">#{{ report.informe_id }}</strong>.
         Esta acción no se puede deshacer.
       </p>
 
-      <div *ngIf="error()" class="mb-4 p-3 bg-red-50 text-red-700 text-xs rounded-lg text-left flex items-center gap-2">
-         <i class="bi bi-exclamation-triangle-fill"></i>
-         {{ error() }}
-      </div>
+      @if (error()) {
+        <div class="mb-4 p-3 bg-red-50 text-red-700 text-xs rounded-lg text-left flex items-center gap-2">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          {{ error() }}
+        </div>
+      }
 
       <div class="flex gap-3 justify-center">
-        <button 
+        <button
           (click)="onCancel()"
           class="px-6 py-2.5 rounded-xl text-slate-600 font-bold hover:bg-slate-50 transition-colors w-full border border-gray-200"
-        >
+          >
           Cancelar
         </button>
-        <button 
+        <button
           (click)="onDelete()"
           [disabled]="isDeleting()"
           class="px-6 py-2.5 rounded-xl bg-red-500 text-white font-bold hover:bg-red-600 transition-colors w-full shadow-lg shadow-red-500/30 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-        >
-          <span *ngIf="!isDeleting()">Eliminar</span>
-          <span *ngIf="isDeleting()"><i class="bi bi-arrow-repeat animate-spin"></i></span>
+          >
+          @if (!isDeleting()) {
+            <span>Eliminar</span>
+          }
+          @if (isDeleting()) {
+            <span><i class="bi bi-arrow-repeat animate-spin"></i></span>
+          }
         </button>
       </div>
     </div>

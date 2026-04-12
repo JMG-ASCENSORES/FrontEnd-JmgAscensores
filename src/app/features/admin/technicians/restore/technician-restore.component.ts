@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Output, inject, signal, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { TechnicianService, Technician } from '../../services/technician.service';
 
 @Component({
   selector: 'app-technician-restore',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './technician-restore.component.html',
   styleUrl: './technician-restore.component.scss'
 })

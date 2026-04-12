@@ -1,10 +1,10 @@
 <div class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
   <!-- Backdrop -->
-  <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" (click)="onClose()"></div>
+  <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" (click)="onClose()" tabindex="0" (keydown.enter)="onClose()"></div>
 
   <!-- Modal Panel -->
   <div class="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden ring-1 ring-black/5 transform transition-all animate-fadeInUp flex flex-col max-h-[85vh]">
-    
+
     <!-- Header -->
     <div class="px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white flex items-center justify-between shrink-0">
       <div>
@@ -18,85 +18,101 @@
 
     <!-- Body (Scrollable) -->
     <div class="p-6 overflow-y-auto custom-scrollbar grow">
-      
+
       <!-- Loading -->
-      <div *ngIf="isLoading()" class="text-center py-10">
-        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600 mx-auto mb-2"></div>
-        <p class="text-sm text-gray-500">Cargando...</p>
-      </div>
+      @if (isLoading()) {
+        <div class="text-center py-10">
+          <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600 mx-auto mb-2"></div>
+          <p class="text-sm text-gray-500">Cargando...</p>
+        </div>
+      }
 
       <!-- Error -->
-      <div *ngIf="error()" class="bg-red-50 text-red-600 p-4 rounded-lg mb-4 text-sm text-center">
-        {{ error() }}
-      </div>
+      @if (error()) {
+        <div class="bg-red-50 text-red-600 p-4 rounded-lg mb-4 text-sm text-center">
+          {{ error() }}
+        </div>
+      }
 
       <!-- Empty State -->
-      <div *ngIf="!isLoading() && inactiveClients().length === 0" class="text-center py-10 bg-gray-50 rounded-xl border border-dashed border-gray-200">
-        <i class="bi bi-person-check text-4xl text-gray-300 mb-3 block"></i>
-        <h3 class="text-gray-900 font-medium">Lista Vacía</h3>
-        <p class="text-gray-500 text-sm mt-1">No hay clientes inactivos en este momento.</p>
-      </div>
+      @if (!isLoading() && inactiveClients().length === 0) {
+        <div class="text-center py-10 bg-gray-50 rounded-xl border border-dashed border-gray-200">
+          <i class="bi bi-person-check text-4xl text-gray-300 mb-3 block"></i>
+          <h3 class="text-gray-900 font-medium">Lista Vacía</h3>
+          <p class="text-gray-500 text-sm mt-1">No hay clientes inactivos en este momento.</p>
+        </div>
+      }
 
       <!-- List -->
-      <div *ngIf="!isLoading() && inactiveClients().length > 0" class="space-y-3">
-        <div *ngFor="let client of inactiveClients()" class="bg-white border border-gray-200 rounded-xl p-4 flex items-center justify-between hover:shadow-sm transition-shadow">
-          
-          <div class="flex items-center gap-4">
-             <!-- Avatar Placeholder -->
-             <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#003B73] to-[#005fa3] flex items-center justify-center text-white font-bold text-sm">
-                {{ client.nombre_comercial ? client.nombre_comercial.substring(0,2).toUpperCase() : (client.contacto_nombre ? client.contacto_nombre.substring(0,2).toUpperCase() : 'CL') }}
-             </div>
-             
-             <div>
-                <h4 class="font-bold text-gray-900 leading-tight">
-                  {{ client.nombre_comercial || ((client.contacto_nombre || '') + (client.contacto_apellido ? ' ' + client.contacto_apellido : '')) || 'Sin Nombre' }}
-                </h4>
-                <div class="flex items-center gap-3 text-xs text-gray-500 mt-0.5">
-                  <span class="flex items-center gap-1 font-medium bg-slate-100 px-2 py-0.5 rounded text-slate-600">
-                    <i class="bi" [ngClass]="client.tipo_cliente === 'empresa' ? 'bi-building' : 'bi-person'"></i> 
-                    {{ client.tipo_cliente === 'empresa' ? 'Empresa' : 'Persona' }}
-                  </span>
-                  <span *ngIf="client.ruc" class="flex items-center gap-1"><i class="bi bi-briefcase"></i> RUC: {{ client.ruc }}</span>
-                  <span *ngIf="!client.ruc && client.dni" class="flex items-center gap-1"><i class="bi bi-person-badge"></i> DNI: {{ client.dni }}</span>
+      @if (!isLoading() && inactiveClients().length > 0) {
+        <div class="space-y-3">
+          @for (client of inactiveClients(); track client) {
+            <div class="bg-white border border-gray-200 rounded-xl p-4 flex items-center justify-between hover:shadow-sm transition-shadow">
+              <div class="flex items-center gap-4">
+                <!-- Avatar Placeholder -->
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#003B73] to-[#005fa3] flex items-center justify-center text-white font-bold text-sm">
+                  {{ client.nombre_comercial ? client.nombre_comercial.substring(0,2).toUpperCase() : (client.contacto_nombre ? client.contacto_nombre.substring(0,2).toUpperCase() : 'CL') }}
                 </div>
-             </div>
-          </div>
-
-          <!-- Actions -->
-          <div>
-            <!-- Initial Button -->
-            <button 
-              *ngIf="confirmingId() !== client.cliente_id" 
-              (click)="initiateRestore(client.cliente_id)"
-              class="px-3 py-1.5 text-sm font-medium text-emerald-600 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors border border-emerald-100"
-            >
-              Reactivar
-            </button>
-
-            <!-- Confirmation State -->
-            <div *ngIf="confirmingId() === client.cliente_id" class="flex items-center gap-2 animate-fadeIn">
-              <span class="text-xs font-semibold text-gray-600 hidden sm:inline">¿Confirmar?</span>
-              <button 
-                (click)="confirmRestore(client)"
-                [disabled]="isProcessing()"
-                class="px-3 py-1.5 text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors flex items-center gap-1 shadow-sm"
-              >
-                <i *ngIf="isProcessing()" class="bi bi-arrow-repeat animate-spin"></i>
-                <i *ngIf="!isProcessing()" class="bi bi-check-lg"></i>
-                <span class="hidden sm:inline">Sí</span>
-              </button>
-              <button 
-                (click)="cancelRestore()"
-                [disabled]="isProcessing()"
-                class="px-3 py-1.5 text-sm font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
-              >
-                <i class="bi bi-x-lg"></i>
-              </button>
+                <div>
+                  <h4 class="font-bold text-gray-900 leading-tight">
+                    {{ client.nombre_comercial || ((client.contacto_nombre || '') + (client.contacto_apellido ? ' ' + client.contacto_apellido : '')) || 'Sin Nombre' }}
+                  </h4>
+                  <div class="flex items-center gap-3 text-xs text-gray-500 mt-0.5">
+                    <span class="flex items-center gap-1 font-medium bg-slate-100 px-2 py-0.5 rounded text-slate-600">
+                      <i class="bi" [ngClass]="client.tipo_cliente === 'empresa' ? 'bi-building' : 'bi-person'"></i>
+                      {{ client.tipo_cliente === 'empresa' ? 'Empresa' : 'Persona' }}
+                    </span>
+                    @if (client.ruc) {
+                      <span class="flex items-center gap-1"><i class="bi bi-briefcase"></i> RUC: {{ client.ruc }}</span>
+                    }
+                    @if (!client.ruc && client.dni) {
+                      <span class="flex items-center gap-1"><i class="bi bi-person-badge"></i> DNI: {{ client.dni }}</span>
+                    }
+                  </div>
+                </div>
+              </div>
+              <!-- Actions -->
+              <div>
+                <!-- Initial Button -->
+                @if (confirmingId() !== client.cliente_id) {
+                  <button
+                    (click)="initiateRestore(client.cliente_id)"
+                    class="px-3 py-1.5 text-sm font-medium text-emerald-600 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors border border-emerald-100"
+                    >
+                    Reactivar
+                  </button>
+                }
+                <!-- Confirmation State -->
+                @if (confirmingId() === client.cliente_id) {
+                  <div class="flex items-center gap-2 animate-fadeIn">
+                    <span class="text-xs font-semibold text-gray-600 hidden sm:inline">¿Confirmar?</span>
+                    <button
+                      (click)="confirmRestore(client)"
+                      [disabled]="isProcessing()"
+                      class="px-3 py-1.5 text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors flex items-center gap-1 shadow-sm"
+                      >
+                      @if (isProcessing()) {
+                        <i class="bi bi-arrow-repeat animate-spin"></i>
+                      }
+                      @if (!isProcessing()) {
+                        <i class="bi bi-check-lg"></i>
+                      }
+                      <span class="hidden sm:inline">Sí</span>
+                    </button>
+                    <button
+                      (click)="cancelRestore()"
+                      [disabled]="isProcessing()"
+                      class="px-3 py-1.5 text-sm font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                      >
+                      <i class="bi bi-x-lg"></i>
+                    </button>
+                  </div>
+                }
+              </div>
             </div>
-          </div>
-
+          }
         </div>
-      </div>
+      }
 
     </div>
   </div>

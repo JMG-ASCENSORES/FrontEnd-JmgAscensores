@@ -1,92 +1,100 @@
 <div class="min-h-screen flex items-stretch">
-  
+
   <!-- Left Side: Abstract Design (Hidden on Mobile) -->
   <div class="hidden lg:flex lg:w-1/2 relative bg-[#3b445b] overflow-hidden items-center justify-center">
     <!-- Abstract Shapes -->
     <div class="absolute top-0 left-0 w-full h-full">
-        <!-- Blue Shape -->
-        <div class="absolute top-20 left-10 w-96 h-96 bg-blue-600 rounded-tr-[100px] rounded-bl-[50px] rounded-br-[150px] opacity-90 transform -rotate-12 z-10"></div>
-        <!-- Green Shape -->
-        <div class="absolute top-10 right-20 w-[500px] h-[600px] bg-green-700 rounded-[30%_70%_70%_30%_/_30%_30%_70%_70%] opacity-90 z-20"></div>
-        <!-- White Blob -->
-         <div class="absolute bottom-[-100px] left-20 w-[600px] h-[500px] bg-white rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] z-30 transform rotate-12"></div>
+      <!-- Blue Shape -->
+      <div class="absolute top-20 left-10 w-96 h-96 bg-blue-600 rounded-tr-[100px] rounded-bl-[50px] rounded-br-[150px] opacity-90 transform -rotate-12 z-10"></div>
+      <!-- Green Shape -->
+      <div class="absolute top-10 right-20 w-[500px] h-[600px] bg-green-700 rounded-[30%_70%_70%_30%_/_30%_30%_70%_70%] opacity-90 z-20"></div>
+      <!-- White Blob -->
+      <div class="absolute bottom-[-100px] left-20 w-[600px] h-[500px] bg-white rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] z-30 transform rotate-12"></div>
     </div>
 
     <!-- Logo/Branding Overlay -->
     <div class="relative z-40 text-left p-10">
-       <img src="/images/jmg_logo.png" alt="JMG Ascensores Logo" class="w-80 h-auto object-contain">
+      <img src="/images/jmg_logo.png" alt="JMG Ascensores Logo" class="w-80 h-auto object-contain">
     </div>
   </div>
 
   <!-- Right Side: Login Form -->
   <div class="w-full lg:w-1/2 bg-white flex items-center justify-center p-8 lg:p-16">
     <div class="w-full max-w-md space-y-8">
-      
+
       <div class="text-left">
         <h2 class="text-4xl font-bold text-gray-900 tracking-tight text-center">INICIAR SESIÓN</h2>
       </div>
 
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="mt-8 space-y-6">
-        
+
         <!-- DNI Field -->
         <div class="space-y-2">
           <label for="dni" class="block text-sm font-medium text-gray-500">Número de Documento (DNI)</label>
-          <input 
-            id="dni" 
-            type="text" 
+          <input
+            id="dni"
+            type="text"
             formControlName="dni"
             [class.ring-2]="loginForm.get('dni')?.touched && loginForm.get('dni')?.invalid"
             [class.ring-red-500]="loginForm.get('dni')?.touched && loginForm.get('dni')?.invalid"
             class="w-full px-4 py-3 bg-gray-200 border-none rounded-lg text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-green-500 outline-none transition-all"
             placeholder="Ingrese su DNI (8 dígitos)"
-          >
-          <div *ngIf="loginForm.get('dni')?.touched && loginForm.get('dni')?.errors?.['required']" class="text-red-500 text-xs mt-1">
-            El DNI es requerido.
+            >
+            @if (loginForm.get('dni')?.touched && loginForm.get('dni')?.errors?.['required']) {
+              <div class="text-red-500 text-xs mt-1">
+                El DNI es requerido.
+              </div>
+            }
+            @if (loginForm.get('dni')?.touched && loginForm.get('dni')?.errors?.['pattern']) {
+              <div class="text-red-500 text-xs mt-1">
+                El DNI debe tener exactamente 8 números.
+              </div>
+            }
           </div>
-          <div *ngIf="loginForm.get('dni')?.touched && loginForm.get('dni')?.errors?.['pattern']" class="text-red-500 text-xs mt-1">
-            El DNI debe tener exactamente 8 números.
+
+          <!-- Password Field -->
+          <div class="space-y-2">
+            <label for="password" class="block text-sm font-medium text-gray-500">Contraseña</label>
+            <input
+              id="password"
+              type="password"
+              formControlName="contrasena"
+              [class.ring-2]="loginForm.get('contrasena')?.touched && loginForm.get('contrasena')?.invalid"
+              [class.ring-red-500]="loginForm.get('contrasena')?.touched && loginForm.get('contrasena')?.invalid"
+              class="w-full px-4 py-3 bg-gray-200 border-none rounded-lg text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-green-500 outline-none transition-all"
+              placeholder="Ingrese su contraseña"
+              >
+              @if (loginForm.get('contrasena')?.touched && loginForm.get('contrasena')?.invalid) {
+                <div class="text-red-500 text-xs mt-1">
+                  La contraseña es requerida.
+                </div>
+              }
+            </div>
+
+            <!-- Submit Button -->
+            <div class="pt-4">
+              <button
+                type="submit"
+                [disabled]="loginForm.invalid || isLoading"
+                class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                {{ isLoading ? 'Verificando...' : 'Iniciar Sesión' }}
+              </button>
+            </div>
+          </form>
+
+          @if (errorMessage) {
+            <p class="text-center text-red-500 text-sm mt-4">
+              {{ errorMessage }}
+            </p>
+          }
+
+          <div class="mt-10 text-center">
+            <p class="text-xs text-gray-400">
+              Derechos Reservados @JMG Ascensores S.R.L.
+            </p>
           </div>
+
         </div>
-
-        <!-- Password Field -->
-        <div class="space-y-2">
-          <label for="password" class="block text-sm font-medium text-gray-500">Contraseña</label>
-          <input 
-            id="password" 
-            type="password" 
-            formControlName="contrasena"
-            [class.ring-2]="loginForm.get('contrasena')?.touched && loginForm.get('contrasena')?.invalid"
-            [class.ring-red-500]="loginForm.get('contrasena')?.touched && loginForm.get('contrasena')?.invalid"
-            class="w-full px-4 py-3 bg-gray-200 border-none rounded-lg text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-green-500 outline-none transition-all"
-            placeholder="Ingrese su contraseña"
-          >
-           <div *ngIf="loginForm.get('contrasena')?.touched && loginForm.get('contrasena')?.invalid" class="text-red-500 text-xs mt-1">
-            La contraseña es requerida.
-          </div>
-        </div>
-
-        <!-- Submit Button -->
-        <div class="pt-4">
-          <button 
-            type="submit" 
-            [disabled]="loginForm.invalid || isLoading"
-            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            {{ isLoading ? 'Verificando...' : 'Iniciar Sesión' }}
-          </button>
-        </div>
-      </form>
-
-      <p *ngIf="errorMessage" class="text-center text-red-500 text-sm mt-4">
-        {{ errorMessage }}
-      </p>
-
-      <div class="mt-10 text-center">
-        <p class="text-xs text-gray-400">
-          Derechos Reservados @JMG Ascensores S.R.L.
-        </p>
       </div>
-
     </div>
-  </div>
-</div>

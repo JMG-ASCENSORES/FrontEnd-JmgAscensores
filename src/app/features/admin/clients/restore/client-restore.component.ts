@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Output, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { ClientService, Client } from '../../services/client.service';
 
 @Component({
   selector: 'app-client-restore',
   standalone: true,
   imports: [CommonModule],
-  template: '', // Will be linked properly later or use inline. Wait, I will use templateUrl
   templateUrl: './client-restore.component.html'
 })
 export class ClientRestoreComponent implements OnInit {

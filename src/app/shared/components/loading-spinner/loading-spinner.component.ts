@@ -9,10 +9,12 @@ import { CommonModule } from '@angular/common';
     <div [class]="containerClass" [class.overlay]="overlay">
       <div class="spinner-wrapper">
         <div class="spinner" [ngClass]="size"></div>
-        <span *ngIf="message" class="loading-text">{{ message }}</span>
+        @if (message) {
+          <span class="loading-text">{{ message }}</span>
+        }
       </div>
     </div>
-  `,
+    `,
   styleUrl: './loading-spinner.component.scss'
 })
 export class LoadingSpinnerComponent {

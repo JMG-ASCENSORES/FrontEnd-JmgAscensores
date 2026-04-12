@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-entity-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div class="bg-white rounded-2xl shadow-lg border border-gray-300 p-6 relative hover:shadow-2xl hover:border-blue-300 transition-all duration-300 group flex flex-col justify-between h-full">
       

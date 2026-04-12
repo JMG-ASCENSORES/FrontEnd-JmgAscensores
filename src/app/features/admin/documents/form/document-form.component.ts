@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, inject, signal, OnInit, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ClientService, Client, Elevator } from '../../services/client.service';
 import { TechnicianService, Technician } from '../../services/technician.service';
@@ -12,7 +12,7 @@ import { Report } from '../../../../core/models/report.model';
 @Component({
   selector: 'app-document-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, SearchableSelectComponent, MaintenanceChecklistComponent, ModalWrapperComponent],
+  imports: [ReactiveFormsModule, SearchableSelectComponent, MaintenanceChecklistComponent, ModalWrapperComponent],
   templateUrl: './document-form.component.html',
   styleUrl: './document-form.component.scss'
 })

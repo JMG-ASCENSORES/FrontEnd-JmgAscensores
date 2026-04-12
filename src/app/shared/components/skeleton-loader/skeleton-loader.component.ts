@@ -1,18 +1,20 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-skeleton-loader',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div class="skeleton-container" [class]="containerClass">
-      <div *ngFor="let item of countArray" [class]="itemClass">
-        <div class="skeleton-shimmer"></div>
-        <ng-content></ng-content>
-      </div>
+      @for (item of countArray; track item) {
+        <div [class]="itemClass">
+          <div class="skeleton-shimmer"></div>
+          <ng-content></ng-content>
+        </div>
+      }
     </div>
-  `,
+    `,
   styleUrl: './skeleton-loader.component.scss'
 })
 export class SkeletonLoaderComponent {

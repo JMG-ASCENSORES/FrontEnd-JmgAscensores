@@ -1,10 +1,10 @@
 <div class="fixed inset-0 z-[60] flex items-center justify-center p-4 overflow-y-auto">
   <!-- Backdrop -->
-  <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm" (click)="onClose()"></div>
+  <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm" (click)="onClose()" tabindex="0" (keydown.enter)="onClose()"></div>
 
   <!-- Modal Panel -->
   <div class="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl overflow-hidden ring-1 ring-black/5">
-    
+
     <!-- Header -->
     <div class="px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-emerald-50 to-white flex items-center justify-between">
       <div>
@@ -19,35 +19,43 @@
     <!-- Body -->
     <div class="p-6">
       <form [formGroup]="equipmentForm" (ngSubmit)="onSubmit()" class="space-y-6">
-        
+
         <!-- Error Alert -->
-        <div *ngIf="errorMessage()" class="bg-red-50 border-l-4 border-red-500 p-4 rounded-md">
-          <div class="flex">
-            <i class="bi bi-exclamation-circle text-red-500 mr-3"></i>
-            <p class="text-sm text-red-700">{{ errorMessage() }}</p>
+        @if (errorMessage()) {
+          <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-md">
+            <div class="flex">
+              <i class="bi bi-exclamation-circle text-red-500 mr-3"></i>
+              <p class="text-sm text-red-700">{{ errorMessage() }}</p>
+            </div>
           </div>
-        </div>
+        }
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          
+
           <!-- Tipo Equipo -->
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Tipo de Equipo *</label>
             <select formControlName="tipo_equipo" class="w-full px-4 py-2 rounded-lg border focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" [ngClass]="{'border-red-500': equipmentForm.get('tipo_equipo')?.invalid && equipmentForm.get('tipo_equipo')?.touched, 'border-gray-300': !equipmentForm.get('tipo_equipo')?.invalid || !equipmentForm.get('tipo_equipo')?.touched}">
-              <option *ngFor="let type of equipmentTypes" [value]="type">{{ type }}</option>
+              @for (type of equipmentTypes; track type) {
+                <option [value]="type">{{ type }}</option>
+              }
             </select>
-            <p *ngIf="equipmentForm.get('tipo_equipo')?.invalid && equipmentForm.get('tipo_equipo')?.touched" class="mt-1 text-xs text-red-600">
-              <i class="bi bi-exclamation-circle mr-1"></i>El tipo de equipo es requerido
-            </p>
+            @if (equipmentForm.get('tipo_equipo')?.invalid && equipmentForm.get('tipo_equipo')?.touched) {
+              <p class="mt-1 text-xs text-red-600">
+                <i class="bi bi-exclamation-circle mr-1"></i>El tipo de equipo es requerido
+              </p>
+            }
           </div>
 
           <!-- Marca -->
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Marca *</label>
             <input type="text" formControlName="marca" class="w-full px-4 py-2 rounded-lg border focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" [ngClass]="{'border-red-500': equipmentForm.get('marca')?.invalid && equipmentForm.get('marca')?.touched, 'border-gray-300': !equipmentForm.get('marca')?.invalid || !equipmentForm.get('marca')?.touched}">
-            <p *ngIf="equipmentForm.get('marca')?.invalid && equipmentForm.get('marca')?.touched" class="mt-1 text-xs text-red-600">
-              <i class="bi bi-exclamation-circle mr-1"></i>La marca es requerida
-            </p>
+            @if (equipmentForm.get('marca')?.invalid && equipmentForm.get('marca')?.touched) {
+              <p class="mt-1 text-xs text-red-600">
+                <i class="bi bi-exclamation-circle mr-1"></i>La marca es requerida
+              </p>
+            }
           </div>
 
           <!-- Modelo -->
@@ -65,65 +73,77 @@
           <!-- Capacidad -->
           <div class="grid grid-cols-2 gap-2">
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Carga (KG)</label>
-                <input type="number" min="0" formControlName="capacidad_kg" 
-                    [class.border-red-500]="equipmentForm.get('capacidad_kg')?.invalid && equipmentForm.get('capacidad_kg')?.touched"
-                    class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#003B73] focus:border-[#003B73] outline-none">
-                <p *ngIf="equipmentForm.get('capacidad_kg')?.invalid && equipmentForm.get('capacidad_kg')?.touched" class="text-[10px] text-red-500 mt-0.5">Mín 0</p>
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Pers.</label>
-                <input type="number" min="0" formControlName="capacidad_personas" 
-                    [class.border-red-500]="equipmentForm.get('capacidad_personas')?.invalid && equipmentForm.get('capacidad_personas')?.touched"
-                    class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#003B73] focus:border-[#003B73] outline-none">
-                <p *ngIf="equipmentForm.get('capacidad_personas')?.invalid && equipmentForm.get('capacidad_personas')?.touched" class="text-[10px] text-red-500 mt-0.5">Mín 0</p>
-            </div>
-          </div>
-
-          <!-- Cantidad Pisos -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Cantidad de Pisos</label>
-            <input type="number" formControlName="piso_cantidad" 
-                [class.border-red-500]="equipmentForm.get('piso_cantidad')?.invalid && equipmentForm.get('piso_cantidad')?.touched"
+              <label class="block text-sm font-medium text-gray-700 mb-1">Carga (KG)</label>
+              <input type="number" min="0" formControlName="capacidad_kg"
+                [class.border-red-500]="equipmentForm.get('capacidad_kg')?.invalid && equipmentForm.get('capacidad_kg')?.touched"
                 class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#003B73] focus:border-[#003B73] outline-none">
-            <p *ngIf="equipmentForm.get('piso_cantidad')?.invalid && equipmentForm.get('piso_cantidad')?.touched" class="text-xs text-red-500 mt-1">Mínimo 1 piso</p>
-          </div>
+                @if (equipmentForm.get('capacidad_kg')?.invalid && equipmentForm.get('capacidad_kg')?.touched) {
+                  <p class="text-[10px] text-red-500 mt-0.5">Mín 0</p>
+                }
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Pers.</label>
+                <input type="number" min="0" formControlName="capacidad_personas"
+                  [class.border-red-500]="equipmentForm.get('capacidad_personas')?.invalid && equipmentForm.get('capacidad_personas')?.touched"
+                  class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#003B73] focus:border-[#003B73] outline-none">
+                  @if (equipmentForm.get('capacidad_personas')?.invalid && equipmentForm.get('capacidad_personas')?.touched) {
+                    <p class="text-[10px] text-red-500 mt-0.5">Mín 0</p>
+                  }
+                </div>
+              </div>
 
-          <!-- Fecha Último Mantenimiento -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Último Mantenimiento</label>
-            <input type="date" formControlName="fecha_ultimo_mantenimiento" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none">
-          </div>
+              <!-- Cantidad Pisos -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Cantidad de Pisos</label>
+                <input type="number" formControlName="piso_cantidad"
+                  [class.border-red-500]="equipmentForm.get('piso_cantidad')?.invalid && equipmentForm.get('piso_cantidad')?.touched"
+                  class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#003B73] focus:border-[#003B73] outline-none">
+                  @if (equipmentForm.get('piso_cantidad')?.invalid && equipmentForm.get('piso_cantidad')?.touched) {
+                    <p class="text-xs text-red-500 mt-1">Mínimo 1 piso</p>
+                  }
+                </div>
 
-          <!-- Estado -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Estado *</label>
-            <select formControlName="estado" class="w-full px-4 py-2 rounded-lg border focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" [ngClass]="{'border-red-500': equipmentForm.get('estado')?.invalid && equipmentForm.get('estado')?.touched, 'border-gray-300': !equipmentForm.get('estado')?.invalid || !equipmentForm.get('estado')?.touched}">
-              <option *ngFor="let estado of estados" [value]="estado">{{ estado }}</option>
-            </select>
-            <p *ngIf="equipmentForm.get('estado')?.invalid && equipmentForm.get('estado')?.touched" class="mt-1 text-xs text-red-600">
-              <i class="bi bi-exclamation-circle mr-1"></i>El estado es requerido
-            </p>
-          </div>
+                <!-- Fecha Último Mantenimiento -->
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Último Mantenimiento</label>
+                  <input type="date" formControlName="fecha_ultimo_mantenimiento" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none">
+                </div>
 
-          <!-- Observaciones -->
-          <div class="md:col-span-2">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Observaciones</label>
-            <textarea formControlName="observaciones" rows="3" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"></textarea>
+                <!-- Estado -->
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Estado *</label>
+                  <select formControlName="estado" class="w-full px-4 py-2 rounded-lg border focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" [ngClass]="{'border-red-500': equipmentForm.get('estado')?.invalid && equipmentForm.get('estado')?.touched, 'border-gray-300': !equipmentForm.get('estado')?.invalid || !equipmentForm.get('estado')?.touched}">
+                    @for (estado of estados; track estado) {
+                      <option [value]="estado">{{ estado }}</option>
+                    }
+                  </select>
+                  @if (equipmentForm.get('estado')?.invalid && equipmentForm.get('estado')?.touched) {
+                    <p class="mt-1 text-xs text-red-600">
+                      <i class="bi bi-exclamation-circle mr-1"></i>El estado es requerido
+                    </p>
+                  }
+                </div>
+
+                <!-- Observaciones -->
+                <div class="md:col-span-2">
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Observaciones</label>
+                  <textarea formControlName="observaciones" rows="3" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"></textarea>
+                </div>
+              </div>
+
+              <!-- Actions -->
+              <div class="flex items-center justify-end gap-3 pt-6 border-t border-gray-100">
+                <button type="button" (click)="onClose()" class="px-5 py-2.5 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors">
+                  Cancelar
+                </button>
+                <button type="submit" [disabled]="!isFormValid() || isSubmitting()" class="px-5 py-2.5 rounded-lg bg-emerald-600 text-white font-medium hover:bg-emerald-700 transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+                  @if (isSubmitting()) {
+                    <span class="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></span>
+                  }
+                  Guardar Cambios
+                </button>
+              </div>
+            </form>
           </div>
         </div>
-
-        <!-- Actions -->
-        <div class="flex items-center justify-end gap-3 pt-6 border-t border-gray-100">
-          <button type="button" (click)="onClose()" class="px-5 py-2.5 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors">
-            Cancelar
-          </button>
-          <button type="submit" [disabled]="!isFormValid() || isSubmitting()" class="px-5 py-2.5 rounded-lg bg-emerald-600 text-white font-medium hover:bg-emerald-700 transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
-            <span *ngIf="isSubmitting()" class="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></span>
-            Guardar Cambios
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
+      </div>

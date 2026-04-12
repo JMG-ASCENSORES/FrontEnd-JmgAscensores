@@ -3,37 +3,44 @@
     <i class="bi bi-card-checklist"></i> Checklist de Mantenimiento
   </h4>
 
-  <div *ngIf="loading" class="py-10 flex flex-col items-center justify-center gap-3">
-     <div class="spinner-border text-primary" role="status"></div>
-     <span class="text-xs font-bold text-slate-400">Cargando tareas...</span>
-  </div>
+  @if (loading) {
+    <div class="py-10 flex flex-col items-center justify-center gap-3">
+      <div class="spinner-border text-primary" role="status"></div>
+      <span class="text-xs font-bold text-slate-400">Cargando tareas...</span>
+    </div>
+  }
 
-  <div class="checklist-groups" *ngIf="!loading && items.length > 0">
-    <div *ngFor="let group of groupedChecklist(); trackBy: trackByGroup" class="checklist-group mb-6">
-      <div class="group-header bg-slate-50 p-3 rounded-t-xl border-x border-t border-slate-200 flex items-center justify-between">
-        <span class="group-title text-[10px] font-black text-slate-500 uppercase tracking-widest">{{ group.categoria }}</span>
-        
-        <div class="flex items-center gap-2 px-2 py-1 bg-white rounded-lg border border-slate-200 shadow-sm">
-          <input type="checkbox" 
-                 [checked]="isCategoryComplete(group)"
-                 (change)="toggleCategory(group, $event)"
-                 class="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer">
-          <label class="text-[9px] font-bold text-emerald-700 uppercase cursor-pointer">Marcar Todo</label>
-        </div>
-      </div>
-      <div class="group-items bg-white border-x border-b border-slate-200 rounded-b-xl divide-y divide-slate-100 p-1">
-        <div *ngFor="let task of group.tasks; trackBy: trackByTask" class="task-item px-3 py-3 flex items-start gap-3 hover:bg-slate-50/50 transition-colors" (click)="toggleTask(task)">
-          <div class="task-checkbox-wrapper mt-0.5">
-            <input type="checkbox" [checked]="task.realizado" (click)="$event.stopPropagation(); toggleTask(task)" class="w-5 h-5 rounded-md border-slate-300 text-[#003B73] focus:ring-[#003B73] transition-all cursor-pointer">
-          </div>
-          <div class="task-info flex-1">
-            <div class="task-description text-sm font-bold text-slate-700 leading-tight">{{ task.TareaMaestra?.descripcion_tarea }}</div>
-            <div class="task-status text-[10px] italic font-bold" [class.text-emerald-600]="task.realizado" [class.text-slate-400]="!task.realizado">
-              {{ task.realizado ? 'EJECUTADO' : 'PENDIENTE' }}
+  @if (!loading && items.length > 0) {
+    <div class="checklist-groups">
+      @for (group of groupedChecklist(); track trackByGroup($index, group)) {
+        <div class="checklist-group mb-6">
+          <div class="group-header bg-slate-50 p-3 rounded-t-xl border-x border-t border-slate-200 flex items-center justify-between">
+            <span class="group-title text-[10px] font-black text-slate-500 uppercase tracking-widest">{{ group.categoria }}</span>
+            <div class="flex items-center gap-2 px-2 py-1 bg-white rounded-lg border border-slate-200 shadow-sm">
+              <input type="checkbox"
+                [checked]="isCategoryComplete(group)"
+                (change)="toggleCategory(group, $event)"
+                class="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer">
+                <label class="text-[9px] font-bold text-emerald-700 uppercase cursor-pointer">Marcar Todo</label>
+              </div>
+            </div>
+            <div class="group-items bg-white border-x border-b border-slate-200 rounded-b-xl divide-y divide-slate-100 p-1">
+              @for (task of group.tasks; track trackByTask($index, task)) {
+                <div class="task-item px-3 py-3 flex items-start gap-3 hover:bg-slate-50/50 transition-colors" (click)="toggleTask(task)" tabindex="0" (keydown.enter)="toggleTask(task)">
+                  <div class="task-checkbox-wrapper mt-0.5">
+                    <input type="checkbox" [checked]="task.realizado" (click)="$event.stopPropagation(); toggleTask(task)" class="w-5 h-5 rounded-md border-slate-300 text-[#003B73] focus:ring-[#003B73] transition-all cursor-pointer">
+                  </div>
+                  <div class="task-info flex-1">
+                    <div class="task-description text-sm font-bold text-slate-700 leading-tight">{{ task.TareaMaestra?.descripcion_tarea }}</div>
+                    <div class="task-status text-[10px] italic font-bold" [class.text-emerald-600]="task.realizado" [class.text-slate-400]="!task.realizado">
+                      {{ task.realizado ? 'EJECUTADO' : 'PENDIENTE' }}
+                    </div>
+                  </div>
+                </div>
+              }
             </div>
           </div>
-        </div>
+        }
       </div>
-    </div>
+    }
   </div>
-</div>

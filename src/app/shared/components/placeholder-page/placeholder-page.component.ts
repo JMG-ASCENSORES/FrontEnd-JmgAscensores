@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-placeholder-page',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div class="flex flex-col items-center justify-center min-h-[60vh] text-center p-8 bg-white rounded-3xl shadow-sm border border-gray-100 animate-fade-in">
       <div class="w-20 h-20 bg-green-50 rounded-2xl flex items-center justify-center mb-6 text-green-600 shadow-inner">

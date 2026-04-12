@@ -11,17 +11,17 @@
   </div>
 
   <!-- Items de navegación -->
-  <a
-    *ngFor="let item of navItems"
-    [routerLink]="item.path"
-    routerLinkActive="nav-active"
-    class="nav-item flex flex-col items-center justify-center flex-1 gap-0.5 py-1.5 px-2 no-underline text-slate-400 rounded-xl transition-all duration-200 hover:text-jmg hover:bg-jmg/5"
-    #rla="routerLinkActive">
-
-    <i class="bi text-[22px] leading-none transition-all duration-200"
-       [ngClass]="rla.isActive ? item.iconActive : item.icon"></i>
-    <span class="text-[9px] font-semibold uppercase tracking-[0.5px] transition-all duration-200"
-          [class.font-bold]="rla.isActive">{{ item.label }}</span>
-  </a>
+  @for (item of navItems; track item) {
+    <a
+      [routerLink]="item.path"
+      routerLinkActive="nav-active"
+      class="nav-item flex flex-col items-center justify-center flex-1 gap-0.5 py-1.5 px-2 no-underline text-slate-400 rounded-xl transition-all duration-200 hover:text-jmg hover:bg-jmg/5"
+      #rla="routerLinkActive">
+      <i class="bi text-[22px] leading-none transition-all duration-200"
+      [ngClass]="rla.isActive ? item.iconActive : item.icon"></i>
+      <span class="text-[9px] font-semibold uppercase tracking-[0.5px] transition-all duration-200"
+      [class.font-bold]="rla.isActive">{{ item.label }}</span>
+    </a>
+  }
 
 </nav>

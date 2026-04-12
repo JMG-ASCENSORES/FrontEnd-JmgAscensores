@@ -86,7 +86,7 @@ export class ClientService {
     });
   }
 
-  getClients(params?: any): Observable<Client[]> {
+  getClients(params?: Record<string, string | number | boolean>): Observable<Client[]> {
     return this.http.get<ApiResponse>(this.apiUrl, { headers: this.getHeaders(), params })
       .pipe(
         map(response => response.data || []), // Unwrap the data property
@@ -101,8 +101,8 @@ export class ClientService {
   }
 
   getClientsPaginated(page: number, limit: number, search?: string): Observable<ApiResponse> {
-    let params: any = { page: page.toString(), limit: limit.toString() };
-    if (search) params.search = search;
+    const params: Record<string, string> = { page: page.toString(), limit: limit.toString() };
+    if (search) params['search'] = search;
     
     return this.http.get<ApiResponse>(this.apiUrl, { 
        headers: this.getHeaders(), 
@@ -127,15 +127,15 @@ export class ClientService {
         );
   }
 
-  createClient(client: any): Observable<any> {
-    return this.http.post(this.apiUrl, client, { headers: this.getHeaders() });
+  createClient(client: Partial<Client>): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(this.apiUrl, client, { headers: this.getHeaders() });
   }
 
-  updateClient(id: number, client: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, client, { headers: this.getHeaders() });
+  updateClient(id: number, client: Partial<Client>): Observable<ApiResponse> {
+    return this.http.put<ApiResponse>(`${this.apiUrl}/${id}`, client, { headers: this.getHeaders() });
   }
 
-  deleteClient(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
+  deleteClient(id: number): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
   }
 }

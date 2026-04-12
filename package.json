@@ -9,7 +9,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "docs:generate": "compodoc -p tsconfig.app.json -d documentation",
-    "test:unit": "vitest run"
+    "test:unit": "vitest run",
+    "e2e": "playwright test"
   },
   "prettier": {
     "printWidth": 100,
@@ -47,7 +48,9 @@
     "@angular/compiler-cli": "^21.0.0",
     "@compodoc/compodoc": "^1.2.1",
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.59.1",
     "@types/google.maps": "^3.58.1",
+    "@types/node": "^25.6.0",
     "angular-eslint": "21.3.1",
     "autoprefixer": "^10.4.23",
     "eslint": "^10.0.3",
