@@ -49,3 +49,14 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+// Recientes para skills de agentes
+/.agents
+/.claude
+/.windsurf
+/skills
+skills-lock.json
+
+// Quitar carpeta de memorias de Engram
+/.engram
+

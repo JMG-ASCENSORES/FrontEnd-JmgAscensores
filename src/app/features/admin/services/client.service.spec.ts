@@ -13,9 +13,6 @@ describe('ClientService', () => {
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
-    // client.service.ts usa localStorage.getItem('token') directamente
-    localStorage.setItem('token', 'fake-token');
-
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [ClientService],
@@ -27,7 +24,6 @@ describe('ClientService', () => {
 
   afterEach(() => {
     httpMock.verify();
-    localStorage.clear();
     TestBed.resetTestingModule();
   });
 
@@ -52,7 +48,6 @@ describe('ClientService', () => {
 
       const req = httpMock.expectOne(CLIENTES_URL);
       expect(req.request.method).toBe('GET');
-      expect(req.request.headers.get('Authorization')).toBe('Bearer fake-token');
       req.flush(mockResponse);
 
       expect(result).toEqual(mockClients);
@@ -215,7 +210,6 @@ describe('ClientService', () => {
       const req = httpMock.expectOne(CLIENTES_URL);
       expect(req.request.method).toBe('POST');
       expect(req.request.body).toEqual(newClient);
-      expect(req.request.headers.get('Authorization')).toBe('Bearer fake-token');
       req.flush(mockResponse);
 
       expect(result).toEqual(mockResponse);
@@ -237,7 +231,6 @@ describe('ClientService', () => {
       const req = httpMock.expectOne(`${CLIENTES_URL}/42`);
       expect(req.request.method).toBe('PUT');
       expect(req.request.body).toEqual(updatedData);
-      expect(req.request.headers.get('Authorization')).toBe('Bearer fake-token');
       req.flush(mockResponse);
 
       expect(result).toEqual(mockResponse);
@@ -257,7 +250,6 @@ describe('ClientService', () => {
 
       const req = httpMock.expectOne(`${CLIENTES_URL}/7`);
       expect(req.request.method).toBe('DELETE');
-      expect(req.request.headers.get('Authorization')).toBe('Bearer fake-token');
       req.flush(mockResponse);
 
       expect(result).toEqual(mockResponse);

@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, map, of, throwError } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 
@@ -53,16 +53,9 @@ export class WorkerEquipmentService {
   private http = inject(HttpClient);
   private apiUrl = environment.apiUrl;
 
-  private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token') || '';
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-  }
-
   /** Obtiene la lista resumida de todos los clientes activos */
   getClientes(): Observable<ClienteResumen[]> {
-    return this.http.get<ApiResponse<ClienteResumen[]>>(`${this.apiUrl}/clientes`, { headers: this.getHeaders() })
+    return this.http.get<ApiResponse<ClienteResumen[]>>(`${this.apiUrl}/clientes`)
       .pipe(
         map(response => response.data || []),
         catchError(error => {
@@ -80,10 +73,7 @@ export class WorkerEquipmentService {
     };
     if (search) params['search'] = search;
 
-    return this.http.get<ApiResponse<ClienteResumen[]>>(`${this.apiUrl}/clientes`, {
-      headers: this.getHeaders(),
-      params
-    }).pipe(
+    return this.http.get<ApiResponse<ClienteResumen[]>>(`${this.apiUrl}/clientes`, { params }).pipe(
       catchError(error => {
         console.error('Error fetching paginated clientes:', error);
         return throwError(() => new Error('Error al cargar clientes.'));
@@ -93,7 +83,7 @@ export class WorkerEquipmentService {
 
   /** Obtiene los equipos de un cliente dado su ID */
   getEquiposByCliente(clienteId: number): Observable<EquipoCliente[]> {
-    return this.http.get<ApiResponse<EquipoCliente[]>>(`${this.apiUrl}/clientes/${clienteId}/ascensores`, { headers: this.getHeaders() })
+    return this.http.get<ApiResponse<EquipoCliente[]>>(`${this.apiUrl}/clientes/${clienteId}/ascensores`)
       .pipe(
         map(response => response.data || []),
         catchError(error => {

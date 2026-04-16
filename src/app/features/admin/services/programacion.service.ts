@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 
@@ -114,14 +114,6 @@ export class ProgramacionService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/programaciones`;
 
-  private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token');
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    });
-  }
-
   /**
    * Obtener programaciones por rango de fechas
    * @param start Fecha inicio en formato ISO (YYYY-MM-DD)
@@ -142,10 +134,7 @@ export class ProgramacionService {
     params = params.set('start', start);
     params = params.set('end', end);
 
-    return this.http.get<ProgramacionAPI[]>(this.apiUrl, { 
-      headers: this.getHeaders(),
-      params 
-    }).pipe(
+    return this.http.get<ProgramacionAPI[]>(this.apiUrl, { params }).pipe(
       map(response => {
         console.log('API Response:', response);
         // Convertir formato API a formato interno
@@ -192,9 +181,7 @@ export class ProgramacionService {
    * Obtener una programación por ID
    */
   getProgramacionById(id: number): Observable<Programacion> {
-    return this.http.get<ApiResponse<Programacion>>(`${this.apiUrl}/${id}`, { 
-      headers: this.getHeaders() 
-    }).pipe(
+    return this.http.get<ApiResponse<Programacion>>(`${this.apiUrl}/${id}`).pipe(
       map(response => response.data),
       catchError(error => {
         console.error('Error fetching programacion:', error);
@@ -207,9 +194,7 @@ export class ProgramacionService {
    * Crear nueva programación
    */
   createProgramacion(data: CrearProgramacionDTO): Observable<Programacion> {
-    return this.http.post<ApiResponse<Programacion>>(this.apiUrl, data, { 
-      headers: this.getHeaders() 
-    }).pipe(
+    return this.http.post<ApiResponse<Programacion>>(this.apiUrl, data).pipe(
       map(response => response.data),
       catchError(error => {
         console.error('Error creating programacion:', error);
@@ -223,9 +208,7 @@ export class ProgramacionService {
    * Actualizar programación existente
    */
   updateProgramacion(id: number, data: ActualizarProgramacionDTO): Observable<Programacion> {
-    return this.http.put<ApiResponse<Programacion>>(`${this.apiUrl}/${id}`, data, { 
-      headers: this.getHeaders() 
-    }).pipe(
+    return this.http.put<ApiResponse<Programacion>>(`${this.apiUrl}/${id}`, data).pipe(
       map(response => response.data),
       catchError(error => {
         console.error('Error updating programacion:', error);
@@ -239,9 +222,7 @@ export class ProgramacionService {
    * Actualizar solo el estado de la programación (PATCH)
    */
   patchEstado(id: number, estado: EstadoProgramacion): Observable<Programacion> {
-    return this.http.patch<ApiResponse<Programacion>>(`${this.apiUrl}/${id}/estado`, { estado }, { 
-      headers: this.getHeaders() 
-    }).pipe(
+    return this.http.patch<ApiResponse<Programacion>>(`${this.apiUrl}/${id}/estado`, { estado }).pipe(
       map(response => response.data),
       catchError(error => {
         console.error('Error updating programacion state:', error);
@@ -255,9 +236,7 @@ export class ProgramacionService {
    * Eliminar programación
    */
   deleteProgramacion(id: number): Observable<void> {
-    return this.http.delete<ApiResponse<void>>(`${this.apiUrl}/${id}`, { 
-      headers: this.getHeaders() 
-    }).pipe(
+    return this.http.delete<ApiResponse<void>>(`${this.apiUrl}/${id}`).pipe(
       map(() => undefined),
       catchError(error => {
         console.error('Error deleting programacion:', error);

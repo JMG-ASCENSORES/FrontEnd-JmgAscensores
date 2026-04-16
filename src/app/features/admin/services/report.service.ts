@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { environment } from '../../../../environments/environment';
@@ -10,15 +10,6 @@ import { Report } from '../../../core/models/report.model';
 export class ReportService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/informes`;
-
-  private getHeaders(): HttpHeaders {
-    // Basic standard approach, or use an interceptor if configured globally.
-    // Adding here as per explicit user request.
-    const token = localStorage.getItem('token');
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-  }
 
   getReports(filters?: { 
     tipo_informe?: string; 
@@ -57,7 +48,7 @@ export class ReportService {
         params = params.set('limit', filters.limit.toString());
     }
 
-    return this.http.get<any>(this.apiUrl, { params, headers: this.getHeaders() }).pipe(
+    return this.http.get<any>(this.apiUrl, { params }).pipe(
       map(response => {
         // Adaptamos al nuevo envelope de paginación {data: { informes, meta }}
         if (response.data && response.data.informes) {
@@ -73,60 +64,59 @@ export class ReportService {
   }
 
   getReportById(id: number): Observable<Report> {
-    return this.http.get<any>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() }).pipe(
+    return this.http.get<any>(`${this.apiUrl}/${id}`).pipe(
       map(response => response.data)
     );
   }
 
   createReport(data: any): Observable<Report> {
-    return this.http.post<any>(this.apiUrl, data, { headers: this.getHeaders() }).pipe(
+    return this.http.post<any>(this.apiUrl, data).pipe(
       map(response => response.data)
     );
   }
 
   updateReport(id: number, data: any): Observable<Report> {
-    return this.http.put<any>(`${this.apiUrl}/${id}`, data, { headers: this.getHeaders() }).pipe(
+    return this.http.put<any>(`${this.apiUrl}/${id}`, data).pipe(
       map(response => response.data)
     );
   }
 
   patchReport(id: number, delta: any): Observable<Report> {
-    return this.http.patch<any>(`${this.apiUrl}/${id}`, delta, { headers: this.getHeaders() }).pipe(
+    return this.http.patch<any>(`${this.apiUrl}/${id}`, delta).pipe(
       map(response => response.data)
     );
   }
 
   deleteReport(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
   downloadReportPdf(id: number): Observable<Blob> {
     return this.http.get(`${this.apiUrl}/${id}/pdf`, {
-      headers: this.getHeaders(),
       responseType: 'blob'
     });
   }
 
   getWorkOrderById(id: number): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/ordenes-trabajo/${id}`, { headers: this.getHeaders() }).pipe(
+    return this.http.get<any>(`${environment.apiUrl}/ordenes-trabajo/${id}`).pipe(
       map(response => response.data)
     );
   }
 
   updateWorkOrder(id: number, data: any): Observable<any> {
-    return this.http.put<any>(`${environment.apiUrl}/ordenes-trabajo/${id}`, data, { headers: this.getHeaders() }).pipe(
+    return this.http.put<any>(`${environment.apiUrl}/ordenes-trabajo/${id}`, data).pipe(
       map(response => response.data)
     );
   }
 
   patchOrdenEstado(id: number, estado: string): Observable<any> {
-    return this.http.patch<any>(`${environment.apiUrl}/ordenes-trabajo/${id}/estado`, { estado }, { headers: this.getHeaders() }).pipe(
+    return this.http.patch<any>(`${environment.apiUrl}/ordenes-trabajo/${id}/estado`, { estado }).pipe(
       map(response => response.data)
     );
   }
 
   getStandardTasks(): Observable<any[]> {
-    return this.http.get<any>(`${environment.apiUrl}/tareas-maestras`, { headers: this.getHeaders() }).pipe(
+    return this.http.get<any>(`${environment.apiUrl}/tareas-maestras`).pipe(
       map(response => response.data)
     );
   }

@@ -32,9 +32,6 @@ describe('ElevatorService', () => {
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
-    // elevator.service.ts usa localStorage.getItem('token') directamente
-    localStorage.setItem('token', 'fake-token');
-
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [ElevatorService],
@@ -390,14 +387,6 @@ describe('ElevatorService', () => {
   });
 
   // ─── Authorization header ──────────────────────────────────────────────────
-
-  describe('Authorization header', () => {
-    it('incluye el token en el header de cada request', () => {
-      service.getElevators().subscribe();
-
-      const req = httpMock.expectOne(BASE_URL);
-      expect(req.request.headers.get('Authorization')).toBe('Bearer fake-token');
-      req.flush({ success: true, message: '', data: [] });
-    });
-  });
+  // El header Authorization es inyectado por el authInterceptor, no por el servicio.
+  // Los tests de integración del interceptor cubren este comportamiento.
 });

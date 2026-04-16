@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Mantenimiento, CrearMantenimientoDTO } from '../models/mantenimiento.interface';
@@ -15,17 +15,8 @@ interface ApiResponse {
   providedIn: 'root'
 })
 export class MantenimientoService {
+  private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/programaciones`;
-
-  constructor(private http: HttpClient) {}
-
-  private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token');
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    });
-  }
 
   /**
    * Mapea respuesta del backend al interface Mantenimiento.
@@ -79,10 +70,7 @@ export class MantenimientoService {
     if (trabajadorId) params = params.set('trabajador_id', trabajadorId.toString());
     if (detailed) params = params.set('detailed', 'true');
 
-    return this.http.get<any>(this.apiUrl, { 
-      headers: this.getHeaders(),
-      params 
-    }).pipe(
+    return this.http.get<any>(this.apiUrl, { params }).pipe(
       map(response => {
         const raw: any[] = Array.isArray(response)
           ? response
@@ -98,7 +86,7 @@ export class MantenimientoService {
 
   // ─── Obtener por ID ───────────────────────────────────────────────────────────
   getById(id: number): Observable<Mantenimiento | null> {
-    return this.http.get<any>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() })
+    return this.http.get<any>(`${this.apiUrl}/${id}`)
       .pipe(
         map(response => {
            if (response && response.data) {
@@ -138,7 +126,7 @@ export class MantenimientoService {
       cliente_id:     (!data.cliente_id    || data.cliente_id    === 0) ? null : data.cliente_id,
       ascensor_id:    (!data.ascensor_id   || data.ascensor_id   === 0) ? null : data.ascensor_id,
     };
-    return this.http.post(this.apiUrl, payload, { headers: this.getHeaders() });
+    return this.http.post(this.apiUrl, payload);
   }
 
   // ─── Actualizar ──────────────────────────────────────────────────────────────
@@ -155,11 +143,11 @@ export class MantenimientoService {
       cliente_id:     (!data.cliente_id    || data.cliente_id    === 0) ? null : data.cliente_id,
       ascensor_id:    (!data.ascensor_id   || data.ascensor_id   === 0) ? null : data.ascensor_id,
     };
-    return this.http.put(`${this.apiUrl}/${id}`, payload, { headers: this.getHeaders() });
+    return this.http.put(`${this.apiUrl}/${id}`, payload);
   }
 
   // ─── Eliminar ─────────────────────────────────────────────────────────────────
   eliminar(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 }

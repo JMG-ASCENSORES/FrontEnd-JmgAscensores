@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, map, of, throwError } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 
@@ -79,17 +79,10 @@ export class ClientService {
   private apiUrl = `${environment.apiUrl}/clientes`;
   private elevatorsUrl = `${environment.apiUrl}/ascensores`;
 
-  private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token');
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-  }
-
   getClients(params?: Record<string, string | number | boolean>): Observable<Client[]> {
-    return this.http.get<ApiResponse>(this.apiUrl, { headers: this.getHeaders(), params })
+    return this.http.get<ApiResponse>(this.apiUrl, { params })
       .pipe(
-        map(response => response.data || []), // Unwrap the data property
+        map(response => response.data || []),
         catchError(error => {
           console.error('Error fetching clients:', error);
           if (error.status === 401) {
@@ -103,39 +96,34 @@ export class ClientService {
   getClientsPaginated(page: number, limit: number, search?: string): Observable<ApiResponse> {
     const params: Record<string, string> = { page: page.toString(), limit: limit.toString() };
     if (search) params['search'] = search;
-    
-    return this.http.get<ApiResponse>(this.apiUrl, { 
-       headers: this.getHeaders(), 
-       params 
-    });
+
+    return this.http.get<ApiResponse>(this.apiUrl, { params });
   }
 
   getClientStats(): Observable<ClientStatsResponse> {
-    return this.http.get<ClientStatsResponse>(`${this.apiUrl}/stats`, {
-      headers: this.getHeaders()
-    });
+    return this.http.get<ClientStatsResponse>(`${this.apiUrl}/stats`);
   }
 
   getElevators(): Observable<Elevator[]> {
-      return this.http.get<ElevatorApiResponse>(this.elevatorsUrl, { headers: this.getHeaders() })
-        .pipe(
-          map(response => response.data || []),
-          catchError(error => {
-            console.error('Error fetching elevators:', error);
-            return of([]); // Return empty array on error to not block client loading
-          })
-        );
+    return this.http.get<ElevatorApiResponse>(this.elevatorsUrl)
+      .pipe(
+        map(response => response.data || []),
+        catchError(error => {
+          console.error('Error fetching elevators:', error);
+          return of([]);
+        })
+      );
   }
 
   createClient(client: Partial<Client>): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(this.apiUrl, client, { headers: this.getHeaders() });
+    return this.http.post<ApiResponse>(this.apiUrl, client);
   }
 
   updateClient(id: number, client: Partial<Client>): Observable<ApiResponse> {
-    return this.http.put<ApiResponse>(`${this.apiUrl}/${id}`, client, { headers: this.getHeaders() });
+    return this.http.put<ApiResponse>(`${this.apiUrl}/${id}`, client);
   }
 
   deleteClient(id: number): Observable<ApiResponse> {
-    return this.http.delete<ApiResponse>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
+    return this.http.delete<ApiResponse>(`${this.apiUrl}/${id}`);
   }
 }
