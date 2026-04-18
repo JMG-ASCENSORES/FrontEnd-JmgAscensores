@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, inject } from '@angular/core';
 
 import { RouterOutlet, RouterModule } from '@angular/router';
@@ -7,7 +8,9 @@ import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.com
 @Component({
   selector: 'app-admin-layout',
   standalone: true,
-  imports: [RouterOutlet, RouterModule, SidebarComponent],
+  imports: [RouterOutlet, RouterModule, SidebarComponent,
+    LucideAngularModule
+  ],
   templateUrl: './admin-layout.component.html',
   styleUrl: './admin-layout.component.scss',
 })

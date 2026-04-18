@@ -12,7 +12,7 @@
         <p class="text-sm text-gray-500 mt-1">Complete los datos del equipo</p>
       </div>
       <button (click)="onClose()" class="p-2 rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors">
-        <i class="bi bi-x-lg text-lg"></i>
+        <lucide-icon name="x" [size]="18" strokeWidth="1.5"></lucide-icon>
       </button>
     </div>
 
@@ -24,7 +24,7 @@
         @if (errorMessage()) {
           <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-md">
             <div class="flex">
-              <i class="bi bi-exclamation-circle text-red-500 mr-3"></i>
+              <lucide-icon name="alert-circle" [size]="16" strokeWidth="1.5" class="text-red-500 mr-3"></lucide-icon>
               <p class="text-sm text-red-700">{{ errorMessage() }}</p>
             </div>
           </div>
@@ -41,8 +41,8 @@
               }
             </select>
             @if (equipmentForm.get('tipo_equipo')?.invalid && equipmentForm.get('tipo_equipo')?.touched) {
-              <p class="mt-1 text-xs text-red-600">
-                <i class="bi bi-exclamation-circle mr-1"></i>El tipo de equipo es requerido
+              <p class="mt-1 text-xs text-red-600 flex items-center gap-1">
+                <lucide-icon name="alert-circle" [size]="12" strokeWidth="1.5"></lucide-icon>El tipo de equipo es requerido
               </p>
             }
           </div>
@@ -52,8 +52,8 @@
             <label class="block text-sm font-medium text-gray-700 mb-1">Marca *</label>
             <input type="text" formControlName="marca" class="w-full px-4 py-2 rounded-lg border focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" [ngClass]="{'border-red-500': equipmentForm.get('marca')?.invalid && equipmentForm.get('marca')?.touched, 'border-gray-300': !equipmentForm.get('marca')?.invalid || !equipmentForm.get('marca')?.touched}" placeholder="Ej. Otis">
             @if (equipmentForm.get('marca')?.invalid && equipmentForm.get('marca')?.touched) {
-              <p class="mt-1 text-xs text-red-600">
-                <i class="bi bi-exclamation-circle mr-1"></i>La marca es requerida
+              <p class="mt-1 text-xs text-red-600 flex items-center gap-1">
+                <lucide-icon name="alert-circle" [size]="12" strokeWidth="1.5"></lucide-icon>La marca es requerida
               </p>
             }
           </div>
@@ -118,8 +118,8 @@
                     }
                   </select>
                   @if (equipmentForm.get('estado')?.invalid && equipmentForm.get('estado')?.touched) {
-                    <p class="mt-1 text-xs text-red-600">
-                      <i class="bi bi-exclamation-circle mr-1"></i>El estado es requerido
+                    <p class="mt-1 text-xs text-red-600 flex items-center gap-1">
+                      <lucide-icon name="alert-circle" [size]="12" strokeWidth="1.5"></lucide-icon>El estado es requerido
                     </p>
                   }
                 </div>

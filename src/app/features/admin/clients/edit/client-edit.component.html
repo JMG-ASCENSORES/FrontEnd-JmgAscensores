@@ -10,7 +10,7 @@
       <!-- Error Alert -->
       @if (errorMessage()) {
         <div class="bg-red-50 border-l-4 border-red-500 p-3 rounded-md flex items-start gap-3">
-          <i class="bi bi-exclamation-circle text-red-500 mt-0.5 shrink-0"></i>
+          <lucide-icon name="alert-circle" [size]="16" strokeWidth="1.5" class="text-red-500 mt-0.5 shrink-0"></lucide-icon>
           <p class="text-sm text-red-700">{{ errorMessage() }}</p>
         </div>
       }
@@ -83,7 +83,7 @@
                         <div class="p-3 rounded-xl border-2 transition-colors"
                           [ngClass]="coordParseError() ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-slate-50'">
                           <label class="block text-xs font-bold text-slate-500 uppercase mb-2 flex items-center gap-2">
-                            <i class="bi bi-geo-alt-fill text-[#003B73]"></i>
+                            <lucide-icon name="map-pin" [size]="14" strokeWidth="1.5" class="text-[#003B73]"></lucide-icon>
                             Coordenadas GPS
                           </label>
                           <!-- Single paste field -->
@@ -100,20 +100,20 @@
                             <!-- Parse error -->
                             @if (coordParseError()) {
                               <p class="mt-1.5 text-xs text-red-500 flex items-center gap-1">
-                                <i class="bi bi-exclamation-triangle-fill"></i>
+                                <lucide-icon name="alert-triangle" [size]="14" strokeWidth="1.5"></lucide-icon>
                                 Formato inválido. Pega el par de coordenadas tal como aparece en Google Maps.
                               </p>
                             }
                             <!-- Success indicator -->
                             @if (hasCoordinates() && !coordParseError()) {
                               <div class="mt-1.5 flex items-center gap-1.5 text-[11px] text-green-600">
-                                <i class="bi bi-check-circle-fill"></i>
+                                <lucide-icon name="check-circle-2" [size]="14" strokeWidth="1.5"></lucide-icon>
                                 <span class="font-mono">{{ clientForm.get('latitud')?.value }}, {{ clientForm.get('longitud')?.value }}</span>
                               </div>
                             }
                             <!-- Instructions -->
-                            <p class="mt-2 text-[10px] text-slate-400 leading-tight">
-                              <i class="bi bi-info-circle mr-1"></i>
+                            <p class="mt-2 text-[10px] text-slate-400 leading-tight flex items-center gap-1">
+                              <lucide-icon name="info" [size]="12" strokeWidth="1.5"></lucide-icon>
                               En Google Maps: clic derecho sobre el punto → toca las coordenadas que aparecen arriba del menú → pégalas aquí.
                             </p>
                           </div>
@@ -143,12 +143,12 @@
                               <!-- Toolbar del mapa -->
                               <div class="flex items-center justify-between px-4 py-2.5 bg-white border-b border-gray-200 shrink-0">
                                 <div class="flex items-center gap-2">
-                                  <i class="bi bi-map-fill text-[#003B73]"></i>
+                                  <lucide-icon name="map" [size]="16" strokeWidth="1.5" class="text-[#003B73]"></lucide-icon>
                                   <span class="text-xs font-bold text-slate-600 uppercase tracking-wide">Ubicación en Mapa</span>
                                   @if (hasCoordinates()) {
                                     <span
                                       class="inline-flex items-center gap-1 bg-green-50 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded-full border border-green-200">
-                                      <i class="bi bi-geo-alt-fill"></i> Ubicado
+                                      <lucide-icon name="map-pin" [size]="10" strokeWidth="1.5"></lucide-icon> Ubicado
                                     </span>
                                   }
                                 </div>
@@ -156,12 +156,17 @@
                                   <button type="button" (click)="copyCoordinates()" [disabled]="!hasCoordinates()"
                                     class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all border disabled:opacity-40 disabled:cursor-not-allowed"
                                     [ngClass]="copySuccess() ? 'bg-green-50 text-green-700 border-green-200' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'">
-                                    <i class="bi" [ngClass]="copySuccess() ? 'bi-check-lg' : 'bi-clipboard'"></i>
+                                    @if (copySuccess()) {
+                                      <lucide-icon name="check" [size]="14" strokeWidth="1.5"></lucide-icon>
+                                    }
+                                    @if (!copySuccess()) {
+                                      <lucide-icon name="clipboard" [size]="14" strokeWidth="1.5"></lucide-icon>
+                                    }
                                     {{ copySuccess() ? '¡Copiado!' : 'Copiar' }}
                                   </button>
                                   <button type="button" (click)="openInGoogleMaps()" [disabled]="!hasCoordinates()"
                                     class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#003B73] text-white hover:bg-[#002a52] transition-all disabled:opacity-40 disabled:cursor-not-allowed">
-                                    <i class="bi bi-box-arrow-up-right"></i>
+                                    <lucide-icon name="external-link" [size]="14" strokeWidth="1.5"></lucide-icon>
                                     <span>Ver en Maps</span>
                                   </button>
                                 </div>
@@ -184,7 +189,7 @@
                                   <div
                                     class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 bg-slate-50">
                                     <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
-                                      <i class="bi bi-geo text-slate-300 text-3xl"></i>
+                                      <lucide-icon name="map" [size]="30" strokeWidth="1.5" class="text-slate-300"></lucide-icon>
                                     </div>
                                     <p class="text-sm font-semibold text-slate-500">Sin ubicación definida</p>
                                     <p class="text-xs text-slate-400 mt-1 max-w-xs">

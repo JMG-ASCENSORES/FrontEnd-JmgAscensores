@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, EventEmitter, Input, Output, inject, signal } from '@angular/core';
 
 import { ReportService } from '../../services/report.service';
@@ -6,7 +7,7 @@ import { Report } from '../../../../core/models/report.model';
 @Component({
   selector: 'app-document-delete',
   standalone: true,
-  imports: [],
+  imports: [LucideAngularModule],
   templateUrl: './document-delete.component.html',
   styleUrl: './document-delete.component.scss'
 })

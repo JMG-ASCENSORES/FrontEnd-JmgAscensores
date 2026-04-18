@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
@@ -11,7 +12,9 @@ import { LoadingSpinnerComponent } from '../../../shared/components/loading-spin
 @Component({
   selector: 'app-worker-routes',
   standalone: true,
-  imports: [CommonModule, WorkerReportCreateComponent, LoadingSpinnerComponent],
+  imports: [CommonModule, WorkerReportCreateComponent, LoadingSpinnerComponent,
+    LucideAngularModule
+  ],
   templateUrl: './worker-routes.component.html',
   styleUrls: ['./worker-routes.component.css'],
   host: {

@@ -20,7 +20,12 @@
       [class.text-jmg]="showFilters()"
       [class.bg-jmg-muted]="showFilters()"
       (click)="showFilters.set(!showFilters())">
-      <i class="bi text-base" [class.bi-funnel-fill]="showFilters()" [class.bi-funnel]="!showFilters()"></i>
+      @if (showFilters()) {
+        <lucide-icon name="filter" [size]="16" strokeWidth="1.5"></lucide-icon>
+      }
+      @if (!showFilters()) {
+        <lucide-icon name="filter" [size]="16" strokeWidth="1.5"></lucide-icon>
+      }
       {{ showFilters() ? 'Ocultar Filtros' : 'Buscar y Filtrar' }}
     </button>
     <!-- ── Filtros expandibles ── -->
@@ -53,7 +58,7 @@
             <div class="col-span-2 flex flex-col gap-1">
               <label class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Cliente</label>
               <div class="relative">
-                <i class="bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none"></i>
+                <lucide-icon name="search" [size]="14" strokeWidth="1.5" class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"></lucide-icon>
                 <input
                   type="text"
                   class="w-full bg-white border border-slate-200 rounded-xl pl-9 pr-4 py-2.5 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-jmg/20 focus:border-jmg outline-none transition-colors"
@@ -111,7 +116,7 @@
           @if (!isLoading() && reports().length === 0) {
             <div
               class="flex flex-col items-center justify-center py-16 bg-white rounded-2xl border border-slate-100 text-center shadow-sm">
-              <i class="bi bi-file-earmark-x text-5xl text-slate-200 mb-4"></i>
+              <lucide-icon name="file-x" [size]="48" strokeWidth="1.5" class="text-slate-200 mb-4"></lucide-icon>
               <p class="font-semibold text-slate-600 mb-1">No se encontraron informes</p>
               @if (filterTipo() || filterCliente() || filterFechaInicio() || filterFechaFin()) {
                 <span class="text-sm text-slate-400 max-w-[240px]">
@@ -132,12 +137,17 @@
                 <div
                   class="flex items-center gap-3 bg-white rounded-2xl p-3.5 border border-slate-100 shadow-sm active:scale-[0.98] transition-transform">
                   <!-- Ícono tipo -->
-                  <div class="w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0"
+                  <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
                     [class.bg-indigo-50]="report.tipo_informe === 'Técnico'"
                     [class.text-indigo-600]="report.tipo_informe === 'Técnico'"
                     [class.bg-emerald-50]="report.tipo_informe !== 'Técnico'"
                     [class.text-emerald-600]="report.tipo_informe !== 'Técnico'">
-                    <i class="bi" [class.bi-tools]="report.tipo_informe === 'Técnico'" [class.bi-clipboard-check]="report.tipo_informe !== 'Técnico'"></i>
+                    @if (report.tipo_informe === 'Técnico') {
+                      <lucide-icon name="wrench" [size]="20" strokeWidth="1.5"></lucide-icon>
+                    }
+                    @if (report.tipo_informe !== 'Técnico') {
+                      <lucide-icon name="clipboard-check" [size]="20" strokeWidth="1.5"></lucide-icon>
+                    }
                   </div>
                   <!-- Cuerpo del informe -->
                   <div class="flex-1 min-w-0">
@@ -145,7 +155,7 @@
                     <p class="text-xs text-slate-500 line-clamp-2 mt-0.5">{{ report.descripcion_trabajo }}</p>
                     <div class="flex items-center gap-2 mt-1.5">
                       <span class="text-[10px] font-medium text-slate-400 flex items-center gap-1">
-                        <i class="bi bi-calendar3"></i> {{ report.fecha_informe | date:'dd MMM yy' }}
+                        <lucide-icon name="calendar-days" [size]="12" strokeWidth="1.5"></lucide-icon> {{ report.fecha_informe | date:'dd MMM yy' }}
                       </span>
                       <span class="text-[10px] font-semibold text-accent">• Registrado</span>
                     </div>
@@ -156,12 +166,12 @@
                       <button (click)="viewPdf(report); $event.stopPropagation()"
                         class="w-8 h-8 flex items-center justify-center rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-500 transition-colors active:scale-90"
                         title="Ver Vista Previa">
-                        <i class="bi bi-eye text-base"></i>
+                        <lucide-icon name="eye" [size]="16" strokeWidth="1.5"></lucide-icon>
                       </button>
                       <button (click)="downloadPdfDirectly(report, $event)"
                         class="w-8 h-8 flex items-center justify-center rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-500 transition-colors active:scale-90"
                         title="Descargar PDF">
-                        <i class="bi bi-download text-base"></i>
+                        <lucide-icon name="download" [size]="16" strokeWidth="1.5"></lucide-icon>
                       </button>
                     } @else {
                       <div class="w-12 flex items-center justify-center">
@@ -180,7 +190,7 @@
                 (click)="prevPage()"
                 [disabled]="currentPage() === 1"
                 class="inline-flex items-center gap-1.5 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
-                <i class="bi bi-chevron-left text-xs"></i> Anterior
+                <lucide-icon name="chevron-left" [size]="14" strokeWidth="1.5"></lucide-icon> Anterior
               </button>
               <div class="inline-flex items-center px-4 py-2 bg-jmg rounded-xl text-white text-sm font-semibold shadow-sm">
                 {{ currentPage() }} / {{ totalPages() }}
@@ -189,7 +199,7 @@
                 (click)="nextPage()"
                 [disabled]="currentPage() === totalPages()"
                 class="inline-flex items-center gap-1.5 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
-                Siguiente <i class="bi bi-chevron-right text-xs"></i>
+                Siguiente <lucide-icon name="chevron-right" [size]="14" strokeWidth="1.5"></lucide-icon>
               </button>
             </div>
           }

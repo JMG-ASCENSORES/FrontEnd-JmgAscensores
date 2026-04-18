@@ -14,7 +14,7 @@
     <!-- Total -->
     <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
       <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center shrink-0">
-        <i class="bi bi-box-seam-fill text-xl text-slate-600"></i>
+        <lucide-icon name="package" [size]="20" strokeWidth="1.5" class="text-slate-600"></lucide-icon>
       </div>
       <div>
         <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ totalElevators() }}</p>
@@ -25,7 +25,7 @@
     <!-- Operativos -->
     <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
       <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
-        <i class="bi bi-check-circle-fill text-xl text-emerald-600"></i>
+        <lucide-icon name="check-circle-2" [size]="20" strokeWidth="1.5" class="text-emerald-600"></lucide-icon>
       </div>
       <div>
         <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ operationalCount() }}</p>
@@ -36,7 +36,7 @@
     <!-- En Mantenimiento -->
     <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
       <div class="w-12 h-12 rounded-xl bg-jmg-muted flex items-center justify-center shrink-0">
-        <i class="bi bi-tools text-xl text-jmg"></i>
+        <lucide-icon name="wrench" [size]="20" strokeWidth="1.5" class="text-jmg"></lucide-icon>
       </div>
       <div>
         <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ maintenanceCount() }}</p>
@@ -47,7 +47,7 @@
     <!-- Fuera de Servicio -->
     <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
       <div class="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center shrink-0">
-        <i class="bi bi-x-circle-fill text-xl text-red-500"></i>
+        <lucide-icon name="x-circle" [size]="20" strokeWidth="1.5" class="text-red-500"></lucide-icon>
       </div>
       <div>
         <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ outOfServiceCount() }}</p>
@@ -106,10 +106,10 @@
           }
           <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
             @if (!selectedClientId()) {
-              <i class="bi bi-search text-slate-400 text-sm"></i>
+              <lucide-icon name="search" [size]="14" strokeWidth="1.5" class="text-slate-400"></lucide-icon>
             }
             @if (selectedClientId()) {
-              <i class="bi bi-check-circle-fill text-emerald-500 text-sm"></i>
+              <lucide-icon name="check-circle-2" [size]="14" strokeWidth="1.5" class="text-emerald-500"></lucide-icon>
             }
           </div>
         </div>
@@ -155,7 +155,7 @@
         (click)="openCreateModal()"
         class="inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors shadow-sm"
         >
-        <i class="bi bi-plus-lg"></i>
+        <lucide-icon name="plus" [size]="16" strokeWidth="1.5"></lucide-icon>
         Registrar Nuevo Equipo
       </button>
     </div>
@@ -174,7 +174,7 @@
       <!-- Error -->
       @if (error()) {
         <div class="col-span-full bg-red-50 border border-red-100 text-red-600 px-5 py-4 rounded-2xl flex items-center gap-3 text-sm font-medium">
-          <i class="bi bi-exclamation-triangle-fill text-lg shrink-0"></i>
+          <lucide-icon name="alert-triangle" [size]="18" strokeWidth="1.5" class="shrink-0"></lucide-icon>
           {{ error() }}
         </div>
       }
@@ -186,7 +186,7 @@
             <!-- Client Group Header -->
             <div class="flex items-center gap-3 mb-4 pb-3 border-b border-slate-100">
               <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-jmg to-jmg-light text-white flex items-center justify-center shadow-sm">
-                <i class="bi bi-building text-sm"></i>
+                <lucide-icon name="building" [size]="14" strokeWidth="1.5"></lucide-icon>
               </div>
               <div>
                 <h2 class="font-display font-bold text-slate-800 text-lg leading-none">{{ group.cliente_nombre }}</h2>
@@ -204,7 +204,7 @@
                     <button action-top (click)="openEditModal(elevator)"
                       class="text-emerald-600 hover:text-emerald-700 p-2 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors"
                       title="Editar Equipo">
-                      <i class="bi bi-pencil-square"></i>
+                      <lucide-icon name="square-pen" [size]="16" strokeWidth="1.5"></lucide-icon>
                     </button>
                     <!-- Main Content -->
                     <div>
@@ -243,7 +243,7 @@
                         <button (click)="openDeleteModal(elevator)"
                           class="opacity-0 group-hover:opacity-100 transition-opacity text-red-300 hover:text-red-500 p-1.5 rounded-lg hover:bg-red-50 transition-colors"
                           title="Eliminar Equipo">
-                          <i class="bi bi-trash3-fill text-sm"></i>
+                          <lucide-icon name="trash-2" [size]="14" strokeWidth="1.5"></lucide-icon>
                         </button>
                       </div>
                     </ng-container>
@@ -259,7 +259,7 @@
       @if (!isLoading() && totalElevators() === 0) {
         <div class="col-span-full py-20 flex flex-col items-center gap-4">
           <div class="w-20 h-20 bg-slate-100 rounded-2xl flex items-center justify-center">
-            <i class="bi bi-box-seam text-slate-300 text-3xl"></i>
+            <lucide-icon name="package" [size]="30" strokeWidth="1.5" class="text-slate-300"></lucide-icon>
           </div>
           <div class="text-center">
             <h3 class="font-display font-bold text-slate-800 text-lg">Sin equipos registrados</h3>
@@ -277,7 +277,7 @@
               [disabled]="currentPage() === 1"
               class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed"
               >
-              <i class="bi bi-chevron-left text-xs"></i> Anterior
+              <lucide-icon name="chevron-left" [size]="14" strokeWidth="1.5"></lucide-icon> Anterior
             </button>
             <div class="inline-flex items-center px-5 py-2.5 bg-jmg rounded-xl text-white text-sm font-semibold shadow-sm">
               {{ currentPage() }} / {{ totalPages() }}
@@ -287,7 +287,7 @@
               [disabled]="currentPage() === totalPages()"
               class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed"
               >
-              Siguiente <i class="bi bi-chevron-right text-xs"></i>
+              Siguiente <lucide-icon name="chevron-right" [size]="14" strokeWidth="1.5"></lucide-icon>
             </button>
           </div>
         </div>

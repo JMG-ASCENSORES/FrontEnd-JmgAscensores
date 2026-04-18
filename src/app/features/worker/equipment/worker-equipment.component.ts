@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, OnInit, OnDestroy, inject, signal } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -10,7 +11,9 @@ import { SkeletonLoaderComponent } from '../../../shared/components/skeleton-loa
 @Component({
   selector: 'app-worker-equipment',
   standalone: true,
-  imports: [CommonModule, FormsModule, DatePipe, LoadingSpinnerComponent, SkeletonLoaderComponent],
+  imports: [CommonModule, FormsModule, DatePipe, LoadingSpinnerComponent, SkeletonLoaderComponent,
+    LucideAngularModule
+  ],
   templateUrl: './worker-equipment.component.html',
   styleUrl: './worker-equipment.component.scss'
 })

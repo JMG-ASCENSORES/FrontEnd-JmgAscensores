@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, computed, inject, signal, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
@@ -13,7 +14,9 @@ import { PdfPreviewComponent } from '../preview/pdf-preview.component';
 @Component({
   selector: 'app-document-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, DocumentFormComponent, DocumentDeleteComponent, PdfPreviewComponent],
+  imports: [CommonModule, FormsModule, DocumentFormComponent, DocumentDeleteComponent, PdfPreviewComponent,
+    LucideAngularModule
+  ],
   templateUrl: './document-list.component.html',
   styleUrl: './document-list.component.scss'
 })

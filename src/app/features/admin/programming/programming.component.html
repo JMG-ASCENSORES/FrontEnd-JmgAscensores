@@ -3,7 +3,7 @@
     <h1 class="font-display text-3xl font-bold text-slate-900 tracking-tight">Gestión de Programación</h1>
     <a routerLink="/admin/maintenance-scheduling"
       class="flex items-center gap-2 px-4 py-2 bg-[#003B73] text-white text-sm font-bold rounded-xl hover:bg-[#002d5a] transition-all hover:scale-105 shadow-md">
-      <i class="bi bi-calendar-plus"></i>
+      <lucide-icon name="calendar-plus" [size]="16" strokeWidth="1.5"></lucide-icon>
       Nueva Programación
     </a>
   </div>
@@ -27,7 +27,7 @@
           <p class="text-xs text-teal-800 font-medium">{{todayStats.pending}} pendientes</p>
         </div>
         <div class="w-12 h-12 rounded-xl bg-[#1e5a5a] text-white flex items-center justify-center shadow-lg shadow-teal-900/20">
-          <i class="bi bi-calendar-check text-xl"></i>
+          <lucide-icon name="calendar-check" [size]="20" strokeWidth="1.5"></lucide-icon>
         </div>
       </div>
 
@@ -44,7 +44,11 @@
         </div>
         <div class="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg"
           [ngClass]="hasEmergencyToday ? 'bg-red-600 text-white shadow-red-900/20' : 'bg-slate-700 text-white shadow-slate-900/20'">
-          <i class="bi text-xl" [ngClass]="hasEmergencyToday ? 'bi-exclamation-triangle-fill animate-pulse' : 'bi-shield-check'"></i>
+          @if (hasEmergencyToday) {
+            <lucide-icon name="alert-triangle" [size]="20" strokeWidth="1.5" class="animate-pulse"></lucide-icon>
+          } @else {
+            <lucide-icon name="shield-check" [size]="20" strokeWidth="1.5"></lucide-icon>
+          }
         </div>
       </div>
 
@@ -57,13 +61,13 @@
         <div
           class="bg-red-600 text-white p-3 rounded-xl shadow-md flex items-center justify-between animate-pulse">
           <div class="flex items-center gap-3">
-            <i class="bi bi-lightning-fill text-xl"></i>
+            <lucide-icon name="zap" [size]="20" strokeWidth="1.5"></lucide-icon>
             <div>
               <p class="font-bold text-sm">ATENCIÓN: EMERGENCIAS REPORTADAS</p>
               <p class="text-[11px] opacity-90">Revise las programaciones marcadas en rojo inmediatamente.</p>
             </div>
           </div>
-          <i class="bi bi-exclamation-octagon text-2xl"></i>
+          <lucide-icon name="alert-octagon" [size]="24" strokeWidth="1.5"></lucide-icon>
         </div>
       }
 
@@ -73,7 +77,7 @@
           class="bg-amber-50 rounded-xl p-3 border border-amber-200 shadow-sm shrink-0">
           <div class="flex items-center justify-between mb-2">
             <h2 class="text-xs font-bold text-amber-900 uppercase tracking-widest flex items-center gap-2">
-              <i class="bi bi-clock-history"></i>
+              <lucide-icon name="history" [size]="16" strokeWidth="1.5"></lucide-icon>
               Pendientes de cierre ({{pastPending.length}})
             </h2>
             <span class="text-[10px] bg-amber-200 text-amber-900 px-2 py-0.5 rounded-full font-bold">Días anteriores</span>
@@ -128,7 +132,7 @@
                     (click)="sendWhatsAppClient(schedule); $event.stopPropagation()"
                     title="Notificar al cliente por WhatsApp"
                     >
-                    <i class="bi bi-whatsapp"></i>
+                    <lucide-icon name="message-circle" [size]="14" strokeWidth="1.5"></lucide-icon>
                     CLIENTE
                   </button>
                 </div>
@@ -158,7 +162,7 @@
                   (click)="sendWhatsAppClient(selectedSchedule)"
                   title="Notificar al cliente por WhatsApp"
                   >
-                  <i class="bi bi-whatsapp"></i>
+                  <lucide-icon name="message-circle" [size]="16" strokeWidth="1.5"></lucide-icon>
                   Notificar
                 </button>
               }
@@ -167,7 +171,7 @@
                   [routerLink]="['/admin/documents']" [queryParams]="{search: selectedSchedule?.originalData?.extendedProps?.orden_id}"
                   class="bg-blue-50 text-blue-600 p-1.5 rounded-lg hover:bg-blue-100 transition-colors"
                   title="Ir a Documentos">
-                  <i class="bi bi-file-earmark-text"></i>
+                  <lucide-icon name="file-text" [size]="16" strokeWidth="1.5"></lucide-icon>
                 </a>
               }
             </div>
@@ -195,8 +199,6 @@
           </div>
 
         </div>
-
-      </div>
 
       <!-- Right Column (Workers) col-span-4 -->
       <div class="lg:col-span-4 flex flex-col gap-4 md:gap-5 min-h-0 h-full">
@@ -228,7 +230,7 @@
                   <div class="flex items-center justify-between gap-2 w-full">
                     <div class="flex items-center gap-2 overflow-hidden">
                       <div class="w-8 h-8 rounded-lg flex items-center justify-center text-base shrink-0 transition-transform group-hover:scale-110" [ngClass]="worker.roleColor ? worker.roleColor : 'bg-white text-slate-500 shadow-sm'">
-                        <i class="bi" [ngClass]="worker.icon"></i>
+                        <lucide-icon [name]="worker.icon" [size]="16" strokeWidth="1.5"></lucide-icon>
                       </div>
                       <div class="overflow-hidden">
                         <h3 class="font-bold text-slate-800 text-sm truncate leading-tight group-hover:text-[#003B73] transition-colors" [title]="worker.name">{{worker.name}}</h3>
@@ -244,7 +246,7 @@
                       </div>
                     </div>
                     <button (click)="goToTechnicianDetails(worker)" class="text-slate-300 hover:text-[#003B73] transition-colors shrink-0 text-base" title="Ver/Editar Técnico">
-                      <i class="bi bi-pencil-square"></i>
+                      <lucide-icon name="square-pen" [size]="16" strokeWidth="1.5"></lucide-icon>
                     </button>
                   </div>
                 </div>
@@ -257,7 +259,7 @@
         <div class="bg-[#f0fdf4] rounded-xl p-3 shadow-sm border border-[#22c55e] flex flex-col shrink-0 max-h-[38vh]">
           <div class="flex items-center justify-between mb-2 shrink-0">
             <h2 class="text-xs font-bold text-[#166534] uppercase tracking-wider">Notificar Técnicos</h2>
-            <i class="bi bi-whatsapp text-[#166534] text-base"></i>
+            <lucide-icon name="message-circle" [size]="18" strokeWidth="1.5" class="text-[#166534]"></lucide-icon>
           </div>
           @if (schedules.length === 0) {
             <div class="text-center py-3 text-slate-400 text-xs">
@@ -279,7 +281,11 @@
                   (click)="sendWhatsAppRoute(group)"
                   [title]="isTechNotified(group.tech.trabajador_id) ? 'Notificado en esta sesión' : 'Enviar ruta por WhatsApp'"
                   >
-                  <i [class]="isTechNotified(group.tech.trabajador_id) ? 'bi bi-check-all text-xs' : 'bi bi-whatsapp'"></i>
+                  @if (isTechNotified(group.tech.trabajador_id)) {
+                    <lucide-icon name="check-check" [size]="14" strokeWidth="1.5"></lucide-icon>
+                  } @else {
+                    <lucide-icon name="message-circle" [size]="16" strokeWidth="1.5"></lucide-icon>
+                  }
                   {{ isTechNotified(group.tech.trabajador_id) ? 'Reenviar' : 'Notificar' }}
                 </button>
               </div>
@@ -297,7 +303,11 @@
     <div class="toast-container">
       <div class="toast-item" [ngClass]="toast()?.type">
         <div class="toast-icon">
-          <i class="bi" [ngClass]="toast()?.type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'"></i>
+          @if (toast()?.type === 'success') {
+          <lucide-icon name="check-circle-2" [size]="20" strokeWidth="1.5"></lucide-icon>
+        } @else {
+          <lucide-icon name="alert-triangle" [size]="20" strokeWidth="1.5"></lucide-icon>
+        }
         </div>
         <div class="toast-content">
           <div class="toast-title">{{ toast()?.title }}</div>

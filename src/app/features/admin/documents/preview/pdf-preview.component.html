@@ -4,11 +4,11 @@
     <!-- Header -->
     <div class="flex items-center justify-between p-4 border-b border-gray-200 bg-slate-50">
       <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
-        <i class="bi bi-file-earmark-pdf-fill text-red-500"></i>
+        <lucide-icon name="file-text" [size]="16" strokeWidth="1.5" class="text-red-500"></lucide-icon>
         Vista Previa: {{ fileName }}
       </h3>
       <button (click)="close.emit()" class="text-gray-400 hover:text-gray-600 transition-colors w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200">
-        <i class="bi bi-x-lg text-lg"></i>
+        <lucide-icon name="x" [size]="18" strokeWidth="1.5"></lucide-icon>
       </button>
     </div>
 
@@ -33,7 +33,7 @@
           [download]="fileName"
           class="px-5 py-2.5 rounded-lg bg-[#003B73] text-white font-bold hover:bg-[#002a52] transition-colors flex items-center gap-2"
           >
-          <i class="bi bi-download"></i>
+          <lucide-icon name="download" [size]="16" strokeWidth="1.5"></lucide-icon>
           Descargar Archivo
         </a>
       }

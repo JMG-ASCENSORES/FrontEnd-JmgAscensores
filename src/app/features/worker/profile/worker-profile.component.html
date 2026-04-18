@@ -18,7 +18,7 @@
             <span class="font-display text-[32px] font-black text-white tracking-tight">{{ initials }}</span>
           }
           @if (isLoading()) {
-            <i class="bi bi-person-fill text-4xl text-white/50"></i>
+            <lucide-icon name="user" [size]="36" strokeWidth="1.5" class="text-white/50"></lucide-icon>
           }
         </div>
       }
@@ -48,7 +48,7 @@
           {{ profile()?.nombre }} {{ profile()?.apellido }}
         </h1>
         <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-jmg bg-jmg-muted px-3 py-1 rounded-full mt-1">
-          <i class="bi bi-tools text-[11px]"></i>
+          <lucide-icon name="wrench" [size]="14" strokeWidth="1.5"></lucide-icon>
           {{ profile()?.especialidad || 'Técnico' }}
         </span>
       </div>
@@ -56,14 +56,14 @@
       @if (saveSuccess()) {
         <div
           class="flex items-center gap-2 px-4 py-3 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl text-sm font-medium mb-4">
-          <i class="bi bi-check-circle-fill shrink-0"></i>
+          <lucide-icon name="check-circle-2" [size]="16" strokeWidth="1.5" class="shrink-0"></lucide-icon>
           Cambios guardados exitosamente.
         </div>
       }
       @if (errorMessage()) {
         <div
           class="flex items-center gap-2 px-4 py-3 bg-red-50 border border-red-200 text-red-700 rounded-xl text-sm font-medium mb-4">
-          <i class="bi bi-exclamation-circle-fill shrink-0"></i>
+          <lucide-icon name="alert-circle" [size]="16" strokeWidth="1.5" class="shrink-0"></lucide-icon>
           {{ errorMessage() }}
         </div>
       }
@@ -80,17 +80,17 @@
             @if (profileForm.get('nombre')?.touched && profileForm.get('nombre')?.invalid) {
               @if (profileForm.get('nombre')?.hasError('required')) {
                 <p class="mt-1.5 text-xs text-red-500 flex items-center gap-1">
-                  <i class="bi bi-exclamation-circle"></i> El nombre es requerido.
+                  <lucide-icon name="alert-circle" [size]="14" strokeWidth="1.5"></lucide-icon> El nombre es requerido.
                 </p>
               }
               @if (profileForm.get('nombre')?.hasError('pattern')) {
                 <p class="mt-1.5 text-xs text-red-500 flex items-center gap-1">
-                  <i class="bi bi-exclamation-circle"></i> Solo puede contener letras.
+                  <lucide-icon name="alert-circle" [size]="14" strokeWidth="1.5"></lucide-icon> Solo puede contener letras.
                 </p>
               }
               @if (profileForm.get('nombre')?.hasError('minlength')) {
                 <p class="mt-1.5 text-xs text-red-500 flex items-center gap-1">
-                  <i class="bi bi-exclamation-circle"></i> Mínimo 2 caracteres.
+                  <lucide-icon name="alert-circle" [size]="14" strokeWidth="1.5"></lucide-icon> Mínimo 2 caracteres.
                 </p>
               }
             }
@@ -105,17 +105,17 @@
               @if (profileForm.get('apellido')?.touched && profileForm.get('apellido')?.invalid) {
                 @if (profileForm.get('apellido')?.hasError('required')) {
                   <p class="mt-1.5 text-xs text-red-500 flex items-center gap-1">
-                    <i class="bi bi-exclamation-circle"></i> El apellido es requerido.
+                    <lucide-icon name="alert-circle" [size]="14" strokeWidth="1.5"></lucide-icon> El apellido es requerido.
                   </p>
                 }
                 @if (profileForm.get('apellido')?.hasError('pattern')) {
                   <p class="mt-1.5 text-xs text-red-500 flex items-center gap-1">
-                    <i class="bi bi-exclamation-circle"></i> Solo puede contener letras.
+                    <lucide-icon name="alert-circle" [size]="14" strokeWidth="1.5"></lucide-icon> Solo puede contener letras.
                   </p>
                 }
                 @if (profileForm.get('apellido')?.hasError('minlength')) {
                   <p class="mt-1.5 text-xs text-red-500 flex items-center gap-1">
-                    <i class="bi bi-exclamation-circle"></i> Mínimo 2 caracteres.
+                    <lucide-icon name="alert-circle" [size]="14" strokeWidth="1.5"></lucide-icon> Mínimo 2 caracteres.
                   </p>
                 }
               }
@@ -125,7 +125,7 @@
               <label class="block text-sm font-bold text-slate-800 mb-1.5">DNI</label>
               <div class="flex items-center justify-between px-4 py-3 border-[1.5px] border-slate-200 rounded-xl bg-slate-100 text-[15px] text-slate-500">
                 <span>{{ profile()?.dni }}</span>
-                <i class="bi bi-lock-fill text-slate-400 text-sm"></i>
+                <lucide-icon name="lock" [size]="14" strokeWidth="1.5" class="text-slate-400"></lucide-icon>
               </div>
             </div>
             <!-- Especialidad (solo lectura) -->
@@ -133,7 +133,7 @@
               <label class="block text-sm font-bold text-slate-800 mb-1.5">Cargo / Especialidad</label>
               <div class="flex items-center justify-between px-4 py-3 border-[1.5px] border-slate-200 rounded-xl bg-slate-100 text-[15px] text-slate-500">
                 <span>{{ profile()?.especialidad || 'Técnico General' }}</span>
-                <i class="bi bi-lock-fill text-slate-400 text-sm"></i>
+                <lucide-icon name="lock" [size]="14" strokeWidth="1.5" class="text-slate-400"></lucide-icon>
               </div>
             </div>
             <!-- Teléfono -->
@@ -149,7 +149,7 @@
                 @if (profileForm.get('telefono')?.hasError('pattern') && profileForm.get('telefono')?.touched) {
                   <p
                     class="mt-1.5 text-xs text-red-500 flex items-center gap-1">
-                    <i class="bi bi-exclamation-circle"></i> Debe tener exactamente 9 dígitos.
+                    <lucide-icon name="alert-circle" [size]="14" strokeWidth="1.5"></lucide-icon> Debe tener exactamente 9 dígitos.
                   </p>
                 }
               </div>
@@ -163,7 +163,7 @@
                   @if (profileForm.get('correo')?.invalid && profileForm.get('correo')?.touched) {
                     <p
                       class="mt-1.5 text-xs text-red-500 flex items-center gap-1">
-                      <i class="bi bi-exclamation-circle"></i> Ingresá un correo válido.
+                      <lucide-icon name="alert-circle" [size]="14" strokeWidth="1.5"></lucide-icon> Ingresá un correo válido.
                     </p>
                   }
                 </div>
@@ -175,7 +175,7 @@
                     <span class="spinner-border spinner-border-sm text-white"></span>
                   }
                   @if (!isSaving()) {
-                    <i class="bi bi-check-lg"></i>
+                    <lucide-icon name="check" [size]="16" strokeWidth="1.5"></lucide-icon>
                   }
                   {{ isSaving() ? 'Guardando...' : 'Guardar cambios' }}
                 </button>
@@ -184,7 +184,7 @@
               <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 mb-5">
                 <div class="flex items-center justify-between mb-4">
                   <h3 class="font-semibold text-slate-800 flex items-center gap-2 text-sm">
-                    <i class="bi bi-pen-fill text-slate-500"></i> Mi Firma Predeterminada
+                    <lucide-icon name="pen-line" [size]="16" strokeWidth="1.5" class="text-slate-500"></lucide-icon> Mi Firma Predeterminada
                   </h3>
                   @if (profile()?.FirmaPredeterminada) {
                     <span
@@ -206,7 +206,7 @@
                     <button type="button"
                       class="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-2xl text-[15px] font-bold bg-slate-100 text-jmg border-[1.5px] border-slate-200 hover:bg-jmg-muted active:scale-[0.98] transition-all"
                       (click)="toggleSignaturePad()">
-                      <i class="bi bi-pencil-square"></i>
+                      <lucide-icon name="square-pen" [size]="16" strokeWidth="1.5"></lucide-icon>
                       {{ profile()?.FirmaPredeterminada ? 'Actualizar firma' : 'Crear firma ahora' }}
                     </button>
                   }
@@ -216,7 +216,7 @@
                         <span class="text-xs font-medium text-slate-500">Dibujá tu firma aquí</span>
                         <button type="button" (click)="clearSignature()"
                           class="text-xs font-bold text-red-500 hover:text-red-600 flex items-center gap-1 transition-colors">
-                          <i class="bi bi-eraser-fill"></i> Limpiar
+                          <lucide-icon name="eraser" [size]="14" strokeWidth="1.5"></lucide-icon> Limpiar
                         </button>
                       </div>
                       <div class="border-2 border-slate-300 border-dashed rounded-xl bg-white overflow-hidden aspect-[21/9] relative">
@@ -233,7 +233,7 @@
                             <span class="spinner-border spinner-border-sm text-white"></span>
                           }
                           @if (!isSaving()) {
-                            <i class="bi bi-check2"></i>
+                            <lucide-icon name="check" [size]="16" strokeWidth="1.5"></lucide-icon>
                             } Guardar
                           </button>
                         </div>
@@ -245,7 +245,12 @@
                     <button type="button"
                       class="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-2xl text-[15px] font-bold bg-slate-100 text-jmg border-[1.5px] border-slate-200 hover:bg-jmg-muted active:scale-[0.98] transition-all"
                       (click)="showPasswordSection.set(!showPasswordSection())">
-                      <i class="bi" [ngClass]="showPasswordSection() ? 'bi-chevron-up' : 'bi-key-fill'"></i>
+                      @if (showPasswordSection()) {
+                        <lucide-icon name="chevron-up" [size]="16" strokeWidth="1.5"></lucide-icon>
+                      }
+                      @if (!showPasswordSection()) {
+                        <lucide-icon name="key-round" [size]="16" strokeWidth="1.5"></lucide-icon>
+                      }
                       {{ showPasswordSection() ? 'Cerrar' : 'Cambiar contraseña' }}
                     </button>
                     @if (showPasswordSection()) {
@@ -263,13 +268,18 @@
                               <button type="button"
                                 class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg p-1 hover:text-jmg transition-colors"
                                 (click)="showNuevaPass.set(!showNuevaPass())">
-                                <i class="bi" [ngClass]="showNuevaPass() ? 'bi-eye-slash' : 'bi-eye'"></i>
+                                @if (showNuevaPass()) {
+                                  <lucide-icon name="eye-off" [size]="18" strokeWidth="1.5"></lucide-icon>
+                                }
+                                @if (!showNuevaPass()) {
+                                  <lucide-icon name="eye" [size]="18" strokeWidth="1.5"></lucide-icon>
+                                }
                               </button>
                             </div>
                             @if (passwordForm.get('nueva_contrasena')?.invalid && passwordForm.get('nueva_contrasena')?.touched) {
                               <p
                                 class="mt-1.5 text-xs text-red-500 flex items-center gap-1">
-                                <i class="bi bi-exclamation-circle"></i> Mínimo 6 caracteres.
+                                <lucide-icon name="alert-circle" [size]="14" strokeWidth="1.5"></lucide-icon> Mínimo 6 caracteres.
                               </p>
                             }
                           </div>
@@ -285,13 +295,18 @@
                                 <button type="button"
                                   class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg p-1 hover:text-jmg transition-colors"
                                   (click)="showConfirmaPass.set(!showConfirmaPass())">
-                                  <i class="bi" [ngClass]="showConfirmaPass() ? 'bi-eye-slash' : 'bi-eye'"></i>
+                                  @if (showConfirmaPass()) {
+                                    <lucide-icon name="eye-off" [size]="18" strokeWidth="1.5"></lucide-icon>
+                                  }
+                                  @if (!showConfirmaPass()) {
+                                    <lucide-icon name="eye" [size]="18" strokeWidth="1.5"></lucide-icon>
+                                  }
                                 </button>
                               </div>
                               @if (passwordForm.hasError('passwordMismatch') && passwordForm.get('confirmar_contrasena')?.touched) {
                                 <p
                                   class="mt-1.5 text-xs text-red-500 flex items-center gap-1">
-                                  <i class="bi bi-exclamation-circle"></i> Las contraseñas no coinciden.
+                                  <lucide-icon name="alert-circle" [size]="14" strokeWidth="1.5"></lucide-icon> Las contraseñas no coinciden.
                                 </p>
                               }
                             </div>
@@ -302,7 +317,7 @@
                                 <span class="spinner-border spinner-border-sm text-white"></span>
                               }
                               @if (!isSaving()) {
-                                <i class="bi bi-shield-lock"></i>
+                                <lucide-icon name="shield" [size]="16" strokeWidth="1.5"></lucide-icon>
                               }
                               {{ isSaving() ? 'Guardando...' : 'Actualizar contraseña' }}
                             </button>
@@ -314,7 +329,7 @@
                         <button type="button"
                           class="w-full flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl text-[15px] font-bold text-red-500 border-[1.5px] border-red-200 hover:bg-red-50 active:scale-[0.98] transition-all"
                           (click)="logout()">
-                          <i class="bi bi-box-arrow-left"></i>
+                          <lucide-icon name="log-in" [size]="16" strokeWidth="1.5"></lucide-icon>
                           Cerrar sesión
                         </button>
                       </div>

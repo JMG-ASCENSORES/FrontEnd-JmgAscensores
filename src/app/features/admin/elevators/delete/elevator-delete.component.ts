@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, EventEmitter, Input, Output, inject, signal } from '@angular/core';
 
 import { ElevatorService } from '../../services/elevator.service';
@@ -6,7 +7,7 @@ import { Elevator } from '../../../../core/models/elevator.model';
 @Component({
   selector: 'app-elevator-delete',
   standalone: true,
-  imports: [],
+  imports: [LucideAngularModule],
   templateUrl: './elevator-delete.component.html',
   styleUrl: './elevator-delete.component.scss'
 })

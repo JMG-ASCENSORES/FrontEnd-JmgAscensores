@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, OnInit, Input, Output, EventEmitter, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
@@ -11,7 +12,9 @@ import { Subject, debounceTime, distinctUntilChanged, switchMap, finalize, of } 
 @Component({
   selector: 'app-mantenimiento-fijo-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule,
+    LucideAngularModule
+  ],
   templateUrl: './mantenimiento-fijo-modal.component.html',
   styleUrls: ['./mantenimiento-fijo-modal.component.css']
 })

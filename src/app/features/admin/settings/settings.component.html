@@ -10,7 +10,7 @@
           <span>{{ initials }}</span>
         }
         @if (isLoading()) {
-          <i class="bi bi-person-fill text-4xl text-slate-300"></i>
+          <lucide-icon name="user" [size]="36" strokeWidth="1.5" class="text-slate-300"></lucide-icon>
         }
       </div>
     </div>
@@ -30,7 +30,7 @@
         }
       </h1>
       <span class="inline-flex items-center gap-2 px-3 py-1 bg-jmg-muted text-jmg rounded-full text-sm font-semibold">
-        <i class="bi bi-shield-check"></i>
+        <lucide-icon name="shield-check" [size]="16" strokeWidth="1.5"></lucide-icon>
         Administrador
       </span>
     </div>
@@ -38,13 +38,13 @@
     <!-- Feedback alerts -->
     @if (saveSuccess()) {
       <div class="flex items-center gap-3 p-4 rounded-2xl border bg-emerald-50 text-emerald-700 border-emerald-100">
-        <i class="bi bi-check-circle-fill text-lg shrink-0"></i>
+        <lucide-icon name="check-circle-2" [size]="18" strokeWidth="1.5" class="shrink-0"></lucide-icon>
         Cambios guardados con éxito.
       </div>
     }
     @if (errorMessage()) {
       <div class="flex items-center gap-3 p-4 rounded-2xl border bg-rose-50 text-rose-700 border-rose-100">
-        <i class="bi bi-exclamation-circle-fill text-lg shrink-0"></i>
+        <lucide-icon name="alert-circle" [size]="18" strokeWidth="1.5" class="shrink-0"></lucide-icon>
         {{ errorMessage() }}
       </div>
     }
@@ -58,7 +58,7 @@
           : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'"
         (click)="activeTab.set('profile')"
         >
-        <i class="bi bi-person text-base"></i> Mi Perfil
+        <lucide-icon name="user" [size]="16" strokeWidth="1.5"></lucide-icon> Mi Perfil
       </button>
       <button
         class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-all"
@@ -67,7 +67,7 @@
           : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'"
         (click)="activeTab.set('security')"
         >
-        <i class="bi bi-shield-lock text-base"></i> Seguridad
+        <lucide-icon name="shield" [size]="16" strokeWidth="1.5"></lucide-icon> Seguridad
       </button>
       <button
         class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-all"
@@ -76,7 +76,7 @@
           : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'"
         (click)="activeTab.set('system')"
         >
-        <i class="bi bi-gear-wide-connected text-base"></i> Sistema
+        <lucide-icon name="settings-2" [size]="16" strokeWidth="1.5"></lucide-icon> Sistema
       </button>
     </div>
 
@@ -146,7 +146,7 @@
                         <span class="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin"></span>
                       }
                       @if (!isSaving()) {
-                        <i class="bi bi-check-lg"></i>
+                        <lucide-icon name="check" [size]="16" strokeWidth="1.5"></lucide-icon>
                       }
                       {{ isSaving() ? 'Guardando...' : 'Guardar Cambios' }}
                     </button>
@@ -174,7 +174,11 @@
                           <button type="button"
                             class="absolute right-3 w-9 h-9 flex items-center justify-center text-slate-400 hover:text-jmg transition-colors"
                             (click)="showNuevaPass.set(!showNuevaPass())">
-                            <i class="bi" [ngClass]="showNuevaPass() ? 'bi-eye-slash' : 'bi-eye'"></i>
+                            @if (showNuevaPass()) {
+                              <lucide-icon name="eye-off" [size]="16" strokeWidth="1.5"></lucide-icon>
+                            } @else {
+                              <lucide-icon name="eye" [size]="16" strokeWidth="1.5"></lucide-icon>
+                            }
                           </button>
                         </div>
                       </div>
@@ -189,7 +193,11 @@
                             <button type="button"
                               class="absolute right-3 w-9 h-9 flex items-center justify-center text-slate-400 hover:text-jmg transition-colors"
                               (click)="showConfirmaPass.set(!showConfirmaPass())">
-                              <i class="bi" [ngClass]="showConfirmaPass() ? 'bi-eye-slash' : 'bi-eye'"></i>
+                              @if (showConfirmaPass()) {
+                                <lucide-icon name="eye-off" [size]="16" strokeWidth="1.5"></lucide-icon>
+                              } @else {
+                                <lucide-icon name="eye" [size]="16" strokeWidth="1.5"></lucide-icon>
+                              }
                             </button>
                           </div>
                           @if (passwordForm.hasError('passwordMismatch') && passwordForm.get('confirmar_contrasena')?.touched) {
@@ -207,7 +215,7 @@
                             <span class="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin"></span>
                           }
                           @if (!isSaving()) {
-                            <i class="bi bi-shield-lock"></i>
+                            <lucide-icon name="shield" [size]="16" strokeWidth="1.5"></lucide-icon>
                           }
                           Actualizar Contraseña
                         </button>

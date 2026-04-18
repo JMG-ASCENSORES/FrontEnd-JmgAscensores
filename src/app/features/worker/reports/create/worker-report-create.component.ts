@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, EventEmitter, Output, Input, inject, signal, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import SignaturePad from 'signature_pad';
 
@@ -12,7 +13,9 @@ import { LoadingSpinnerComponent } from '../../../../shared/components/loading-s
 @Component({
   selector: 'app-worker-report-create',
   standalone: true,
-  imports: [ReactiveFormsModule, LoadingSpinnerComponent],
+  imports: [ReactiveFormsModule, LoadingSpinnerComponent,
+    LucideAngularModule
+  ],
   templateUrl: './worker-report-create.component.html',
   styleUrl: './worker-report-create.component.scss'
 })

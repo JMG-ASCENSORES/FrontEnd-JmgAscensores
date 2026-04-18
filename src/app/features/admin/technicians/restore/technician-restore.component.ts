@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, EventEmitter, Output, inject, signal, OnInit } from '@angular/core';
 
 import { TechnicianService, Technician } from '../../services/technician.service';
@@ -5,7 +6,7 @@ import { TechnicianService, Technician } from '../../services/technician.service
 @Component({
   selector: 'app-technician-restore',
   standalone: true,
-  imports: [],
+  imports: [LucideAngularModule],
   templateUrl: './technician-restore.component.html',
   styleUrl: './technician-restore.component.scss'
 })

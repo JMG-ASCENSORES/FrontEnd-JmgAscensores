@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, EventEmitter, Input, OnInit, Output, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -8,7 +9,9 @@ import { ModalWrapperComponent } from '../../../../shared/components/modal-wrapp
 @Component({
   selector: 'app-client-edit',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ModalWrapperComponent],
+  imports: [CommonModule, ReactiveFormsModule, ModalWrapperComponent,
+    LucideAngularModule
+  ],
   templateUrl: './client-edit.component.html',
 })
 export class ClientEditComponent implements OnInit {

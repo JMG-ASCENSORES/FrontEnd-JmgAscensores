@@ -14,7 +14,7 @@
     <!-- Total -->
     <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
       <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center shrink-0">
-        <i class="bi bi-people-fill text-xl text-slate-600"></i>
+        <lucide-icon name="users" [size]="20" strokeWidth="1.5" class="text-slate-600"></lucide-icon>
       </div>
       <div>
         <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ totalTechnicians() }}</p>
@@ -25,7 +25,7 @@
     <!-- Mantenimiento -->
     <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
       <div class="w-12 h-12 rounded-xl bg-jmg-muted flex items-center justify-center shrink-0">
-        <i class="bi bi-tools text-xl text-jmg"></i>
+        <lucide-icon name="wrench" [size]="20" strokeWidth="1.5" class="text-jmg"></lucide-icon>
       </div>
       <div>
         <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ maintenanceCount() }}</p>
@@ -36,7 +36,7 @@
     <!-- General -->
     <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
       <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
-        <i class="bi bi-person-gear text-xl text-emerald-600"></i>
+        <lucide-icon name="user-cog" [size]="20" strokeWidth="1.5" class="text-emerald-600"></lucide-icon>
       </div>
       <div>
         <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ generalCount() }}</p>
@@ -47,7 +47,7 @@
     <!-- Reparaciones -->
     <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
       <div class="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center shrink-0">
-        <i class="bi bi-wrench-adjustable text-xl text-orange-500"></i>
+        <lucide-icon name="wrench" [size]="20" strokeWidth="1.5" class="text-orange-500"></lucide-icon>
       </div>
       <div>
         <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ repairsCount() }}</p>
@@ -58,7 +58,7 @@
     <!-- Supervisor -->
     <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
       <div class="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center shrink-0">
-        <i class="bi bi-person-badge-fill text-xl text-purple-600"></i>
+        <lucide-icon name="badge" [size]="20" strokeWidth="1.5" class="text-purple-600"></lucide-icon>
       </div>
       <div>
         <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ supervisorCount() }}</p>
@@ -95,14 +95,14 @@
       (click)="openRestoreModal()"
       class="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-600 font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors border border-slate-200 shadow-sm"
       >
-      <i class="bi bi-arrow-counterclockwise"></i>
+      <lucide-icon name="rotate-ccw" [size]="16" strokeWidth="1.5"></lucide-icon>
       Restaurar Técnicos
     </button>
     <button
       (click)="openCreateModal()"
       class="inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors shadow-sm"
       >
-      <i class="bi bi-plus-lg"></i>
+      <lucide-icon name="plus" [size]="16" strokeWidth="1.5"></lucide-icon>
       Registrar Nuevo Técnico
     </button>
   </div>
@@ -118,7 +118,7 @@
   <!-- ── Error ── -->
   @if (error()) {
     <div class="bg-red-50 border border-red-100 text-red-600 px-5 py-4 rounded-2xl flex items-center gap-3 text-sm font-medium">
-      <i class="bi bi-exclamation-triangle-fill text-lg shrink-0"></i>
+      <lucide-icon name="alert-triangle" [size]="18" strokeWidth="1.5" class="shrink-0"></lucide-icon>
       {{ error() }}
     </div>
   }
@@ -133,7 +133,7 @@
             <button action-top (click)="openEditModal(tech)"
               class="text-emerald-600 hover:text-emerald-700 p-2 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors"
               title="Editar Técnico">
-              <i class="bi bi-pencil-square"></i>
+              <lucide-icon name="square-pen" [size]="16" strokeWidth="1.5"></lucide-icon>
             </button>
             <!-- Main Content -->
             <div>
@@ -169,7 +169,7 @@
               <div class="space-y-3 w-full">
                 <div class="flex items-center gap-3 text-slate-600">
                   <div class="w-7 h-7 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">
-                    <i class="bi bi-envelope-fill text-[11px] text-slate-400"></i>
+                    <lucide-icon name="mail" [size]="11" strokeWidth="1.5" class="text-slate-400"></lucide-icon>
                   </div>
                   <div class="min-w-0">
                     <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider leading-none mb-0.5">Correo</p>
@@ -178,7 +178,7 @@
                 </div>
                 <div class="flex items-center gap-3 text-slate-600">
                   <div class="w-7 h-7 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">
-                    <i class="bi bi-telephone-fill text-[11px] text-slate-400"></i>
+                    <lucide-icon name="phone" [size]="11" strokeWidth="1.5" class="text-slate-400"></lucide-icon>
                   </div>
                   <div>
                     <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider leading-none mb-0.5">Teléfono</p>
@@ -187,7 +187,7 @@
                 </div>
                 <div class="flex items-center gap-3 text-slate-600">
                   <div class="w-7 h-7 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">
-                    <i class="bi bi-cake2-fill text-[11px] text-slate-400"></i>
+                    <lucide-icon name="cake" [size]="11" strokeWidth="1.5" class="text-slate-400"></lucide-icon>
                   </div>
                   <div>
                     <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider leading-none mb-0.5">Edad</p>
@@ -200,7 +200,7 @@
             <button (click)="openDeleteModal(tech)"
               class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity text-red-400 hover:text-red-600 hover:bg-red-50 p-1.5 rounded-lg border border-transparent hover:border-red-100 z-30"
               title="Eliminar Técnico">
-              <i class="bi bi-trash3-fill text-sm"></i>
+              <lucide-icon name="trash-2" [size]="14" strokeWidth="1.5"></lucide-icon>
             </button>
           </app-entity-card>
         </div>
@@ -213,7 +213,7 @@
     <div
       class="py-20 flex flex-col items-center gap-4 bg-white rounded-2xl border border-dashed border-slate-200">
       <div class="w-20 h-20 bg-slate-100 rounded-2xl flex items-center justify-center">
-        <i class="bi bi-search text-slate-300 text-3xl"></i>
+        <lucide-icon name="search" [size]="30" strokeWidth="1.5" class="text-slate-300"></lucide-icon>
       </div>
       <div class="text-center">
         <h3 class="font-display font-bold text-slate-800 text-lg">Sin resultados</h3>

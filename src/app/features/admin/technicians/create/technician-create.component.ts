@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, EventEmitter, Output, inject, signal } from '@angular/core';
 
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -7,7 +8,9 @@ import { ModalWrapperComponent } from '../../../../shared/components/modal-wrapp
 @Component({
   selector: 'app-technician-create',
   standalone: true,
-  imports: [ReactiveFormsModule, ModalWrapperComponent],
+  imports: [ReactiveFormsModule, ModalWrapperComponent,
+    LucideAngularModule
+  ],
   templateUrl: './technician-create.component.html',
   styleUrl: './technician-create.component.scss'
 })

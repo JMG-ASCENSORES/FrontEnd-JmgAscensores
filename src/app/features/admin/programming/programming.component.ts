@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, OnInit, inject, ChangeDetectorRef, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router'; // Import RouterModule for routerLink
@@ -38,7 +39,9 @@ interface TimelineItem {
 @Component({
   selector: 'app-programming',
   standalone: true,
-  imports: [CommonModule, FullCalendarModule, RouterModule],
+  imports: [CommonModule, FullCalendarModule, RouterModule,
+    LucideAngularModule
+  ],
   templateUrl: './programming.component.html',
   styleUrls: ['./programming.component.css'],
   host: {
@@ -381,11 +384,11 @@ export class ProgrammingComponent implements OnInit {
 
   getRoleIcon(specialty: string): string {
     switch (specialty) {
-      case 'Supervisor Técnico': return 'bi-person-fill-gear';
-      case 'Técnico de Mantenimiento': return 'bi-gear-wide-connected';
-      case 'Técnico de Reparaciones': return 'bi-hammer';
-      case 'Técnico General': return 'bi-person-badge';
-      default: return 'bi-person';
+      case 'Supervisor Técnico': return 'user-cog';
+      case 'Técnico de Mantenimiento': return 'settings-2';
+      case 'Técnico de Reparaciones': return 'wrench';
+      case 'Técnico General': return 'badge';
+      default: return 'user';
     }
   }
 
@@ -397,7 +400,10 @@ export class ProgrammingComponent implements OnInit {
     // We use originalData from schedules because it only contains today's filtered items
     this.schedules.forEach(schedule => {
       const mant = schedule.originalData;
-      const techs = (mant.extendedProps?.trabajadores || []).filter((t: any) => t && t.trabajador_id);
+      let techs = (mant.extendedProps?.trabajadores || []).filter((t: any) => t && t.trabajador_id);
+      if (techs.length === 0 && mant.extendedProps?.trabajador?.trabajador_id) {
+        techs = [mant.extendedProps.trabajador];
+      }
 
       techs.forEach((t: any) => {
         if (!techGroups.has(t.trabajador_id)) {

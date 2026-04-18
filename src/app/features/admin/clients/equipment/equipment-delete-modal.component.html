@@ -9,12 +9,12 @@
     <div class="px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-red-50 to-white flex items-center justify-between">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
-          <i class="bi bi-exclamation-triangle text-red-600 text-lg"></i>
+          <lucide-icon name="alert-triangle" [size]="20" strokeWidth="1.5" class="text-red-600"></lucide-icon>
         </div>
         <h2 class="text-xl font-bold text-gray-900">Eliminar Equipo</h2>
       </div>
       <button (click)="onClose()" class="p-2 rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors">
-        <i class="bi bi-x-lg text-lg"></i>
+        <lucide-icon name="x" [size]="18" strokeWidth="1.5"></lucide-icon>
       </button>
     </div>
 
@@ -25,7 +25,7 @@
       @if (errorMessage()) {
         <div class="mb-4 bg-red-50 border-l-4 border-red-500 p-4 rounded-md">
           <div class="flex">
-            <i class="bi bi-exclamation-circle text-red-500 mr-3"></i>
+            <lucide-icon name="alert-circle" [size]="16" strokeWidth="1.5" class="text-red-500 mr-3"></lucide-icon>
             <p class="text-sm text-red-700">{{ errorMessage() }}</p>
           </div>
         </div>
@@ -36,16 +36,16 @@
       <!-- Equipment Details -->
       <div class="bg-gray-50 rounded-lg p-4 space-y-2 mb-6">
         <div class="flex items-center gap-2">
-          <i class="bi bi-building text-gray-400"></i>
+          <lucide-icon name="building" [size]="16" strokeWidth="1.5" class="text-gray-400"></lucide-icon>
           <span class="font-semibold text-gray-900">{{ equipment.marca }} {{ equipment.modelo }}</span>
         </div>
         <div class="flex items-center gap-2">
-          <i class="bi bi-tag text-gray-400"></i>
+          <lucide-icon name="tag" [size]="16" strokeWidth="1.5" class="text-gray-400"></lucide-icon>
           <span class="text-sm text-gray-600">{{ equipment.tipo_equipo }}</span>
         </div>
         @if (equipment.numero_serie) {
           <div class="flex items-center gap-2">
-            <i class="bi bi-hash text-gray-400"></i>
+            <lucide-icon name="hash" [size]="16" strokeWidth="1.5" class="text-gray-400"></lucide-icon>
             <span class="text-sm text-gray-600">Serie: {{ equipment.numero_serie }}</span>
           </div>
         }

@@ -47,7 +47,7 @@
     <!-- Error -->
     @if (!isLoading() && error()) {
       <div class="bg-red-50 text-red-600 p-4 rounded-xl flex items-center gap-3">
-        <i class="bi bi-x-circle-fill text-xl"></i>
+        <lucide-icon name="x-circle" [size]="20" strokeWidth="1.5"></lucide-icon>
         <span class="text-sm font-medium">{{ error() }}</span>
       </div>
     }
@@ -56,7 +56,7 @@
     @if (!isLoading() && !error() && filteredRoutes().length === 0) {
       <div class="flex flex-col items-center justify-center py-16 opacity-80">
         <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 mb-4">
-          <i class="bi bi-calendar-x text-2xl"></i>
+          <lucide-icon name="calendar-x" [size]="24" strokeWidth="1.5"></lucide-icon>
         </div>
         <p class="text-lg font-bold text-slate-700">Día libre</p>
         <p class="text-sm text-slate-500 mt-1 max-w-[200px] text-center">No tienes trabajos asignados para esta fecha.</p>
@@ -77,7 +77,7 @@
             <div class="flex items-center justify-between pb-2 border-b border-slate-100 pl-2">
               <div class="flex items-center gap-2">
                 <span class="text-slate-800 font-black text-lg tracking-tight">{{ formatTime(route.start) }}</span>
-                <i class="bi bi-arrow-right text-slate-300 mx-1"></i>
+                <lucide-icon name="arrow-right" [size]="16" strokeWidth="1.5" class="text-slate-300 mx-1"></lucide-icon>
                 <span class="text-slate-500 font-bold text-sm">{{ formatTime(route.end) }}</span>
               </div>
               <div class="flex items-center gap-1.5" [title]="route.extendedProps.estado || 'Desconocido'">
@@ -89,7 +89,7 @@
               <h3 class="text-slate-900 font-bold text-base line-clamp-1 leading-tight">{{ route.title }}</h3>
               <div class="flex items-center gap-2 mt-1">
                 <div class="shrink-0 w-6 h-6 rounded-md bg-slate-100 flex items-center justify-center">
-                  <i class="bi bi-building text-slate-500 text-xs"></i>
+                  <lucide-icon name="building" [size]="12" strokeWidth="1.5" class="text-slate-500"></lucide-icon>
                 </div>
                 <p class="text-slate-600 text-sm font-medium line-clamp-1">
                   {{ route.extendedProps.cliente?.nombre_comercial || 'Sin Cliente Asignado' }}
@@ -97,7 +97,7 @@
               </div>
               <div class="flex items-center gap-2">
                 <div class="shrink-0 w-6 h-6 rounded-md bg-slate-100 flex items-center justify-center">
-                  <i class="bi bi-geo-alt text-slate-500 text-xs"></i>
+                  <lucide-icon name="map-pin" [size]="12" strokeWidth="1.5" class="text-slate-500"></lucide-icon>
                 </div>
                 <p class="text-slate-500 text-sm line-clamp-1 flex-1">
                   @if (route.extendedProps.ascensor) {
@@ -143,11 +143,11 @@
           <div class="flex flex-wrap items-center gap-2 mb-6">
             <span class="px-3 py-1.5 rounded-lg text-xs font-extrabold uppercase shadow-sm flex items-center gap-1.5"
               [ngClass]="getTypeColor(selected.extendedProps.tipo_trabajo)">
-              <i class="bi bi-tag-fill"></i>
+              <lucide-icon name="tag" [size]="12" strokeWidth="1.5"></lucide-icon>
               {{ getTypeLabel(selected.extendedProps.tipo_trabajo) }}
             </span>
             <span class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 shadow-sm flex items-center gap-1.5">
-              <i class="bi bi-clock-history"></i>
+              <lucide-icon name="history" [size]="12" strokeWidth="1.5"></lucide-icon>
               {{ formatTime(selected.start) }} - {{ formatTime(selected.end) }}
             </span>
           </div>
@@ -171,7 +171,7 @@
                 {{ getAddressQuery() }}
               </p>
               <button (click)="openExternalMap()" class="shrink-0 bg-slate-900 text-white rounded-xl px-4 py-2 text-xs font-bold shadow-md hover:bg-slate-800 transition-colors flex items-center gap-2">
-                <i class="bi bi-cursor-fill"></i> NAVEGAR
+                <lucide-icon name="mouse-pointer-2" [size]="14" strokeWidth="1.5"></lucide-icon> NAVEGAR
               </button>
             </div>
           </div>
@@ -193,7 +193,7 @@
             <h4 class="text-xs font-extrabold uppercase text-slate-400 tracking-wider mb-3">Equipo a Intervenir</h4>
             <div class="flex flex-col gap-2">
               <p class="text-slate-800 font-bold flex items-center gap-2">
-                <i class="bi bi-box-seam text-slate-400"></i>
+                <lucide-icon name="box" [size]="16" strokeWidth="1.5" class="text-slate-400"></lucide-icon>
                 {{ selected.extendedProps.ascensor?.tipo_equipo || 'Ascensor/Equipo' }}
               </p>
               <p class="text-slate-600 text-sm ml-6"><span class="font-medium text-slate-400">Marca:</span> {{ selected.extendedProps.ascensor?.marca || 'N/A' }}</p>
@@ -212,7 +212,12 @@
           <button class="w-full text-white rounded-2xl py-4 font-bold tracking-wide shadow-lg active:scale-[0.98] transition-transform mb-6"
             [ngClass]="selected.extendedProps.informe_id ? 'bg-accent shadow-accent/20' : 'bg-jmg shadow-jmg/20'"
             (click)="openReportCreation()">
-            <i class="mr-2 text-lg" [ngClass]="selected.extendedProps.informe_id ? 'bi-pencil-square' : 'bi-file-earmark-check'"></i>
+            @if (selected.extendedProps.informe_id) {
+              <lucide-icon name="square-pen" [size]="18" strokeWidth="1.5" class="mr-2 inline"></lucide-icon>
+            }
+            @if (!selected.extendedProps.informe_id) {
+              <lucide-icon name="file-check" [size]="18" strokeWidth="1.5" class="mr-2 inline"></lucide-icon>
+            }
             {{ selected.extendedProps.informe_id ? 'VER / EDITAR INFORME' : 'CREAR INFORME' }}
           </button>
           <!-- Extra space at bottom -->

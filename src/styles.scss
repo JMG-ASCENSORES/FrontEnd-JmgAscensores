@@ -15,6 +15,13 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'Syne', sans-serif;
 }
 
+/* Micro-interacción global en botones */
+button:not(:disabled) {
+    &:active {
+        transform: scale(0.98);
+    }
+}
+
 /* Active link en sidebar */
 .active-link {
     @apply bg-white/10 text-white;

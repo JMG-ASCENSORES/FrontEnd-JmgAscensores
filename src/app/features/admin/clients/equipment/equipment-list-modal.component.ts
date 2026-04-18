@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, EventEmitter, Input, OnInit, Output, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ElevatorService } from '../../services/elevator.service';
@@ -10,7 +11,9 @@ import { EquipmentDeleteModalComponent } from './equipment-delete-modal.componen
 @Component({
   selector: 'app-equipment-list-modal',
   standalone: true,
-  imports: [CommonModule, EquipmentCreateModalComponent, EquipmentEditModalComponent, EquipmentDeleteModalComponent],
+  imports: [CommonModule, EquipmentCreateModalComponent, EquipmentEditModalComponent, EquipmentDeleteModalComponent,
+    LucideAngularModule
+  ],
   templateUrl: './equipment-list-modal.component.html',
 })
 export class EquipmentListModalComponent implements OnInit {

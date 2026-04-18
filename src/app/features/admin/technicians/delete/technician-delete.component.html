@@ -9,7 +9,7 @@
     <div class="p-6 text-center">
       <!-- Icon -->
       <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-        <i class="bi bi-exclamation-triangle-fill text-3xl text-red-600"></i>
+        <lucide-icon name="alert-triangle" [size]="30" strokeWidth="1.5" class="text-red-600"></lucide-icon>
       </div>
 
       <h2 class="text-xl font-bold text-gray-900 mb-2">¿Eliminar Técnico?</h2>
@@ -24,7 +24,7 @@
       @if (errorMessage()) {
         <div class="bg-red-50 border border-red-200 p-3 rounded-lg mb-4 text-left">
           <p class="text-xs text-red-700 flex items-center gap-2">
-            <i class="bi bi-x-circle-fill"></i>
+            <lucide-icon name="x-circle" [size]="16" strokeWidth="1.5"></lucide-icon>
             {{ errorMessage() }}
           </p>
         </div>

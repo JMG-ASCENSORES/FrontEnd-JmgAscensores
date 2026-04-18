@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, EventEmitter, Input, Output, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -7,7 +8,9 @@ import { Client } from '../../services/client.service';
 @Component({
   selector: 'app-equipment-create-modal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,
+    LucideAngularModule
+  ],
   templateUrl: './equipment-create-modal.component.html',
 })
 export class EquipmentCreateModalComponent {

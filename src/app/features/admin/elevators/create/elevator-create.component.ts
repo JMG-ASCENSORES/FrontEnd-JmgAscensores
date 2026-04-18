@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, EventEmitter, OnInit, Output, inject, signal } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
@@ -8,7 +9,9 @@ import { Elevator } from '../../../../core/models/elevator.model';
 @Component({
   selector: 'app-elevator-create',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule,
+    LucideAngularModule
+  ],
   templateUrl: './elevator-create.component.html',
   styleUrl: './elevator-create.component.scss'
 })

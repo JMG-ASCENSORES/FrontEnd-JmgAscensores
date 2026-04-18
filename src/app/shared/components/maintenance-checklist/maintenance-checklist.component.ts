@@ -1,10 +1,11 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, Input, Output, EventEmitter, computed, signal } from '@angular/core';
 
 
 @Component({
   selector: 'app-maintenance-checklist',
   standalone: true,
-  imports: [],
+  imports: [LucideAngularModule],
   templateUrl: './maintenance-checklist.component.html',
   styles: []
 })

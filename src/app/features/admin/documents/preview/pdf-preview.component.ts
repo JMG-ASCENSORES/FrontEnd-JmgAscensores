@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { SafeResourceUrl } from '@angular/platform-browser';
@@ -5,7 +6,7 @@ import { SafeResourceUrl } from '@angular/platform-browser';
 @Component({
   selector: 'app-pdf-preview',
   standalone: true,
-  imports: [],
+  imports: [LucideAngularModule],
   templateUrl: './pdf-preview.component.html',
   styleUrl: './pdf-preview.component.scss'
 })

@@ -14,7 +14,7 @@
     <!-- Total Documentos -->
     <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
       <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center shrink-0">
-        <i class="bi bi-folder2-open text-xl text-slate-600"></i>
+        <lucide-icon name="folder-open" [size]="20" strokeWidth="1.5" class="text-slate-600"></lucide-icon>
       </div>
       <div>
         <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ totalDocuments() | number }}</p>
@@ -25,7 +25,7 @@
     <!-- Informes de Mantenimiento -->
     <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
       <div class="w-12 h-12 rounded-xl bg-jmg-muted flex items-center justify-center shrink-0">
-        <i class="bi bi-tools text-xl text-jmg"></i>
+        <lucide-icon name="wrench" [size]="20" strokeWidth="1.5" class="text-jmg"></lucide-icon>
       </div>
       <div>
         <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ maintenanceReports() | number }}</p>
@@ -36,7 +36,7 @@
     <!-- Informes Técnicos -->
     <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
       <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
-        <i class="bi bi-file-earmark-text-fill text-xl text-emerald-600"></i>
+        <lucide-icon name="file-text" [size]="20" strokeWidth="1.5" class="text-emerald-600"></lucide-icon>
       </div>
       <div>
         <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ technicalReports() | number }}</p>
@@ -54,7 +54,7 @@
       <div class="w-full md:flex-1 relative">
         <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Búsqueda</label>
         <div class="absolute bottom-0 left-0 flex items-center pl-3.5 h-[46px] pointer-events-none">
-          <i class="bi bi-search text-slate-400 text-sm"></i>
+          <lucide-icon name="search" [size]="14" strokeWidth="1.5" class="text-slate-400"></lucide-icon>
         </div>
         <input
           type="text"
@@ -89,7 +89,7 @@
               <option value="Mantenimiento">Informe Mantenimiento</option>
             </select>
             <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-slate-400">
-              <i class="bi bi-chevron-down text-xs"></i>
+              <lucide-icon name="chevron-down" [size]="14" strokeWidth="1.5"></lucide-icon>
             </div>
           </div>
         </div>
@@ -162,10 +162,10 @@
                   }
                   <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
                     @if (!selectedClientId()) {
-                      <i class="bi bi-search text-slate-400 text-sm"></i>
+                      <lucide-icon name="search" [size]="14" strokeWidth="1.5" class="text-slate-400"></lucide-icon>
                     }
                     @if (selectedClientId()) {
-                      <i class="bi bi-check-circle-fill text-emerald-500 text-sm"></i>
+                      <lucide-icon name="check-circle-2" [size]="14" strokeWidth="1.5" class="text-emerald-500"></lucide-icon>
                     }
                   </div>
                 </div>
@@ -180,7 +180,7 @@
               (click)="openCreateModal()"
               class="inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors shadow-sm"
               >
-              <i class="bi bi-plus-lg"></i>
+              <lucide-icon name="plus" [size]="16" strokeWidth="1.5"></lucide-icon>
               Crear Nuevo Informe
             </button>
           </div>
@@ -220,11 +220,12 @@
                           <!-- Icono por tipo -->
                           <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 mt-0.5"
                             [ngClass]="report.tipo_informe === 'Mantenimiento' ? 'bg-jmg-muted' : 'bg-emerald-50'">
-                            <i class="text-sm"
-                    [ngClass]="report.tipo_informe === 'Mantenimiento'
-                      ? 'bi bi-tools text-jmg'
-                      : 'bi bi-file-earmark-text-fill text-emerald-600'">
-                            </i>
+                            @if (report.tipo_informe === 'Mantenimiento') {
+                              <lucide-icon name="wrench" [size]="14" strokeWidth="1.5" class="text-jmg"></lucide-icon>
+                            }
+                            @if (report.tipo_informe !== 'Mantenimiento') {
+                              <lucide-icon name="file-text" [size]="14" strokeWidth="1.5" class="text-emerald-600"></lucide-icon>
+                            }
                           </div>
                           <div class="min-w-0">
                             <p class="font-semibold text-slate-800 text-sm leading-snug">
@@ -278,14 +279,14 @@
                               class="w-9 h-9 rounded-lg bg-slate-100 text-slate-500 flex items-center justify-center hover:bg-slate-200 transition-colors"
                               title="Vista Previa"
                               >
-                              <i class="bi bi-eye text-sm"></i>
+                              <lucide-icon name="eye" [size]="14" strokeWidth="1.5"></lucide-icon>
                             </button>
                             <button
                               (click)="downloadPdfDirectly(report)"
                               class="w-9 h-9 rounded-lg bg-jmg text-white flex items-center justify-center hover:bg-jmg-dark transition-colors"
                               title="Descargar PDF"
                               >
-                              <i class="bi bi-download text-sm"></i>
+                              <lucide-icon name="download" [size]="14" strokeWidth="1.5"></lucide-icon>
                             </button>
                           } @else {
                             <div class="w-[80px] h-9 flex items-center justify-center bg-slate-50 rounded-lg border border-slate-200">
@@ -297,14 +298,14 @@
                             class="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center hover:bg-emerald-100 transition-colors"
                             title="Editar Informe"
                             >
-                            <i class="bi bi-pencil-square text-sm"></i>
+                            <lucide-icon name="square-pen" [size]="14" strokeWidth="1.5"></lucide-icon>
                           </button>
                           <button
                             (click)="openDeleteModal(report)"
                             class="w-9 h-9 rounded-lg bg-red-50 text-red-400 flex items-center justify-center hover:bg-red-100 transition-colors"
                             title="Eliminar Informe"
                             >
-                            <i class="bi bi-trash3-fill text-sm"></i>
+                            <lucide-icon name="trash-2" [size]="14" strokeWidth="1.5"></lucide-icon>
                           </button>
                         </div>
                       </td>
@@ -317,7 +318,7 @@
                       <td colspan="6" class="px-6 py-20">
                         <div class="flex flex-col items-center gap-3">
                           <div class="w-16 h-16 rounded-2xl bg-slate-100 flex items-center justify-center">
-                            <i class="bi bi-folder2-open text-slate-300 text-2xl"></i>
+                            <lucide-icon name="folder-open" [size]="24" strokeWidth="1.5" class="text-slate-300"></lucide-icon>
                           </div>
                           <h3 class="font-display font-bold text-slate-700 text-base">Sin documentos</h3>
                           <p class="text-slate-400 text-sm">Ajustá los filtros o creá un nuevo informe.</p>
@@ -354,14 +355,14 @@
                     (click)="prevPage()"
                     class="inline-flex items-center gap-1.5 px-4 py-2 border border-slate-200 rounded-xl text-sm font-medium hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-slate-600"
                     >
-                    <i class="bi bi-chevron-left text-xs"></i> Previo
+                    <lucide-icon name="chevron-left" [size]="14" strokeWidth="1.5"></lucide-icon> Previo
                   </button>
                   <button
                     [disabled]="currentPage() === totalPages()"
                     (click)="nextPage()"
                     class="inline-flex items-center gap-1.5 px-4 py-2 border border-slate-200 rounded-xl text-sm font-medium hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-slate-600"
                     >
-                    Siguiente <i class="bi bi-chevron-right text-xs"></i>
+                    Siguiente <lucide-icon name="chevron-right" [size]="14" strokeWidth="1.5"></lucide-icon>
                   </button>
                 </div>
               </div>

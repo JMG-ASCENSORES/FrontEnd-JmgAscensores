@@ -14,7 +14,7 @@
     <!-- Total Clientes -->
     <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
       <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center shrink-0">
-        <i class="bi bi-people-fill text-xl text-slate-600"></i>
+        <lucide-icon name="users" [size]="20" strokeWidth="1.5" class="text-slate-600"></lucide-icon>
       </div>
       <div>
         <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ totalClients() }}</p>
@@ -25,7 +25,7 @@
     <!-- Ascensores -->
     <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
       <div class="w-12 h-12 rounded-xl bg-jmg-muted flex items-center justify-center shrink-0">
-        <i class="bi bi-arrow-up-square-fill text-xl text-jmg"></i>
+        <lucide-icon name="arrow-up-square" [size]="20" strokeWidth="1.5" class="text-jmg"></lucide-icon>
       </div>
       <div>
         <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ totalAscensores() }}</p>
@@ -36,7 +36,7 @@
     <!-- Montacargas -->
     <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
       <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
-        <i class="bi bi-box-seam-fill text-xl text-emerald-600"></i>
+        <lucide-icon name="package" [size]="20" strokeWidth="1.5" class="text-emerald-600"></lucide-icon>
       </div>
       <div>
         <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ totalMontacargas() }}</p>
@@ -47,7 +47,7 @@
     <!-- Plataformas -->
     <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
       <div class="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center shrink-0">
-        <i class="bi bi-layout-wtf text-xl text-purple-600"></i>
+        <lucide-icon name="layout-dashboard" [size]="20" strokeWidth="1.5" class="text-purple-600"></lucide-icon>
       </div>
       <div>
         <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ totalPlataformas() }}</p>
@@ -74,7 +74,7 @@
           <option value="persona">Personas Naturales</option>
         </select>
         <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-slate-400">
-          <i class="bi bi-chevron-down text-xs"></i>
+          <lucide-icon name="chevron-down" [size]="14" strokeWidth="1.5"></lucide-icon>
         </div>
       </div>
     </div>
@@ -94,7 +94,7 @@
           }
         </select>
         <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-slate-400">
-          <i class="bi bi-chevron-down text-xs"></i>
+          <lucide-icon name="chevron-down" [size]="14" strokeWidth="1.5"></lucide-icon>
         </div>
       </div>
     </div>
@@ -105,7 +105,7 @@
       <div class="flex gap-3">
         <div class="relative flex-1">
           <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-            <i class="bi bi-search text-slate-400"></i>
+            <lucide-icon name="search" [size]="16" strokeWidth="1.5" class="text-slate-400"></lucide-icon>
           </div>
           <input
             type="text"
@@ -132,14 +132,14 @@
         (click)="openRestoreModal()"
         class="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-600 font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors border border-slate-200 shadow-sm"
         >
-        <i class="bi bi-arrow-counterclockwise"></i>
+        <lucide-icon name="rotate-ccw" [size]="16" strokeWidth="1.5"></lucide-icon>
         Restaurar Clientes
       </button>
       <button
         (click)="openCreateModal()"
         class="inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors shadow-sm"
         >
-        <i class="bi bi-plus-lg"></i>
+        <lucide-icon name="plus" [size]="16" strokeWidth="1.5"></lucide-icon>
         Registrar Nuevo Cliente
       </button>
     </div>
@@ -158,7 +158,7 @@
       <!-- Error -->
       @if (error()) {
         <div class="col-span-full bg-red-50 border border-red-100 text-red-600 px-5 py-4 rounded-2xl flex items-center gap-3 text-sm font-medium">
-          <i class="bi bi-exclamation-triangle-fill text-lg shrink-0"></i>
+          <lucide-icon name="alert-triangle" [size]="18" strokeWidth="1.5" class="shrink-0"></lucide-icon>
           {{ error() }}
         </div>
       }
@@ -172,7 +172,7 @@
               <button action-top (click)="openEditModal(client)"
                 class="text-emerald-600 hover:text-emerald-700 p-2 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors"
                 title="Editar Cliente">
-                <i class="bi bi-pencil-square"></i>
+                <lucide-icon name="square-pen" [size]="16" strokeWidth="1.5"></lucide-icon>
               </button>
               <!-- Main Content -->
               <div>
@@ -212,7 +212,7 @@
                 <div class="space-y-3">
                   <div class="flex items-center gap-3 text-slate-600">
                     <div class="w-7 h-7 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">
-                      <i class="bi bi-envelope-fill text-[11px] text-slate-400"></i>
+                      <lucide-icon name="mail" [size]="11" strokeWidth="1.5" class="text-slate-400"></lucide-icon>
                     </div>
                     <div class="min-w-0">
                       <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider leading-none mb-0.5">Correo</p>
@@ -221,7 +221,7 @@
                   </div>
                   <div class="flex items-center gap-3 text-slate-600">
                     <div class="w-7 h-7 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">
-                      <i class="bi bi-telephone-fill text-[11px] text-slate-400"></i>
+                      <lucide-icon name="phone" [size]="11" strokeWidth="1.5" class="text-slate-400"></lucide-icon>
                     </div>
                     <div>
                       <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider leading-none mb-0.5">Teléfono</p>
@@ -230,7 +230,7 @@
                   </div>
                   <div class="flex items-center gap-3 text-slate-600">
                     <div class="w-7 h-7 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">
-                      <i class="bi bi-geo-alt-fill text-[11px] text-slate-400"></i>
+                      <lucide-icon name="map-pin" [size]="11" strokeWidth="1.5" class="text-slate-400"></lucide-icon>
                     </div>
                     <div class="min-w-0">
                       <p class="text-[10px] text-slate-400 uppercase font-semibold tracking-wider leading-none mb-0.5">Dirección</p>
@@ -263,7 +263,7 @@
               <button (click)="openDeleteModal(client)"
                 class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity text-red-400 hover:text-red-600 hover:bg-red-50 p-1.5 rounded-lg border border-transparent hover:border-red-100 z-30"
                 title="Eliminar Cliente">
-                <i class="bi bi-trash3-fill text-sm"></i>
+                <lucide-icon name="trash-2" [size]="14" strokeWidth="1.5"></lucide-icon>
               </button>
             </app-entity-card>
           </div>
@@ -274,7 +274,7 @@
       @if (!isLoading() && totalClients() === 0) {
         <div class="col-span-full py-20 flex flex-col items-center gap-4">
           <div class="w-20 h-20 bg-slate-100 rounded-2xl flex items-center justify-center">
-            <i class="bi bi-people text-3xl text-slate-300"></i>
+            <lucide-icon name="users" [size]="30" strokeWidth="1.5" class="text-slate-300"></lucide-icon>
           </div>
           <div class="text-center">
             <h3 class="font-display font-bold text-slate-800 text-lg">Sin clientes registrados</h3>
@@ -292,7 +292,7 @@
               [disabled]="currentPage() === 1"
               class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed"
               >
-              <i class="bi bi-chevron-left text-xs"></i> Anterior
+              <lucide-icon name="chevron-left" [size]="14" strokeWidth="1.5"></lucide-icon> Anterior
             </button>
             <div class="inline-flex items-center px-5 py-2.5 bg-jmg rounded-xl text-white text-sm font-semibold shadow-sm">
               {{ currentPage() }} / {{ totalPages() }}
@@ -302,7 +302,7 @@
               [disabled]="currentPage() === totalPages()"
               class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed"
               >
-              Siguiente <i class="bi bi-chevron-right text-xs"></i>
+              Siguiente <lucide-icon name="chevron-right" [size]="14" strokeWidth="1.5"></lucide-icon>
             </button>
           </div>
           <p class="text-xs text-slate-400 font-medium">

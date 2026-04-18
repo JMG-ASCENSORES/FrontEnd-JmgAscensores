@@ -3,11 +3,11 @@
     <!-- Header -->
     <div class="modal-header bg-[#003B73] text-white p-4 rounded-t-xl flex justify-between items-center bg-gradient-to-r from-[#003B73] to-[#004b93]">
       <h2 class="text-xl font-bold flex items-center gap-2">
-        <i class="bi bi-calendar2-week"></i>
+        <lucide-icon name="calendar-days" [size]="16" strokeWidth="1.5"></lucide-icon>
         {{ isEditMode ? 'Editar Mantenimiento Fijo' : 'Programar Mantenimiento Fijo' }}
       </h2>
       <button class="text-white/80 hover:text-white transition-colors" (click)="onClose()">
-        <i class="bi bi-x-lg text-xl"></i>
+        <lucide-icon name="x" [size]="20" strokeWidth="1.5"></lucide-icon>
       </button>
     </div>
 
@@ -15,7 +15,7 @@
     <div class="modal-body p-6 max-h-[80vh] overflow-y-auto bg-slate-50">
       @if (errorMessage) {
         <div class="mb-4 p-3 bg-red-100 border border-red-200 text-red-700 rounded-lg text-sm flex items-center gap-2">
-          <i class="bi bi-exclamation-triangle-fill"></i>
+          <lucide-icon name="alert-triangle" [size]="16" strokeWidth="1.5"></lucide-icon>
           {{ errorMessage }}
         </div>
       }
@@ -27,7 +27,7 @@
           @if (!selectedClient) {
             <div class="relative">
               <div class="relative">
-                <i class="bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <lucide-icon name="search" [size]="16" strokeWidth="1.5" class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></lucide-icon>
                 <input
                   type="text"
                   [(ngModel)]="clientSearch"
@@ -51,9 +51,9 @@
                         class="p-3 hover:bg-blue-50 cursor-pointer border-b border-slate-50 last:border-0 transition-colors" tabindex="0" (keydown.enter)="selectClient(client)">
                         <div class="font-bold text-slate-800">{{ client.nombre_comercial || client.contacto_nombre }}</div>
                         <div class="text-xs text-slate-500 flex gap-2">
-                          <span><i class="bi bi-geo-alt"></i> {{ client.distrito || 'Sin distrito' }}</span>
+                          <span><lucide-icon name="map-pin" [size]="12" strokeWidth="1.5" class="inline"></lucide-icon> {{ client.distrito || 'Sin distrito' }}</span>
                           @if (client.dni || client.ruc) {
-                            <span><i class="bi bi-card-text"></i> {{ client.dni || client.ruc }}</span>
+                            <span><lucide-icon name="file-text" [size]="12" strokeWidth="1.5" class="inline"></lucide-icon> {{ client.dni || client.ruc }}</span>
                           }
                         </div>
                       </div>
@@ -73,7 +73,7 @@
               <div class="flex items-center justify-between p-3 bg-blue-50 border border-blue-200 rounded-lg">
                 <div class="flex items-center gap-3">
                   <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white">
-                    <i class="bi bi-building text-lg"></i>
+                    <lucide-icon name="building" [size]="18" strokeWidth="1.5"></lucide-icon>
                   </div>
                   <div>
                     <div class="font-bold text-blue-900">{{ selectedClient.nombre_comercial || selectedClient.contacto_nombre }}</div>
@@ -81,7 +81,7 @@
                   </div>
                 </div>
                 <button type="button" (click)="clearClient()" class="text-blue-600 hover:text-blue-800 text-sm font-bold flex items-center gap-1 px-3 py-1 hover:bg-blue-100 rounded-md transition-all">
-                  <i class="bi bi-arrow-left-right"></i> Cambiar
+                  <lucide-icon name="arrow-left-right" [size]="16" strokeWidth="1.5"></lucide-icon> Cambiar
                 </button>
               </div>
             }
@@ -120,7 +120,7 @@
                         <div class="flex items-center gap-3">
                           <div class="w-8 h-8 rounded-lg flex items-center justify-center"
                             [ngClass]="form.get('ascensor_id')?.value === asc.ascensor_id ? 'bg-blue-100 text-blue-600' : 'bg-slate-100 text-slate-400'">
-                            <i class="bi bi-door-closed"></i>
+                            <lucide-icon name="door-open" [size]="16" strokeWidth="1.5"></lucide-icon>
                           </div>
                           <div class="flex flex-col">
                             <span class="font-bold text-slate-800 text-sm">Serie: {{ asc.numero_serie || 'N/A' }}</span>
@@ -196,19 +196,19 @@
                 <label class="flex flex-col items-center p-3 rounded-xl border cursor-pointer transition-all hover:scale-[1.02]"
                   [ngClass]="form.get('frecuencia')?.value === 'mensual' ? 'bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-200' : 'bg-white border-slate-200 text-slate-600'">
                   <input type="radio" formControlName="frecuencia" value="mensual" class="hidden">
-                  <i class="bi bi-calendar-event text-xl mb-1"></i>
+                  <lucide-icon name="calendar-days" [size]="20" strokeWidth="1.5" class="mb-1"></lucide-icon>
                   <span class="text-xs font-bold uppercase">Mensual</span>
                 </label>
                 <label class="flex flex-col items-center p-3 rounded-xl border cursor-pointer transition-all hover:scale-[1.02]"
                   [ngClass]="form.get('frecuencia')?.value === 'bimestral' ? 'bg-[#1e5a5a] text-white border-[#1e5a5a] shadow-lg shadow-teal-200' : 'bg-white border-slate-200 text-slate-600'">
                   <input type="radio" formControlName="frecuencia" value="bimestral" class="hidden">
-                  <i class="bi bi-calendar2-range text-xl mb-1"></i>
+                  <lucide-icon name="calendar-range" [size]="20" strokeWidth="1.5" class="mb-1"></lucide-icon>
                   <span class="text-xs font-bold uppercase">Cada 2 Meses</span>
                 </label>
                 <label class="flex flex-col items-center p-3 rounded-xl border cursor-pointer transition-all hover:scale-[1.02]"
                   [ngClass]="form.get('frecuencia')?.value === 'trimestral' ? 'bg-purple-600 text-white border-purple-600 shadow-lg shadow-purple-200' : 'bg-white border-slate-200 text-slate-600'">
                   <input type="radio" formControlName="frecuencia" value="trimestral" class="hidden">
-                  <i class="bi bi-calendar3 text-xl mb-1"></i>
+                  <lucide-icon name="calendar" [size]="20" strokeWidth="1.5" class="mb-1"></lucide-icon>
                   <span class="text-xs font-bold uppercase">Trimestral</span>
                 </label>
               </div>

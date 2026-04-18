@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -14,7 +15,9 @@ import { LoadingSpinnerComponent } from '../../../../shared/components/loading-s
 @Component({
   selector: 'app-worker-reports',
   standalone: true,
-  imports: [CommonModule, FormsModule, WorkerReportCreateComponent, PdfPreviewComponent, LoadingSpinnerComponent],
+  imports: [CommonModule, FormsModule, WorkerReportCreateComponent, PdfPreviewComponent, LoadingSpinnerComponent,
+    LucideAngularModule
+  ],
   templateUrl: './worker-reports.component.html',
   styleUrl: './worker-reports.component.scss'
 })

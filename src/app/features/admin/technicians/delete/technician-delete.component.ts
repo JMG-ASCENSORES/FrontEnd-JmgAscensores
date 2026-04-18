@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, EventEmitter, Input, Output, inject, signal } from '@angular/core';
 
 import { TechnicianService, Technician } from '../../services/technician.service';
@@ -5,7 +6,7 @@ import { TechnicianService, Technician } from '../../services/technician.service
 @Component({
   selector: 'app-technician-delete',
   standalone: true,
-  imports: [],
+  imports: [LucideAngularModule],
   templateUrl: './technician-delete.component.html',
   styleUrl: './technician-delete.component.scss'
 })

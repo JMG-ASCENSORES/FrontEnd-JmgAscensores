@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   template: `
-    <div class="bg-white rounded-2xl shadow-lg border border-gray-300 p-6 relative hover:shadow-2xl hover:border-blue-300 transition-all duration-300 group flex flex-col justify-between h-full">
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 relative hover:shadow-md hover:border-slate-200 transition-all duration-300 group flex flex-col justify-between h-full">
       
       <!-- Top Actions (Edit, etc) -->
       <div class="absolute top-4 right-4 z-20 flex gap-2">
@@ -19,7 +19,7 @@ import { Component } from '@angular/core';
       </div>
 
       <!-- Footer -->
-      <div class="mt-4 pt-4 border-t border-gray-200">
+      <div class="mt-4 pt-4 border-t border-slate-100">
          <ng-content select="[footer]"></ng-content>
       </div>
       

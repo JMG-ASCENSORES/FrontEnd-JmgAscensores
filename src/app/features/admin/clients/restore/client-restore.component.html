@@ -12,7 +12,7 @@
         <p class="text-sm text-gray-500 mt-1">Clientes inactivos o dados de baja disponibles para reactivación.</p>
       </div>
       <button (click)="onClose()" class="p-2 rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors">
-        <i class="bi bi-x-lg text-lg"></i>
+        <lucide-icon name="x" [size]="18" strokeWidth="1.5"></lucide-icon>
       </button>
     </div>
 
@@ -37,7 +37,7 @@
       <!-- Empty State -->
       @if (!isLoading() && inactiveClients().length === 0) {
         <div class="text-center py-10 bg-gray-50 rounded-xl border border-dashed border-gray-200">
-          <i class="bi bi-person-check text-4xl text-gray-300 mb-3 block"></i>
+          <lucide-icon name="user-check" [size]="36" strokeWidth="1.5" class="text-gray-300 mb-3 block mx-auto"></lucide-icon>
           <h3 class="text-gray-900 font-medium">Lista Vacía</h3>
           <p class="text-gray-500 text-sm mt-1">No hay clientes inactivos en este momento.</p>
         </div>
@@ -59,14 +59,19 @@
                   </h4>
                   <div class="flex items-center gap-3 text-xs text-gray-500 mt-0.5">
                     <span class="flex items-center gap-1 font-medium bg-slate-100 px-2 py-0.5 rounded text-slate-600">
-                      <i class="bi" [ngClass]="client.tipo_cliente === 'empresa' ? 'bi-building' : 'bi-person'"></i>
+                      @if (client.tipo_cliente === 'empresa') {
+                        <lucide-icon name="building" [size]="12" strokeWidth="1.5"></lucide-icon>
+                      }
+                      @if (client.tipo_cliente !== 'empresa') {
+                        <lucide-icon name="user" [size]="12" strokeWidth="1.5"></lucide-icon>
+                      }
                       {{ client.tipo_cliente === 'empresa' ? 'Empresa' : 'Persona' }}
                     </span>
                     @if (client.ruc) {
-                      <span class="flex items-center gap-1"><i class="bi bi-briefcase"></i> RUC: {{ client.ruc }}</span>
+                      <span class="flex items-center gap-1"><lucide-icon name="briefcase" [size]="12" strokeWidth="1.5"></lucide-icon> RUC: {{ client.ruc }}</span>
                     }
                     @if (!client.ruc && client.dni) {
-                      <span class="flex items-center gap-1"><i class="bi bi-person-badge"></i> DNI: {{ client.dni }}</span>
+                      <span class="flex items-center gap-1"><lucide-icon name="badge" [size]="12" strokeWidth="1.5"></lucide-icon> DNI: {{ client.dni }}</span>
                     }
                   </div>
                 </div>
@@ -92,10 +97,10 @@
                       class="px-3 py-1.5 text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors flex items-center gap-1 shadow-sm"
                       >
                       @if (isProcessing()) {
-                        <i class="bi bi-arrow-repeat animate-spin"></i>
+                        <lucide-icon name="refresh-cw" [size]="16" strokeWidth="1.5" class="animate-spin"></lucide-icon>
                       }
                       @if (!isProcessing()) {
-                        <i class="bi bi-check-lg"></i>
+                        <lucide-icon name="check" [size]="16" strokeWidth="1.5"></lucide-icon>
                       }
                       <span class="hidden sm:inline">Sí</span>
                     </button>
@@ -104,7 +109,7 @@
                       [disabled]="isProcessing()"
                       class="px-3 py-1.5 text-sm font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
                       >
-                      <i class="bi bi-x-lg"></i>
+                      <lucide-icon name="x" [size]="16" strokeWidth="1.5"></lucide-icon>
                     </button>
                   </div>
                 }

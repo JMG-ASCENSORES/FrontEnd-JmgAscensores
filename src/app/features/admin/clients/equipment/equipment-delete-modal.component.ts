@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, EventEmitter, Input, Output, inject, signal } from '@angular/core';
 
 import { ElevatorService } from '../../services/elevator.service';
@@ -6,7 +7,7 @@ import { Elevator } from '../../../../core/models/elevator.model';
 @Component({
   selector: 'app-equipment-delete-modal',
   standalone: true,
-  imports: [],
+  imports: [LucideAngularModule],
   templateUrl: './equipment-delete-modal.component.html',
 })
 export class EquipmentDeleteModalComponent {

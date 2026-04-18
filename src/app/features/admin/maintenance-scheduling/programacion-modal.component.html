@@ -3,18 +3,18 @@
     <!-- Header -->
     <div class="modal-header">
       <h2>
-        <i class="bi bi-calendar-plus"></i>
+        <lucide-icon name="calendar-plus" [size]="16" strokeWidth="1.5"></lucide-icon>
         {{ isEditMode ? 'Editar Programación' : 'Nueva Programación' }}
       </h2>
       <button class="btn-close" (click)="onClose()">
-        <i class="bi bi-x-lg"></i>
+        <lucide-icon name="x" [size]="16" strokeWidth="1.5"></lucide-icon>
       </button>
     </div>
 
     <!-- Error Message -->
     @if (errorMessage) {
       <div class="error-alert">
-        <i class="bi bi-exclamation-triangle"></i>
+        <lucide-icon name="alert-triangle" [size]="16" strokeWidth="1.5"></lucide-icon>
         {{ errorMessage }}
       </div>
     }
@@ -163,7 +163,7 @@
                               }
                             </div>
                             @if (isTrabajadorSelected(t.usuario_id)) {
-                              <i class="bi bi-check-circle-fill check-icon"></i>
+                              <lucide-icon name="check-circle-2" [size]="16" strokeWidth="1.5" class="check-icon"></lucide-icon>
                             }
                           </label>
                         }
@@ -265,13 +265,13 @@
                         <button type="submit" class="btn-primary" [disabled]="isSaving">
                           @if (!isSaving) {
                             <span>
-                              <i class="bi bi-check-circle"></i>
+                              <lucide-icon name="check-circle" [size]="16" strokeWidth="1.5"></lucide-icon>
                               {{ isEditMode ? 'Actualizar' : 'Crear' }}
                             </span>
                           }
                           @if (isSaving) {
                             <span>
-                              <i class="bi bi-hourglass-split"></i>
+                              <lucide-icon name="hourglass" [size]="16" strokeWidth="1.5"></lucide-icon>
                               Guardando...
                             </span>
                           }

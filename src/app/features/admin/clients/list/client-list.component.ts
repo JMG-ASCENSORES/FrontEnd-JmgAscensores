@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, OnInit, OnDestroy, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -14,7 +15,9 @@ import { EntityCardComponent } from '../../../../shared/components/entity-card/e
 @Component({
   selector: 'app-client-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, ClientCreateComponent, ClientEditComponent, ClientDeleteComponent, ClientRestoreComponent, EquipmentListModalComponent, EntityCardComponent],
+  imports: [CommonModule, FormsModule, ClientCreateComponent, ClientEditComponent, ClientDeleteComponent, ClientRestoreComponent, EquipmentListModalComponent, EntityCardComponent,
+    LucideAngularModule
+  ],
   templateUrl: './client-list.component.html',
 })
 export class ClientListComponent implements OnInit, OnDestroy {

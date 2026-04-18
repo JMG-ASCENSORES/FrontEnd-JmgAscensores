@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, EventEmitter, Input, Output, inject, signal } from '@angular/core';
 
 import { ClientService, Client } from '../../services/client.service';
@@ -5,7 +6,7 @@ import { ClientService, Client } from '../../services/client.service';
 @Component({
   selector: 'app-client-delete',
   standalone: true,
-  imports: [],
+  imports: [LucideAngularModule],
   templateUrl: './client-delete.component.html',
 })
 export class ClientDeleteComponent {

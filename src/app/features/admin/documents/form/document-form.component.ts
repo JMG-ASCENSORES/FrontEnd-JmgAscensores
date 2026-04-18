@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, EventEmitter, Input, Output, inject, signal, OnInit, computed } from '@angular/core';
 
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -12,7 +13,9 @@ import { Report } from '../../../../core/models/report.model';
 @Component({
   selector: 'app-document-form',
   standalone: true,
-  imports: [ReactiveFormsModule, SearchableSelectComponent, MaintenanceChecklistComponent, ModalWrapperComponent],
+  imports: [ReactiveFormsModule, SearchableSelectComponent, MaintenanceChecklistComponent, ModalWrapperComponent,
+    LucideAngularModule
+  ],
   templateUrl: './document-form.component.html',
   styleUrl: './document-form.component.scss'
 })

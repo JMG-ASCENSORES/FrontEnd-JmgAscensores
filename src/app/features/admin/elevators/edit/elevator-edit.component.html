@@ -4,10 +4,10 @@
     <!-- Header -->
     <div class="bg-[#003B73] p-6 flex justify-between items-center">
       <h2 class="text-2xl font-bold text-white flex items-center gap-3">
-        <i class="bi bi-pencil-square"></i> Editar Equipo
+        <lucide-icon name="square-pen" [size]="16" strokeWidth="1.5"></lucide-icon> Editar Equipo
       </h2>
       <button (click)="close.emit()" class="text-white hover:text-gray-200 transition-colors">
-        <i class="bi bi-x-lg text-2xl"></i>
+        <lucide-icon name="x" [size]="24" strokeWidth="1.5"></lucide-icon>
       </button>
     </div>
 
@@ -168,7 +168,7 @@
                     @if (error()) {
                       <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
                         <div class="flex items-center">
-                          <i class="bi bi-exclamation-circle-fill text-red-500 mr-3 text-xl"></i>
+                          <lucide-icon name="alert-circle" [size]="20" strokeWidth="1.5" class="text-red-500 mr-3"></lucide-icon>
                           <p class="text-red-700 font-medium">{{ error() }}</p>
                         </div>
                       </div>

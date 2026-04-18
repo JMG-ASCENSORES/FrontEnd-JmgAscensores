@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, OnInit, inject, ChangeDetectorRef, ViewChild, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -14,7 +15,9 @@ import { MantenimientoFijoModalComponent } from './mantenimiento-fijo-modal/mant
 @Component({
   selector: 'app-maintenance-scheduling',
   standalone: true,
-  imports: [CommonModule, FullCalendarModule, ProgramacionModalComponent, MantenimientoFijoModalComponent],
+  imports: [CommonModule, FullCalendarModule, ProgramacionModalComponent, MantenimientoFijoModalComponent,
+    LucideAngularModule
+  ],
   templateUrl: './maintenance-scheduling.component.html',
   styleUrls: ['./maintenance-scheduling.component.css']
 })
@@ -430,7 +433,10 @@ export class MaintenanceSchedulingComponent implements OnInit {
   getTechniciansForDay(): { tech: any; services: Mantenimiento[] }[] {
     const techGroups = new Map<number, { tech: any; services: Mantenimiento[] }>();
     this.filteredMantenimientos.forEach(mant => {
-      const techs = (mant.extendedProps?.trabajadores || []).filter((t: any) => t && t.trabajador_id);
+      let techs = (mant.extendedProps?.trabajadores || []).filter((t: any) => t && t.trabajador_id);
+      if (techs.length === 0 && mant.extendedProps?.trabajador?.trabajador_id) {
+        techs = [mant.extendedProps.trabajador];
+      }
       techs.forEach((t: any) => {
         if (!techGroups.has(t.trabajador_id)) {
           techGroups.set(t.trabajador_id, { tech: t, services: [] });

@@ -18,7 +18,7 @@
           routerLinkActive="active-link"
           [title]="isCollapsed ? item.label : ''"
           class="flex items-center gap-4 px-4 py-3.5 text-slate-300 rounded-2xl transition-all duration-200 hover:bg-slate-700/50 hover:text-white group no-underline relative">
-          <i [class]="item.icon" class="text-xl flex-shrink-0 transition-colors group-hover:text-emerald-400"></i>
+          <lucide-icon [name]="item.icon" [size]="20" strokeWidth="1.5" class="flex-shrink-0 transition-colors group-hover:text-emerald-400"></lucide-icon>
           <span class="text-[15px] font-semibold whitespace-nowrap transition-all duration-300"
             [ngClass]="{'opacity-100 w-auto': !isCollapsed, 'opacity-0 w-0 absolute': isCollapsed}">
             {{ item.label }}
@@ -32,7 +32,7 @@
       <button (click)="logout()"
         [title]="isCollapsed ? 'Cerrar Sesión' : ''"
         class="flex items-center gap-4 w-full px-4 py-3.5 text-slate-400 rounded-2xl hover:bg-red-900/30 hover:text-red-400 transition-all duration-200 relative group">
-        <i class="bi bi-box-arrow-right text-xl flex-shrink-0 group-hover:scale-110 transition-transform"></i>
+        <lucide-icon name="log-out" [size]="20" strokeWidth="1.5" class="flex-shrink-0 group-hover:scale-110 transition-transform"></lucide-icon>
         <span class="text-[15px] font-semibold whitespace-nowrap transition-all duration-300"
           [ngClass]="{'opacity-100 w-auto': !isCollapsed, 'opacity-0 w-0 absolute': isCollapsed}">
           Cerrar Sesión

@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, EventEmitter, Output, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -6,7 +7,9 @@ import { ClientService, Client } from '../../services/client.service';
 @Component({
   selector: 'app-client-restore',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,
+    LucideAngularModule
+  ],
   templateUrl: './client-restore.component.html'
 })
 export class ClientRestoreComponent implements OnInit {

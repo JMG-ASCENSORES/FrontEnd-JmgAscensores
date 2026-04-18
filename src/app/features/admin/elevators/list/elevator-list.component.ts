@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, OnInit, computed, inject, signal, OnDestroy } from '@angular/core';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
@@ -35,6 +36,8 @@ export interface ClientGroup {
     FilterContainerComponent,
     FilterInputComponent,
     FilterSelectComponent
+  ,
+    LucideAngularModule
   ],
   templateUrl: './elevator-list.component.html',
   styleUrl: './elevator-list.component.scss'

@@ -9,7 +9,7 @@
     <!-- Error Alert -->
     @if (error()) {
       <div class="p-4 bg-red-50 text-red-700 rounded-xl flex items-start gap-3 text-sm">
-        <i class="bi bi-exclamation-circle-fill mt-0.5"></i>
+        <lucide-icon name="alert-circle" [size]="16" strokeWidth="1.5" class="mt-0.5"></lucide-icon>
         <span>{{ error() }}</span>
       </div>
     }
@@ -151,7 +151,7 @@
           <span>Crear Documento</span>
         }
         @if (isSubmitting()) {
-          <span><i class="bi bi-arrow-repeat animate-spin mr-2"></i>Guardando...</span>
+          <span class="flex items-center gap-2"><lucide-icon name="refresh-cw" [size]="16" strokeWidth="1.5" class="animate-spin"></lucide-icon>Guardando...</span>
         }
       </button>
     </div>

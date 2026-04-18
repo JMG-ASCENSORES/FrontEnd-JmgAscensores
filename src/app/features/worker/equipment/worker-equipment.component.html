@@ -4,7 +4,7 @@
   <div class="bg-gradient-to-br from-jmg-dark via-jmg to-jmg-light px-5 pt-6 pb-8">
     <div class="mb-4">
       <h1 class="font-display text-2xl font-bold text-white flex items-center gap-2 tracking-tight">
-        <i class="bi bi-gear-wide-connected opacity-85"></i>
+        <lucide-icon name="settings-2" [size]="16" strokeWidth="1.5" class="opacity-85"></lucide-icon>
         Equipos de Clientes
       </h1>
       <p class="text-white/60 text-sm mt-0.5">Consultá los equipos de cada cliente</p>
@@ -12,7 +12,7 @@
 
     <!-- Search bar -->
     <div class="relative">
-      <i class="bi bi-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-base pointer-events-none"></i>
+      <lucide-icon name="search" [size]="16" strokeWidth="1.5" class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"></lucide-icon>
       <input
         id="worker-equipment-search"
         type="text"
@@ -26,7 +26,7 @@
           <button
             class="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-slate-400 hover:bg-jmg-dark text-white rounded-full flex items-center justify-center text-[10px] transition-colors"
             (click)="clearSearch()">
-            <i class="bi bi-x-lg"></i>
+            <lucide-icon name="x" [size]="10" strokeWidth="1.5"></lucide-icon>
           </button>
         }
       </div>
@@ -62,7 +62,7 @@
              tabindex="0" (keydown.enter)="selectCliente(cliente)">
             <!-- Avatar -->
             <div class="w-11 h-11 rounded-xl bg-jmg-muted text-jmg flex items-center justify-center text-xl shrink-0">
-              <i class="bi bi-building"></i>
+              <lucide-icon name="building" [size]="16" strokeWidth="1.5"></lucide-icon>
             </div>
             <!-- Info -->
             <div class="flex-1 min-w-0">
@@ -70,7 +70,7 @@
                 {{ cliente.nombre_comercial || 'Sin nombre comercial' }}
               </h3>
               <span class="text-xs text-slate-400 flex items-center gap-1 truncate">
-                <i class="bi bi-geo-alt shrink-0"></i>
+                <lucide-icon name="map-pin" [size]="12" strokeWidth="1.5" class="shrink-0"></lucide-icon>
                 {{ cliente.ubicacion || 'Sin dirección registrada' }}
               </span>
               @if (cliente.tipo_cliente || cliente.contacto_nombre) {
@@ -84,20 +84,20 @@
                   @if (cliente.contacto_nombre) {
                     <span
                       class="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full font-semibold flex items-center gap-1">
-                      <i class="bi bi-person text-[9px]"></i>
+                      <lucide-icon name="user" [size]="9" strokeWidth="1.5"></lucide-icon>
                       {{ cliente.contacto_nombre }} {{ cliente.contacto_apellido || '' }}
                     </span>
                   }
                 </div>
               }
             </div>
-            <i class="bi bi-chevron-right text-slate-300 shrink-0"></i>
+            <lucide-icon name="chevron-right" [size]="16" strokeWidth="1.5" class="text-slate-300 shrink-0"></lucide-icon>
           </div>
         }
         <!-- Empty state -->
         @if (clientes().length === 0) {
           <div class="flex flex-col items-center justify-center py-16 text-center">
-            <i class="bi bi-binoculars text-5xl text-slate-200 mb-4"></i>
+            <lucide-icon name="scan-search" [size]="48" strokeWidth="1.5" class="text-slate-200 mb-4"></lucide-icon>
             <h4 class="font-bold text-slate-600 mb-1">Sin resultados</h4>
             <p class="text-sm text-slate-400 mb-4">No se encontraron clientes que coincidan con tu búsqueda.</p>
             <button class="px-5 py-2 border-[1.5px] border-jmg text-jmg rounded-full text-sm font-semibold hover:bg-jmg-muted transition-colors"
@@ -111,7 +111,7 @@
               class="inline-flex items-center gap-1.5 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
               [disabled]="currentPage() === 1"
               (click)="prevPage()">
-              <i class="bi bi-chevron-left text-xs"></i> Anterior
+              <lucide-icon name="chevron-left" [size]="12" strokeWidth="1.5"></lucide-icon> Anterior
             </button>
             <div class="inline-flex items-center px-4 py-2 bg-jmg rounded-xl text-white text-sm font-semibold shadow-sm">
               {{ currentPage() }} / {{ totalPages() }}
@@ -120,7 +120,7 @@
               class="inline-flex items-center gap-1.5 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
               [disabled]="currentPage() === totalPages()"
               (click)="nextPage()">
-              Siguiente <i class="bi bi-chevron-right text-xs"></i>
+              Siguiente <lucide-icon name="chevron-right" [size]="12" strokeWidth="1.5"></lucide-icon>
             </button>
           </div>
         }
@@ -150,14 +150,14 @@
                 </h2>
                 @if (selectedCliente()?.ubicacion) {
                   <span class="text-xs text-slate-400 flex items-center gap-1 mt-0.5">
-                    <i class="bi bi-geo-alt"></i> {{ selectedCliente()?.ubicacion }}
+                    <lucide-icon name="map-pin" [size]="12" strokeWidth="1.5"></lucide-icon> {{ selectedCliente()?.ubicacion }}
                   </span>
                 }
               </div>
               <button
                 class="mt-1.5 w-8 h-8 bg-slate-200/70 hover:bg-red-100 hover:text-red-500 text-slate-500 rounded-full flex items-center justify-center text-sm transition-colors shrink-0"
                 (click)="closeClientModal()" aria-label="Cerrar">
-                <i class="bi bi-x-lg"></i>
+                <lucide-icon name="x" [size]="14" strokeWidth="1.5"></lucide-icon>
               </button>
             </div>
           </div>
@@ -199,7 +199,7 @@
                       <div class="w-2.5 h-2.5 rounded-full" [ngClass]="getEstadoDotClasses(equipo.estado)"></div>
                       <span class="text-[10px] text-slate-400 capitalize whitespace-nowrap">{{ equipo.estado || 'Desc.' }}</span>
                     </div>
-                    <i class="bi bi-chevron-right text-slate-300 text-sm"></i>
+                    <lucide-icon name="chevron-right" [size]="14" strokeWidth="1.5" class="text-slate-300"></lucide-icon>
                   </div>
                 }
               </div>
@@ -207,7 +207,7 @@
               @if (equiposCliente().length === 0) {
                 <div
                   class="flex flex-col items-center py-10 text-center text-slate-400">
-                  <i class="bi bi-tools text-4xl opacity-40 mb-3"></i>
+                  <lucide-icon name="wrench" [size]="36" strokeWidth="1.5" class="opacity-40 mb-3"></lucide-icon>
                   <p class="text-sm">Este cliente no tiene equipos registrados.</p>
                 </div>
               }
@@ -235,7 +235,7 @@
               <button
                 class="flex items-center gap-1.5 text-jmg text-sm font-semibold hover:text-jmg-dark transition-colors"
                 (click)="closeEquipoModal()">
-                <i class="bi bi-arrow-left"></i> Volver
+                <lucide-icon name="arrow-left" [size]="16" strokeWidth="1.5"></lucide-icon> Volver
               </button>
               <h2 class="font-display text-base font-bold text-slate-800">Detalle del Equipo</h2>
             </div>
@@ -293,13 +293,13 @@
               <div>
                 <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Cliente asignado</p>
                 <div class="bg-white rounded-2xl border border-slate-100 p-4 shadow-sm flex gap-3 items-start">
-                  <i class="bi bi-building-fill text-jmg text-2xl shrink-0 mt-0.5"></i>
+                  <lucide-icon name="building-2" [size]="24" strokeWidth="1.5" class="text-jmg shrink-0 mt-0.5"></lucide-icon>
                   <div class="flex flex-col gap-0.5">
                     <strong class="text-sm font-bold text-slate-800">{{ selectedCliente()?.nombre_comercial }}</strong>
                     <span class="text-xs text-slate-400">{{ selectedCliente()?.ubicacion }}</span>
                     @if (selectedCliente()?.telefono) {
                       <span class="text-xs text-slate-400">
-                        <i class="bi bi-telephone mr-1"></i>{{ selectedCliente()?.telefono }}
+                        <lucide-icon name="phone" [size]="12" strokeWidth="1.5" class="mr-1 inline"></lucide-icon>{{ selectedCliente()?.telefono }}
                       </span>
                     }
                   </div>

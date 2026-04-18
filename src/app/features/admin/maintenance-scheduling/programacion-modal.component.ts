@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, OnInit, Input, Output, EventEmitter, inject, ChangeDetectorRef, SimpleChanges, OnChanges } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
@@ -36,7 +37,9 @@ interface Ascensor {
 @Component({
   selector: 'app-programacion-modal',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule,
+    LucideAngularModule
+  ],
   templateUrl: './programacion-modal.component.html',
   styleUrls: ['./programacion-modal.component.css']
 })

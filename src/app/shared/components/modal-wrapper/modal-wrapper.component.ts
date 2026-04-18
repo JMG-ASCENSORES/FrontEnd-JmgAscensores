@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 
@@ -7,7 +8,7 @@ export type ModalSize = 'sm' | 'md' | 'lg' | 'xl';
 @Component({
   selector: 'app-modal-wrapper',
   standalone: true,
-  imports: [],
+  imports: [LucideAngularModule],
   templateUrl: './modal-wrapper.component.html',
 })
 export class ModalWrapperComponent {

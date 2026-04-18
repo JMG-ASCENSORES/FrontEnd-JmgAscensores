@@ -1,3 +1,4 @@
+import { LucideAngularModule } from 'lucide-angular';
 import { Component, computed, inject, signal, OnInit, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -28,6 +29,8 @@ import { FilterSelectComponent } from '../../../../shared/components/filters/fil
     FilterContainerComponent,
     FilterInputComponent,
     FilterSelectComponent
+  ,
+    LucideAngularModule
   ],
   templateUrl: './technician-list.component.html',
   styleUrl: './technician-list.component.scss'
