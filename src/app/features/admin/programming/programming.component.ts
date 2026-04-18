@@ -83,6 +83,7 @@ export class ProgrammingComponent implements OnInit {
   timeline: TimelineItem[] = [];
 
   upcoming: any[] = [];
+  techniciansToNotify: { tech: any; services: Mantenimiento[] }[] = [];
 
   // Notification state: date string -> set of notified technician IDs
   notifiedTechIdsByDate = new Map<string, Set<number>>();
@@ -269,6 +270,9 @@ export class ProgrammingComponent implements OnInit {
               this.techWorkload.set(id, (this.techWorkload.get(id) || 0) + 1);
           });
       });
+      
+      // Compute technicians to notify once to avoid infinite loop in template
+      this.techniciansToNotify = this.getTechniciansFromSchedules();
   }
 
   private mapToSchedule(m: Mantenimiento, index: number): Schedule {

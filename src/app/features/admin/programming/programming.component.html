@@ -199,7 +199,8 @@
           </div>
 
         </div>
-
+      </div>
+      
       <!-- Right Column (Workers) col-span-4 -->
       <div class="lg:col-span-4 flex flex-col gap-4 md:gap-5 min-h-0 h-full">
 
@@ -235,7 +236,7 @@
                       <div class="overflow-hidden">
                         <h3 class="font-bold text-slate-800 text-sm truncate leading-tight group-hover:text-[#003B73] transition-colors" [title]="worker.name">{{worker.name}}</h3>
                         <div class="flex items-center gap-1">
-                          <p class="text-[10px] text-slate-400 truncate font-medium max-w-[80px]" [title]="worker.role">{{worker.role}}</p>
+                          <p class="text-[10px] text-slate-400 truncate font-medium" [title]="worker.role">{{worker.role}}</p>
                           @if (getWorkloadBadge(worker.id)) {
                             <span
                               class="text-[9px] px-1 bg-blue-100 text-blue-700 rounded font-bold whitespace-nowrap">
@@ -267,7 +268,7 @@
             </div>
           }
           <div class="flex flex-col gap-1.5 overflow-y-auto flex-1 pr-1">
-            @for (group of getTechniciansFromSchedules(); track group) {
+            @for (group of techniciansToNotify; track group.tech.trabajador_id) {
               <div class="flex items-center justify-between bg-white p-1.5 rounded-lg border border-[#dcfce7] shadow-sm">
                 <div class="flex flex-col overflow-hidden">
                   <span class="font-bold text-slate-800 text-xs truncate" [title]="group.tech.nombre + ' ' + group.tech.apellido">

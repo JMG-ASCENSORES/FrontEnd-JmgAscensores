@@ -57,6 +57,7 @@ export class MaintenanceSchedulingComponent implements OnInit {
 
   // Notification state
   notifiedTechsByDate = new Map<string, Set<number>>();
+  techniciansToNotify: { tech: any; services: Mantenimiento[] }[] = [];
 
   // Toast state
   toast = signal<{ message: string; type: 'success' | 'error'; title: string } | null>(null);
@@ -182,6 +183,7 @@ export class MaintenanceSchedulingComponent implements OnInit {
   loadDayDetails(): void {
     if (!this.selectedFilterDate) {
       this.filteredMantenimientos = [];
+      this.techniciansToNotify = [];
       this.isLoading = false;
       return;
     }
@@ -193,6 +195,7 @@ export class MaintenanceSchedulingComponent implements OnInit {
       next: (data) => {
         this.filteredMantenimientos = data;
         this.filteredMantenimientos.sort((a, b) => a.start.localeCompare(b.start));
+        this.techniciansToNotify = this.getTechniciansForDay();
         this.isLoading = false;
         this.cdr.detectChanges();
       },

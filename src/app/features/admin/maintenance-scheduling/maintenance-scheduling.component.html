@@ -262,7 +262,7 @@
             Notificación a Técnicos
           </p>
           <div class="tech-notification-list flex flex-col gap-2 max-h-72 overflow-y-auto pr-1">
-            @for (group of getTechniciansForDay(); track group) {
+            @for (group of techniciansToNotify; track group.tech.trabajador_id) {
               <div
                 class="flex justify-between items-center bg-white rounded-xl px-3 py-2.5 shadow-sm border border-emerald-100">
                 <div class="flex flex-col min-w-0">
