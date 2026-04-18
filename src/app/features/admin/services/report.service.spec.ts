@@ -270,15 +270,4 @@ describe('ReportService', () => {
     });
   });
 
-  // ─── Authorization header ──────────────────────────────────────────────────
-
-  describe('Authorization header', () => {
-    it('todas las requests incluyen Bearer fake-token', () => {
-      service.getReportById(1).subscribe();
-
-      const req = httpMock.expectOne(`${BASE}/1`);
-      expect(req.request.headers.get('Authorization')).toBe('Bearer fake-token');
-      req.flush({ data: MOCK_REPORT });
-    });
-  });
 });

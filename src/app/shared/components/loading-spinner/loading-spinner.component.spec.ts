@@ -39,37 +39,31 @@ describe('LoadingSpinnerComponent', () => {
 
   it('should accept size "sm"', () => {
     component.size = 'sm';
-    fixture.detectChanges();
     expect(component.size).toBe('sm');
   });
 
   it('should accept size "lg"', () => {
     component.size = 'lg';
-    fixture.detectChanges();
     expect(component.size).toBe('lg');
   });
 
   it('should accept a string message', () => {
     component.message = 'Cargando...';
-    fixture.detectChanges();
     expect(component.message).toBe('Cargando...');
   });
 
   it('should accept null as message', () => {
     component.message = null;
-    fixture.detectChanges();
     expect(component.message).toBeNull();
   });
 
   it('should accept overlay true', () => {
     component.overlay = true;
-    fixture.detectChanges();
     expect(component.overlay).toBe(true);
   });
 
   it('should accept custom containerClass', () => {
     component.containerClass = 'custom-class';
-    fixture.detectChanges();
     expect(component.containerClass).toBe('custom-class');
   });
 });

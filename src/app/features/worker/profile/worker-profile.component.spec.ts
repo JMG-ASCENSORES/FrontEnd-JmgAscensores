@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { TestBed } from '@angular/core/testing';
-import { ComponentFixture, NO_ERRORS_SCHEMA } from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { of, throwError } from 'rxjs';
 import { WorkerProfileComponent } from './worker-profile.component';
 import { WorkerService } from '../services/worker.service';

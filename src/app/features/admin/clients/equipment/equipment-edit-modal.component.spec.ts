@@ -55,8 +55,8 @@ describe('EquipmentEditModalComponent', () => {
   it('onSubmit exitoso emite equipmentUpdated y close', () => {
     const updated: void[] = [];
     const closed: void[] = [];
-    component.equipmentUpdated.subscribe(() => updated.push());
-    component.close.subscribe(() => closed.push());
+    component.equipmentUpdated.subscribe(() => updated.push(undefined));
+    component.close.subscribe(() => closed.push(undefined));
 
     component.onSubmit();
 
@@ -77,7 +77,7 @@ describe('EquipmentEditModalComponent', () => {
 
   it('onClose emite close', () => {
     const emitted: void[] = [];
-    component.close.subscribe(() => emitted.push());
+    component.close.subscribe(() => emitted.push(undefined));
     component.onClose();
     expect(emitted.length).toBe(1);
   });

@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { PdfPreviewComponent } from './pdf-preview.component';
 
 describe('PdfPreviewComponent', () => {
@@ -16,7 +17,8 @@ describe('PdfPreviewComponent', () => {
 
     fixture = TestBed.createComponent(PdfPreviewComponent);
     component = fixture.componentInstance;
-    component.pdfUrl = 'blob:http://localhost/test' as any;
+    const sanitizer = TestBed.inject(DomSanitizer);
+    component.pdfUrl = sanitizer.bypassSecurityTrustResourceUrl('blob:http://localhost/test');
     fixture.detectChanges();
   });
 
@@ -31,7 +33,7 @@ describe('PdfPreviewComponent', () => {
 
   it('emite close al llamar close.emit', () => {
     const emitted: void[] = [];
-    component.close.subscribe(() => emitted.push());
+    component.close.subscribe(() => emitted.push(undefined));
     component.close.emit();
     expect(emitted.length).toBe(1);
   });

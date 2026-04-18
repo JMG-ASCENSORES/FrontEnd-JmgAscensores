@@ -56,19 +56,16 @@ describe('ModalWrapperComponent', () => {
 
   it('should accept variant "primary"', () => {
     component.variant = 'primary';
-    fixture.detectChanges();
     expect(component.variant).toBe('primary');
   });
 
   it('should accept variant "danger"', () => {
     component.variant = 'danger';
-    fixture.detectChanges();
     expect(component.variant).toBe('danger');
   });
 
   it('should accept subtitle', () => {
     component.subtitle = 'Subtítulo de prueba';
-    fixture.detectChanges();
     expect(component.subtitle).toBe('Subtítulo de prueba');
   });
 

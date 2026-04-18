@@ -61,8 +61,8 @@ describe('ElevatorCreateComponent', () => {
   it('onSubmit exitoso emite elevatorCreated y close', () => {
     const created: void[] = [];
     const closed: void[] = [];
-    component.elevatorCreated.subscribe(() => created.push());
-    component.close.subscribe(() => closed.push());
+    component.elevatorCreated.subscribe(() => created.push(undefined));
+    component.close.subscribe(() => closed.push(undefined));
 
     component.formData = { ...component.formData, numero_serie: 'SN-001' };
     component.onSubmit();

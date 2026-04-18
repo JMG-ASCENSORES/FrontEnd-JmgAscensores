@@ -36,8 +36,8 @@ describe('DocumentDeleteComponent', () => {
   it('onDelete exitoso emite reportDeleted y close', () => {
     const deleted: void[] = [];
     const closed: void[] = [];
-    component.reportDeleted.subscribe(() => deleted.push());
-    component.close.subscribe(() => closed.push());
+    component.reportDeleted.subscribe(() => deleted.push(undefined));
+    component.close.subscribe(() => closed.push(undefined));
     component.onDelete();
     expect(deleted.length).toBe(1);
     expect(closed.length).toBe(1);
@@ -52,7 +52,7 @@ describe('DocumentDeleteComponent', () => {
 
   it('onCancel emite close', () => {
     const emitted: void[] = [];
-    component.close.subscribe(() => emitted.push());
+    component.close.subscribe(() => emitted.push(undefined));
     component.onCancel();
     expect(emitted.length).toBe(1);
   });

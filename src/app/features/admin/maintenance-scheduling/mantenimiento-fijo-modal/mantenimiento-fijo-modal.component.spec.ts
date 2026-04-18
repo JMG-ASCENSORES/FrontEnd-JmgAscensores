@@ -90,7 +90,7 @@ describe('MantenimientoFijoModalComponent', () => {
 
   it('onClose emite close', () => {
     const emitted: void[] = [];
-    component.close.subscribe(() => emitted.push());
+    component.close.subscribe(() => emitted.push(undefined));
     component.close.emit();
     expect(emitted.length).toBe(1);
   });

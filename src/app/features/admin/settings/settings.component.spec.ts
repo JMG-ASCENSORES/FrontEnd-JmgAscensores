@@ -56,6 +56,7 @@ describe('SettingsComponent', () => {
 
   it('should set error message when getProfile fails', async () => {
     configServiceMock.getProfile.mockReturnValue(throwError(() => new Error('Network error')));
+    TestBed.resetTestingModule();
 
     await TestBed.configureTestingModule({
       imports: [SettingsComponent, ReactiveFormsModule],

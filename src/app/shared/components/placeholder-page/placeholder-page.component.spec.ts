@@ -31,18 +31,16 @@ describe('PlaceholderPageComponent', () => {
 
   it('should accept custom title', () => {
     component.title = 'Clientes';
-    fixture.detectChanges();
     expect(component.title).toBe('Clientes');
   });
 
   it('should accept custom icon', () => {
     component.icon = 'bi bi-people';
-    fixture.detectChanges();
     expect(component.icon).toBe('bi bi-people');
   });
 
   it('should render title in template', () => {
-    component.title = 'Reportes';
+    fixture.componentRef.setInput('title', 'Reportes');
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.textContent).toContain('Reportes');

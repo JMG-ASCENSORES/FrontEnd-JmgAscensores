@@ -30,7 +30,7 @@ describe('EquipmentDeleteModalComponent', () => {
 
   it('onDelete llama deleteElevator con el id correcto y emite equipmentDeleted', () => {
     const emitted: void[] = [];
-    component.equipmentDeleted.subscribe(() => emitted.push());
+    component.equipmentDeleted.subscribe(() => emitted.push(undefined));
     component.onDelete();
     expect(elevatorServiceMock.deleteElevator).toHaveBeenCalledWith(10);
     expect(emitted.length).toBe(1);
@@ -50,7 +50,7 @@ describe('EquipmentDeleteModalComponent', () => {
 
   it('onClose emite close', () => {
     const emitted: void[] = [];
-    component.close.subscribe(() => emitted.push());
+    component.close.subscribe(() => emitted.push(undefined));
     component.onClose();
     expect(emitted.length).toBe(1);
   });

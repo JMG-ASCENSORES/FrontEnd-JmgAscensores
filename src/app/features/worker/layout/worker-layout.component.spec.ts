@@ -1,6 +1,8 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
-import { ComponentFixture, NO_ERRORS_SCHEMA } from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideRouter } from '@angular/router';
 import { WorkerLayoutComponent } from './worker-layout.component';
 import { AuthService } from '../../../core/services/auth.service';
 
@@ -10,12 +12,16 @@ describe('WorkerLayoutComponent', () => {
   let authServiceMock: any;
 
   beforeEach(async () => {
-    authServiceMock = {};
+    authServiceMock = {
+      currentUser: vi.fn().mockReturnValue(null),
+      logout: vi.fn(),
+    };
 
     await TestBed.configureTestingModule({
       imports: [WorkerLayoutComponent],
       providers: [
-        { provide: AuthService, useValue: authServiceMock }
+        { provide: AuthService, useValue: authServiceMock },
+        provideRouter([]),
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();

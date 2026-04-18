@@ -1,6 +1,8 @@
 import { describe, it, expect, beforeEach } from 'vitest';
+import { provideRouter } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
-import { ComponentFixture, NO_ERRORS_SCHEMA } from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { BottomNavComponent } from './bottom-nav.component';
 
 describe('BottomNavComponent', () => {
@@ -10,7 +12,8 @@ describe('BottomNavComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [BottomNavComponent],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(BottomNavComponent);

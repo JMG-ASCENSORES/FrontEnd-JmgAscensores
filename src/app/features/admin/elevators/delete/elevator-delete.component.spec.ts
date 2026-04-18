@@ -30,7 +30,7 @@ describe('ElevatorDeleteComponent', () => {
 
   it('confirmDelete llama deleteElevator con id correcto y emite elevatorDeleted', () => {
     const emitted: void[] = [];
-    component.elevatorDeleted.subscribe(() => emitted.push());
+    component.elevatorDeleted.subscribe(() => emitted.push(undefined));
     component.confirmDelete();
     expect(elevatorServiceMock.deleteElevator).toHaveBeenCalledWith(7);
     expect(emitted.length).toBe(1);

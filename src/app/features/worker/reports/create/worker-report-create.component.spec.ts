@@ -58,10 +58,11 @@ describe('WorkerReportCreateComponent', () => {
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
+    // Spy on prototype BEFORE createComponent — Ivy registers hooks at class level
+    vi.spyOn(WorkerReportCreateComponent.prototype as any, 'ngAfterViewInit').mockImplementation(function() {});
+
     fixture = TestBed.createComponent(WorkerReportCreateComponent);
     component = fixture.componentInstance;
-    // Bypass AfterViewInit for SignaturePad (canvas not rendered in test)
-    vi.spyOn(component as any, 'ngAfterViewInit').mockImplementation(() => {});
     fixture.detectChanges();
   });
 
@@ -93,7 +94,7 @@ describe('WorkerReportCreateComponent', () => {
 
   it('onClose emite close', () => {
     const emitted: void[] = [];
-    component.close.subscribe(() => emitted.push());
+    component.close.subscribe(() => emitted.push(undefined));
     component.onClose();
     expect(emitted.length).toBe(1);
   });

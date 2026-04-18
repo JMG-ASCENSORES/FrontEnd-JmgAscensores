@@ -43,8 +43,8 @@ describe('TechnicianCreateComponent', () => {
   it('onSubmit exitoso emite technicianCreated y close', () => {
     const created: void[] = [];
     const closed: void[] = [];
-    component.technicianCreated.subscribe(() => created.push());
-    component.close.subscribe(() => closed.push());
+    component.technicianCreated.subscribe(() => created.push(undefined));
+    component.close.subscribe(() => closed.push(undefined));
 
     component.technicianForm.patchValue({
       nombre: 'Carlos', apellido: 'Rojas', dni: '12345678',
@@ -72,7 +72,7 @@ describe('TechnicianCreateComponent', () => {
 
   it('onClose emite close', () => {
     const emitted: void[] = [];
-    component.close.subscribe(() => emitted.push());
+    component.close.subscribe(() => emitted.push(undefined));
     component.onClose();
     expect(emitted.length).toBe(1);
   });

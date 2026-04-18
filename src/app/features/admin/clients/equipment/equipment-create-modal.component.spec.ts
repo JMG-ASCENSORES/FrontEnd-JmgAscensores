@@ -43,8 +43,8 @@ describe('EquipmentCreateModalComponent', () => {
   it('onSubmit exitoso emite equipmentCreated y close', () => {
     const created: void[] = [];
     const closed: void[] = [];
-    component.equipmentCreated.subscribe(() => created.push());
-    component.close.subscribe(() => closed.push());
+    component.equipmentCreated.subscribe(() => created.push(undefined));
+    component.close.subscribe(() => closed.push(undefined));
 
     component.equipmentForm.patchValue({ marca: 'Otis', tipo_equipo: 'Ascensor', estado: 'Operativo' });
     component.onSubmit();
@@ -64,7 +64,7 @@ describe('EquipmentCreateModalComponent', () => {
 
   it('onClose emite close', () => {
     const emitted: void[] = [];
-    component.close.subscribe(() => emitted.push());
+    component.close.subscribe(() => emitted.push(undefined));
     component.onClose();
     expect(emitted.length).toBe(1);
   });

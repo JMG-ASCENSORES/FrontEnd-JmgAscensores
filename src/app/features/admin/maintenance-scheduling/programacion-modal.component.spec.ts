@@ -34,6 +34,7 @@ describe('ProgramacionModalComponent', () => {
     };
     elevatorServiceMock = {
       getElevatorsByClient: vi.fn().mockReturnValue(of(mockElevators)),
+      getElevators: vi.fn().mockReturnValue(of(mockElevators)),
     };
 
     await TestBed.configureTestingModule({
@@ -65,14 +66,14 @@ describe('ProgramacionModalComponent', () => {
 
   it('onClose emite close', () => {
     const emitted: void[] = [];
-    component.close.subscribe(() => emitted.push());
+    component.close.subscribe(() => emitted.push(undefined));
     component.close.emit();
     expect(emitted.length).toBe(1);
   });
 
   it('onSaved emite saved', () => {
     const emitted: void[] = [];
-    component.saved.subscribe(() => emitted.push());
+    component.saved.subscribe(() => emitted.push(undefined));
     component.saved.emit();
     expect(emitted.length).toBe(1);
   });

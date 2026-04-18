@@ -60,8 +60,8 @@ describe('ElevatorEditComponent', () => {
   it('onSubmit exitoso emite elevatorUpdated y close', () => {
     const updated: void[] = [];
     const closed: void[] = [];
-    component.elevatorUpdated.subscribe(() => updated.push());
-    component.close.subscribe(() => closed.push());
+    component.elevatorUpdated.subscribe(() => updated.push(undefined));
+    component.close.subscribe(() => closed.push(undefined));
 
     component.onSubmit();
 

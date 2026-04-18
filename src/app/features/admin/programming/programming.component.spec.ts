@@ -68,6 +68,7 @@ describe('ProgrammingComponent', () => {
 
   it('loadWorkers() should set isLoading to false on error', async () => {
     techServiceMock.getTechnicians.mockReturnValue(throwError(() => new Error('error')));
+    TestBed.resetTestingModule();
 
     await TestBed.configureTestingModule({
       imports: [ProgrammingComponent, RouterModule.forRoot([])],

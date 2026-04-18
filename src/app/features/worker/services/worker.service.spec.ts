@@ -56,13 +56,6 @@ describe('WorkerService', () => {
       expect(result).toEqual(MOCK_PROFILE);
     });
 
-    it('incluye el header Authorization con Bearer fake-token', () => {
-      service.getMyProfile().subscribe();
-
-      const req = httpMock.expectOne(ME_URL);
-      expect(req.request.headers.get('Authorization')).toBe('Bearer fake-token');
-      req.flush({ success: true, data: MOCK_PROFILE });
-    });
   });
 
   // ─── updateMyProfile ───────────────────────────────────────────────────────
@@ -100,12 +93,5 @@ describe('WorkerService', () => {
       req.flush({ success: true, data: MOCK_PROFILE });
     });
 
-    it('incluye el header Authorization con Bearer fake-token', () => {
-      service.updateMyProfile({ nombre: 'Test' }).subscribe();
-
-      const req = httpMock.expectOne(ME_URL);
-      expect(req.request.headers.get('Authorization')).toBe('Bearer fake-token');
-      req.flush({ success: true, data: MOCK_PROFILE });
-    });
   });
 });

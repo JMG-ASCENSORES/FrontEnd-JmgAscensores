@@ -58,7 +58,7 @@ describe('ClientRestoreComponent', () => {
 
   it('confirmRestore llama updateClient con estado_activo=true y emite clientRestored', () => {
     const emitted: void[] = [];
-    component.clientRestored.subscribe(() => emitted.push());
+    component.clientRestored.subscribe(() => emitted.push(undefined));
     const client = { cliente_id: 1, nombre_comercial: 'Test' } as any;
     component.confirmRestore(client);
     expect(clientServiceMock.updateClient).toHaveBeenCalledWith(1, { estado_activo: true });
@@ -68,7 +68,7 @@ describe('ClientRestoreComponent', () => {
   it('confirmRestore error no emite clientRestored', () => {
     clientServiceMock.updateClient.mockReturnValue(throwError(() => new Error('fail')));
     const emitted: void[] = [];
-    component.clientRestored.subscribe(() => emitted.push());
+    component.clientRestored.subscribe(() => emitted.push(undefined));
     const client = { cliente_id: 1 } as any;
     component.confirmRestore(client);
     expect(emitted.length).toBe(0);
@@ -77,7 +77,7 @@ describe('ClientRestoreComponent', () => {
 
   it('onClose emite close', () => {
     const emitted: void[] = [];
-    component.close.subscribe(() => emitted.push());
+    component.close.subscribe(() => emitted.push(undefined));
     component.onClose();
     expect(emitted.length).toBe(1);
   });

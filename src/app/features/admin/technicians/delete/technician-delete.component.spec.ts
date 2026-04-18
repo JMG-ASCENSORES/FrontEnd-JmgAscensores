@@ -30,7 +30,7 @@ describe('TechnicianDeleteComponent', () => {
 
   it('onDelete llama deleteTechnician con el id correcto y emite technicianDeleted', () => {
     const emitted: void[] = [];
-    component.technicianDeleted.subscribe(() => emitted.push());
+    component.technicianDeleted.subscribe(() => emitted.push(undefined));
     component.onDelete();
     expect(techServiceMock.deleteTechnician).toHaveBeenCalledWith(3);
     expect(emitted.length).toBe(1);
@@ -50,7 +50,7 @@ describe('TechnicianDeleteComponent', () => {
 
   it('onCancel emite close', () => {
     const emitted: void[] = [];
-    component.close.subscribe(() => emitted.push());
+    component.close.subscribe(() => emitted.push(undefined));
     component.onCancel();
     expect(emitted.length).toBe(1);
   });

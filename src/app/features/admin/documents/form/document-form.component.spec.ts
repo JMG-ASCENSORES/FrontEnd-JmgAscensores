@@ -71,8 +71,8 @@ describe('DocumentFormComponent', () => {
   it('onSubmit exitoso en modo create llama createReport y emite saved y close', () => {
     const saved: void[] = [];
     const closed: void[] = [];
-    component.saved.subscribe(() => saved.push());
-    component.close.subscribe(() => closed.push());
+    component.saved.subscribe(() => saved.push(undefined));
+    component.close.subscribe(() => closed.push(undefined));
 
     component.clients.set(mockClients as any);
     component.allElevators.set(mockElevators as any);
@@ -118,7 +118,7 @@ describe('DocumentFormComponent', () => {
 
   it('onClose emite close', () => {
     const emitted: void[] = [];
-    component.close.subscribe(() => emitted.push());
+    component.close.subscribe(() => emitted.push(undefined));
     component.onClose();
     expect(emitted.length).toBe(1);
   });

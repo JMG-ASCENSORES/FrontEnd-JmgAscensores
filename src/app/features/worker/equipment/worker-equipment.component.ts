@@ -147,32 +147,32 @@ export class WorkerEquipmentComponent implements OnInit, OnDestroy {
   // Visual helpers — Tailwind class resolvers
   getEstadoIconClasses(estado: string): string {
     const e = (estado || '').toLowerCase();
-    if (e.includes('operat') || e.includes('activo'))   return 'bg-emerald-100 text-emerald-600';
     if (e.includes('inoperat'))                          return 'bg-red-100 text-red-500';
+    if (e.includes('operat') || e.includes('activo'))   return 'bg-emerald-100 text-emerald-600';
     if (e.includes('reparac') || e.includes('manteni')) return 'bg-amber-100 text-amber-600';
     return 'bg-slate-100 text-slate-500';
   }
 
   getEstadoChipClasses(estado: string): string {
     const e = (estado || '').toLowerCase();
-    if (e.includes('operat') || e.includes('activo'))   return 'bg-emerald-50 text-emerald-700';
     if (e.includes('inoperat'))                          return 'bg-red-50 text-red-600';
+    if (e.includes('operat') || e.includes('activo'))   return 'bg-emerald-50 text-emerald-700';
     if (e.includes('reparac') || e.includes('manteni')) return 'bg-amber-50 text-amber-700';
     return 'bg-slate-100 text-slate-500';
   }
 
   getEstadoDotClasses(estado: string): string {
     const e = (estado || '').toLowerCase();
-    if (e.includes('operat') || e.includes('activo'))   return 'bg-emerald-500';
     if (e.includes('inoperat'))                          return 'bg-red-500';
+    if (e.includes('operat') || e.includes('activo'))   return 'bg-emerald-500';
     if (e.includes('reparac') || e.includes('manteni')) return 'bg-amber-500';
     return 'bg-slate-400';
   }
 
   getEstadoBorderClass(estado: string): string {
     const e = (estado || '').toLowerCase();
-    if (e.includes('operat') || e.includes('activo'))   return 'border-l-emerald-500';
     if (e.includes('inoperat'))                          return 'border-l-red-500';
+    if (e.includes('operat') || e.includes('activo'))   return 'border-l-emerald-500';
     if (e.includes('reparac') || e.includes('manteni')) return 'border-l-amber-500';
     return 'border-l-slate-400';
   }
@@ -180,8 +180,8 @@ export class WorkerEquipmentComponent implements OnInit, OnDestroy {
   // Kept for backward compat during migration — can be removed after cleanup
   getEstadoClass(estado: string): string {
     const e = (estado || '').toLowerCase();
-    if (e.includes('operat') || e.includes('activo'))   return 'estado-ok';
     if (e.includes('inoperat'))                          return 'estado-error';
+    if (e.includes('operat') || e.includes('activo'))   return 'estado-ok';
     if (e.includes('reparac') || e.includes('manteni')) return 'estado-warn';
     return 'estado-default';
   }

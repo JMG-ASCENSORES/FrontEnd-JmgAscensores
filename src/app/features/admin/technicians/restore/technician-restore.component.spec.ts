@@ -55,7 +55,7 @@ describe('TechnicianRestoreComponent', () => {
 
   it('confirmRestore llama updateTechnician y emite technicianRestored', () => {
     const emitted: void[] = [];
-    component.technicianRestored.subscribe(() => emitted.push());
+    component.technicianRestored.subscribe(() => emitted.push(undefined));
     const tech = mockInactive[0] as any;
     component.confirmRestore(tech);
     expect(techServiceMock.updateTechnician).toHaveBeenCalledWith(5, { estado_activo: true });
@@ -64,7 +64,7 @@ describe('TechnicianRestoreComponent', () => {
 
   it('onClose emite close', () => {
     const emitted: void[] = [];
-    component.close.subscribe(() => emitted.push());
+    component.close.subscribe(() => emitted.push(undefined));
     component.onClose();
     expect(emitted.length).toBe(1);
   });

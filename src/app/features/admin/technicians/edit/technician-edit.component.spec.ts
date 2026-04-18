@@ -48,8 +48,8 @@ describe('TechnicianEditComponent', () => {
   it('onSubmit exitoso emite technicianUpdated y close', () => {
     const updated: void[] = [];
     const closed: void[] = [];
-    component.technicianUpdated.subscribe(() => updated.push());
-    component.close.subscribe(() => closed.push());
+    component.technicianUpdated.subscribe(() => updated.push(undefined));
+    component.close.subscribe(() => closed.push(undefined));
 
     component.onSubmit();
 
@@ -66,7 +66,7 @@ describe('TechnicianEditComponent', () => {
 
   it('onClose emite close', () => {
     const emitted: void[] = [];
-    component.close.subscribe(() => emitted.push());
+    component.close.subscribe(() => emitted.push(undefined));
     component.onClose();
     expect(emitted.length).toBe(1);
   });
