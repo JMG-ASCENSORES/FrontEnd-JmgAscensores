@@ -57,10 +57,7 @@ export class ClientEditComponent implements OnInit {
 
       if (tipo === 'persona') {
         rucControl?.clearValidators();
-        rucControl?.setValue(null);
-
         nombreControl?.clearValidators();
-        nombreControl?.setValue(null);
       } else {
         rucControl?.setValidators([Validators.required, Validators.pattern(/^\d{11}$/)]);
         nombreControl?.setValidators([Validators.required, Validators.minLength(2)]);
@@ -69,11 +66,17 @@ export class ClientEditComponent implements OnInit {
       nombreControl?.updateValueAndValidity();
     };
 
-    // Estado inicial
+    // Estado inicial: solo actualiza validadores, sin tocar los valores cargados
     updateValidators(this.clientForm.get('tipo_cliente')?.value);
 
-    // Suscripción
-    this.clientForm.get('tipo_cliente')?.valueChanges.subscribe(updateValidators);
+    // Suscripción: al cambiar tipo, actualiza validadores y limpia campos inaplicables
+    this.clientForm.get('tipo_cliente')?.valueChanges.subscribe((tipo: string) => {
+      updateValidators(tipo);
+      if (tipo === 'persona') {
+        this.clientForm.get('ruc')?.setValue(null);
+        this.clientForm.get('nombre_comercial')?.setValue(null);
+      }
+    });
 
     // If client already has coordinates, load them
     const lat = this.client.latitud ? Number(this.client.latitud) : null;
