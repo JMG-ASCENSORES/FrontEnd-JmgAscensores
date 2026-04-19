@@ -135,7 +135,7 @@ export class WorkerRoutesComponent implements OnInit {
       this.reportPrefillData.set({
           orden_id: route.extendedProps?.orden_id || null,
           cliente_id: route.extendedProps?.cliente_id || route.extendedProps?.cliente?.cliente_id,
-          cliente_nombre: route.extendedProps?.cliente?.nombre_comercial || route.extendedProps?.cliente?.contacto_nombre,
+          cliente_nombre: this.getClienteDisplayName(route.extendedProps?.cliente),
           ascensor_id: route.extendedProps?.ascensor_id || route.extendedProps?.ascensor?.ascensor_id,
           tipo_informe: descType
       });
@@ -197,6 +197,15 @@ export class WorkerRoutesComponent implements OnInit {
        return map[status] || 'bi-circle text-slate-400';
   }
 
+  getClienteDisplayName(cliente: any, fallback = 'Sin Cliente'): string {
+    if (!cliente) return fallback;
+    if (cliente.tipo_cliente === 'empresa') {
+      return cliente.nombre_comercial || fallback;
+    }
+    const nombre = [cliente.contacto_nombre, cliente.contacto_apellido].filter(Boolean).join(' ');
+    return nombre || fallback;
+  }
+
   // Map features
   private getClienteCoords(): { lat: number; lng: number } | null {
     const cliente = this.selectedRoute()?.extendedProps?.cliente;
@@ -225,7 +234,7 @@ export class WorkerRoutesComponent implements OnInit {
   getAddressQuery(): string {
     const route = this.selectedRoute();
     if (!route) return '';
-    const nombre = route.extendedProps?.cliente?.nombre_comercial;
+    const nombre = this.getClienteDisplayName(route.extendedProps?.cliente, '');
     return nombre ? `${nombre}, Perú` : 'Perú';
   }
 }

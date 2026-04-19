@@ -92,7 +92,7 @@
                   <lucide-icon name="building" [size]="12" strokeWidth="1.5" class="text-slate-500"></lucide-icon>
                 </div>
                 <p class="text-slate-600 text-sm font-medium line-clamp-1">
-                  {{ route.extendedProps.cliente?.nombre_comercial || 'Sin Cliente Asignado' }}
+                  {{ getClienteDisplayName(route.extendedProps.cliente, 'Sin Cliente Asignado') }}
                 </p>
               </div>
               <div class="flex items-center gap-2">
@@ -180,11 +180,13 @@
             <h4 class="text-xs font-extrabold uppercase text-slate-400 tracking-wider mb-3">Información del Cliente</h4>
             <div class="flex items-center gap-4">
               <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-slate-300 shadow-sm shrink-0 font-bold text-xl uppercase border-2 border-slate-100">
-                {{ (selected.extendedProps.cliente?.nombre_comercial || 'C').charAt(0) }}
+                {{ getClienteDisplayName(selected.extendedProps.cliente, 'C').charAt(0) }}
               </div>
               <div class="flex-1">
-                <p class="text-slate-800 font-bold text-base leading-tight">{{ selected.extendedProps.cliente?.nombre_comercial || 'Sin Cliente' }}</p>
-                <p class="text-slate-500 text-sm">{{ selected.extendedProps.cliente?.contacto_nombre || '' }} {{ selected.extendedProps.cliente?.contacto_apellido || '' }}</p>
+                <p class="text-slate-800 font-bold text-base leading-tight">{{ getClienteDisplayName(selected.extendedProps.cliente) }}</p>
+                @if (selected.extendedProps.cliente?.tipo_cliente === 'empresa') {
+                  <p class="text-slate-500 text-sm">{{ selected.extendedProps.cliente?.contacto_nombre || '' }} {{ selected.extendedProps.cliente?.contacto_apellido || '' }}</p>
+                }
               </div>
             </div>
           </div>
