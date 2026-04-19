@@ -187,17 +187,22 @@ export class WorkerReportCreateComponent implements OnInit, OnDestroy, AfterView
 
   ngAfterViewInit(): void {
     this.techPad = new SignaturePad(this.techCanvas.nativeElement, {
-      backgroundColor: 'rgb(255, 255, 255)'
+      backgroundColor: 'rgb(255, 255, 255)',
+      minWidth: 2,
+      maxWidth: 5,
+      penColor: '#1e293b'
     });
     this.clientPad = new SignaturePad(this.clientCanvas.nativeElement, {
-      backgroundColor: 'rgb(255, 255, 255)'
+      backgroundColor: 'rgb(255, 255, 255)',
+      minWidth: 2,
+      maxWidth: 5,
+      penColor: '#1e293b'
     });
     this.resizeCanvas();
   }
 
   private resizeCanvas() {
-    // Limitamos el ratio para no generar imágenes excesivamente pesadas en pantallas de alta densidad
-    const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
     [this.techCanvas, this.clientCanvas].forEach(canvasRef => {
       const canvas = canvasRef.nativeElement;
       canvas.width = canvas.offsetWidth * ratio;

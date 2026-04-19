@@ -64,8 +64,8 @@ export class WorkerProfileComponent implements OnInit {
     setTimeout(() => {
       if (this.signatureCanvas) {
         this.signaturePad = new SignaturePad(this.signatureCanvas.nativeElement, {
-          minWidth: 1,
-          maxWidth: 3,
+          minWidth: 2,
+          maxWidth: 5,
           penColor: '#1e293b'
         });
         
@@ -114,11 +114,11 @@ export class WorkerProfileComponent implements OnInit {
       this.isSaving.set(true);
       
       this.workerService.updateMyProfile({ firma_defecto_base64: dataUrl }).subscribe({
-         next: (updated) => {
-            this.profile.set(updated);
+         next: () => {
             this.isSaving.set(false);
             this.saveSuccess.set(true);
             this.toggleSignaturePad();
+            this.loadProfile();
             setTimeout(() => this.saveSuccess.set(false), 3000);
          },
          error: (err) => {
