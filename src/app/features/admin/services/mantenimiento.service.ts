@@ -1,4 +1,5 @@
 import { Injectable, inject } from '@angular/core';
+import { limaDateStr } from '../../../shared/utils/date-lima.util';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
@@ -33,8 +34,8 @@ export class MantenimientoService {
     const fechaBase = m.fecha_programada
       ? (typeof m.fecha_programada === 'string'
           ? m.fecha_programada.split('T')[0]
-          : new Date(m.fecha_programada).toISOString().split('T')[0])
-      : new Date().toISOString().split('T')[0];
+          : limaDateStr(new Date(m.fecha_programada)))
+      : limaDateStr();
 
     const horaInicio = (m.hora_estimada_inicio || '08:00:00').substring(0, 5);
     const horaFin    = (m.hora_estimada_fin    || '09:00:00').substring(0, 5);
@@ -103,7 +104,7 @@ export class MantenimientoService {
 
   // ─── Helper: convierte fecha + horas al formato start/end que espera /api/programaciones ───
   private buildStartEnd(data: Partial<CrearMantenimientoDTO>): { start: string; end: string } {
-    const fecha = data.fecha_programada || new Date().toISOString().split('T')[0];
+    const fecha = data.fecha_programada || limaDateStr();
     const hi    = (data.hora_estimada_inicio || '08:00').substring(0, 5);
     const hf    = (data.hora_estimada_fin    || '09:00').substring(0, 5);
     return {

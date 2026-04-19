@@ -1,4 +1,5 @@
 import { LucideAngularModule } from 'lucide-angular';
+import { limaTimeStr } from '../../../../shared/utils/date-lima.util';
 import { Component, computed, inject, signal, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
@@ -283,7 +284,7 @@ export class DocumentListComponent implements OnInit {
     // Usar toLocaleString para obtener la hora local de Perú (UTC-5)
     // El backend envía ISO (Z), por lo que el navegador lo convierte correctamente.
     const d = date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    const t = date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false });
+    const t = limaTimeStr(date);
     return `${d} ${t}`;
   }
 

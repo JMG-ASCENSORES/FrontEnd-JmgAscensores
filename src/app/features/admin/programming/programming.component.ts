@@ -1,4 +1,5 @@
 import { LucideAngularModule } from 'lucide-angular';
+import { limaDateStr } from '../../../shared/utils/date-lima.util';
 import { Component, OnInit, inject, ChangeDetectorRef, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router'; // Import RouterModule for routerLink
@@ -55,10 +56,7 @@ export class ProgrammingComponent implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   
   currentDate = new Date();
-  currentDateStr = (() => {
-    const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
-    return d.toISOString().split('T')[0];
-  })();
+  currentDateStr = limaDateStr();
   
   // Mock Data
   clientCount = 78;

@@ -1,4 +1,5 @@
 import { LucideAngularModule } from 'lucide-angular';
+import { limaDateStr, limaTimeStr } from '../../../shared/utils/date-lima.util';
 import { Component, OnInit, Input, Output, EventEmitter, inject, ChangeDetectorRef, SimpleChanges, OnChanges } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
@@ -132,10 +133,9 @@ export class ProgramacionModalComponent implements OnInit, OnChanges {
       this.populateForm();
     } else {
       this.isEditMode = false;
-      const today = new Date();
       this.formData = {
         titulo: '',
-        fecha: this.date || today.toISOString().split('T')[0],
+        fecha: this.date || limaDateStr(),
         hora_inicio: '09:00',
         hora_fin: '10:00',
         trabajador_ids: [],
@@ -236,9 +236,9 @@ export class ProgramacionModalComponent implements OnInit, OnChanges {
 
     this.formData = {
       titulo:         this.mantenimiento.title,
-      fecha:          fechaInicio.toISOString().split('T')[0],
-      hora_inicio:    fechaInicio.toTimeString().substring(0, 5),
-      hora_fin:       fechaFin.toTimeString().substring(0, 5),
+      fecha:          limaDateStr(fechaInicio),
+      hora_inicio:    limaTimeStr(fechaInicio),
+      hora_fin:       limaTimeStr(fechaFin),
       trabajador_ids: ids,
       cliente_id:     ext?.cliente_id  || 0,
       ascensor_id:    ext?.ascensor_id || 0,

@@ -1,4 +1,5 @@
 import { LucideAngularModule } from 'lucide-angular';
+import { limaDateStr, limaTimeStr } from '../../../shared/utils/date-lima.util';
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
@@ -66,10 +67,7 @@ export class WorkerRoutesComponent implements OnInit {
         else if (i === 1) label = 'Mañana';
         else label = d.toLocaleDateString('es-ES', { weekday: 'short' });
         
-        // Formato YYYY-MM-DD
-        const userTzOffset = d.getTimezoneOffset() * 60000;
-        const dLocal = new Date(d.getTime() - userTzOffset);
-        const str = dLocal.toISOString().split('T')[0];
+        const str = limaDateStr(d);
         
         dateArray.push({ date: d, str, label });
     }
@@ -89,8 +87,8 @@ export class WorkerRoutesComponent implements OnInit {
     const end = new Date();
     end.setDate(end.getDate() + 30);
     
-    const startStr = start.toISOString().split('T')[0];
-    const endStr = end.toISOString().split('T')[0];
+    const startStr = limaDateStr(start);
+    const endStr = limaDateStr(end);
 
     this.mantenimientoService.listar(startStr, endStr, user.id, true).subscribe({
       next: (data) => {
@@ -161,7 +159,7 @@ export class WorkerRoutesComponent implements OnInit {
   formatTime(isoString: string): string {
     if (!isoString) return '';
     if (isoString.includes('T')) return isoString.split('T')[1].substring(0, 5);
-    return new Date(isoString).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+    return limaTimeStr(new Date(isoString));
   }
 
   getTypeLabel(tipo: string | undefined): string {

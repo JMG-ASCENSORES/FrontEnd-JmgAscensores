@@ -1,4 +1,5 @@
 import { Injectable, inject } from '@angular/core';
+import { limaDateStr, limaTimeStr } from '../../../shared/utils/date-lima.util';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { environment } from '../../../../environments/environment';
@@ -122,12 +123,11 @@ export class ProgramacionService {
   getProgramaciones(start?: string, end?: string): Observable<Programacion[]> {
     // Si no se proporcionan fechas, usar el mes actual completo
     if (!start || !end) {
-      const now = new Date();
-      const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
-      const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-      
-      start = firstDay.toISOString().split('T')[0]; // YYYY-MM-DD
-      end = lastDay.toISOString().split('T')[0];
+      const [year, month] = limaDateStr().split('-').map(Number);
+      const firstDay = new Date(year, month - 1, 1);
+      const lastDay  = new Date(year, month, 0);
+      start = limaDateStr(firstDay);
+      end   = limaDateStr(lastDay);
     }
 
     let params = new HttpParams();
@@ -262,10 +262,7 @@ export class ProgramacionService {
 
   // Extraer hora de ISO string
   extraerHora(isoString: string): string {
-    return new Date(isoString).toLocaleTimeString('es-ES', {
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+    return limaTimeStr(new Date(isoString));
   }
 
   // Obtener label para tipo de trabajo

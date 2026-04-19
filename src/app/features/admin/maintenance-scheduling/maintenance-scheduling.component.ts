@@ -1,4 +1,5 @@
 import { LucideAngularModule } from 'lucide-angular';
+import { limaDateStr, limaTimeStr } from '../../../shared/utils/date-lima.util';
 import { Component, OnInit, inject, ChangeDetectorRef, ViewChild, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -34,11 +35,7 @@ export class MaintenanceSchedulingComponent implements OnInit {
   isLoading = true;
   errorMessage = '';
   
-  selectedFilterDate: string = (() => {
-    const d = new Date();
-    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
-    return d.toISOString().split('T')[0];
-  })();
+  selectedFilterDate: string = limaDateStr();
   
   // Modal state
   showModal = false;
@@ -142,9 +139,7 @@ export class MaintenanceSchedulingComponent implements OnInit {
       const api = this.calendarComponent.getApi();
       api.today();
     }
-    const d = new Date();
-    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
-    this.selectedFilterDate = d.toISOString().split('T')[0];
+    this.selectedFilterDate = limaDateStr();
     this.filterMantenimientos();
   }
 
@@ -422,10 +417,7 @@ export class MaintenanceSchedulingComponent implements OnInit {
 
   formatHora(isoString: string): string {
     if (!isoString) return '';
-    return new Date(isoString).toLocaleTimeString('es-ES', {
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+    return limaTimeStr(new Date(isoString));
   }
 
   getTrabajadorNombre(mant: Mantenimiento): string {

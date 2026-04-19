@@ -1,4 +1,5 @@
 import { LucideAngularModule } from 'lucide-angular';
+import { limaDateStr } from '../../../../shared/utils/date-lima.util';
 import { Component, EventEmitter, Output, Input, inject, signal, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import SignaturePad from 'signature_pad';
 
@@ -70,7 +71,7 @@ export class WorkerReportCreateComponent implements OnInit, OnDestroy, AfterView
       tipo_informe: ['Técnico', [Validators.required]],
       descripcion_trabajo: ['', [Validators.maxLength(5000)]],
       observaciones: ['', [Validators.maxLength(1000)]],
-      fecha_informe: [new Date().toISOString().split('T')[0], [Validators.required]],
+      fecha_informe: [limaDateStr(), [Validators.required]],
       hora_informe: ['12:00', [Validators.required]]
     });
   }
