@@ -198,26 +198,34 @@ export class WorkerRoutesComponent implements OnInit {
   }
 
   // Map features
-  getAddressQuery(): string {
-     const route = this.selectedRoute();
-     if (!route) return '';
-     let addr = 'Perú'; // Default append country
-     if (route.extendedProps?.cliente?.nombre_comercial) {
-         addr = `${route.extendedProps.cliente.nombre_comercial}, ${addr}`;
-     }
-     return addr;
+  private getClienteCoords(): { lat: number; lng: number } | null {
+    const cliente = this.selectedRoute()?.extendedProps?.cliente;
+    if (cliente?.latitud && cliente?.longitud) {
+      return { lat: cliente.latitud, lng: cliente.longitud };
+    }
+    return null;
   }
 
   getSafeMapUrl(): SafeResourceUrl {
-      const address = this.getAddressQuery();
-      // Usar Google Maps Embed API or OpenStreetMaps. OSM is free without API Key:
-      const url = `https://maps.google.com/maps?q=${encodeURIComponent(address)}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
-      return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    const coords = this.getClienteCoords();
+    const url = coords
+      ? `https://maps.google.com/maps?q=${coords.lat},${coords.lng}&z=16&output=embed&hl=es`
+      : `https://maps.google.com/maps?q=${encodeURIComponent(this.getAddressQuery())}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
   openExternalMap() {
-      const address = this.getAddressQuery();
-      const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
-      window.open(url, '_blank');
+    const coords = this.getClienteCoords();
+    const url = coords
+      ? `https://www.google.com/maps?q=${coords.lat},${coords.lng}`
+      : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(this.getAddressQuery())}`;
+    window.open(url, '_blank');
+  }
+
+  getAddressQuery(): string {
+    const route = this.selectedRoute();
+    if (!route) return '';
+    const nombre = route.extendedProps?.cliente?.nombre_comercial;
+    return nombre ? `${nombre}, Perú` : 'Perú';
   }
 }
