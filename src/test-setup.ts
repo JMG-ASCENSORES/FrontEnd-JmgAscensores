@@ -1,7 +1,6 @@
-// Global localStorage mock for test environment
-// The Angular unit-test builder (21.0.x) runs in a jsdom environment
-// where localStorage methods exist but are not functional by default.
-// This mock replaces localStorage globally before any spec runs.
+import { TestBed } from '@angular/core/testing';
+import { LUCIDE_ICONS, LucideIconProvider } from 'lucide-angular';
+import * as LucideIcons from './app/shared/icons/lucide-icons';
 
 const localStorageMock = (() => {
   let store: Record<string, string> = {};
@@ -20,3 +19,17 @@ Object.defineProperty(globalThis, 'localStorage', {
   writable: true,
   configurable: true,
 });
+
+// Lucide icons are provided globally in app.config.ts but not in TestBed.
+// This patch injects the icon provider into every configureTestingModule call
+// so specs don't need to add it manually.
+const _origConfigure = TestBed.configureTestingModule;
+TestBed.configureTestingModule = function (config) {
+  return _origConfigure.call(TestBed, {
+    ...config,
+    providers: [
+      { provide: LUCIDE_ICONS, multi: true, useValue: new LucideIconProvider(LucideIcons) },
+      ...(config.providers ?? []),
+    ],
+  });
+};

@@ -95,7 +95,7 @@ describe('ProgrammingComponent', () => {
   });
 
   it('getRoleIcon() should return correct icon for known specialty', () => {
-    expect(component.getRoleIcon('Supervisor Técnico')).toBe('bi-person-fill-gear');
+    expect(component.getRoleIcon('Supervisor Técnico')).toBe('user-cog');
   });
 
   it('formatType() should map tipo values correctly', () => {
