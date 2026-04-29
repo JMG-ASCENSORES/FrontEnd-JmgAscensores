@@ -136,7 +136,7 @@ export class ProgrammingComponent implements OnInit {
 
   loadWorkers() {
     this.isLoading = true;
-    this.technicianService.getTechnicians().subscribe({
+    this.technicianService.getTechnicians({ estado_activo: true }).subscribe({
       next: (data) => {
         // Ordenar primero (Jerarquía personalizada)
         const orderMap: Record<string, number> = {
