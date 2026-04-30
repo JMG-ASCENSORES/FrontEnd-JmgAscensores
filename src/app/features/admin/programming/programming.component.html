@@ -126,15 +126,6 @@
                     <h3 class="font-bold text-slate-800 text-sm truncate w-full" [title]="schedule.technicianName">{{schedule.technicianName}}</h3>
                     <p class="text-xs text-slate-500 leading-tight mt-1 line-clamp-2" [title]="schedule.time + ', ' + schedule.address">{{schedule.time}}, {{schedule.address}}</p>
                   </div>
-                  <!-- Botón Notificar Cliente -->
-                  <button
-                    class="mt-2 flex items-center gap-1 px-2 py-1 bg-[#25d366] text-white text-[10px] font-bold rounded hover:bg-[#128c7e] transition-colors shadow-sm"
-                    (click)="sendWhatsAppClient(schedule); $event.stopPropagation()"
-                    title="Notificar al cliente por WhatsApp"
-                    >
-                    <lucide-icon name="message-circle" [size]="14" strokeWidth="1.5"></lucide-icon>
-                    CLIENTE
-                  </button>
                 </div>
               </div>
             }
@@ -288,6 +279,44 @@
                     <lucide-icon name="message-circle" [size]="16" strokeWidth="1.5"></lucide-icon>
                   }
                   {{ isTechNotified(group.tech.trabajador_id) ? 'Reenviar' : 'Notificar' }}
+                </button>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Notificar Clientes -->
+        <div class="bg-[#fdf8f3] rounded-xl p-3 shadow-sm border border-[#fed7aa] flex flex-col shrink-0 max-h-[38vh]">
+          <div class="flex items-center justify-between mb-2 shrink-0">
+            <h2 class="text-xs font-bold text-[#9a3412] uppercase tracking-wider">Notificar Clientes</h2>
+            <lucide-icon name="users" [size]="18" strokeWidth="1.5" class="text-[#9a3412]"></lucide-icon>
+          </div>
+          @if (schedules.length === 0) {
+            <div class="text-center py-3 text-slate-400 text-xs">
+              Sin clientes asignados hoy.
+            </div>
+          }
+          <div class="flex flex-col gap-1.5 overflow-y-auto flex-1 pr-1">
+            @for (group of clientsToNotify; track group.client.cliente_id) {
+              <div class="flex items-center justify-between bg-white p-1.5 rounded-lg border border-[#fed7aa] shadow-sm">
+                <div class="flex flex-col overflow-hidden">
+                  <span class="font-bold text-slate-800 text-xs truncate" [title]="group.client.nombre_comercial || (group.client.contacto_nombre + ' ' + group.client.contacto_apellido)">
+                    {{ group.client.nombre_comercial || (group.client.contacto_nombre + ' ' + group.client.contacto_apellido) }}
+                  </span>
+                  <span class="text-[10px] text-slate-500">{{ group.services.length }} servicio{{ group.services.length !== 1 ? 's' : '' }} hoy</span>
+                </div>
+                <button
+                  class="shrink-0 flex items-center justify-center gap-1 px-2 py-1 rounded-md text-[10px] font-bold transition-all"
+                  [ngClass]="isClientNotified(group.client.cliente_id) ? 'bg-slate-50 text-[#9a3412] border border-[#fed7aa] hover:bg-[#fdf8f3]' : 'bg-[#f97316] text-white hover:bg-[#ea580c] hover:-translate-y-px shadow-sm'"
+                  (click)="sendWhatsAppClients(group)"
+                  [title]="isClientNotified(group.client.cliente_id) ? 'Notificado en esta sesión' : 'Enviar notificación por WhatsApp'"
+                  >
+                  @if (isClientNotified(group.client.cliente_id)) {
+                    <lucide-icon name="check-check" [size]="14" strokeWidth="1.5"></lucide-icon>
+                  } @else {
+                    <lucide-icon name="message-circle" [size]="16" strokeWidth="1.5"></lucide-icon>
+                  }
+                  {{ isClientNotified(group.client.cliente_id) ? 'Reenviar' : 'Notificar' }}
                 </button>
               </div>
             }

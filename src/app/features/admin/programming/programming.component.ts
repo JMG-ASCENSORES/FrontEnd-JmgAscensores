@@ -82,9 +82,11 @@ export class ProgrammingComponent implements OnInit {
 
   upcoming: any[] = [];
   techniciansToNotify: { tech: any; services: Mantenimiento[] }[] = [];
+  clientsToNotify: { client: any; services: Mantenimiento[] }[] = [];
 
-  // Notification state: date string -> set of notified technician IDs
+  // Notification state: date string -> set of notified technician IDs / client IDs
   notifiedTechIdsByDate = new Map<string, Set<number>>();
+  notifiedClientIdsByDate = new Map<string, Set<number>>();
 
   // Toast state
   toast = signal<{ message: string; type: 'success' | 'error'; title: string } | null>(null);
@@ -269,8 +271,9 @@ export class ProgrammingComponent implements OnInit {
           });
       });
       
-      // Compute technicians to notify once to avoid infinite loop in template
+      // Compute technicians and clients to notify once to avoid infinite loop in template
       this.techniciansToNotify = this.getTechniciansFromSchedules();
+      this.clientsToNotify = this.getClientsFromSchedules();
   }
 
   private mapToSchedule(m: Mantenimiento, index: number): Schedule {
@@ -419,6 +422,29 @@ export class ProgrammingComponent implements OnInit {
       .sort((a, b) => (a.tech.nombre || '').localeCompare(b.tech.nombre || ''));
   }
 
+  getClientsFromSchedules(): { client: any; services: Mantenimiento[] }[] {
+    const clientGroups = new Map<number, { client: any; services: Mantenimiento[] }>();
+
+    this.schedules.forEach(schedule => {
+      const mant = schedule.originalData;
+      const client = mant.extendedProps?.cliente;
+
+      if (client && client.cliente_id) {
+        if (!clientGroups.has(client.cliente_id)) {
+          clientGroups.set(client.cliente_id, { client, services: [] });
+        }
+        clientGroups.get(client.cliente_id)!.services.push(mant);
+      }
+    });
+
+    return Array.from(clientGroups.values())
+      .sort((a, b) => {
+        const nameA = a.client.nombre_comercial || `${a.client.contacto_nombre || ''} ${a.client.contacto_apellido || ''}`.trim();
+        const nameB = b.client.nombre_comercial || `${b.client.contacto_nombre || ''} ${b.client.contacto_apellido || ''}`.trim();
+        return nameA.localeCompare(nameB);
+      });
+  }
+
   sendWhatsAppRoute(techData: { tech: any; services: Mantenimiento[] }): void {
     const { tech, services } = techData;
     if (!tech.telefono || tech.telefono.trim() === '') {
@@ -462,36 +488,60 @@ export class ProgrammingComponent implements OnInit {
   sendWhatsAppClient(schedule: Schedule): void {
     const raw = schedule.originalData;
     const cliente = raw.extendedProps?.cliente;
-    
+
     if (!cliente) {
         this.showToast('No se encontró información del cliente para este trabajo.', 'error', 'Error de Datos');
         return;
     }
 
-    // Lógica robusta por tipo de cliente para obtener el teléfono
-    let telefono = '';
-    if (cliente.tipo_cliente === 'persona') {
-        // Para personas, prioritarios 'telefono', si no está, usamos 'contacto_telefono' (por compatibilidad con datos viejos)
-        telefono = cliente.telefono || cliente.contacto_telefono;
-    } else {
-        // Para empresas, prioritarios 'contacto_telefono', si no está, usamos 'telefono'
-        telefono = cliente.contacto_telefono || cliente.telefono;
-    }
-    
-    if (!telefono || telefono.trim() === '') {
-        this.showToast(`El cliente ${schedule.clientName} no tiene un teléfono registrado para este tipo de contacto.`, 'error', 'Datos incompletos');
+    this.sendNotificationToClient(cliente, raw);
+  }
+
+  sendWhatsAppClients(clientData: { client: any; services: Mantenimiento[] }): void {
+    const { client, services } = clientData;
+
+    if (!client) {
+        this.showToast('No se encontró información del cliente.', 'error', 'Error de Datos');
         return;
     }
 
-    const fechaStr = this.formatDate(raw.start?.split('T')[0] || this.currentDateStr);
+    // Enviar notificación del primer servicio (con mención de los demás si hay)
+    if (services.length > 0) {
+        this.sendNotificationToClient(client, services[0]);
+    }
+
+    // Marcar como notificado
+    if (!this.notifiedClientIdsByDate.has(this.currentDateStr)) {
+      this.notifiedClientIdsByDate.set(this.currentDateStr, new Set<number>());
+    }
+    this.notifiedClientIdsByDate.get(this.currentDateStr)?.add(client.cliente_id);
+    this.cdr.detectChanges();
+  }
+
+  private sendNotificationToClient(cliente: any, mantenimiento: Mantenimiento): void {
+    // Lógica robusta por tipo de cliente para obtener el teléfono
+    let telefono = '';
+    if (cliente.tipo_cliente === 'persona') {
+        telefono = cliente.telefono || cliente.contacto_telefono;
+    } else {
+        telefono = cliente.contacto_telefono || cliente.telefono;
+    }
+
+    if (!telefono || telefono.trim() === '') {
+        const clientName = cliente.nombre_comercial || `${cliente.contacto_nombre || ''} ${cliente.contacto_apellido || ''}`.trim();
+        this.showToast(`El cliente ${clientName} no tiene un teléfono registrado.`, 'error', 'Datos incompletos');
+        return;
+    }
+
+    const fechaStr = this.formatDate(mantenimiento.start?.split('T')[0] || this.currentDateStr);
     let hora = '';
-    if (raw.start && raw.start.includes('T')) {
-        hora = raw.start.split('T')[1].substring(0, 5);
+    if (mantenimiento.start && mantenimiento.start.includes('T')) {
+        hora = mantenimiento.start.split('T')[1].substring(0, 5);
     }
 
     const nombreCliente = `${cliente.contacto_nombre || ''} ${cliente.contacto_apellido || ''}`.trim() || cliente.nombre_comercial || 'Estimado Cliente';
-    const tipoTrabajo = this.formatType(raw.extendedProps?.tipo_trabajo);
-    const equipo = raw.extendedProps?.ascensor?.numero_serie || 'su equipo';
+    const tipoTrabajo = this.formatType(mantenimiento.extendedProps?.tipo_trabajo);
+    const equipo = mantenimiento.extendedProps?.ascensor?.numero_serie || 'su equipo';
 
     let message = `Estimado(a) *${nombreCliente}*,\n\n`;
     message += `JMG Ascensores le informa que tiene programado un servicio de *${tipoTrabajo}* para el día *${fechaStr}* a las *${hora}* para el equipo [Ref: ${equipo}].\n\n`;
@@ -499,17 +549,21 @@ export class ProgrammingComponent implements OnInit {
 
     const encodedMessage = encodeURIComponent(message);
     const cleanPhone = telefono.replace(/\s+/g, '').replace('+', '');
-    // Asumimos código de país 51 (Perú) si no tiene caracteres internacionales
     const finalPhone = cleanPhone.length === 9 ? `51${cleanPhone}` : cleanPhone;
-    
+
     const whatsappUrl = `https://wa.me/${finalPhone}?text=${encodedMessage}`;
     window.open(whatsappUrl, '_blank');
-    
-    this.showToast(`Enlace de WhatsApp generado para ${schedule.clientName}`, 'success', 'Notificación');
+
+    const clientName = cliente.nombre_comercial || `${cliente.contacto_nombre || ''} ${cliente.contacto_apellido || ''}`.trim();
+    this.showToast(`Enlace de WhatsApp generado para ${clientName}`, 'success', 'Notificación');
   }
 
   isTechNotified(techId: number): boolean {
     return !!this.notifiedTechIdsByDate.get(this.currentDateStr)?.has(techId);
+  }
+
+  isClientNotified(clientId: number): boolean {
+    return !!this.notifiedClientIdsByDate.get(this.currentDateStr)?.has(clientId);
   }
 
   getWorkloadBadge(techId: number): string | null {
