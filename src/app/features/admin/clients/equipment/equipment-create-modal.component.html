@@ -1,17 +1,17 @@
 <div class="fixed inset-0 z-[60] flex items-center justify-center p-4 overflow-y-auto">
   <!-- Backdrop -->
-  <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm" (click)="onClose()" tabindex="0" (keydown.enter)="onClose()"></div>
+  <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm" (click)="onClose()" tabindex="0" (keydown.enter)="onClose()"></div>
 
   <!-- Modal Panel -->
   <div class="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl overflow-hidden ring-1 ring-black/5">
 
     <!-- Header -->
-    <div class="px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white flex items-center justify-between">
+    <div class="px-6 py-4 border-b border-slate-100 bg-gradient-to-r from-slate-50 to-white flex items-center justify-between">
       <div>
-        <h2 class="text-xl font-bold text-gray-900">Agregar Nuevo Equipo</h2>
-        <p class="text-sm text-gray-500 mt-1">Complete los datos del equipo</p>
+        <h2 class="text-xl font-bold text-slate-900">Agregar Nuevo Equipo</h2>
+        <p class="text-sm text-slate-500 mt-1">Complete los datos del equipo</p>
       </div>
-      <button (click)="onClose()" class="p-2 rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors">
+      <button (click)="onClose()" class="p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors">
         <lucide-icon name="x" [size]="18" strokeWidth="1.5"></lucide-icon>
       </button>
     </div>
@@ -34,8 +34,8 @@
 
           <!-- Tipo Equipo -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Tipo de Equipo *</label>
-            <select formControlName="tipo_equipo" class="w-full px-4 py-2 rounded-lg border focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" [ngClass]="{'border-red-500': equipmentForm.get('tipo_equipo')?.invalid && equipmentForm.get('tipo_equipo')?.touched, 'border-gray-300': !equipmentForm.get('tipo_equipo')?.invalid || !equipmentForm.get('tipo_equipo')?.touched}">
+            <label class="block text-sm font-medium text-slate-700 mb-1">Tipo de Equipo *</label>
+            <select formControlName="tipo_equipo" class="w-full px-4 py-2 rounded-lg border focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" [ngClass]="{'border-red-500': equipmentForm.get('tipo_equipo')?.invalid && equipmentForm.get('tipo_equipo')?.touched, 'border-slate-300': !equipmentForm.get('tipo_equipo')?.invalid || !equipmentForm.get('tipo_equipo')?.touched}">
               @for (type of equipmentTypes; track type) {
                 <option [value]="type">{{ type }}</option>
               }
@@ -49,8 +49,8 @@
 
           <!-- Marca -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Marca *</label>
-            <input type="text" formControlName="marca" class="w-full px-4 py-2 rounded-lg border focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" [ngClass]="{'border-red-500': equipmentForm.get('marca')?.invalid && equipmentForm.get('marca')?.touched, 'border-gray-300': !equipmentForm.get('marca')?.invalid || !equipmentForm.get('marca')?.touched}" placeholder="Ej. Otis">
+            <label class="block text-sm font-medium text-slate-700 mb-1">Marca *</label>
+            <input type="text" formControlName="marca" class="w-full px-4 py-2 rounded-lg border focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" [ngClass]="{'border-red-500': equipmentForm.get('marca')?.invalid && equipmentForm.get('marca')?.touched, 'border-slate-300': !equipmentForm.get('marca')?.invalid || !equipmentForm.get('marca')?.touched}" placeholder="Ej. Otis">
             @if (equipmentForm.get('marca')?.invalid && equipmentForm.get('marca')?.touched) {
               <p class="mt-1 text-xs text-red-600 flex items-center gap-1">
                 <lucide-icon name="alert-circle" [size]="12" strokeWidth="1.5"></lucide-icon>La marca es requerida
@@ -60,32 +60,32 @@
 
           <!-- Modelo -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Modelo</label>
-            <input type="text" formControlName="modelo" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Ej. Gen2">
+            <label class="block text-sm font-medium text-slate-700 mb-1">Modelo</label>
+            <input type="text" formControlName="modelo" class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Ej. Gen2">
           </div>
 
           <!-- Número Serie -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Número de Serie</label>
-            <input type="text" formControlName="numero_serie" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Ej. OT-2024-001">
+            <label class="block text-sm font-medium text-slate-700 mb-1">Número de Serie</label>
+            <input type="text" formControlName="numero_serie" class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Ej. OT-2024-001">
           </div>
 
           <!-- Capacidad -->
           <div class="grid grid-cols-2 gap-2">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Carga (KG)</label>
+              <label class="block text-sm font-medium text-slate-700 mb-1">Carga (KG)</label>
               <input type="number" min="0" formControlName="capacidad_kg"
                 [class.border-red-500]="equipmentForm.get('capacidad_kg')?.invalid && equipmentForm.get('capacidad_kg')?.touched"
-                class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Ej. 630">
+                class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Ej. 630">
                 @if (equipmentForm.get('capacidad_kg')?.invalid && equipmentForm.get('capacidad_kg')?.touched) {
                   <p class="text-[10px] text-red-500 mt-0.5">Mín 0</p>
                 }
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Pers.</label>
+                <label class="block text-sm font-medium text-slate-700 mb-1">Pers.</label>
                 <input type="number" min="0" formControlName="capacidad_personas"
                   [class.border-red-500]="equipmentForm.get('capacidad_personas')?.invalid && equipmentForm.get('capacidad_personas')?.touched"
-                  class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Ej. 8">
+                  class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Ej. 8">
                   @if (equipmentForm.get('capacidad_personas')?.invalid && equipmentForm.get('capacidad_personas')?.touched) {
                     <p class="text-[10px] text-red-500 mt-0.5">Mín 0</p>
                   }
@@ -94,10 +94,10 @@
 
               <!-- Cantidad Pisos -->
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Cantidad de Pisos</label>
+                <label class="block text-sm font-medium text-slate-700 mb-1">Cantidad de Pisos</label>
                 <input type="number" formControlName="piso_cantidad"
                   [class.border-red-500]="equipmentForm.get('piso_cantidad')?.invalid && equipmentForm.get('piso_cantidad')?.touched"
-                  class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Ej. 8">
+                  class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Ej. 8">
                   @if (equipmentForm.get('piso_cantidad')?.invalid && equipmentForm.get('piso_cantidad')?.touched) {
                     <p class="text-xs text-red-500 mt-1">Mínimo 1 piso</p>
                   }
@@ -105,14 +105,14 @@
 
                 <!-- Fecha Último Mantenimiento -->
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Último Mantenimiento</label>
-                  <input type="date" formControlName="fecha_ultimo_mantenimiento" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                  <label class="block text-sm font-medium text-slate-700 mb-1">Último Mantenimiento</label>
+                  <input type="date" formControlName="fecha_ultimo_mantenimiento" class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                 </div>
 
                 <!-- Estado -->
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Estado *</label>
-                  <select formControlName="estado" class="w-full px-4 py-2 rounded-lg border focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" [ngClass]="{'border-red-500': equipmentForm.get('estado')?.invalid && equipmentForm.get('estado')?.touched, 'border-gray-300': !equipmentForm.get('estado')?.invalid || !equipmentForm.get('estado')?.touched}">
+                  <label class="block text-sm font-medium text-slate-700 mb-1">Estado *</label>
+                  <select formControlName="estado" class="w-full px-4 py-2 rounded-lg border focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" [ngClass]="{'border-red-500': equipmentForm.get('estado')?.invalid && equipmentForm.get('estado')?.touched, 'border-slate-300': !equipmentForm.get('estado')?.invalid || !equipmentForm.get('estado')?.touched}">
                     @for (estado of estados; track estado) {
                       <option [value]="estado">{{ estado }}</option>
                     }
@@ -126,17 +126,17 @@
 
                 <!-- Observaciones -->
                 <div class="md:col-span-2">
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Observaciones</label>
-                  <textarea formControlName="observaciones" rows="3" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Notas adicionales..."></textarea>
+                  <label class="block text-sm font-medium text-slate-700 mb-1">Observaciones</label>
+                  <textarea formControlName="observaciones" rows="3" class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Notas adicionales..."></textarea>
                 </div>
               </div>
 
               <!-- Actions -->
-              <div class="flex items-center justify-end gap-3 pt-6 border-t border-gray-100">
-                <button type="button" (click)="onClose()" class="px-5 py-2.5 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors">
+              <div class="flex items-center justify-end gap-3 pt-6 border-t border-slate-100">
+                <button type="button" (click)="onClose()" class="px-5 py-2.5 rounded-lg border border-slate-300 text-slate-700 font-medium hover:bg-slate-50 transition-colors">
                   Cancelar
                 </button>
-                <button type="submit" [disabled]="isSubmitting()" class="px-5 py-2.5 rounded-lg bg-[#003B73] text-white font-medium hover:bg-[#002a52] transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+                <button type="submit" [disabled]="isSubmitting()" class="px-5 py-2.5 rounded-lg bg-jmg text-white font-medium hover:bg-jmg-dark transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
                   @if (isSubmitting()) {
                     <span class="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></span>
                   }

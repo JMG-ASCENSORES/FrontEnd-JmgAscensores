@@ -1,12 +1,12 @@
-<div class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center zs-50 backdrop-blur-sm p-4 z-50">
+<div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
   <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden animate-fade-in-up">
 
     <!-- Header -->
-    <div class="bg-[#003B73] p-6 flex justify-between items-center">
+    <div class="bg-jmg p-6 flex justify-between items-center">
       <h2 class="text-2xl font-bold text-white flex items-center gap-3">
         <lucide-icon name="circle-plus" [size]="16" strokeWidth="1.5"></lucide-icon> Registrar Nuevo Equipo
       </h2>
-      <button (click)="close.emit()" class="text-white hover:text-gray-200 transition-colors">
+      <button (click)="close.emit()" class="text-white hover:text-slate-200 transition-colors">
         <lucide-icon name="x" [size]="24" strokeWidth="1.5"></lucide-icon>
       </button>
     </div>
@@ -22,7 +22,7 @@
             [(ngModel)]="formData.cliente_id"
             name="cliente_id"
             required
-            class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 focus:border-[#003B73] focus:ring-4 focus:ring-blue-100 transition-all outline-none"
+            class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 focus:border-jmg focus:ring-2 focus:ring-jmg/20 transition-all outline-none"
             >
             <option [ngValue]="null" disabled selected>Seleccione un cliente</option>
             @for (client of clients(); track client) {
@@ -41,7 +41,7 @@
               [(ngModel)]="formData.tipo_equipo"
               name="tipo_equipo"
               required
-              class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 focus:border-[#003B73] focus:ring-4 focus:ring-blue-100 transition-all outline-none"
+              class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 focus:border-jmg focus:ring-2 focus:ring-jmg/20 transition-all outline-none"
               >
               <option value="" disabled selected>Seleccione tipo</option>
               @for (type of equipmentTypes; track type) {
@@ -56,7 +56,7 @@
             <select
               [(ngModel)]="formData.estado"
               name="estado"
-              class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 focus:border-[#003B73] focus:ring-4 focus:ring-blue-100 transition-all outline-none"
+              class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 focus:border-jmg focus:ring-2 focus:ring-jmg/20 transition-all outline-none"
               >
               @for (status of statuses; track status) {
                 <option [value]="status">{{ status }}</option>
@@ -74,7 +74,7 @@
               [(ngModel)]="formData.marca"
               name="marca"
               placeholder="Ej. Schindler, Otis"
-              class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 focus:border-[#003B73] focus:ring-4 focus:ring-blue-100 transition-all outline-none"
+              class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 focus:border-jmg focus:ring-2 focus:ring-jmg/20 transition-all outline-none"
               >
             </div>
 
@@ -86,7 +86,7 @@
                 [(ngModel)]="formData.modelo"
                 name="modelo"
                 placeholder="Ej. 3300, Gen2"
-                class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 focus:border-[#003B73] focus:ring-4 focus:ring-blue-100 transition-all outline-none"
+                class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 focus:border-jmg focus:ring-2 focus:ring-jmg/20 transition-all outline-none"
                 >
               </div>
             </div>
@@ -101,7 +101,7 @@
                   name="numero_serie"
                   required
                   placeholder="Ej. SN-123456"
-                  class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 focus:border-[#003B73] focus:ring-4 focus:ring-blue-100 transition-all outline-none"
+                  class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 focus:border-jmg focus:ring-2 focus:ring-jmg/20 transition-all outline-none"
                   >
                 </div>
 
@@ -117,7 +117,7 @@
                       min="0"
                       placeholder="Ej. 600"
                       [class.border-red-500]="kgInput.invalid && kgInput.touched"
-                      class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 focus:border-[#003B73] focus:ring-4 focus:ring-blue-100 transition-all outline-none"
+                      class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 focus:border-jmg focus:ring-2 focus:ring-jmg/20 transition-all outline-none"
                       >
                       @if (kgInput.invalid && kgInput.touched) {
                         <p class="text-xs text-red-500 mt-1">Debe ser ≥ 0</p>
@@ -133,7 +133,7 @@
                         min="0"
                         placeholder="Ej. 8"
                         [class.border-red-500]="persInput.invalid && persInput.touched"
-                        class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 focus:border-[#003B73] focus:ring-4 focus:ring-blue-100 transition-all outline-none"
+                        class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 focus:border-jmg focus:ring-2 focus:ring-jmg/20 transition-all outline-none"
                         >
                         @if (persInput.invalid && persInput.touched) {
                           <p class="text-xs text-red-500 mt-1">Debe ser ≥ 0</p>
@@ -153,7 +153,7 @@
                       min="1"
                       placeholder="Ej. 10"
                       [class.border-red-500]="pisoInput.invalid && pisoInput.touched"
-                      class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 focus:border-[#003B73] focus:ring-4 focus:ring-blue-100 transition-all outline-none"
+                      class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 focus:border-jmg focus:ring-2 focus:ring-jmg/20 transition-all outline-none"
                       >
                       @if (pisoInput.invalid && pisoInput.touched) {
                         <p class="text-xs text-red-500 mt-1">Debe ser ≥ 1</p>
@@ -168,7 +168,7 @@
                         name="observaciones"
                         rows="3"
                         placeholder="Detalles adicionales sobre el equipo..."
-                        class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 focus:border-[#003B73] focus:ring-4 focus:ring-blue-100 transition-all outline-none resize-none"
+                        class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 focus:border-jmg focus:ring-2 focus:ring-jmg/20 transition-all outline-none resize-none"
                       ></textarea>
                     </div>
 
@@ -183,14 +183,14 @@
                     }
 
                     <!-- Actions -->
-                    <div class="flex justify-end gap-4 pt-4 border-t border-gray-100">
+                    <div class="flex justify-end gap-4 pt-4 border-t border-slate-100">
                       <button type="button" (click)="close.emit()" class="px-6 py-3 rounded-xl font-bold text-slate-600 hover:bg-slate-100 transition-colors">
                         Cancelar
                       </button>
                       <button
                         type="submit"
                         [disabled]="elevatorForm.invalid || isSubmitting()"
-                        class="px-8 py-3 rounded-xl font-bold text-white bg-[#003B73] hover:bg-[#002a52] shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                        class="px-8 py-3 rounded-xl font-bold text-white bg-jmg hover:bg-jmg-dark shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                         >
                         @if (isSubmitting()) {
                           <span class="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></span>

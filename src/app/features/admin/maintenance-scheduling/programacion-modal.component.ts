@@ -42,7 +42,7 @@ interface Ascensor {
     LucideAngularModule
   ],
   templateUrl: './programacion-modal.component.html',
-  styleUrls: ['./programacion-modal.component.css']
+  styleUrl: './programacion-modal.component.scss'
 })
 export class ProgramacionModalComponent implements OnInit, OnChanges {
   @Input() mantenimiento: Mantenimiento | null = null;

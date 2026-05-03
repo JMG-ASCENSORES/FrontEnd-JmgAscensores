@@ -1,14 +1,25 @@
-import { LucideAngularModule } from 'lucide-angular';
 import { Component, EventEmitter, Input, Output, inject, signal } from '@angular/core';
-
+import { ConfirmModalComponent } from '../../../../shared/components/confirm-modal/confirm-modal.component';
 import { TechnicianService, Technician } from '../../services/technician.service';
 
 @Component({
   selector: 'app-technician-delete',
   standalone: true,
-  imports: [LucideAngularModule],
-  templateUrl: './technician-delete.component.html',
-  styleUrl: './technician-delete.component.scss'
+  imports: [ConfirmModalComponent],
+  template: `
+    <app-confirm-modal
+      title="¿Eliminar Técnico?"
+      [message]="'¿Estás seguro que deseas eliminar a <strong>' + technician.nombre + ' ' + technician.apellido + '</strong>? Esta acción desactivará su cuenta y no podrá ingresar al sistema.'"
+      confirmText="Eliminar"
+      cancelText="Cancelar"
+      icon="alert-triangle"
+      confirmVariant="danger"
+      [isLoading]="isDeleting()"
+      [errorMessage]="errorMessage() || ''"
+      (close)="onCancel()"
+      (confirm)="onDelete()"
+    />
+  `,
 })
 export class TechnicianDeleteComponent {
   @Input() technician!: Technician;

@@ -1,5 +1,6 @@
 import { LucideAngularModule } from 'lucide-angular';
-import { limaDateStr } from '../../../shared/utils/date-lima.util';
+import { limaDateStr, formatDateLong, formatDateShort as formatDateDisplay, buildWhatsAppUrl } from '../../../shared/utils/date-lima.util';
+import { getSpecialtyColor, getSpecialtyIcon } from '../../../shared/utils/specialty.utils';
 import { Component, OnInit, inject, ChangeDetectorRef, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router'; // Import RouterModule for routerLink
@@ -44,7 +45,7 @@ interface TimelineItem {
     LucideAngularModule
   ],
   templateUrl: './programming.component.html',
-  styleUrls: ['./programming.component.css'],
+  styleUrl: './programming.component.scss',
   host: {
     class: 'flex-1 flex flex-col min-h-0'
   }
@@ -80,9 +81,9 @@ export class ProgrammingComponent implements OnInit {
   firstJobAvatarColor: string = 'bg-slate-300';
   timeline: TimelineItem[] = [];
 
-  upcoming: any[] = [];
-  techniciansToNotify: { tech: any; services: Mantenimiento[] }[] = [];
-  clientsToNotify: { client: any; services: Mantenimiento[] }[] = [];
+  upcoming: { id: number; date: string; type: string; clientName: string; originalData: Mantenimiento }[] = [];
+  techniciansToNotify: { tech: { id: number; nombre: string; apellido: string; especialidad: string }; services: Mantenimiento[] }[] = [];
+  clientsToNotify: { client: { cliente_id: number; nombre_comercial: string; contacto_nombre: string; distrito: string }; services: Mantenimiento[] }[] = [];
 
   // Notification state: date string -> set of notified technician IDs / client IDs
   notifiedTechIdsByDate = new Map<string, Set<number>>();
@@ -90,7 +91,7 @@ export class ProgrammingComponent implements OnInit {
 
   // Toast state
   toast = signal<{ message: string; type: 'success' | 'error'; title: string } | null>(null);
-  private toastTimeout: any;
+  private toastTimeout: ReturnType<typeof setTimeout> | null = null;
 
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, interactionPlugin],
@@ -125,7 +126,7 @@ export class ProgrammingComponent implements OnInit {
     },
     
     dateClick: (info) => {
-        this.router.navigate(['/admin/programation'], { queryParams: { date: info.dateStr } });
+        this.router.navigate(['/admin/maintenance'], { queryParams: { date: info.dateStr } });
     }
   };
 
@@ -355,20 +356,16 @@ export class ProgrammingComponent implements OnInit {
   }
   
   formatDate(dateStr: string): string {
-      if (!dateStr) return '';
-      const d = new Date(dateStr + 'T00:00:00');
-      return d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
+      return formatDateLong(dateStr);
   }
 
   formatDateShort(dateStr: string): string {
-      if (!dateStr) return '';
-      const d = new Date(dateStr + 'T00:00:00');
-      return d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
+      return formatDateDisplay(dateStr);
   }
   
   formatType(type: string | undefined): string {
       if (!type) return 'Desconocido';
-      const map: any = {
+      const map: Record<string, string> = {
           'mantenimiento': 'Mantenimiento',
           'reparacion': 'Reparación',
           'inspeccion': 'Inspección',
@@ -378,29 +375,17 @@ export class ProgrammingComponent implements OnInit {
   }
 
   getRoleColor(specialty: string): string {
-    switch (specialty) {
-      case 'Supervisor Técnico': return 'bg-purple-100 text-purple-600';
-      case 'Técnico de Mantenimiento': return 'bg-teal-100 text-teal-600';
-      case 'Técnico de Reparaciones': return 'bg-orange-100 text-orange-600';
-      case 'Técnico General': return 'bg-blue-100 text-blue-600';     
-      default: return 'bg-slate-100 text-slate-600';
-    }
+    return getSpecialtyColor(specialty);
   }
 
   getRoleIcon(specialty: string): string {
-    switch (specialty) {
-      case 'Supervisor Técnico': return 'user-cog';
-      case 'Técnico de Mantenimiento': return 'settings-2';
-      case 'Técnico de Reparaciones': return 'wrench';
-      case 'Técnico General': return 'badge';
-      default: return 'user';
-    }
+    return getSpecialtyIcon(specialty);
   }
 
   // ─── WhatsApp Integration ──────────────────────────────────────────────
 
-  getTechniciansFromSchedules(): { tech: any; services: Mantenimiento[] }[] {
-    const techGroups = new Map<number, { tech: any; services: Mantenimiento[] }>();
+  getTechniciansFromSchedules(): { tech: { trabajador_id: number; nombre: string; apellido: string; especialidad: string; telefono: string }; services: Mantenimiento[] }[] {
+    const techGroups = new Map<number, { tech: { trabajador_id: number; nombre: string; apellido: string; especialidad: string; telefono: string }; services: Mantenimiento[] }>();
 
     // We use originalData from schedules because it only contains today's filtered items
     this.schedules.forEach(schedule => {
@@ -422,8 +407,8 @@ export class ProgrammingComponent implements OnInit {
       .sort((a, b) => (a.tech.nombre || '').localeCompare(b.tech.nombre || ''));
   }
 
-  getClientsFromSchedules(): { client: any; services: Mantenimiento[] }[] {
-    const clientGroups = new Map<number, { client: any; services: Mantenimiento[] }>();
+  getClientsFromSchedules(): { client: { cliente_id: number; nombre_comercial: string; contacto_nombre: string; distrito: string; contacto_telefono: string }; services: Mantenimiento[] }[] {
+    const clientGroups = new Map<number, { client: { cliente_id: number; nombre_comercial: string; contacto_nombre: string; distrito: string; contacto_telefono: string }; services: Mantenimiento[] }>();
 
     this.schedules.forEach(schedule => {
       const mant = schedule.originalData;
@@ -445,7 +430,7 @@ export class ProgrammingComponent implements OnInit {
       });
   }
 
-  sendWhatsAppRoute(techData: { tech: any; services: Mantenimiento[] }): void {
+  sendWhatsAppRoute(techData: { tech: { trabajador_id: number; nombre: string; apellido: string; especialidad: string; telefono: string }; services: Mantenimiento[] }): void {
     const { tech, services } = techData;
     if (!tech.telefono || tech.telefono.trim() === '') {
       this.showToast(`El técnico ${tech.nombre} no tiene un teléfono registrado.`, 'error', 'Datos incompletos');
@@ -471,11 +456,7 @@ export class ProgrammingComponent implements OnInit {
 
     message += `Por favor, confirmar la recepción de este mensaje. Atentamente, Administración JMG Ascensores.`;
 
-    const encodedMessage = encodeURIComponent(message);
-    const cleanPhone = tech.telefono.replace(/\s+/g, '');
-    const whatsappUrl = `https://wa.me/51${cleanPhone}?text=${encodedMessage}`;
-    
-    window.open(whatsappUrl, '_blank');
+    window.open(buildWhatsAppUrl(tech.telefono, message), '_blank');
     
     // Marcar como notificado
     if (!this.notifiedTechIdsByDate.has(this.currentDateStr)) {
@@ -497,7 +478,7 @@ export class ProgrammingComponent implements OnInit {
     this.sendNotificationToClient(cliente, raw);
   }
 
-  sendWhatsAppClients(clientData: { client: any; services: Mantenimiento[] }): void {
+  sendWhatsAppClients(clientData: { client: { cliente_id: number; nombre_comercial: string; contacto_nombre: string; distrito: string; contacto_telefono: string }; services: Mantenimiento[] }): void {
     const { client, services } = clientData;
 
     if (!client) {
@@ -518,7 +499,7 @@ export class ProgrammingComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  private sendNotificationToClient(cliente: any, mantenimiento: Mantenimiento): void {
+  private sendNotificationToClient(cliente: { nombre_comercial?: string; contacto_nombre?: string; contacto_telefono?: string; distrito?: string }, mantenimiento: Mantenimiento): void {
     // Lógica robusta por tipo de cliente para obtener el teléfono
     let telefono = '';
     if (cliente.tipo_cliente === 'persona') {
@@ -547,12 +528,7 @@ export class ProgrammingComponent implements OnInit {
     message += `JMG Ascensores le informa que tiene programado un servicio de *${tipoTrabajo}* para el día *${fechaStr}* a las *${hora}* para el equipo [Ref: ${equipo}].\n\n`;
     message += `Atentamente,\nAdministración JMG Ascensores.`;
 
-    const encodedMessage = encodeURIComponent(message);
-    const cleanPhone = telefono.replace(/\s+/g, '').replace('+', '');
-    const finalPhone = cleanPhone.length === 9 ? `51${cleanPhone}` : cleanPhone;
-
-    const whatsappUrl = `https://wa.me/${finalPhone}?text=${encodedMessage}`;
-    window.open(whatsappUrl, '_blank');
+    window.open(buildWhatsAppUrl(telefono, message), '_blank');
 
     const clientName = cliente.nombre_comercial || `${cliente.contacto_nombre || ''} ${cliente.contacto_apellido || ''}`.trim();
     this.showToast(`Enlace de WhatsApp generado para ${clientName}`, 'success', 'Notificación');

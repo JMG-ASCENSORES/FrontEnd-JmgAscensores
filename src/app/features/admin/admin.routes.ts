@@ -1,32 +1,6 @@
-import { Component } from '@angular/core';
 import { Routes } from '@angular/router';
 import { AdminLayoutComponent } from './layout/admin-layout.component';
-import { PlaceholderPageComponent } from '../../shared/components/placeholder-page/placeholder-page.component';
 import { ProgrammingComponent } from './programming/programming.component';
-
-// Specialized components
-
-
-
-
-
-
-
-
-@Component({ 
-  template: `<app-placeholder-page title="Reportes" icon="bi bi-bar-chart-line"></app-placeholder-page>`, 
-  standalone: true,
-  imports: [PlaceholderPageComponent]
-})
-export class ReportsComponent {}
-
-@Component({ 
-  template: `<app-placeholder-page title="Asistente IA" icon="bi bi-robot"></app-placeholder-page>`, 
-  standalone: true,
-  imports: [PlaceholderPageComponent]
-})
-export class AIAssistantComponent {}
-
 import { SettingsComponent } from './settings/settings.component';
 
 
@@ -37,7 +11,7 @@ export const adminRoutes: Routes = [
     children: [
       { path: 'dashboard', component: ProgrammingComponent },
       { 
-        path: 'programation', 
+        path: 'maintenance', 
         loadComponent: () => import('./maintenance-scheduling/maintenance-scheduling.component').then(m => m.MaintenanceSchedulingComponent) 
       },
       { 
@@ -56,8 +30,8 @@ export const adminRoutes: Routes = [
         path: 'documents', 
         loadComponent: () => import('./documents/list/document-list.component').then(m => m.DocumentListComponent) 
       },
-      { path: 'reports', component: ReportsComponent },
-      { path: 'ai-assistant', component: AIAssistantComponent },
+      { path: 'reports', loadComponent: () => import('./reports/reports.component').then(m => m.ReportsComponent) },
+      { path: 'ai-assistant', loadComponent: () => import('./ai-assistant/ai-assistant.component').then(m => m.AIAssistantComponent) },
       { path: 'settings', component: SettingsComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]

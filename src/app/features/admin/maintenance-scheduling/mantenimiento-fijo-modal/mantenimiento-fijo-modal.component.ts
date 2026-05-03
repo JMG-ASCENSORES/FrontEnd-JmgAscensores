@@ -16,7 +16,7 @@ import { Subject, debounceTime, distinctUntilChanged, switchMap, finalize, of } 
     LucideAngularModule
   ],
   templateUrl: './mantenimiento-fijo-modal.component.html',
-  styleUrls: ['./mantenimiento-fijo-modal.component.css']
+  styleUrl: './mantenimiento-fijo-modal.component.scss'
 })
 export class MantenimientoFijoModalComponent implements OnInit {
   @Input() mantenimientoFijo: MantenimientoFijo | null = null;

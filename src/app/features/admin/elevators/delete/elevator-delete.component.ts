@@ -1,15 +1,26 @@
-import { LucideAngularModule } from 'lucide-angular';
 import { Component, EventEmitter, Input, Output, inject, signal } from '@angular/core';
-
+import { ConfirmModalComponent } from '../../../../shared/components/confirm-modal/confirm-modal.component';
 import { ElevatorService } from '../../services/elevator.service';
 import { Elevator } from '../../../../core/models/elevator.model';
 
 @Component({
   selector: 'app-elevator-delete',
   standalone: true,
-  imports: [LucideAngularModule],
-  templateUrl: './elevator-delete.component.html',
-  styleUrl: './elevator-delete.component.scss'
+  imports: [ConfirmModalComponent],
+  template: `
+    <app-confirm-modal
+      title="¿Eliminar Equipo?"
+      [message]="'Estás a punto de eliminar el equipo <strong>' + elevator.numero_serie + '</strong> (' + (elevator.modelo || 'Sin modelo') + '). Esta acción es irreversible y eliminará todo el historial de mantenimientos asociado.'"
+      confirmText="Sí, Eliminar"
+      cancelText="Cancelar"
+      icon="alert-triangle"
+      confirmVariant="danger"
+      [isLoading]="isSubmitting()"
+      [errorMessage]="error() || ''"
+      (close)="close.emit()"
+      (confirm)="confirmDelete()"
+    />
+  `,
 })
 export class ElevatorDeleteComponent {
   @Input() elevator!: Elevator;

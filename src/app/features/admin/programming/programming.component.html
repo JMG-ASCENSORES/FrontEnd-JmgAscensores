@@ -1,8 +1,8 @@
 <div class="p-4 md:p-5 flex flex-col h-full bg-slate-50 gap-4 md:gap-5 min-h-0">
   <div class="flex items-center justify-between shrink-0">
     <h1 class="font-display text-3xl font-bold text-slate-900 tracking-tight">Gestión de Programación</h1>
-    <a routerLink="/admin/programation"
-      class="flex items-center gap-2 px-4 py-2 bg-[#003B73] text-white text-sm font-bold rounded-xl hover:bg-[#002d5a] transition-all hover:scale-105 shadow-md">
+    <a routerLink="/admin/maintenance"
+      class="flex items-center gap-2 px-4 py-2 bg-jmg text-white text-sm font-bold rounded-xl hover:bg-jmg-dark transition-all hover:scale-105 shadow-md">
       <lucide-icon name="calendar-plus" [size]="16" strokeWidth="1.5"></lucide-icon>
       Nueva Programación
     </a>
@@ -15,7 +15,7 @@
     <div class="lg:col-span-3 flex flex-col gap-4 md:gap-5 min-h-0 h-full">
 
       <!-- Calendar Widget -->
-      <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-200 flex-1 overflow-y-auto calendar-container">
+      <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200 flex-1 overflow-y-auto calendar-container">
         <full-calendar [options]="calendarOptions"></full-calendar>
       </div>
 
@@ -96,7 +96,8 @@
             }
           </div>
         </div>
-        }            <!-- Daily Schedules -->
+        }
+        <!-- Daily Schedules -->
         <div class="bg-blue-100 rounded-xl p-4 shadow-sm border border-blue-200 flex flex-col flex-1 min-h-0">
           <h2 class="font-display text-lg font-bold text-slate-800 mb-3 shrink-0 tracking-tight">Programaciones del día</h2>
 
@@ -106,7 +107,7 @@
                 No hay programaciones para hoy.
               </div>
             }
-            @for (schedule of schedules; track schedule) {
+            @for (schedule of schedules; track schedule.id) {
               <div
                 (click)="selectSchedule(schedule)"
                 class="shrink-0 flex items-start justify-between p-3 rounded-xl border border-r-4 transition-colors cursor-pointer"
@@ -133,7 +134,7 @@
         </div>
 
         <!-- Client Detail / Timeline -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col shrink-0 min-h-[220px]">
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 flex flex-col shrink-0 min-h-[220px]">
           <div class="p-4 border-b border-slate-100 flex justify-between items-center shrink-0">
             <div class="flex items-center gap-4">
               <div class="relative w-10 h-10 shrink-0">
@@ -196,7 +197,7 @@
       <div class="lg:col-span-4 flex flex-col gap-4 md:gap-5 min-h-0 h-full">
 
         <!-- Workers List -->
-        <div class="bg-gray-100 rounded-xl p-3 shadow-sm border border-gray-200 flex flex-col flex-1 min-h-0">
+        <div class="bg-slate-100 rounded-xl p-3 shadow-sm border border-slate-200 flex flex-col flex-1 min-h-0">
           <div class="flex justify-between items-baseline mb-2 shrink-0">
             <h2 class="font-display text-base font-bold text-slate-800 tracking-tight">Trabajadores</h2>
             <a routerLink="/admin/technicians" class="text-xs text-blue-600 font-semibold hover:underline">Ver Todos</a>
@@ -218,7 +219,7 @@
                 </div>
               }
               @for (worker of workers; track worker) {
-                <div class="shrink-0 flex items-center justify-between group bg-white/50 p-1.5 rounded-lg border border-gray-50/50 shadow-sm transition-all hover:bg-white">
+                <div class="shrink-0 flex items-center justify-between group bg-white/50 p-1.5 rounded-lg border border-slate-50/50 shadow-sm transition-all hover:bg-white">
                   <div class="flex items-center justify-between gap-2 w-full">
                     <div class="flex items-center gap-2 overflow-hidden">
                       <div class="w-8 h-8 rounded-lg flex items-center justify-center text-base shrink-0 transition-transform group-hover:scale-110" [ngClass]="worker.roleColor ? worker.roleColor : 'bg-white text-slate-500 shadow-sm'">

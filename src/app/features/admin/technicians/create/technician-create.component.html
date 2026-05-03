@@ -24,12 +24,12 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <!-- Name -->
       <div>
-        <label for="nombre" class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+        <label for="nombre" class="block text-sm font-medium text-slate-700 mb-1">Nombre</label>
         <input
           type="text"
           id="nombre"
           formControlName="nombre"
-          class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+          class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
           [class.border-red-300]="technicianForm.get('nombre')?.invalid && technicianForm.get('nombre')?.touched"
           placeholder="Ej. Juan"
           >
@@ -42,12 +42,12 @@
 
         <!-- Last Name -->
         <div>
-          <label for="apellido" class="block text-sm font-medium text-gray-700 mb-1">Apellido</label>
+          <label for="apellido" class="block text-sm font-medium text-slate-700 mb-1">Apellido</label>
           <input
             type="text"
             id="apellido"
             formControlName="apellido"
-            class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+            class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
             [class.border-red-300]="technicianForm.get('apellido')?.invalid && technicianForm.get('apellido')?.touched"
             placeholder="Ej. Pérez"
             >
@@ -55,16 +55,16 @@
 
           <!-- DNI -->
           <div>
-            <label for="dni" class="block text-sm font-medium text-gray-700 mb-1">DNI</label>
+            <label for="dni" class="block text-sm font-medium text-slate-700 mb-1">DNI</label>
             <div class="relative">
-              <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+              <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                 <lucide-icon name="badge" [size]="16" strokeWidth="1.5"></lucide-icon>
               </span>
               <input
                 type="text"
                 id="dni"
                 formControlName="dni"
-                class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                class="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                 [class.border-red-300]="technicianForm.get('dni')?.invalid && technicianForm.get('dni')?.touched"
                 placeholder="12345678"
                 >
@@ -78,28 +78,28 @@
 
             <!-- Age -->
             <div>
-              <label for="edad" class="block text-sm font-medium text-gray-700 mb-1">Edad</label>
+              <label for="edad" class="block text-sm font-medium text-slate-700 mb-1">Edad</label>
               <input
                 type="number"
                 id="edad"
                 formControlName="edad"
-                class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                 placeholder="Ej. 30"
                 >
               </div>
 
               <!-- Email -->
               <div class="md:col-span-2">
-                <label for="correo" class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
+                <label for="correo" class="block text-sm font-medium text-slate-700 mb-1">Correo Electrónico</label>
                 <div class="relative">
-                  <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                  <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                     <lucide-icon name="mail" [size]="16" strokeWidth="1.5"></lucide-icon>
                   </span>
                   <input
                     type="email"
                     id="correo"
                     formControlName="correo"
-                    class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                    class="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                     placeholder="juan.perez@empresa.com"
                     >
                   </div>
@@ -112,16 +112,16 @@
 
                 <!-- Phone -->
                 <div>
-                  <label for="telefono" class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
+                  <label for="telefono" class="block text-sm font-medium text-slate-700 mb-1">Teléfono</label>
                   <div class="relative">
-                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                       <lucide-icon name="phone" [size]="16" strokeWidth="1.5"></lucide-icon>
                     </span>
                     <input
                       type="tel"
                       id="telefono"
                       formControlName="telefono"
-                      class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                      class="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                       placeholder="+51 999 999 999"
                       >
                     </div>
@@ -134,11 +134,11 @@
 
                   <!-- Specialty -->
                   <div>
-                    <label for="especialidad" class="block text-sm font-medium text-gray-700 mb-1">Especialidad</label>
+                    <label for="especialidad" class="block text-sm font-medium text-slate-700 mb-1">Especialidad</label>
                     <select
                       id="especialidad"
                       formControlName="especialidad"
-                      class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white"
+                      class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white"
                       >
                       @for (spec of specialties; track spec) {
                         <option [value]="spec">{{ spec }}</option>
@@ -148,30 +148,30 @@
 
                   <!-- Password (Required for creation) -->
                   <div class="md:col-span-2">
-                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Contraseña Inicial</label>
+                    <label for="password" class="block text-sm font-medium text-slate-700 mb-1">Contraseña Inicial</label>
                     <div class="relative">
-                      <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                      <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                         <lucide-icon name="lock" [size]="16" strokeWidth="1.5"></lucide-icon>
                       </span>
                       <input
                         type="password"
                         id="password"
                         formControlName="password"
-                        class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                        class="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                         placeholder="••••••"
                         >
                       </div>
-                      <p class="text-xs text-gray-500 mt-1">Debe contener al menos 6 caracteres.</p>
+                      <p class="text-xs text-slate-500 mt-1">Debe contener al menos 6 caracteres.</p>
                     </div>
 
                   </div>
 
                   <!-- Actions -->
-                  <div class="flex items-center justify-end gap-3 pt-6 border-t border-gray-100">
+                  <div class="flex items-center justify-end gap-3 pt-6 border-t border-slate-100">
                     <button
                       type="button"
                       (click)="onClose()"
-                      class="px-5 py-2.5 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors focus:ring-4 focus:ring-gray-100"
+                      class="px-5 py-2.5 rounded-lg border border-slate-300 text-slate-700 font-medium hover:bg-slate-50 transition-colors focus:ring-4 focus:ring-slate-100"
                       >
                       Cancelar
                     </button>

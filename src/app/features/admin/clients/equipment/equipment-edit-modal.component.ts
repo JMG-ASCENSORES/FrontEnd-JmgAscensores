@@ -39,7 +39,7 @@ export class EquipmentEditModalComponent implements OnInit {
       capacidad_personas: [this.equipment.capacidad_personas !== undefined && this.equipment.capacidad_personas !== null ? this.equipment.capacidad_personas : null, [Validators.min(0)]],
       piso_cantidad: [this.equipment.piso_cantidad || null, [Validators.min(1)]],
       fecha_ultimo_mantenimiento: [this.equipment.fecha_ultimo_mantenimiento ? this.equipment.fecha_ultimo_mantenimiento.split('T')[0] : ''],
-      estado: [this.equipment.estado || 'Activo', Validators.required],
+      estado: [this.equipment.estado || 'Operativo', Validators.required],
       observaciones: [this.equipment.observaciones || ''] // NOT required
     });
   }

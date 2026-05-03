@@ -1,11 +1,12 @@
 import { Component, Input, Output, EventEmitter, model } from '@angular/core';
+import { LucideAngularModule } from 'lucide-angular';
 
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-filter-input',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, LucideAngularModule],
   template: `
     <div class="w-full relative">
       @if (label) {
@@ -13,14 +14,14 @@ import { FormsModule } from '@angular/forms';
       }
       <div class="relative w-full">
         <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-          <i [class]="iconClass"></i>
+          <lucide-icon [name]="icon" [size]="16" strokeWidth="1.5" class="text-slate-400"></lucide-icon>
         </div>
         <input
           type="text"
           [ngModel]="value()"
           (ngModelChange)="value.set($event)"
           [placeholder]="placeholder"
-          class="block w-full p-3 pl-12 text-sm text-slate-900 border-2 border-gray-300 rounded-lg bg-white focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500 outline-none transition-shadow"
+          class="block w-full p-3 pl-12 text-sm text-slate-900 border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-jmg/20 focus:border-jmg outline-none transition-shadow"
           />
         </div>
       </div>
@@ -29,7 +30,7 @@ import { FormsModule } from '@angular/forms';
 export class FilterInputComponent {
   @Input() label: string = 'Búsqueda';
   @Input() placeholder: string = 'Buscar...';
-  @Input() iconClass: string = 'bi bi-search text-gray-400 text-lg';
+  @Input() icon: string = 'search';
   
   // Two-way binding signal (Angular 17.2+)
   value = model<string>('');

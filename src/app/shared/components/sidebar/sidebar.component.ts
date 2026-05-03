@@ -28,7 +28,7 @@ export class SidebarComponent {
     { label: 'Programación', icon: 'layout-dashboard', route: '/admin/dashboard' },
     { label: 'Clientes', icon: 'users', route: '/admin/clients' },
     { label: 'Técnicos', icon: 'user-cog', route: '/admin/technicians' },
-    { label: 'Programación de Mantenimientos', icon: 'calendar-check', route: '/admin/programation' },
+    { label: 'Programación de Mantenimientos', icon: 'calendar-check', route: '/admin/maintenance' },
     { label: 'Equipos', icon: 'package', route: '/admin/elevators' },
     { label: 'Documentos', icon: 'file-text', route: '/admin/documents' },
     { label: 'Reportes', icon: 'bar-chart-2', route: '/admin/reports' },

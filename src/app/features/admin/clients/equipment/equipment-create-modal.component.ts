@@ -37,7 +37,7 @@ export class EquipmentCreateModalComponent {
     capacidad_personas: [null, [Validators.min(0)]],
     piso_cantidad: [null, [Validators.min(1)]],
     fecha_ultimo_mantenimiento: [''],
-    estado: ['Activo', Validators.required],
+    estado: ['Operativo', Validators.required],
     observaciones: [''] // Optional - can be empty
   });
 

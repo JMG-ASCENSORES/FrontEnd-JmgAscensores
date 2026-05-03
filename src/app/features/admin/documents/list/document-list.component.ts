@@ -1,5 +1,5 @@
 import { LucideAngularModule } from 'lucide-angular';
-import { limaTimeStr } from '../../../../shared/utils/date-lima.util';
+import { formatDateShort, limaTimeStr } from '../../../../shared/utils/date-lima.util';
 import { Component, computed, inject, signal, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
@@ -271,11 +271,7 @@ export class DocumentListComponent implements OnInit {
   }
 
   formatDate(dateString: string): string {
-      if (!dateString) return '';
-      // Parseo manual para evitar conversión UTC→local que resta 1 día en Perú (UTC-5)
-      const parts = String(dateString).split('T')[0].split('-');
-      if (parts.length < 3) return dateString;
-      return `${parts[2]}/${parts[1]}/${parts[0]}`; // DD/MM/YYYY
+      return formatDateShort(dateString);
   }
 
   formatDateTime(dateString: string): string {

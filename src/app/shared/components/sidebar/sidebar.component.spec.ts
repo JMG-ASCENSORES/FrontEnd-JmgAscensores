@@ -67,7 +67,7 @@ describe('SidebarComponent', () => {
     expect(routes).toContain('/admin/dashboard');
     expect(routes).toContain('/admin/clients');
     expect(routes).toContain('/admin/technicians');
-    expect(routes).toContain('/admin/programation');
+    expect(routes).toContain('/admin/maintenance');
     expect(routes).toContain('/admin/elevators');
     expect(routes).toContain('/admin/documents');
     expect(routes).toContain('/admin/reports');

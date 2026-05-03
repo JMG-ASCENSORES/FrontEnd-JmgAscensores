@@ -1,15 +1,26 @@
-import { LucideAngularModule } from 'lucide-angular';
 import { Component, EventEmitter, Input, Output, inject, signal } from '@angular/core';
-
+import { ConfirmModalComponent } from '../../../../shared/components/confirm-modal/confirm-modal.component';
 import { ReportService } from '../../services/report.service';
 import { Report } from '../../../../core/models/report.model';
 
 @Component({
   selector: 'app-document-delete',
   standalone: true,
-  imports: [LucideAngularModule],
-  templateUrl: './document-delete.component.html',
-  styleUrl: './document-delete.component.scss'
+  imports: [ConfirmModalComponent],
+  template: `
+    <app-confirm-modal
+      title="¿Eliminar Documento?"
+      [message]="'Estás a punto de eliminar el documento <strong>#' + report.informe_id + '</strong>. Esta acción no se puede deshacer.'"
+      confirmText="Eliminar"
+      cancelText="Cancelar"
+      icon="trash-2"
+      confirmVariant="danger"
+      [isLoading]="isDeleting()"
+      [errorMessage]="error() || ''"
+      (close)="onCancel()"
+      (confirm)="onDelete()"
+    />
+  `,
 })
 export class DocumentDeleteComponent {
   @Input({ required: true }) report!: Report;
@@ -33,8 +44,6 @@ export class DocumentDeleteComponent {
       },
       error: (err) => {
         console.error('Error deleting report', err);
-        // Sometimes 404 just means it's already gone, so we could treat as success or show error.
-        // Assuming error if failed.
         this.error.set('Error al eliminar el documento. Intente nuevamente.');
         this.isDeleting.set(false);
       }

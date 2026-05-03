@@ -1,17 +1,18 @@
 import { Component, Input } from '@angular/core';
+import { LucideAngularModule } from 'lucide-angular';
 
 
 @Component({
   selector: 'app-placeholder-page',
   standalone: true,
-  imports: [],
+  imports: [LucideAngularModule],
   template: `
-    <div class="flex flex-col items-center justify-center min-h-[60vh] text-center p-8 bg-white rounded-3xl shadow-sm border border-gray-100 animate-fade-in">
+    <div class="flex flex-col items-center justify-center min-h-[60vh] text-center p-8 bg-white rounded-3xl shadow-sm border border-slate-100 animate-fade-in">
       <div class="w-20 h-20 bg-green-50 rounded-2xl flex items-center justify-center mb-6 text-green-600 shadow-inner">
-        <i [class]="icon + ' text-4xl'"></i>
+        <lucide-icon [name]="icon" [size]="48" strokeWidth="1.5" class="text-slate-300"></lucide-icon>
       </div>
-      <h2 class="text-3xl font-bold text-gray-900 mb-2">{{ title }}</h2>
-      <p class="text-gray-500 max-w-md mx-auto leading-relaxed">
+      <h2 class="text-3xl font-bold text-slate-900 mb-2">{{ title }}</h2>
+      <p class="text-slate-500 max-w-md mx-auto leading-relaxed">
         Estamos trabajando para traerte lo mejor en la sección de {{ title.toLowerCase() }}. 
         Muy pronto podrás gestionar todo desde aquí.
       </p>
@@ -34,5 +35,5 @@ import { Component, Input } from '@angular/core';
 })
 export class PlaceholderPageComponent {
   @Input() title: string = 'Próximamente';
-  @Input() icon: string = 'bi bi-tools';
+  @Input() icon: string = 'wrench';
 }

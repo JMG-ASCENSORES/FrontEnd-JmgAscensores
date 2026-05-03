@@ -10,6 +10,7 @@ import { TechnicianDeleteComponent } from '../delete/technician-delete.component
 import { TechnicianRestoreComponent } from '../restore/technician-restore.component';
 
 import { EntityCardComponent } from '../../../../shared/components/entity-card/entity-card.component';
+import { getSpecialtyColor as specialtyColor } from '../../../../shared/utils/specialty.utils';
 
 import { FilterContainerComponent } from '../../../../shared/components/filters/filter-container/filter-container.component';
 import { FilterInputComponent } from '../../../../shared/components/filters/filter-input/filter-input.component';
@@ -145,13 +146,7 @@ export class TechnicianListComponent implements OnInit {
   }
 
   getSpecialtyColor(specialty: string): string {
-    switch (specialty) {
-      case 'Técnico General': return 'bg-emerald-100 text-emerald-700';
-      case 'Técnico de Mantenimiento': return 'bg-blue-100 text-blue-700';
-      case 'Supervisor Técnico': return 'bg-purple-100 text-purple-700';
-      case 'Técnico de Reparaciones': return 'bg-orange-100 text-orange-700';
-      default: return 'bg-gray-100 text-gray-700';
-    }
+    return specialtyColor(specialty);
   }
 
   openCreateModal() {

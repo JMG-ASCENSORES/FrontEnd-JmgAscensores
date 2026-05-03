@@ -1,5 +1,5 @@
 import { LucideAngularModule } from 'lucide-angular';
-import { limaDateStr, limaTimeStr } from '../../../shared/utils/date-lima.util';
+import { limaDateStr, limaTimeStr, buildWhatsAppUrl } from '../../../shared/utils/date-lima.util';
 import { Component, OnInit, inject, ChangeDetectorRef, ViewChild, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -20,7 +20,7 @@ import { MantenimientoFijoModalComponent } from './mantenimiento-fijo-modal/mant
     LucideAngularModule
   ],
   templateUrl: './maintenance-scheduling.component.html',
-  styleUrls: ['./maintenance-scheduling.component.css']
+  styleUrl: './maintenance-scheduling.component.scss'
 })
 export class MaintenanceSchedulingComponent implements OnInit {
   private mantenimientoService = inject(MantenimientoService);
@@ -455,7 +455,7 @@ export class MaintenanceSchedulingComponent implements OnInit {
       message += `   Ref: ${s.extendedProps?.ascensor?.numero_serie || 'Equipo'}\n\n`;
     });
     message += `Por favor, confirmar la recepción de este mensaje. Atentamente, Administración JMG Ascensores.`;
-    window.open(`https://wa.me/51${tech.telefono.replace(/\s+/g, '')}?text=${encodeURIComponent(message)}`, '_blank');
+    window.open(buildWhatsAppUrl(tech.telefono, message), '_blank');
     if (!this.notifiedTechsByDate.has(this.selectedFilterDate)) {
       this.notifiedTechsByDate.set(this.selectedFilterDate, new Set<number>());
     }

@@ -1,12 +1,12 @@
 <div class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
   <!-- Backdrop -->
-  <div class="fixed inset-0 bg-gray-900/70 backdrop-blur-sm transition-opacity" (click)="onClose()" tabindex="0" (keydown.enter)="onClose()"></div>
+  <div class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm transition-opacity" (click)="onClose()" tabindex="0" (keydown.enter)="onClose()"></div>
 
   <!-- Modal Panel -->
   <div class="relative w-full max-w-6xl bg-white rounded-2xl shadow-2xl overflow-hidden ring-1 ring-black/5 transform transition-all max-h-[90vh] flex flex-col">
 
     <!-- Header -->
-    <div class="px-6 py-5 border-b border-gray-100 bg-gradient-to-r from-[#003B73] to-[#005fa3] flex items-center justify-between">
+    <div class="px-6 py-5 border-b border-slate-100 bg-gradient-to-r from-[#003B73] to-[#005fa3] flex items-center justify-between">
       <div class="flex items-center gap-4">
         <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
           <lucide-icon name="building" [size]="24" strokeWidth="1.5" class="text-white"></lucide-icon>
@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="flex items-center gap-3">
-        <button (click)="openCreateModal()" class="bg-white hover:bg-gray-50 text-[#003B73] font-bold rounded-lg px-5 py-2.5 text-sm inline-flex items-center gap-2 transition-all shadow-lg">
+        <button (click)="openCreateModal()" class="bg-white hover:bg-slate-50 text-[#003B73] font-bold rounded-lg px-5 py-2.5 text-sm inline-flex items-center gap-2 transition-all shadow-lg">
           <lucide-icon name="circle-plus" [size]="18" strokeWidth="1.5"></lucide-icon>
           Agregar Nuevo
         </button>
@@ -51,13 +51,13 @@
       @if (!isLoading() && !errorMessage()) {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           @for (equipment of equipments(); track equipment) {
-            <div class="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-[#003B73] hover:shadow-lg transition-all duration-300 relative group">
+            <div class="bg-white border-2 border-slate-200 rounded-xl p-6 hover:border-[#003B73] hover:shadow-lg transition-all duration-300 relative group">
               <!-- Status Badge -->
               <div class="absolute top-4 right-4">
                 <span
                   class="px-3 py-1 rounded-full text-xs font-bold uppercase"
               [ngClass]="{
-                'bg-green-100 text-green-700': equipment.estado === 'Activo',
+                'bg-green-100 text-green-700': equipment.estado === 'Operativo',
                 'bg-yellow-100 text-yellow-700': equipment.estado === 'En Mantenimiento',
                 'bg-red-100 text-red-700': equipment.estado === 'Inactivo'
               }"
@@ -92,7 +92,7 @@
                   }
                 </div>
                 @if (equipment.observaciones) {
-                  <div class="pt-3 border-t border-gray-100">
+                  <div class="pt-3 border-t border-slate-100">
                     <p class="text-xs text-slate-500 italic">{{ equipment.observaciones }}</p>
                   </div>
                 }
@@ -119,11 +119,11 @@
           <!-- Empty State -->
           @if (equipments().length === 0) {
             <div class="col-span-full py-20 text-center">
-              <div class="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                <lucide-icon name="inbox" [size]="36" strokeWidth="1.5" class="text-gray-300"></lucide-icon>
+              <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                <lucide-icon name="inbox" [size]="36" strokeWidth="1.5" class="text-slate-300"></lucide-icon>
               </div>
-              <h3 class="text-lg font-bold text-gray-800">No hay equipos registrados</h3>
-              <p class="text-gray-400 text-sm mt-1">Agrega un nuevo equipo para comenzar.</p>
+              <h3 class="text-lg font-bold text-slate-800">No hay equipos registrados</h3>
+              <p class="text-slate-400 text-sm mt-1">Agrega un nuevo equipo para comenzar.</p>
             </div>
           }
         </div>

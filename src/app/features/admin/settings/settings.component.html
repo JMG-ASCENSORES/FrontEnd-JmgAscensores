@@ -107,152 +107,150 @@
               <label class="block text-sm font-semibold text-slate-600" for="p_nombre">Nombre</label>
               <input id="p_nombre" type="text" formControlName="nombre"
                 class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
+            </div>
+            <div class="space-y-1.5">
+              <label class="block text-sm font-semibold text-slate-600" for="p_apellido">Apellidos</label>
+              <input id="p_apellido" type="text" formControlName="apellido"
+                class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
+            </div>
+          </div>
+          <div class="space-y-1.5">
+            <label class="block text-sm font-semibold text-slate-600" for="p_dni">DNI</label>
+            <input id="p_dni" type="text" formControlName="dni" maxlength="8"
+              class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
+            @if (profileForm.get('dni')?.invalid && profileForm.get('dni')?.touched) {
+              <p class="text-xs text-red-500 font-medium mt-1">
+                DNI inválido (debe tener 8 dígitos).
+              </p>
+            }
+          </div>
+          <div class="space-y-1.5">
+            <label class="block text-sm font-semibold text-slate-600" for="p_correo">Correo Electrónico</label>
+            <input id="p_correo" type="email" formControlName="correo"
+              class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
+          </div>
+          <div class="space-y-1.5">
+            <label class="block text-sm font-semibold text-slate-600" for="p_telefono">Teléfono</label>
+            <div class="relative flex items-center">
+              <span class="absolute left-4 text-slate-400 text-sm font-bold border-r border-slate-200 pr-3 select-none">+51</span>
+              <input id="p_telefono" type="tel" formControlName="telefono" maxlength="9"
+                class="w-full h-11 pl-16 pr-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
+            </div>
+          </div>
+          <button type="submit"
+            class="inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-6 h-11 text-sm transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
+            [disabled]="profileForm.pristine || profileForm.invalid || isSaving()"
+            >
+            @if (isSaving()) {
+              <span class="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin"></span>
+            }
+            @if (!isSaving()) {
+              <lucide-icon name="check" [size]="16" strokeWidth="1.5"></lucide-icon>
+            }
+            {{ isSaving() ? 'Guardando...' : 'Guardar Cambios' }}
+          </button>
+        </form>
+      </div>
+    }
+
+    <!-- ── Tab: Seguridad ── -->
+    @if (!isLoading() && activeTab() === 'security') {
+      <div
+        class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
+        <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()" class="space-y-5">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="font-display font-bold text-slate-800 text-base">Cambiar Contraseña</span>
+            <div class="flex-1 h-px bg-slate-100"></div>
+          </div>
+          <div class="space-y-1.5">
+            <label class="block text-sm font-semibold text-slate-600" for="p_nueva">Nueva Contraseña</label>
+            <div class="relative flex items-center">
+              <input id="p_nueva"
+                [type]="showNuevaPass() ? 'text' : 'password'"
+                formControlName="nueva_contrasena"
+                placeholder="Mín. 6 caracteres"
+                class="w-full h-11 px-4 pr-12 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
+              <button type="button"
+                class="absolute right-3 w-9 h-9 flex items-center justify-center text-slate-400 hover:text-jmg transition-colors"
+                (click)="showNuevaPass.set(!showNuevaPass())">
+                @if (showNuevaPass()) {
+                  <lucide-icon name="eye-off" [size]="16" strokeWidth="1.5"></lucide-icon>
+                } @else {
+                  <lucide-icon name="eye" [size]="16" strokeWidth="1.5"></lucide-icon>
+                }
+              </button>
+            </div>
+          </div>
+          <div class="space-y-1.5">
+            <label class="block text-sm font-semibold text-slate-600" for="p_confirma">Confirmar Contraseña</label>
+            <div class="relative flex items-center">
+              <input id="p_confirma"
+                [type]="showConfirmaPass() ? 'text' : 'password'"
+                formControlName="confirmar_contrasena"
+                placeholder="Repetí la contraseña"
+                class="w-full h-11 px-4 pr-12 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
+              <button type="button"
+                class="absolute right-3 w-9 h-9 flex items-center justify-center text-slate-400 hover:text-jmg transition-colors"
+                (click)="showConfirmaPass.set(!showConfirmaPass())">
+                @if (showConfirmaPass()) {
+                  <lucide-icon name="eye-off" [size]="16" strokeWidth="1.5"></lucide-icon>
+                } @else {
+                  <lucide-icon name="eye" [size]="16" strokeWidth="1.5"></lucide-icon>
+                }
+              </button>
+            </div>
+            @if (passwordForm.hasError('passwordMismatch') && passwordForm.get('confirmar_contrasena')?.touched) {
+              <p class="text-xs text-red-500 font-medium">
+                Las contraseñas no coinciden.
+              </p>
+            }
+          </div>
+          <button type="submit"
+            class="inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-6 h-11 text-sm transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
+            [disabled]="passwordForm.invalid || isSaving()"
+            >
+            @if (isSaving()) {
+              <span class="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin"></span>
+            }
+            @if (!isSaving()) {
+              <lucide-icon name="shield" [size]="16" strokeWidth="1.5"></lucide-icon>
+            }
+            Actualizar Contraseña
+          </button>
+        </form>
+      </div>
+    }
+
+    <!-- ── Tab: Sistema ── -->
+    @if (!isLoading() && activeTab() === 'system') {
+      <div
+        class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
+        <div class="flex items-center gap-3 mb-2">
+          <span class="font-display font-bold text-slate-800 text-base">Configuración Global</span>
+          <div class="flex-1 h-px bg-slate-100"></div>
+        </div>
+        <p class="text-sm text-slate-400 mb-6">Ajustes generales que afectan a toda la plataforma y clientes.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
+          @for (setting of systemSettings(); track setting) {
+            <div
+              class="bg-slate-50 border border-slate-100 p-4 rounded-2xl hover:border-jmg/20 transition-colors space-y-1.5">
+              <div class="flex justify-between items-center">
+                <label class="block text-sm font-semibold text-slate-600" [for]="setting.clave">{{ setting.descripcion }}</label>
+                <span class="text-[10px] text-slate-400 font-mono">{{ setting.clave }}</span>
               </div>
-              <div class="space-y-1.5">
-                <label class="block text-sm font-semibold text-slate-600" for="p_apellido">Apellidos</label>
-                <input id="p_apellido" type="text" formControlName="apellido"
-                  class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
-                </div>
-              </div>
-              <div class="space-y-1.5">
-                <label class="block text-sm font-semibold text-slate-600" for="p_dni">DNI</label>
-                <input id="p_dni" type="text" formControlName="dni" maxlength="8"
-                  class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
-                  @if (profileForm.get('dni')?.invalid && profileForm.get('dni')?.touched) {
-                    <p
-                      class="text-xs text-red-500 font-medium mt-1">
-                      DNI inválido (debe tener 8 dígitos).
-                    </p>
-                  }
-                </div>
-                <div class="space-y-1.5">
-                  <label class="block text-sm font-semibold text-slate-600" for="p_correo">Correo Electrónico</label>
-                  <input id="p_correo" type="email" formControlName="correo"
-                    class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
-                  </div>
-                  <div class="space-y-1.5">
-                    <label class="block text-sm font-semibold text-slate-600" for="p_telefono">Teléfono</label>
-                    <div class="relative flex items-center">
-                      <span class="absolute left-4 text-slate-400 text-sm font-bold border-r border-slate-200 pr-3 select-none">+51</span>
-                      <input id="p_telefono" type="tel" formControlName="telefono" maxlength="9"
-                        class="w-full h-11 pl-16 pr-4 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
-                      </div>
-                    </div>
-                    <button type="submit"
-                      class="inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-6 h-11 text-sm transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
-                      [disabled]="profileForm.pristine || profileForm.invalid || isSaving()"
-                      >
-                      @if (isSaving()) {
-                        <span class="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin"></span>
-                      }
-                      @if (!isSaving()) {
-                        <lucide-icon name="check" [size]="16" strokeWidth="1.5"></lucide-icon>
-                      }
-                      {{ isSaving() ? 'Guardando...' : 'Guardar Cambios' }}
-                    </button>
-                  </form>
-                </div>
-              }
+              <input
+                [id]="setting.clave"
+                type="text"
+                [value]="setting.valor"
+                (change)="updateSystemSetting(setting.clave, $event)"
+                class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-white text-sm transition-colors focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none"
+                [placeholder]="'Valor para ' + setting.clave"
+                >
+            </div>
+          }
+        </div>
+      </div>
+    }
 
-              <!-- ── Tab: Seguridad ── -->
-              @if (!isLoading() && activeTab() === 'security') {
-                <div
-                  class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
-                  <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()" class="space-y-5">
-                    <div class="flex items-center gap-3 mb-2">
-                      <span class="font-display font-bold text-slate-800 text-base">Cambiar Contraseña</span>
-                      <div class="flex-1 h-px bg-slate-100"></div>
-                    </div>
-                    <div class="space-y-1.5">
-                      <label class="block text-sm font-semibold text-slate-600" for="p_nueva">Nueva Contraseña</label>
-                      <div class="relative flex items-center">
-                        <input id="p_nueva"
-                          [type]="showNuevaPass() ? 'text' : 'password'"
-                          formControlName="nueva_contrasena"
-                          placeholder="Mín. 6 caracteres"
-                          class="w-full h-11 px-4 pr-12 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
-                          <button type="button"
-                            class="absolute right-3 w-9 h-9 flex items-center justify-center text-slate-400 hover:text-jmg transition-colors"
-                            (click)="showNuevaPass.set(!showNuevaPass())">
-                            @if (showNuevaPass()) {
-                              <lucide-icon name="eye-off" [size]="16" strokeWidth="1.5"></lucide-icon>
-                            } @else {
-                              <lucide-icon name="eye" [size]="16" strokeWidth="1.5"></lucide-icon>
-                            }
-                          </button>
-                        </div>
-                      </div>
-                      <div class="space-y-1.5">
-                        <label class="block text-sm font-semibold text-slate-600" for="p_confirma">Confirmar Contraseña</label>
-                        <div class="relative flex items-center">
-                          <input id="p_confirma"
-                            [type]="showConfirmaPass() ? 'text' : 'password'"
-                            formControlName="confirmar_contrasena"
-                            placeholder="Repetí la contraseña"
-                            class="w-full h-11 px-4 pr-12 rounded-xl border border-slate-200 bg-slate-50 text-sm transition-colors focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none">
-                            <button type="button"
-                              class="absolute right-3 w-9 h-9 flex items-center justify-center text-slate-400 hover:text-jmg transition-colors"
-                              (click)="showConfirmaPass.set(!showConfirmaPass())">
-                              @if (showConfirmaPass()) {
-                                <lucide-icon name="eye-off" [size]="16" strokeWidth="1.5"></lucide-icon>
-                              } @else {
-                                <lucide-icon name="eye" [size]="16" strokeWidth="1.5"></lucide-icon>
-                              }
-                            </button>
-                          </div>
-                          @if (passwordForm.hasError('passwordMismatch') && passwordForm.get('confirmar_contrasena')?.touched) {
-                            <p
-                              class="text-xs text-red-500 font-medium">
-                              Las contraseñas no coinciden.
-                            </p>
-                          }
-                        </div>
-                        <button type="submit"
-                          class="inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-6 h-11 text-sm transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
-                          [disabled]="passwordForm.invalid || isSaving()"
-                          >
-                          @if (isSaving()) {
-                            <span class="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin"></span>
-                          }
-                          @if (!isSaving()) {
-                            <lucide-icon name="shield" [size]="16" strokeWidth="1.5"></lucide-icon>
-                          }
-                          Actualizar Contraseña
-                        </button>
-                      </form>
-                    </div>
-                  }
-
-                  <!-- ── Tab: Sistema ── -->
-                  @if (!isLoading() && activeTab() === 'system') {
-                    <div
-                      class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
-                      <div class="flex items-center gap-3 mb-2">
-                        <span class="font-display font-bold text-slate-800 text-base">Configuración Global</span>
-                        <div class="flex-1 h-px bg-slate-100"></div>
-                      </div>
-                      <p class="text-sm text-slate-400 mb-6">Ajustes generales que afectan a toda la plataforma y clientes.</p>
-                      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
-                        @for (setting of systemSettings(); track setting) {
-                          <div
-                            class="bg-slate-50 border border-slate-100 p-4 rounded-2xl hover:border-jmg/20 transition-colors space-y-1.5">
-                            <div class="flex justify-between items-center">
-                              <label class="block text-sm font-semibold text-slate-600" [for]="setting.clave">{{ setting.descripcion }}</label>
-                              <span class="text-[10px] text-slate-400 font-mono">{{ setting.clave }}</span>
-                            </div>
-                            <input
-                              [id]="setting.clave"
-                              type="text"
-                              [value]="setting.valor"
-                              (change)="updateSystemSetting(setting.clave, $event)"
-                              class="w-full h-11 px-4 rounded-xl border border-slate-200 bg-white text-sm transition-colors focus:border-jmg focus:ring-2 focus:ring-jmg/10 outline-none"
-                              [placeholder]="'Valor para ' + setting.clave"
-                              >
-                            </div>
-                          }
-                        </div>
-                      </div>
-                    }
-
-                  </div>
-                </div>
+  </div>
+</div>

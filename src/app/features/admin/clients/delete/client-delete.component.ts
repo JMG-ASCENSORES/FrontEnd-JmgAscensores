@@ -1,13 +1,25 @@
-import { LucideAngularModule } from 'lucide-angular';
 import { Component, EventEmitter, Input, Output, inject, signal } from '@angular/core';
-
+import { ConfirmModalComponent } from '../../../../shared/components/confirm-modal/confirm-modal.component';
 import { ClientService, Client } from '../../services/client.service';
 
 @Component({
   selector: 'app-client-delete',
   standalone: true,
-  imports: [LucideAngularModule],
-  templateUrl: './client-delete.component.html',
+  imports: [ConfirmModalComponent],
+  template: `
+    <app-confirm-modal
+      title="¿Eliminar Cliente?"
+      [message]="'¿Estás seguro que desea eliminar a <strong>' + (client.nombre_comercial || client.contacto_nombre) + '</strong>? Esta acción no se puede deshacer.'"
+      confirmText="Eliminar"
+      cancelText="Cancelar"
+      icon="trash-2"
+      confirmVariant="danger"
+      [isLoading]="isDeleting()"
+      [errorMessage]="errorMessage() || ''"
+      (close)="onClose()"
+      (confirm)="onDelete()"
+    />
+  `,
 })
 export class ClientDeleteComponent {
   @Input() client!: Client;

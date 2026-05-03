@@ -59,8 +59,12 @@ export class ClientListComponent implements OnInit, OnDestroy {
   showEquipmentModal = signal(false);
   selectedEquipmentType = signal<string>('');
 
-  // Mock Data for filters
-  districts = ['San Isidro', 'Miraflores', 'Surco', 'Lima'];
+  districts = computed(() => {
+    const allClients = this.clients();
+    if (!allClients || allClients.length === 0) return [];
+    const unique = [...new Set(allClients.map(c => c.distrito).filter(Boolean))];
+    return unique.sort();
+  });
 
   ngOnInit() {
     this.loadStats();
@@ -148,8 +152,7 @@ export class ClientListComponent implements OnInit, OnDestroy {
       // Filter by type (if not already filtered by server)
       if (typeFilter !== 'all' && client.tipo_cliente !== typeFilter) return false;
       
-      // Filter by district (Frontend filter for now)
-      const matchDistrict = district ? (client.ubicacion || '').toLowerCase().includes(district.toLowerCase()) : true;
+      const matchDistrict = district ? client.distrito?.toLowerCase() === district.toLowerCase() : true;
       
       return matchDistrict;
     });

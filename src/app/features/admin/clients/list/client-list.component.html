@@ -279,6 +279,13 @@
           <div class="text-center">
             <h3 class="font-display font-bold text-slate-800 text-lg">Sin clientes registrados</h3>
             <p class="text-slate-400 text-sm mt-1">Comenzá registrando el primer cliente en el sistema.</p>
+            <button
+              (click)="openCreateModal()"
+              class="mt-4 inline-flex items-center gap-2 px-5 py-2.5 bg-jmg text-white font-semibold rounded-xl hover:bg-jmg-dark transition-colors shadow-lg shadow-blue-900/20"
+            >
+              <lucide-icon name="plus" [size]="18" strokeWidth="2"></lucide-icon>
+              Registrar Cliente
+            </button>
           </div>
         </div>
       }

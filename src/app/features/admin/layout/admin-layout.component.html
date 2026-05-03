@@ -5,16 +5,16 @@
   <!-- Main Content -->
   <main class="flex-1 overflow-auto flex flex-col">
     <!-- Desktop Header with Hamburger -->
-    <header class="hidden md:flex bg-white px-6 py-4 items-center border-b border-gray-100 shadow-sm sticky top-0 z-40">
+    <header class="hidden md:flex bg-white px-6 py-4 items-center border-b border-slate-100 shadow-sm sticky top-0 z-40">
       <button (click)="sidebar.toggleSidebar()"
-        class="flex items-center justify-center w-10 h-10 rounded-xl hover:bg-gray-100 transition-colors text-gray-600 hover:text-green-600 mr-4">
+        class="flex items-center justify-center w-10 h-10 rounded-xl hover:bg-slate-100 transition-colors text-slate-600 hover:text-green-600 mr-4">
         <lucide-icon name="menu" [size]="24" strokeWidth="1.5"></lucide-icon>
       </button>
-      <h1 class="text-xl font-bold text-gray-800">Panel de Administración</h1>
+      <h1 class="text-xl font-bold text-slate-800">Panel de Administración</h1>
     </header>
 
     <!-- Mobile Header -->
-    <header class="bg-white px-6 py-4 flex justify-between items-center md:hidden border-b border-gray-100 shadow-sm">
+    <header class="bg-white px-6 py-4 flex justify-between items-center md:hidden border-b border-slate-100 shadow-sm">
       <div class="flex items-center">
         <img src="images/jmg_logo.png" alt="JMG Logo" class="h-8 w-auto">
       </div>
@@ -38,11 +38,11 @@
         <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
           <lucide-icon name="log-out" [size]="30" strokeWidth="1.5" class="text-red-500 ml-1"></lucide-icon>
         </div>
-        <h3 class="text-lg font-bold text-gray-800 mb-2">¿Cerrar Sesión?</h3>
-        <p class="text-sm text-gray-500 mb-6">¿Estás seguro que deseas salir del sistema?</p>
+        <h3 class="text-lg font-bold text-slate-800 mb-2">¿Cerrar Sesión?</h3>
+        <p class="text-sm text-slate-500 mb-6">¿Estás seguro que deseas salir del sistema?</p>
         <div class="flex gap-3 justify-center">
           <button (click)="cancelLogout()"
-            class="flex-1 px-4 py-2.5 rounded-xl border border-gray-200 text-gray-700 text-sm font-semibold hover:bg-gray-50 hover:border-gray-300 transition-all duration-200">
+            class="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 text-sm font-semibold hover:bg-slate-50 hover:border-slate-300 transition-all duration-200">
             Cancelar
           </button>
           <button (click)="confirmLogout()"
