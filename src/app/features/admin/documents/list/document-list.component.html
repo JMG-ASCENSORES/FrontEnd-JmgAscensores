@@ -1,10 +1,15 @@
-<div class="p-8 space-y-8 bg-slate-50 min-h-screen">
+<div class="p-4 md:p-6 lg:p-8 space-y-5 bg-slate-50 min-h-screen">
 
   <!-- ── Page Header ── -->
-  <div class="flex items-end justify-between">
-    <div>
-      <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-1">Panel de Administración</p>
-      <h1 class="font-display text-3xl font-bold text-slate-900 tracking-tight">Gestión de Documentos</h1>
+  <div class="flex items-center justify-between shrink-0">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#003B73] to-[#001f3f] flex items-center justify-center shadow-lg shadow-[#003B73]/20">
+        <lucide-icon name="folder-open" [size]="20" strokeWidth="1.5" class="text-white"></lucide-icon>
+      </div>
+      <div>
+        <h1 class="font-display text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">Gestión de Documentos</h1>
+        <p class="text-xs text-slate-500 font-medium">{{ totalDocuments() | number }} documento{{ totalDocuments() !== 1 ? 's' : '' }} registrado{{ totalDocuments() !== 1 ? 's' : '' }}</p>
+      </div>
     </div>
   </div>
 
@@ -12,389 +17,395 @@
   <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
 
     <!-- Total Documentos -->
-    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
-      <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center shrink-0">
-        <lucide-icon name="folder-open" [size]="20" strokeWidth="1.5" class="text-slate-600"></lucide-icon>
-      </div>
-      <div>
-        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ totalDocuments() | number }}</p>
-        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Total Documentos</p>
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+      <div class="h-1 bg-gradient-to-r from-[#003B73] to-[#0056a8]"></div>
+      <div class="p-5 flex items-center gap-4">
+        <div class="w-10 h-10 rounded-xl bg-[#003B73]/10 flex items-center justify-center shrink-0">
+          <lucide-icon name="folder-open" [size]="18" strokeWidth="1.5" class="text-[#003B73]"></lucide-icon>
+        </div>
+        <div>
+          <p class="font-display text-4xl font-bold text-slate-900 leading-none">{{ totalDocuments() | number }}</p>
+          <p class="text-xs text-slate-500 font-medium mt-1.5">Total Documentos</p>
+        </div>
       </div>
     </div>
 
     <!-- Informes de Mantenimiento -->
-    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
-      <div class="w-12 h-12 rounded-xl bg-jmg-muted flex items-center justify-center shrink-0">
-        <lucide-icon name="wrench" [size]="20" strokeWidth="1.5" class="text-jmg"></lucide-icon>
-      </div>
-      <div>
-        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ maintenanceReports() | number }}</p>
-        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Informes Mantenimiento</p>
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+      <div class="h-1 bg-jmg"></div>
+      <div class="p-5 flex items-center gap-4">
+        <div class="w-10 h-10 rounded-xl bg-jmg-muted flex items-center justify-center shrink-0">
+          <lucide-icon name="wrench" [size]="18" strokeWidth="1.5" class="text-jmg"></lucide-icon>
+        </div>
+        <div>
+          <p class="font-display text-4xl font-bold text-slate-900 leading-none">{{ maintenanceReports() | number }}</p>
+          <p class="text-xs text-slate-500 font-medium mt-1.5">Informes Mantenimiento</p>
+        </div>
       </div>
     </div>
 
     <!-- Informes Técnicos -->
-    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
-      <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
-        <lucide-icon name="file-text" [size]="20" strokeWidth="1.5" class="text-emerald-600"></lucide-icon>
-      </div>
-      <div>
-        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ technicalReports() | number }}</p>
-        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Informes Técnicos</p>
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+      <div class="h-1 bg-emerald-500"></div>
+      <div class="p-5 flex items-center gap-4">
+        <div class="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
+          <lucide-icon name="file-text" [size]="18" strokeWidth="1.5" class="text-emerald-600"></lucide-icon>
+        </div>
+        <div>
+          <p class="font-display text-4xl font-bold text-slate-900 leading-none">{{ technicalReports() | number }}</p>
+          <p class="text-xs text-slate-500 font-medium mt-1.5">Informes Técnicos</p>
+        </div>
       </div>
     </div>
 
   </div>
 
-  <!-- ── Filters ── -->
-  <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col gap-5">
+  <!-- ── Filters & Actions ── -->
+  <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
+    <div class="flex flex-col md:flex-row gap-4 items-end flex-wrap">
 
-    <!-- Search Row -->
-    <div class="flex flex-col md:flex-row gap-4 items-end">
-      <div class="w-full md:flex-1 relative">
-        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Búsqueda</label>
-        <div class="absolute bottom-0 left-0 flex items-center pl-3.5 h-[46px] pointer-events-none">
-          <lucide-icon name="search" [size]="14" strokeWidth="1.5" class="text-slate-400"></lucide-icon>
+      <!-- Tipo de Informe -->
+      <div class="w-full md:w-44">
+        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Tipo de Informe</label>
+        <div class="relative">
+          <select
+            [(ngModel)]="selectedType"
+            (change)="applyFilters()"
+            class="w-full bg-white text-slate-700 text-sm font-medium rounded-xl border border-slate-200 focus:ring-2 focus:ring-jmg/20 focus:border-jmg p-3 outline-none cursor-pointer appearance-none transition-colors"
+          >
+            <option value="">Todos los tipos</option>
+            <option value="Técnico">Informe Técnico</option>
+            <option value="Mantenimiento">Informe Mantenimiento</option>
+          </select>
+          <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-slate-400">
+            <lucide-icon name="chevron-down" [size]="14" strokeWidth="1.5"></lucide-icon>
+          </div>
         </div>
+      </div>
+
+      <!-- Desde -->
+      <div class="w-full md:w-auto">
+        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Desde</label>
         <input
-          type="text"
-          [(ngModel)]="searchQuery"
-          class="block w-full p-3 pl-10 text-sm text-slate-900 border border-slate-200 rounded-xl bg-white focus:ring-2 focus:ring-jmg/20 focus:border-jmg outline-none transition-colors"
-          placeholder="Descripción del trabajo o ID..."
-          (keyup.enter)="applyFilters()"
+          type="date"
+          [(ngModel)]="selectedDateStart"
+          (change)="applyFilters()"
+          class="w-full bg-white text-slate-700 text-sm font-medium rounded-xl border border-slate-200 focus:ring-2 focus:ring-jmg/20 focus:border-jmg p-3 outline-none transition-colors"
+        >
+      </div>
+
+      <!-- Hasta -->
+      <div class="w-full md:w-auto">
+        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Hasta</label>
+        <input
+          type="date"
+          [(ngModel)]="selectedDateEnd"
+          (change)="applyFilters()"
+          class="w-full bg-white text-slate-700 text-sm font-medium rounded-xl border border-slate-200 focus:ring-2 focus:ring-jmg/20 focus:border-jmg p-3 outline-none transition-colors"
+        >
+      </div>
+
+      <!-- Cliente searchable -->
+      <div class="w-full md:flex-1 min-w-[180px]">
+        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Cliente</label>
+        <div class="relative">
+          <input
+            type="text"
+            [(ngModel)]="clientSearchTerm"
+            (input)="onClientSearch()"
+            placeholder="Escribir para buscar..."
+            class="w-full bg-white text-slate-700 text-sm font-medium rounded-xl border border-slate-200 focus:ring-2 focus:ring-jmg/20 focus:border-jmg p-3 outline-none transition-colors"
+            [class.rounded-b-none]="showClientDropdown()"
+            (focus)="showClientDropdown.set(true)"
+          >
+          @if (showClientDropdown()) {
+            <div class="absolute z-50 w-full bg-white border border-t-0 border-slate-200 rounded-b-xl max-h-56 overflow-y-auto shadow-xl">
+              <div
+                (click)="selectClient(null)"
+                class="p-3 hover:bg-slate-50 cursor-pointer text-slate-400 text-sm italic border-b border-slate-100"
+                tabindex="0" (keydown.enter)="selectClient(null)">
+                Todos los clientes
+              </div>
+              @if (clientSearchTerm().length < 2) {
+                <div class="p-3 text-slate-400 text-xs italic text-center">
+                  Ingresá al menos 2 letras...
+                </div>
+              }
+              @if (clientSearchTerm().length >= 2) {
+                @for (client of filteredClients(); track client) {
+                  <div
+                    (click)="selectClient(client)"
+                    class="p-3 hover:bg-slate-50 cursor-pointer text-slate-700 font-medium text-sm border-b border-slate-50 last:border-0"
+                    tabindex="0" (keydown.enter)="selectClient(client)">
+                    {{ client.nombre_comercial || (client.contacto_nombre + ' ' + (client.contacto_apellido || '')) }}
+                  </div>
+                }
+                @if (filteredClients().length === 0) {
+                  <div class="p-3 text-red-400 text-xs text-center">Sin resultados</div>
+                }
+              }
+            </div>
+          }
+          <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
+            @if (!selectedClientId()) {
+              <lucide-icon name="search" [size]="14" strokeWidth="1.5" class="text-slate-400"></lucide-icon>
+            }
+            @if (selectedClientId()) {
+              <lucide-icon name="check-circle-2" [size]="14" strokeWidth="1.5" class="text-emerald-500"></lucide-icon>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Búsqueda general -->
+      <div class="w-full md:flex-1">
+        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Búsqueda</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+            <lucide-icon name="search" [size]="14" strokeWidth="1.5" class="text-slate-400"></lucide-icon>
+          </div>
+          <input
+            type="text"
+            [(ngModel)]="searchQuery"
+            class="block w-full p-3 pl-10 text-sm text-slate-900 border border-slate-200 rounded-xl bg-white focus:ring-2 focus:ring-jmg/20 focus:border-jmg outline-none transition-colors"
+            placeholder="Descripción del trabajo o ID..."
+            (keyup.enter)="applyFilters()"
           >
         </div>
+      </div>
+
+      <!-- Acciones -->
+      <div class="flex gap-3 shrink-0">
         <button
           (click)="applyFilters()"
-          class="w-full md:w-auto bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-7 py-3 transition-colors shadow-sm text-sm"
-          >
+          class="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-600 font-semibold rounded-xl px-4 py-2.5 text-sm transition-colors border border-slate-200 shadow-sm whitespace-nowrap"
+        >
+          <lucide-icon name="search" [size]="16" strokeWidth="1.5"></lucide-icon>
           Buscar
+        </button>
+        <button
+          (click)="openCreateModal()"
+          class="inline-flex items-center gap-2 bg-[#003B73] hover:bg-[#001f3f] text-white font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors shadow-lg shadow-[#003B73]/20 whitespace-nowrap"
+        >
+          <lucide-icon name="plus" [size]="16" strokeWidth="1.5" class="text-white"></lucide-icon>
+          Nuevo Informe
         </button>
       </div>
 
-      <!-- Dropdowns Row -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+    </div>
+  </div>
 
-        <!-- Tipo de Informe -->
-        <div>
-          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Tipo de Informe</label>
-          <div class="relative">
-            <select
-              [(ngModel)]="selectedType"
-              (change)="applyFilters()"
-              class="w-full bg-white text-slate-700 text-sm font-medium rounded-xl border border-slate-200 focus:ring-2 focus:ring-jmg/20 focus:border-jmg p-3 outline-none cursor-pointer appearance-none transition-colors"
-              >
-              <option value="">Todos los tipos</option>
-              <option value="Técnico">Informe Técnico</option>
-              <option value="Mantenimiento">Informe Mantenimiento</option>
-            </select>
-            <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-slate-400">
-              <lucide-icon name="chevron-down" [size]="14" strokeWidth="1.5"></lucide-icon>
-            </div>
-          </div>
-        </div>
+  <!-- ── Table ── -->
+  <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
 
-        <!-- Rango de fechas -->
-        <div class="flex gap-3">
-          <div class="flex-1">
-            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Desde</label>
-            <input
-              type="date"
-              [(ngModel)]="selectedDateStart"
-              (change)="applyFilters()"
-              class="w-full bg-white text-slate-700 text-sm font-medium rounded-xl border border-slate-200 focus:ring-2 focus:ring-jmg/20 focus:border-jmg p-3 outline-none transition-colors"
-              >
-            </div>
-            <div class="flex-1">
-              <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Hasta</label>
-              <input
-                type="date"
-                [(ngModel)]="selectedDateEnd"
-                (change)="applyFilters()"
-                class="w-full bg-white text-slate-700 text-sm font-medium rounded-xl border border-slate-200 focus:ring-2 focus:ring-jmg/20 focus:border-jmg p-3 outline-none transition-colors"
-                >
-              </div>
-            </div>
+    <!-- Table Header -->
+    <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-1 h-5 bg-[#003B73] rounded-full shrink-0"></div>
+        <h2 class="font-display font-bold text-slate-800 text-lg tracking-tight">Documentos</h2>
+      </div>
+      @if (!isLoading()) {
+        <span class="text-xs text-slate-400 font-medium">
+          {{ reports().length }} registro{{ reports().length !== 1 ? 's' : '' }}
+        </span>
+      }
+    </div>
 
-            <!-- Cliente searchable -->
-            <div>
-              <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Cliente</label>
-              <div class="relative">
-                <input
-                  type="text"
-                  [(ngModel)]="clientSearchTerm"
-                  (input)="onClientSearch()"
-                  placeholder="Escribir para buscar..."
-                  class="w-full bg-white text-slate-700 text-sm font-medium rounded-xl border border-slate-200 focus:ring-2 focus:ring-jmg/20 focus:border-jmg p-3 outline-none transition-colors"
-                  [class.rounded-b-none]="showClientDropdown()"
-                  (focus)="showClientDropdown.set(true)"
-                  >
-                  <!-- Dropdown -->
-                  @if (showClientDropdown()) {
-                    <div class="absolute z-10 w-full bg-white border border-t-0 border-slate-200 rounded-b-xl max-h-56 overflow-y-auto shadow-xl">
-                      <div
-                        (click)="selectClient(null)"
-                        class="p-3 hover:bg-slate-50 cursor-pointer text-slate-400 text-sm italic border-b border-slate-100"
-                         tabindex="0" (keydown.enter)="selectClient(null)">
-                        Todos los clientes
-                      </div>
-                      @if (clientSearchTerm().length < 2) {
-                        <div class="p-3 text-slate-400 text-sm italic text-center">
-                          Ingresá al menos 2 letras...
-                        </div>
-                      }
-                      @if (clientSearchTerm().length >= 2) {
-                        @for (client of filteredClients(); track client) {
-                          <div
-                            (click)="selectClient(client)"
-                            class="p-3 hover:bg-slate-50 cursor-pointer text-slate-700 text-sm font-medium border-b border-slate-50 last:border-0"
-                             tabindex="0" (keydown.enter)="selectClient(client)">
-                            {{ client.nombre_comercial || (client.contacto_nombre + ' ' + (client.contacto_apellido || '')) }}
-                          </div>
-                        }
-                        @if (filteredClients().length === 0) {
-                          <div class="p-3 text-red-400 text-sm text-center">
-                            Sin resultados
-                          </div>
-                        }
-                      }
-                    </div>
-                  }
-                  <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-                    @if (!selectedClientId()) {
-                      <lucide-icon name="search" [size]="14" strokeWidth="1.5" class="text-slate-400"></lucide-icon>
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead>
+          <tr class="border-b border-slate-100">
+            <th class="px-6 py-3.5 text-left text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Documento</th>
+            <th class="px-6 py-3.5 text-left text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Cliente</th>
+            <th class="px-6 py-3.5 text-left text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Técnico</th>
+            <th class="px-6 py-3.5 text-left text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Fecha</th>
+            <th class="px-6 py-3.5 text-left text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Actualización</th>
+            <th class="px-6 py-3.5 text-left text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Acciones</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-50">
+
+          @for (report of reports(); track report) {
+            <tr class="hover:bg-slate-50/70 transition-colors group">
+              <!-- Documento: nombre + tipo badge -->
+              <td class="px-6 py-4">
+                <div class="flex items-start gap-3">
+                  <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 mt-0.5"
+                    [ngClass]="report.tipo_informe === 'Mantenimiento' ? 'bg-jmg-muted' : 'bg-emerald-50'">
+                    @if (report.tipo_informe === 'Mantenimiento') {
+                      <lucide-icon name="wrench" [size]="14" strokeWidth="1.5" class="text-jmg"></lucide-icon>
                     }
-                    @if (selectedClientId()) {
-                      <lucide-icon name="check-circle-2" [size]="14" strokeWidth="1.5" class="text-emerald-500"></lucide-icon>
+                    @if (report.tipo_informe !== 'Mantenimiento') {
+                      <lucide-icon name="file-text" [size]="14" strokeWidth="1.5" class="text-emerald-600"></lucide-icon>
                     }
                   </div>
+                  <div class="min-w-0">
+                    <p class="font-semibold text-slate-800 text-sm leading-snug">
+                      {{ getReportDisplayName(report) }}
+                    </p>
+                    <p class="text-xs text-slate-400 mt-0.5 truncate max-w-[200px]">
+                      {{ report.descripcion_trabajo
+                      || (report.tipo_informe === 'Mantenimiento' ? 'Mantenimiento Preventivo' : 'Informe técnico')
+                      | slice:0:50 }}...
+                    </p>
+                    <span class="inline-flex items-center mt-1.5 px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wide"
+                      [ngClass]="report.tipo_informe === 'Mantenimiento'
+                        ? 'bg-jmg-muted text-jmg'
+                        : 'bg-emerald-50 text-emerald-700'">
+                      {{ report.tipo_informe || 'Sin tipo' }}
+                    </span>
+                  </div>
                 </div>
-              </div>
-
-            </div>
-          </div>
-
-          <!-- ── Actions Row ── -->
-          <div class="flex justify-end">
-            <button
-              (click)="openCreateModal()"
-              class="inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors shadow-sm"
-              >
-              <lucide-icon name="plus" [size]="16" strokeWidth="1.5"></lucide-icon>
-              Crear Nuevo Informe
-            </button>
-          </div>
-
-          <!-- ── Table ── -->
-          <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-
-            <!-- Table Header -->
-            <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-              <h2 class="font-display font-bold text-slate-800 text-lg tracking-tight">Documentos</h2>
-              @if (!isLoading()) {
-                <span class="text-xs text-slate-400 font-medium">
-                  {{ reports().length }} registro{{ reports().length !== 1 ? 's' : '' }}
+              </td>
+              <!-- Cliente -->
+              <td class="px-6 py-4">
+                <span class="text-sm font-semibold text-slate-700">
+                  {{ getClientName(report.cliente_id) }}
                 </span>
-              }
-            </div>
-
-            <div class="overflow-x-auto">
-              <table class="w-full">
-                <thead>
-                  <tr class="border-b border-slate-100">
-                    <th class="px-6 py-3.5 text-left text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Documento</th>
-                    <th class="px-6 py-3.5 text-left text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Cliente</th>
-                    <th class="px-6 py-3.5 text-left text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Técnico</th>
-                    <th class="px-6 py-3.5 text-left text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Fecha</th>
-                    <th class="px-6 py-3.5 text-left text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Actualización</th>
-                    <th class="px-6 py-3.5 text-left text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-50">
-
-                  @for (report of reports(); track report) {
-                    <tr class="hover:bg-slate-50/70 transition-colors group">
-                      <!-- Documento: nombre + tipo badge -->
-                      <td class="px-6 py-4">
-                        <div class="flex items-start gap-3">
-                          <!-- Icono por tipo -->
-                          <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 mt-0.5"
-                            [ngClass]="report.tipo_informe === 'Mantenimiento' ? 'bg-jmg-muted' : 'bg-emerald-50'">
-                            @if (report.tipo_informe === 'Mantenimiento') {
-                              <lucide-icon name="wrench" [size]="14" strokeWidth="1.5" class="text-jmg"></lucide-icon>
-                            }
-                            @if (report.tipo_informe !== 'Mantenimiento') {
-                              <lucide-icon name="file-text" [size]="14" strokeWidth="1.5" class="text-emerald-600"></lucide-icon>
-                            }
-                          </div>
-                          <div class="min-w-0">
-                            <p class="font-semibold text-slate-800 text-sm leading-snug">
-                              {{ getReportDisplayName(report) }}
-                            </p>
-                            <p class="text-xs text-slate-400 mt-0.5 truncate max-w-[200px]">
-                              {{ report.descripcion_trabajo
-                              || (report.tipo_informe === 'Mantenimiento' ? 'Mantenimiento Preventivo' : 'Informe técnico')
-                              | slice:0:50 }}...
-                            </p>
-                            <!-- Badge tipo -->
-                            <span class="inline-flex items-center mt-1.5 px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wide"
-                    [ngClass]="report.tipo_informe === 'Mantenimiento'
-                      ? 'bg-jmg-muted text-jmg'
-                      : 'bg-emerald-50 text-emerald-700'">
-                              {{ report.tipo_informe || 'Sin tipo' }}
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-                      <!-- Cliente -->
-                      <td class="px-6 py-4">
-                        <span class="text-sm font-semibold text-slate-700">
-                          {{ getClientName(report.cliente_id) }}
-                        </span>
-                      </td>
-                      <!-- Técnico -->
-                      <td class="px-6 py-4">
-                        <span class="text-sm text-slate-500 font-medium">
-                          {{ getWorkerName(report.trabajador_id) }}
-                        </span>
-                      </td>
-                      <!-- Fecha -->
-                      <td class="px-6 py-4">
-                        <span class="text-sm text-slate-500 font-medium whitespace-nowrap">
-                          {{ formatDate(report.fecha_informe) }}
-                        </span>
-                      </td>
-                      <!-- Actualización -->
-                      <td class="px-6 py-4">
-                        <span class="text-sm text-slate-400 whitespace-nowrap">
-                          {{ formatDateTime(report.fecha_actualizacion!) }}
-                        </span>
-                      </td>
-                      <!-- Acciones -->
-                      <td class="px-6 py-4">
-                        <div class="flex items-center gap-2">
-                          @if (generatingPdfId() !== report.informe_id) {
-                            <button
-                              (click)="downloadReport(report)"
-                              class="w-9 h-9 rounded-lg bg-slate-100 text-slate-500 flex items-center justify-center hover:bg-slate-200 transition-colors"
-                              title="Vista Previa"
-                              >
-                              <lucide-icon name="eye" [size]="14" strokeWidth="1.5"></lucide-icon>
-                            </button>
-                            <button
-                              (click)="downloadPdfDirectly(report)"
-                              class="w-9 h-9 rounded-lg bg-jmg text-white flex items-center justify-center hover:bg-jmg-dark transition-colors"
-                              title="Descargar PDF"
-                              >
-                              <lucide-icon name="download" [size]="14" strokeWidth="1.5"></lucide-icon>
-                            </button>
-                          } @else {
-                            <div class="w-[80px] h-9 flex items-center justify-center bg-slate-50 rounded-lg border border-slate-200">
-                              <div class="spinner-border spinner-border-sm text-jmg" role="status"></div>
-                            </div>
-                          }
-                          <button
-                            (click)="openEditModal(report)"
-                            class="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center hover:bg-emerald-100 transition-colors"
-                            title="Editar Informe"
-                            >
-                            <lucide-icon name="square-pen" [size]="14" strokeWidth="1.5"></lucide-icon>
-                          </button>
-                          <button
-                            (click)="openDeleteModal(report)"
-                            class="w-9 h-9 rounded-lg bg-red-50 text-red-400 flex items-center justify-center hover:bg-red-100 transition-colors"
-                            title="Eliminar Informe"
-                            >
-                            <lucide-icon name="trash-2" [size]="14" strokeWidth="1.5"></lucide-icon>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  }
-
-                  <!-- Empty State -->
-                  @if (reports().length === 0 && !isLoading()) {
-                    <tr>
-                      <td colspan="6" class="px-6 py-20">
-                        <div class="flex flex-col items-center gap-3">
-                          <div class="w-16 h-16 rounded-2xl bg-slate-100 flex items-center justify-center">
-                            <lucide-icon name="folder-open" [size]="24" strokeWidth="1.5" class="text-slate-300"></lucide-icon>
-                          </div>
-                          <h3 class="font-display font-bold text-slate-700 text-base">Sin documentos</h3>
-                          <p class="text-slate-400 text-sm">Ajustá los filtros o creá un nuevo informe.</p>
-                        </div>
-                      </td>
-                    </tr>
-                  }
-
-                  <!-- Loading State -->
-                  @if (isLoading()) {
-                    <tr>
-                      <td colspan="6" class="px-6 py-20">
-                        <div class="flex flex-col items-center gap-3">
-                          <div class="animate-spin rounded-full h-9 w-9 border-t-2 border-b-2 border-jmg"></div>
-                          <span class="text-slate-400 text-sm font-medium">Cargando documentos...</span>
-                        </div>
-                      </td>
-                    </tr>
-                  }
-
-                </tbody>
-              </table>
-            </div>
-
-            <!-- Pagination Footer -->
-            @if (totalPages() >= 1) {
-              <div class="px-6 py-4 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between">
-                <span class="text-sm text-slate-500">
-                  Página <span class="font-semibold text-slate-700">{{ currentPage() }}</span> de <span class="font-semibold text-slate-700">{{ totalPages() }}</span>
+              </td>
+              <!-- Técnico -->
+              <td class="px-6 py-4">
+                <span class="text-sm text-slate-500 font-medium">
+                  {{ getWorkerName(report.trabajador_id) }}
                 </span>
-                <div class="flex gap-2">
-                  <button
-                    [disabled]="currentPage() === 1"
-                    (click)="prevPage()"
-                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-slate-200 rounded-xl text-sm font-medium hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-slate-600"
+              </td>
+              <!-- Fecha -->
+              <td class="px-6 py-4">
+                <span class="text-sm text-slate-500 font-medium whitespace-nowrap">
+                  {{ formatDate(report.fecha_informe) }}
+                </span>
+              </td>
+              <!-- Actualización -->
+              <td class="px-6 py-4">
+                <span class="text-sm text-slate-400 whitespace-nowrap">
+                  {{ formatDateTime(report.fecha_actualizacion!) }}
+                </span>
+              </td>
+              <!-- Acciones -->
+              <td class="px-6 py-4">
+                <div class="flex items-center gap-2">
+                  @if (generatingPdfId() !== report.informe_id) {
+                    <button
+                      (click)="downloadReport(report)"
+                      class="w-9 h-9 rounded-lg bg-slate-100 text-slate-500 flex items-center justify-center hover:bg-slate-200 transition-colors"
+                      title="Vista Previa"
                     >
-                    <lucide-icon name="chevron-left" [size]="14" strokeWidth="1.5"></lucide-icon> Previo
+                      <lucide-icon name="eye" [size]="14" strokeWidth="1.5"></lucide-icon>
+                    </button>
+                    <button
+                      (click)="downloadPdfDirectly(report)"
+                      class="w-9 h-9 rounded-lg bg-jmg text-white flex items-center justify-center hover:bg-jmg-dark transition-colors"
+                      title="Descargar PDF"
+                    >
+                      <lucide-icon name="download" [size]="14" strokeWidth="1.5"></lucide-icon>
+                    </button>
+                  } @else {
+                    <div class="w-[80px] h-9 flex items-center justify-center bg-slate-50 rounded-lg border border-slate-200">
+                      <div class="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-jmg"></div>
+                    </div>
+                  }
+                  <button
+                    (click)="openEditModal(report)"
+                    class="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center hover:bg-emerald-100 transition-colors"
+                    title="Editar Informe"
+                  >
+                    <lucide-icon name="square-pen" [size]="14" strokeWidth="1.5"></lucide-icon>
                   </button>
                   <button
-                    [disabled]="currentPage() === totalPages()"
-                    (click)="nextPage()"
-                    class="inline-flex items-center gap-1.5 px-4 py-2 border border-slate-200 rounded-xl text-sm font-medium hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-slate-600"
-                    >
-                    Siguiente <lucide-icon name="chevron-right" [size]="14" strokeWidth="1.5"></lucide-icon>
+                    (click)="openDeleteModal(report)"
+                    class="w-9 h-9 rounded-lg bg-red-50 text-red-400 flex items-center justify-center hover:bg-red-100 transition-colors"
+                    title="Eliminar Informe"
+                  >
+                    <lucide-icon name="trash-2" [size]="14" strokeWidth="1.5"></lucide-icon>
                   </button>
                 </div>
-              </div>
-            }
+              </td>
+            </tr>
+          }
 
-          </div>
+          <!-- Empty State -->
+          @if (reports().length === 0 && !isLoading()) {
+            <tr>
+              <td colspan="6" class="px-6 py-20">
+                <div class="flex flex-col items-center gap-3">
+                  <div class="w-16 h-16 rounded-2xl bg-slate-100 flex items-center justify-center">
+                    <lucide-icon name="folder-open" [size]="24" strokeWidth="1.5" class="text-slate-300"></lucide-icon>
+                  </div>
+                  <h3 class="font-display font-bold text-slate-700 text-base">Sin documentos</h3>
+                  <p class="text-slate-400 text-sm">Ajustá los filtros o creá un nuevo informe.</p>
+                </div>
+              </td>
+            </tr>
+          }
 
+          <!-- Loading State -->
+          @if (isLoading()) {
+            <tr>
+              <td colspan="6" class="px-6 py-20">
+                <div class="flex flex-col items-center gap-3">
+                  <div class="animate-spin rounded-full h-9 w-9 border-t-2 border-b-2 border-jmg"></div>
+                  <span class="text-slate-400 text-sm font-medium">Cargando documentos...</span>
+                </div>
+              </td>
+            </tr>
+          }
+
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination Footer -->
+    @if (totalPages() >= 1) {
+      <div class="px-6 py-4 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between">
+        <span class="text-sm text-slate-500">
+          Página <span class="font-semibold text-slate-700">{{ currentPage() }}</span> de <span class="font-semibold text-slate-700">{{ totalPages() }}</span>
+        </span>
+        <div class="flex gap-2">
+          <button
+            [disabled]="currentPage() === 1"
+            (click)="prevPage()"
+            class="inline-flex items-center gap-1.5 px-4 py-2 border border-slate-200 rounded-xl text-sm font-medium hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-slate-600"
+          >
+            <lucide-icon name="chevron-left" [size]="14" strokeWidth="1.5"></lucide-icon> Previo
+          </button>
+          <button
+            [disabled]="currentPage() === totalPages()"
+            (click)="nextPage()"
+            class="inline-flex items-center gap-1.5 px-4 py-2 border border-slate-200 rounded-xl text-sm font-medium hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-slate-600"
+          >
+            Siguiente <lucide-icon name="chevron-right" [size]="14" strokeWidth="1.5"></lucide-icon>
+          </button>
         </div>
+      </div>
+    }
 
-        <!-- Modals -->
-        @if (showFormModal()) {
-          <app-document-form
-            [mode]="formMode()"
-            [report]="selectedReport() ?? undefined"
-            (close)="closeFormModal()"
-            (saved)="onReportSaved()">
-          </app-document-form>
-        }
+  </div>
 
-        @if (showDeleteModal() && selectedReport()) {
-          <app-document-delete
-            [report]="selectedReport()!"
-            (close)="closeDeleteModal()"
-            (reportDeleted)="onReportDeleted()">
-          </app-document-delete>
-        }
+</div>
 
-        @if (showPdfModal() && pdfUrl()) {
-          <app-pdf-preview
-            [pdfUrl]="pdfUrl()!"
-            [downloadUrl]="pdfDownloadUrl()"
-            [fileName]="pdfFileName()"
-            (close)="closePdfModal()">
-          </app-pdf-preview>
-        }
+<!-- Modals -->
+@if (showFormModal()) {
+  <app-document-form
+    [mode]="formMode()"
+    [report]="selectedReport() ?? undefined"
+    (close)="closeFormModal()"
+    (saved)="onReportSaved()">
+  </app-document-form>
+}
+
+@if (showDeleteModal() && selectedReport()) {
+  <app-document-delete
+    [report]="selectedReport()!"
+    (close)="closeDeleteModal()"
+    (reportDeleted)="onReportDeleted()">
+  </app-document-delete>
+}
+
+@if (showPdfModal() && pdfUrl()) {
+  <app-pdf-preview
+    [pdfUrl]="pdfUrl()!"
+    [downloadUrl]="pdfDownloadUrl()"
+    [fileName]="pdfFileName()"
+    (close)="closePdfModal()">
+  </app-pdf-preview>
+}

@@ -62,7 +62,7 @@ export class ClientListComponent implements OnInit, OnDestroy {
   districts = computed(() => {
     const allClients = this.clients();
     if (!allClients || allClients.length === 0) return [];
-    const unique = [...new Set(allClients.map(c => c.distrito).filter(Boolean))];
+    const unique = [...new Set(allClients.map(c => c.distrito).filter((d): d is string => Boolean(d)))];
     return unique.sort();
   });
 

@@ -1,10 +1,15 @@
-<div class="p-8 space-y-8 bg-slate-50 min-h-screen">
+<div class="p-4 md:p-6 lg:p-8 space-y-5 bg-slate-50">
 
   <!-- ── Page Header ── -->
-  <div class="flex items-end justify-between">
-    <div>
-      <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-1">Panel de Administración</p>
-      <h1 class="font-display text-3xl font-bold text-slate-900 tracking-tight">Gestión de Clientes</h1>
+  <div class="flex items-center justify-between shrink-0">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#003B73] to-[#001f3f] flex items-center justify-center shadow-lg shadow-[#003B73]/20">
+        <lucide-icon name="users" [size]="20" strokeWidth="1.5" class="text-white"></lucide-icon>
+      </div>
+      <div>
+        <h1 class="font-display text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">Gestión de Clientes</h1>
+        <p class="text-xs text-slate-500 font-medium">{{ totalClients() }} cliente{{ totalClients() !== 1 ? 's' : '' }} registrado{{ totalClients() !== 1 ? 's' : '' }}</p>
+      </div>
     </div>
   </div>
 
@@ -12,46 +17,58 @@
   <div class="grid grid-cols-2 lg:grid-cols-4 gap-5">
 
     <!-- Total Clientes -->
-    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
-      <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center shrink-0">
-        <lucide-icon name="users" [size]="20" strokeWidth="1.5" class="text-slate-600"></lucide-icon>
-      </div>
-      <div>
-        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ totalClients() }}</p>
-        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Total Clientes</p>
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+      <div class="h-1 bg-gradient-to-r from-[#003B73] to-[#0056a8]"></div>
+      <div class="p-5 flex items-center gap-4">
+        <div class="w-10 h-10 rounded-xl bg-[#003B73]/10 flex items-center justify-center shrink-0">
+          <lucide-icon name="users" [size]="18" strokeWidth="1.5" class="text-[#003B73]"></lucide-icon>
+        </div>
+        <div>
+          <p class="font-display text-4xl font-bold text-slate-900 leading-none">{{ totalClients() }}</p>
+          <p class="text-xs text-slate-500 font-medium mt-1.5">Total Clientes</p>
+        </div>
       </div>
     </div>
 
     <!-- Ascensores -->
-    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
-      <div class="w-12 h-12 rounded-xl bg-jmg-muted flex items-center justify-center shrink-0">
-        <lucide-icon name="arrow-up-square" [size]="20" strokeWidth="1.5" class="text-jmg"></lucide-icon>
-      </div>
-      <div>
-        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ totalAscensores() }}</p>
-        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Ascensores</p>
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+      <div class="h-1 bg-[#003B73]"></div>
+      <div class="p-5 flex items-center gap-4">
+        <div class="w-10 h-10 rounded-xl bg-jmg-muted flex items-center justify-center shrink-0">
+          <lucide-icon name="arrow-up-square" [size]="18" strokeWidth="1.5" class="text-jmg"></lucide-icon>
+        </div>
+        <div>
+          <p class="font-display text-4xl font-bold text-slate-900 leading-none">{{ totalAscensores() }}</p>
+          <p class="text-xs text-slate-500 font-medium mt-1.5">Ascensores</p>
+        </div>
       </div>
     </div>
 
     <!-- Montacargas -->
-    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
-      <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
-        <lucide-icon name="package" [size]="20" strokeWidth="1.5" class="text-emerald-600"></lucide-icon>
-      </div>
-      <div>
-        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ totalMontacargas() }}</p>
-        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Montacargas</p>
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+      <div class="h-1 bg-[#003B73]/40"></div>
+      <div class="p-5 flex items-center gap-4">
+        <div class="w-10 h-10 rounded-xl bg-[#003B73]/5 flex items-center justify-center shrink-0">
+          <lucide-icon name="package" [size]="18" strokeWidth="1.5" class="text-[#003B73]"></lucide-icon>
+        </div>
+        <div>
+          <p class="font-display text-4xl font-bold text-slate-900 leading-none">{{ totalMontacargas() }}</p>
+          <p class="text-xs text-slate-500 font-medium mt-1.5">Montacargas</p>
+        </div>
       </div>
     </div>
 
     <!-- Plataformas -->
-    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
-      <div class="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center shrink-0">
-        <lucide-icon name="layout-dashboard" [size]="20" strokeWidth="1.5" class="text-purple-600"></lucide-icon>
-      </div>
-      <div>
-        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ totalPlataformas() }}</p>
-        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Plataformas</p>
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+      <div class="h-1 bg-slate-300"></div>
+      <div class="p-5 flex items-center gap-4">
+        <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center shrink-0">
+          <lucide-icon name="layout-dashboard" [size]="18" strokeWidth="1.5" class="text-slate-500"></lucide-icon>
+        </div>
+        <div>
+          <p class="font-display text-4xl font-bold text-slate-900 leading-none">{{ totalPlataformas() }}</p>
+          <p class="text-xs text-slate-500 font-medium mt-1.5">Plataformas</p>
+        </div>
       </div>
     </div>
 
@@ -89,7 +106,7 @@
           class="w-full bg-white text-slate-700 text-sm font-medium rounded-xl border border-slate-200 focus:ring-2 focus:ring-jmg/20 focus:border-jmg p-3 outline-none cursor-pointer appearance-none transition-colors"
           >
           <option value="">Todos los distritos</option>
-          @for (dist of districts; track dist) {
+          @for (dist of districts(); track dist) {
             <option [value]="dist">{{ dist }}</option>
           }
         </select>
@@ -102,50 +119,42 @@
     <!-- Búsqueda -->
     <div class="w-full md:flex-1">
       <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Búsqueda Rápida</label>
-      <div class="flex gap-3">
-        <div class="relative flex-1">
-          <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-            <lucide-icon name="search" [size]="16" strokeWidth="1.5" class="text-slate-400"></lucide-icon>
-          </div>
-          <input
-            type="text"
-            [ngModel]="searchQuery()"
-            (input)="onSearch($any($event.target).value)"
-            class="block w-full p-3 pl-10 text-sm text-slate-900 border border-slate-200 rounded-xl bg-white focus:ring-2 focus:ring-jmg/20 focus:border-jmg outline-none transition-colors"
-            placeholder="Buscar por nombre, DNI o RUC..."
-            />
-          </div>
-          <button
-            (click)="onFilterChange()"
-            class="bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-6 py-3 transition-colors shadow-sm text-sm whitespace-nowrap"
-            >
-            Actualizar
-          </button>
+      <div class="relative">
+        <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+          <lucide-icon name="search" [size]="16" strokeWidth="1.5" class="text-slate-400"></lucide-icon>
         </div>
+        <input
+          type="text"
+          [ngModel]="searchQuery()"
+          (input)="onSearch($any($event.target).value)"
+          class="block w-full p-3 pl-10 text-sm text-slate-900 border border-slate-200 rounded-xl bg-white focus:ring-2 focus:ring-jmg/20 focus:border-jmg outline-none transition-colors"
+          placeholder="Buscar por nombre, DNI o RUC..."
+          />
       </div>
-
     </div>
 
-    <!-- ── Actions Row ── -->
-    <div class="flex justify-end gap-3">
+    <!-- Acciones -->
+    <div class="flex gap-3 shrink-0">
       <button
         (click)="openRestoreModal()"
-        class="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-600 font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors border border-slate-200 shadow-sm"
+        class="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-600 font-semibold rounded-xl px-4 py-2.5 text-sm transition-colors border border-slate-200 shadow-sm whitespace-nowrap"
         >
         <lucide-icon name="rotate-ccw" [size]="16" strokeWidth="1.5"></lucide-icon>
-        Restaurar Clientes
+        Restaurar
       </button>
       <button
         (click)="openCreateModal()"
-        class="inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors shadow-sm"
+        class="inline-flex items-center gap-2 bg-[#003B73] hover:bg-[#001f3f] text-white font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors shadow-lg shadow-[#003B73]/20 whitespace-nowrap"
         >
-        <lucide-icon name="plus" [size]="16" strokeWidth="1.5"></lucide-icon>
-        Registrar Nuevo Cliente
+        <lucide-icon name="plus" [size]="16" strokeWidth="1.5" class="text-white"></lucide-icon>
+        Nuevo Cliente
       </button>
     </div>
 
-    <!-- ── Clients Grid ── -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+  </div>
+
+  <!-- ── Clients Grid ── -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
 
       <!-- Loading -->
       @if (isLoading()) {
@@ -318,7 +327,6 @@
         </div>
       }
 
-    </div>
   </div>
 
   <!-- Modals -->

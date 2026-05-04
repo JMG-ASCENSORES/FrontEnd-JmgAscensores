@@ -1,6 +1,6 @@
 import { LucideAngularModule } from 'lucide-angular';
 import { limaDateStr, formatDateLong, formatDateShort as formatDateDisplay, buildWhatsAppUrl } from '../../../shared/utils/date-lima.util';
-import { getSpecialtyColor, getSpecialtyIcon } from '../../../shared/utils/specialty.utils';
+import { getSpecialtyIcon } from '../../../shared/utils/specialty.utils';
 import { Component, OnInit, inject, ChangeDetectorRef, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router'; // Import RouterModule for routerLink
@@ -81,9 +81,9 @@ export class ProgrammingComponent implements OnInit {
   firstJobAvatarColor: string = 'bg-slate-300';
   timeline: TimelineItem[] = [];
 
-  upcoming: { id: number; date: string; type: string; clientName: string; originalData: Mantenimiento }[] = [];
-  techniciansToNotify: { tech: { id: number; nombre: string; apellido: string; especialidad: string }; services: Mantenimiento[] }[] = [];
-  clientsToNotify: { client: { cliente_id: number; nombre_comercial: string; contacto_nombre: string; distrito: string }; services: Mantenimiento[] }[] = [];
+  upcoming: { date: string; type: string; alert: boolean }[] = [];
+  techniciansToNotify: { tech: { trabajador_id: number; nombre: string; apellido: string; especialidad: string; telefono: string }; services: Mantenimiento[] }[] = [];
+  clientsToNotify: { client: { cliente_id: number; nombre_comercial: string; contacto_nombre: string; contacto_apellido?: string; distrito: string; contacto_telefono: string; tipo_cliente?: string; telefono?: string }; services: Mantenimiento[] }[] = [];
 
   // Notification state: date string -> set of notified technician IDs / client IDs
   notifiedTechIdsByDate = new Map<string, Set<number>>();
@@ -218,14 +218,9 @@ export class ProgrammingComponent implements OnInit {
       const todayMantenimientos = this.allMantenimientos.filter(m => m.start.startsWith(todayStr));
       this.schedules = todayMantenimientos.map((m, index) => this.mapToSchedule(m, index));
       
-      // 2. Initial Selection
-      if (this.schedules.length > 0) {
-          this.selectedSchedule = this.schedules[0];
-          this.updateDetailView(this.selectedSchedule);
-      } else {
-          this.selectedSchedule = null;
-          this.updateDetailView(null);
-      }
+      // 2. No auto-selection: drawer opens on user click
+      this.selectedSchedule = null;
+      this.updateDetailView(null);
       
       // 3. Próximos días (Upcoming)
       const futureMantenimientos = this.allMantenimientos.filter(m => {
@@ -375,7 +370,13 @@ export class ProgrammingComponent implements OnInit {
   }
 
   getRoleColor(specialty: string): string {
-    return getSpecialtyColor(specialty);
+    const avatarColors: Record<string, string> = {
+      'Supervisor Técnico':          'bg-[#003B73]',
+      'Técnico de Mantenimiento':    'bg-blue-500',
+      'Técnico de Reparaciones':     'bg-amber-500',
+      'Técnico General':             'bg-emerald-500',
+    };
+    return avatarColors[specialty] || 'bg-slate-500';
   }
 
   getRoleIcon(specialty: string): string {
@@ -407,8 +408,8 @@ export class ProgrammingComponent implements OnInit {
       .sort((a, b) => (a.tech.nombre || '').localeCompare(b.tech.nombre || ''));
   }
 
-  getClientsFromSchedules(): { client: { cliente_id: number; nombre_comercial: string; contacto_nombre: string; distrito: string; contacto_telefono: string }; services: Mantenimiento[] }[] {
-    const clientGroups = new Map<number, { client: { cliente_id: number; nombre_comercial: string; contacto_nombre: string; distrito: string; contacto_telefono: string }; services: Mantenimiento[] }>();
+  getClientsFromSchedules(): { client: { cliente_id: number; nombre_comercial: string; contacto_nombre: string; contacto_apellido?: string; distrito: string; contacto_telefono: string }; services: Mantenimiento[] }[] {
+    const clientGroups = new Map<number, { client: { cliente_id: number; nombre_comercial: string; contacto_nombre: string; contacto_apellido?: string; distrito: string; contacto_telefono: string }; services: Mantenimiento[] }>();
 
     this.schedules.forEach(schedule => {
       const mant = schedule.originalData;
@@ -499,16 +500,16 @@ export class ProgrammingComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  private sendNotificationToClient(cliente: { nombre_comercial?: string; contacto_nombre?: string; contacto_telefono?: string; distrito?: string }, mantenimiento: Mantenimiento): void {
+  private sendNotificationToClient(cliente: { nombre_comercial?: string; contacto_nombre?: string; contacto_apellido?: string; contacto_telefono?: string; telefono?: string; tipo_cliente?: string; distrito?: string }, mantenimiento: Mantenimiento): void {
     // Lógica robusta por tipo de cliente para obtener el teléfono
     let telefono = '';
     if (cliente.tipo_cliente === 'persona') {
-        telefono = cliente.telefono || cliente.contacto_telefono;
+        telefono = (cliente.telefono || cliente.contacto_telefono || '').trim();
     } else {
-        telefono = cliente.contacto_telefono || cliente.telefono;
+        telefono = (cliente.contacto_telefono || cliente.telefono || '').trim();
     }
 
-    if (!telefono || telefono.trim() === '') {
+    if (!telefono) {
         const clientName = cliente.nombre_comercial || `${cliente.contacto_nombre || ''} ${cliente.contacto_apellido || ''}`.trim();
         this.showToast(`El cliente ${clientName} no tiene un teléfono registrado.`, 'error', 'Datos incompletos');
         return;

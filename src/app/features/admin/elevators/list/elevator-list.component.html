@@ -1,10 +1,15 @@
-<div class="p-8 space-y-8 bg-slate-50 min-h-screen">
+<div class="p-4 md:p-6 lg:p-8 space-y-5 bg-slate-50">
 
   <!-- ── Page Header ── -->
-  <div class="flex items-end justify-between">
-    <div>
-      <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-1">Panel de Administración</p>
-      <h1 class="font-display text-3xl font-bold text-slate-900 tracking-tight">Gestión de Equipos</h1>
+  <div class="flex items-center justify-between shrink-0">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#003B73] to-[#001f3f] flex items-center justify-center shadow-lg shadow-[#003B73]/20">
+        <lucide-icon name="package" [size]="20" strokeWidth="1.5" class="text-white"></lucide-icon>
+      </div>
+      <div>
+        <h1 class="font-display text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">Gestión de Equipos</h1>
+        <p class="text-xs text-slate-500 font-medium">{{ totalElevators() }} equipo{{ totalElevators() !== 1 ? 's' : '' }} registrado{{ totalElevators() !== 1 ? 's' : '' }}</p>
+      </div>
     </div>
   </div>
 
@@ -12,52 +17,64 @@
   <div class="grid grid-cols-2 lg:grid-cols-4 gap-5">
 
     <!-- Total -->
-    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
-      <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center shrink-0">
-        <lucide-icon name="package" [size]="20" strokeWidth="1.5" class="text-slate-600"></lucide-icon>
-      </div>
-      <div>
-        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ totalElevators() }}</p>
-        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Total Equipos</p>
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+      <div class="h-1 bg-gradient-to-r from-[#003B73] to-[#0056a8]"></div>
+      <div class="p-5 flex items-center gap-4">
+        <div class="w-10 h-10 rounded-xl bg-[#003B73]/10 flex items-center justify-center shrink-0">
+          <lucide-icon name="package" [size]="18" strokeWidth="1.5" class="text-[#003B73]"></lucide-icon>
+        </div>
+        <div>
+          <p class="font-display text-4xl font-bold text-slate-900 leading-none">{{ totalElevators() }}</p>
+          <p class="text-xs text-slate-500 font-medium mt-1.5">Total Equipos</p>
+        </div>
       </div>
     </div>
 
     <!-- Operativos -->
-    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
-      <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
-        <lucide-icon name="check-circle-2" [size]="20" strokeWidth="1.5" class="text-emerald-600"></lucide-icon>
-      </div>
-      <div>
-        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ operationalCount() }}</p>
-        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Operativos</p>
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+      <div class="h-1 bg-emerald-500"></div>
+      <div class="p-5 flex items-center gap-4">
+        <div class="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
+          <lucide-icon name="check-circle-2" [size]="18" strokeWidth="1.5" class="text-emerald-600"></lucide-icon>
+        </div>
+        <div>
+          <p class="font-display text-4xl font-bold text-slate-900 leading-none">{{ operationalCount() }}</p>
+          <p class="text-xs text-slate-500 font-medium mt-1.5">Operativos</p>
+        </div>
       </div>
     </div>
 
     <!-- En Mantenimiento -->
-    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
-      <div class="w-12 h-12 rounded-xl bg-jmg-muted flex items-center justify-center shrink-0">
-        <lucide-icon name="wrench" [size]="20" strokeWidth="1.5" class="text-jmg"></lucide-icon>
-      </div>
-      <div>
-        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ maintenanceCount() }}</p>
-        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">En Mantenimiento</p>
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+      <div class="h-1 bg-jmg"></div>
+      <div class="p-5 flex items-center gap-4">
+        <div class="w-10 h-10 rounded-xl bg-jmg-muted flex items-center justify-center shrink-0">
+          <lucide-icon name="wrench" [size]="18" strokeWidth="1.5" class="text-jmg"></lucide-icon>
+        </div>
+        <div>
+          <p class="font-display text-4xl font-bold text-slate-900 leading-none">{{ maintenanceCount() }}</p>
+          <p class="text-xs text-slate-500 font-medium mt-1.5">En Mantenimiento</p>
+        </div>
       </div>
     </div>
 
     <!-- Fuera de Servicio -->
-    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
-      <div class="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center shrink-0">
-        <lucide-icon name="x-circle" [size]="20" strokeWidth="1.5" class="text-red-500"></lucide-icon>
-      </div>
-      <div>
-        <p class="font-display text-3xl font-bold text-slate-900 leading-none">{{ outOfServiceCount() }}</p>
-        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Fuera de Servicio</p>
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+      <div class="h-1 bg-red-500"></div>
+      <div class="p-5 flex items-center gap-4">
+        <div class="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center shrink-0">
+          <lucide-icon name="x-circle" [size]="18" strokeWidth="1.5" class="text-red-500"></lucide-icon>
+        </div>
+        <div>
+          <p class="font-display text-4xl font-bold text-slate-900 leading-none">{{ outOfServiceCount() }}</p>
+          <p class="text-xs text-slate-500 font-medium mt-1.5">Fuera de Servicio</p>
+        </div>
       </div>
     </div>
 
   </div>
 
-  <!-- ── Filters ── -->
+  <!-- ── Filters & Actions ── -->
   <app-filter-container>
 
     <!-- Cliente searchable -->
@@ -79,7 +96,7 @@
               <div
                 (click)="selectClient(null)"
                 class="p-3 hover:bg-slate-50 cursor-pointer text-slate-400 text-sm italic border-b border-slate-100"
-                 tabindex="0" (keydown.enter)="selectClient(null)">
+                tabindex="0" (keydown.enter)="selectClient(null)">
                 Todos los clientes
               </div>
               @if (clientSearchTerm().length < 2) {
@@ -92,7 +109,7 @@
                   <div
                     (click)="selectClient(client)"
                     class="p-3 hover:bg-slate-50 cursor-pointer text-slate-700 font-medium text-sm border-b border-slate-50 last:border-0"
-                     tabindex="0" (keydown.enter)="selectClient(client)">
+                    tabindex="0" (keydown.enter)="selectClient(client)">
                     {{ client.nombre_comercial || (client.contacto_nombre + ' ' + (client.contacto_apellido || '')) }}
                   </div>
                 }
@@ -147,183 +164,181 @@
         ></app-filter-input>
       </div>
 
-    </app-filter-container>
+      <!-- Acciones -->
+      <div class="flex gap-3 shrink-0">
+        <button
+          (click)="openCreateModal()"
+          class="inline-flex items-center gap-2 bg-[#003B73] hover:bg-[#001f3f] text-white font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors shadow-lg shadow-[#003B73]/20 whitespace-nowrap"
+          >
+          <lucide-icon name="plus" [size]="16" strokeWidth="1.5" class="text-white"></lucide-icon>
+          Nuevo Equipo
+        </button>
+      </div>
 
-    <!-- ── Actions Row ── -->
-    <div class="flex justify-end">
-      <button
-        (click)="openCreateModal()"
-        class="inline-flex items-center gap-2 bg-jmg hover:bg-jmg-dark text-white font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors shadow-sm"
-        >
-        <lucide-icon name="plus" [size]="16" strokeWidth="1.5"></lucide-icon>
-        Registrar Nuevo Equipo
-      </button>
-    </div>
+  </app-filter-container>
 
-    <!-- ── Grid ── -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+  <!-- ── Grid ── -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
 
-      <!-- Loading -->
-      @if (isLoading()) {
-        <div class="col-span-full py-20 flex flex-col items-center gap-3">
-          <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-jmg"></div>
-          <p class="text-slate-400 text-sm font-medium">Cargando equipos...</p>
-        </div>
-      }
+    <!-- Loading -->
+    @if (isLoading()) {
+      <div class="col-span-full py-20 flex flex-col items-center gap-3">
+        <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-jmg"></div>
+        <p class="text-slate-400 text-sm font-medium">Cargando equipos...</p>
+      </div>
+    }
 
-      <!-- Error -->
-      @if (error()) {
-        <div class="col-span-full bg-red-50 border border-red-100 text-red-600 px-5 py-4 rounded-2xl flex items-center gap-3 text-sm font-medium">
-          <lucide-icon name="alert-triangle" [size]="18" strokeWidth="1.5" class="shrink-0"></lucide-icon>
-          {{ error() }}
-        </div>
-      }
+    <!-- Error -->
+    @if (error()) {
+      <div class="col-span-full bg-red-50 border border-red-100 text-red-600 px-5 py-4 rounded-2xl flex items-center gap-3 text-sm font-medium">
+        <lucide-icon name="alert-triangle" [size]="18" strokeWidth="1.5" class="shrink-0"></lucide-icon>
+        {{ error() }}
+      </div>
+    }
 
-      <!-- Cards agrupadas por cliente -->
-      @if (!isLoading()) {
-        @for (group of groupedElevators(); track group) {
-          <div class="col-span-full mb-6">
-            <!-- Client Group Header -->
-            <div class="flex items-center gap-3 mb-4 pb-3 border-b border-slate-100">
-              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-jmg to-jmg-light text-white flex items-center justify-center shadow-sm">
-                <lucide-icon name="building" [size]="14" strokeWidth="1.5"></lucide-icon>
-              </div>
-              <div>
-                <h2 class="font-display font-bold text-slate-800 text-lg leading-none">{{ group.cliente_nombre }}</h2>
-                <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-widest">
-                  {{ group.elevators.length }} {{ group.elevators.length === 1 ? 'Equipo' : 'Equipos' }}
-                </span>
-              </div>
+    <!-- Cards agrupadas por cliente -->
+    @if (!isLoading()) {
+      @for (group of groupedElevators(); track group) {
+        <div class="col-span-full mb-6">
+          <!-- Client Group Header -->
+          <div class="flex items-center gap-3 mb-4 pb-3 border-b border-slate-100">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-jmg to-jmg-light text-white flex items-center justify-center shadow-sm">
+              <lucide-icon name="building" [size]="14" strokeWidth="1.5"></lucide-icon>
             </div>
-            <!-- Elevators Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-              @for (elevator of group.elevators; track elevator) {
-                <div class="h-full">
-                  <app-entity-card>
-                    <!-- Edit Action -->
-                    <button action-top (click)="openEditModal(elevator)"
-                      class="text-emerald-600 hover:text-emerald-700 p-2 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors"
-                      title="Editar Equipo">
-                      <lucide-icon name="square-pen" [size]="16" strokeWidth="1.5"></lucide-icon>
-                    </button>
-                    <!-- Main Content -->
-                    <div>
-                      <div class="mb-4 pr-8 relative">
-                        <!-- Acento vertical izquierdo — identidad de equipo -->
-                        <div class="absolute -top-2 -left-6 w-1 h-10 bg-jmg rounded-r-sm"></div>
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">{{ elevator.tipo_equipo }}</span>
-                        <h3 class="font-display font-bold text-slate-800 text-2xl leading-tight tracking-tight">{{ elevator.numero_serie }}</h3>
-                        <p class="text-sm font-semibold text-jmg mt-0.5">
-                          {{ elevator.marca }} <span class="font-medium text-slate-500">{{ elevator.modelo }}</span>
-                        </p>
+            <div>
+              <h2 class="font-display font-bold text-slate-800 text-lg leading-none">{{ group.cliente_nombre }}</h2>
+              <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-widest">
+                {{ group.elevators.length }} {{ group.elevators.length === 1 ? 'Equipo' : 'Equipos' }}
+              </span>
+            </div>
+          </div>
+          <!-- Elevators Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+            @for (elevator of group.elevators; track elevator) {
+              <div class="h-full">
+                <app-entity-card>
+                  <!-- Edit Action -->
+                  <button action-top (click)="openEditModal(elevator)"
+                    class="text-emerald-600 hover:text-emerald-700 p-2 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors"
+                    title="Editar Equipo">
+                    <lucide-icon name="square-pen" [size]="16" strokeWidth="1.5"></lucide-icon>
+                  </button>
+                  <!-- Main Content -->
+                  <div>
+                    <div class="mb-4 pr-8 relative">
+                      <div class="absolute -top-2 -left-6 w-1 h-10 bg-jmg rounded-r-sm"></div>
+                      <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">{{ elevator.tipo_equipo }}</span>
+                      <h3 class="font-display font-bold text-slate-800 text-2xl leading-tight tracking-tight">{{ elevator.numero_serie }}</h3>
+                      <p class="text-sm font-semibold text-jmg mt-0.5">
+                        {{ elevator.marca }} <span class="font-medium text-slate-500">{{ elevator.modelo }}</span>
+                      </p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-sm">
+                      <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 hover:border-slate-200 transition-colors">
+                        <span class="block text-[10px] text-slate-400 uppercase font-semibold mb-1">Carga Máx.</span>
+                        <span class="font-display font-bold text-slate-800 text-lg">
+                          {{ (elevator.capacidad_kg !== null && elevator.capacidad_kg !== undefined) ? elevator.capacidad_kg + ' kg' : '—' }}
+                        </span>
                       </div>
-                      <!-- Capacidades -->
-                      <div class="grid grid-cols-2 gap-2 text-sm">
-                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 hover:border-slate-200 transition-colors">
-                          <span class="block text-[10px] text-slate-400 uppercase font-semibold mb-1">Carga Máx.</span>
-                          <span class="font-display font-bold text-slate-800 text-lg">
-                            {{ (elevator.capacidad_kg !== null && elevator.capacidad_kg !== undefined) ? elevator.capacidad_kg + ' kg' : '—' }}
-                          </span>
-                        </div>
-                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 hover:border-slate-200 transition-colors">
-                          <span class="block text-[10px] text-slate-400 uppercase font-semibold mb-1">Personas</span>
-                          <span class="font-display font-bold text-slate-800 text-lg">
-                            {{ (elevator.capacidad_personas !== null && elevator.capacidad_personas !== undefined) ? elevator.capacidad_personas : '—' }}
-                          </span>
-                        </div>
+                      <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 hover:border-slate-200 transition-colors">
+                        <span class="block text-[10px] text-slate-400 uppercase font-semibold mb-1">Personas</span>
+                        <span class="font-display font-bold text-slate-800 text-lg">
+                          {{ (elevator.capacidad_personas !== null && elevator.capacidad_personas !== undefined) ? elevator.capacidad_personas : '—' }}
+                        </span>
                       </div>
                     </div>
-                    <!-- Footer: Estado -->
-                    <ng-container footer>
-                      <div class="flex items-center justify-between w-full">
-                        <div class="flex items-center gap-2" [ngClass]="getStatusColor(elevator.estado)">
-                          <div class="w-2 h-2 rounded-full bg-current animate-pulse"></div>
-                          <span class="text-xs font-bold uppercase tracking-wider">{{ elevator.estado }}</span>
-                        </div>
-                        <button (click)="openDeleteModal(elevator)"
-                          class="opacity-0 group-hover:opacity-100 transition-opacity text-red-300 hover:text-red-500 p-1.5 rounded-lg hover:bg-red-50 transition-colors"
-                          title="Eliminar Equipo">
-                          <lucide-icon name="trash-2" [size]="14" strokeWidth="1.5"></lucide-icon>
-                        </button>
+                  </div>
+                  <!-- Footer: Estado -->
+                  <ng-container footer>
+                    <div class="flex items-center justify-between w-full">
+                      <div class="flex items-center gap-2" [ngClass]="getStatusColor(elevator.estado)">
+                        <div class="w-2 h-2 rounded-full bg-current animate-pulse"></div>
+                        <span class="text-xs font-bold uppercase tracking-wider">{{ elevator.estado }}</span>
                       </div>
-                    </ng-container>
-                  </app-entity-card>
-                </div>
-              }
-            </div>
+                      <button (click)="openDeleteModal(elevator)"
+                        class="opacity-0 group-hover:opacity-100 transition-opacity text-red-300 hover:text-red-500 p-1.5 rounded-lg hover:bg-red-50"
+                        title="Eliminar Equipo">
+                        <lucide-icon name="trash-2" [size]="14" strokeWidth="1.5"></lucide-icon>
+                      </button>
+                    </div>
+                  </ng-container>
+                </app-entity-card>
+              </div>
+            }
           </div>
-        }
+        </div>
       }
+    }
 
-      <!-- Empty State -->
-      @if (!isLoading() && totalElevators() === 0) {
-        <div class="col-span-full py-20 flex flex-col items-center gap-4">
-          <div class="w-20 h-20 bg-slate-100 rounded-2xl flex items-center justify-center">
-            <lucide-icon name="package" [size]="30" strokeWidth="1.5" class="text-slate-300"></lucide-icon>
-          </div>
-          <div class="text-center">
-            <h3 class="font-display font-bold text-slate-800 text-lg">Sin equipos registrados</h3>
-            <p class="text-slate-400 text-sm mt-1">Comenzá registrando el primer equipo en el sistema.</p>
-            <button
-              (click)="openCreateModal()"
-              class="mt-4 inline-flex items-center gap-2 px-5 py-2.5 bg-jmg text-white font-semibold rounded-xl hover:bg-jmg-dark transition-colors shadow-lg shadow-blue-900/20"
+    <!-- Empty State -->
+    @if (!isLoading() && totalElevators() === 0) {
+      <div class="col-span-full py-20 flex flex-col items-center gap-4">
+        <div class="w-20 h-20 bg-slate-100 rounded-2xl flex items-center justify-center">
+          <lucide-icon name="package" [size]="30" strokeWidth="1.5" class="text-slate-300"></lucide-icon>
+        </div>
+        <div class="text-center">
+          <h3 class="font-display font-bold text-slate-800 text-lg">Sin equipos registrados</h3>
+          <p class="text-slate-400 text-sm mt-1">Comenzá registrando el primer equipo en el sistema.</p>
+          <button
+            (click)="openCreateModal()"
+            class="mt-4 inline-flex items-center gap-2 px-5 py-2.5 bg-jmg text-white font-semibold rounded-xl hover:bg-jmg-dark transition-colors shadow-lg shadow-blue-900/20"
+          >
+            <lucide-icon name="plus" [size]="18" strokeWidth="2"></lucide-icon>
+            Registrar Equipo
+          </button>
+        </div>
+      </div>
+    }
+
+    <!-- Pagination -->
+    @if (!isLoading() && totalPages() > 1) {
+      <div class="col-span-full flex flex-col items-center gap-3 mt-4">
+        <div class="flex items-center gap-2">
+          <button
+            (click)="prevPage()"
+            [disabled]="currentPage() === 1"
+            class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed"
             >
-              <lucide-icon name="plus" [size]="18" strokeWidth="2"></lucide-icon>
-              Registrar Equipo
-            </button>
+            <lucide-icon name="chevron-left" [size]="14" strokeWidth="1.5"></lucide-icon> Anterior
+          </button>
+          <div class="inline-flex items-center px-5 py-2.5 bg-jmg rounded-xl text-white text-sm font-semibold shadow-sm">
+            {{ currentPage() }} / {{ totalPages() }}
           </div>
+          <button
+            (click)="nextPage()"
+            [disabled]="currentPage() === totalPages()"
+            class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+            Siguiente <lucide-icon name="chevron-right" [size]="14" strokeWidth="1.5"></lucide-icon>
+          </button>
         </div>
-      }
-
-      <!-- Pagination -->
-      @if (!isLoading() && totalPages() > 1) {
-        <div class="col-span-full flex flex-col items-center gap-3 mt-4">
-          <div class="flex items-center gap-2">
-            <button
-              (click)="prevPage()"
-              [disabled]="currentPage() === 1"
-              class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-              <lucide-icon name="chevron-left" [size]="14" strokeWidth="1.5"></lucide-icon> Anterior
-            </button>
-            <div class="inline-flex items-center px-5 py-2.5 bg-jmg rounded-xl text-white text-sm font-semibold shadow-sm">
-              {{ currentPage() }} / {{ totalPages() }}
-            </div>
-            <button
-              (click)="nextPage()"
-              [disabled]="currentPage() === totalPages()"
-              class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-              Siguiente <lucide-icon name="chevron-right" [size]="14" strokeWidth="1.5"></lucide-icon>
-            </button>
-          </div>
-        </div>
-      }
-
-    </div>
+      </div>
+    }
 
   </div>
 
-  <!-- Modals -->
-  @if (showCreateModal()) {
-    <app-elevator-create
-      (close)="closeCreateModal()"
-      (elevatorCreated)="onElevatorCreated()"
-    ></app-elevator-create>
-  }
+</div>
 
-  @if (showEditModal() && selectedElevator()) {
-    <app-elevator-edit
-      [elevator]="selectedElevator()!"
-      (close)="closeEditModal()"
-      (elevatorUpdated)="onElevatorUpdated()"
-    ></app-elevator-edit>
-  }
+<!-- Modals -->
+@if (showCreateModal()) {
+  <app-elevator-create
+    (close)="closeCreateModal()"
+    (elevatorCreated)="onElevatorCreated()"
+  ></app-elevator-create>
+}
 
-  @if (showDeleteModal() && selectedElevator()) {
-    <app-elevator-delete
-      [elevator]="selectedElevator()!"
-      (close)="closeDeleteModal()"
-      (elevatorDeleted)="onElevatorDeleted()"
-    ></app-elevator-delete>
-  }
+@if (showEditModal() && selectedElevator()) {
+  <app-elevator-edit
+    [elevator]="selectedElevator()!"
+    (close)="closeEditModal()"
+    (elevatorUpdated)="onElevatorUpdated()"
+  ></app-elevator-edit>
+}
+
+@if (showDeleteModal() && selectedElevator()) {
+  <app-elevator-delete
+    [elevator]="selectedElevator()!"
+    (close)="closeDeleteModal()"
+    (elevatorDeleted)="onElevatorDeleted()"
+  ></app-elevator-delete>
+}

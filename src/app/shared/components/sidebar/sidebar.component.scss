@@ -9,8 +9,16 @@
   box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4), 0 0 0 1px rgba(16, 185, 129, 0.2);
   transform: translateX(2px);
 
-  i {
+  .icon-wrapper {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 2px;
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+  }
+
+  lucide-icon {
     color: white !important;
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.5));
   }
 }
 
@@ -20,6 +28,34 @@ aside {
   &:hover {
     box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5);
   }
+}
+
+// Icon enhancements for visibility
+.nav-item {
+  &:hover {
+    .icon-wrapper {
+      background: rgba(16, 185, 129, 0.15);
+      border-radius: 10px;
+      padding: 2px;
+    }
+
+    lucide-icon {
+      color: #34d399; // emerald-400
+      filter: drop-shadow(0 0 4px rgba(52, 211, 153, 0.4));
+    }
+  }
+
+  .icon-wrapper {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 2px;
+    transition: all 0.25s ease;
+  }
+}
+
+// Logout button special hover
+button.nav-item:hover .icon-wrapper {
+  background: rgba(239, 68, 68, 0.2); // red-500 with opacity
 }
 
 // Smooth transitions for text
@@ -54,6 +90,20 @@ span {
 @keyframes fadeInTooltip {
   to {
     opacity: 1;
+  }
+}
+
+// Active state icon glow pulse
+.active-link .icon-wrapper {
+  animation: iconGlow 2s ease-in-out infinite;
+}
+
+@keyframes iconGlow {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
   }
 }
 

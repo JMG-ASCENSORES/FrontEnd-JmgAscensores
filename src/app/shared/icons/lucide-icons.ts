@@ -14,5 +14,6 @@ export {
   UserCheck, UserCog, CreditCard, Pin, CirclePlus, Plus,
   Search, ShieldCheck, Shield, Gauge, Tag, Phone,
   Wrench, Trash, Trash2, MessageCircle, X, XCircle, ScanSearch,
-  Contact, DoorOpen, BarChart2, Bot
+  Contact, DoorOpen, BarChart2, Bot,
+  Sun, Send
 } from 'lucide-angular';

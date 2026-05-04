@@ -1,15 +1,10 @@
-/* Custom styles to supplement Tailwind */
-.stat-card-icon-client {
-    background-color: #1e5a5a; /* Dark teal */
-}
-
-.stat-card-icon-equip {
-    background-color: #4a5568;
-}
+/* ─────────────────────────────────────────────────────────────
+   Programming Dashboard — Redesigned Admin Panel
+   ───────────────────────────────────────────────────────────── */
 
 /* FullCalendar Customization */
 ::ng-deep .fc {
-    font-family: inherit; /* Use Inter/system font */
+    font-family: inherit;
     --fc-border-color: transparent;
     --fc-today-bg-color: transparent;
     --fc-page-bg-color: transparent;
@@ -18,15 +13,15 @@
 /* Toolbar (Month Title + Buttons) */
 ::ng-deep .fc-toolbar-title {
     font-family: 'Syne', sans-serif !important;
-    font-size: 1.25rem !important;
+    font-size: 1.1rem !important;
     font-weight: 700 !important;
-    color: #0f172a; /* slate-900 */
+    color: #0f172a;
     letter-spacing: -0.025em !important;
     text-transform: capitalize;
 }
 
 ::ng-deep .fc-toolbar {
-    margin-bottom: 1rem !important;
+    margin-bottom: 0.75rem !important;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -35,69 +30,61 @@
 /* Header Cells (S, M, T...) */
 ::ng-deep .fc-col-header-cell {
     padding-bottom: 0.5rem !important;
-    text-align: center !important; /* Ensure centered text */
+    text-align: center !important;
 }
 
 ::ng-deep .fc-col-header-cell-cushion {
     text-decoration: none;
-    color: #94a3b8; /* slate-400 */
-    font-size: 0.75rem; /* text-xs */
+    color: #94a3b8;
+    font-size: 0.7rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    display: inline-block; /* Ensure block logic for centering */
+    display: inline-block;
     width: 100%;
 }
 
-/* Day Cells - Container */
+/* Day Cells */
 ::ng-deep .fc-daygrid-day-frame {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 3rem; /* Fixed height for consistency */
+    height: 2.8rem;
 }
 
-/* Day Number (The circle) */
 ::ng-deep .fc-daygrid-day-number {
     text-decoration: none;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 600;
-    color: #475569; /* slate-600 */
+    color: #475569;
     padding: 0 !important;
-    width: 2rem; /* Reduced from 2.5rem */
-    height: 2rem; /* Reduced from 2.5rem */
+    width: 2rem;
+    height: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto;
-    border-radius: 9999px; /* Rounded full circle */
+    border-radius: 9999px;
     z-index: 10;
     position: relative;
     transition: all 0.2s ease;
 }
 
 ::ng-deep .fc-daygrid-day-number:hover {
-    background-color: #f1f5f9; /* slate-100 */
+    background-color: #f1f5f9;
     color: #0f172a;
 }
 
-/* Highlighted Blue Day (Current/Selected) */
+/* Highlighted Blue Day */
 ::ng-deep .fc-day.blue-day .fc-daygrid-day-number {
-    background-color: #003B73; /* Primary Blue from theme */
+    background-color: #003B73;
     color: white !important;
     font-weight: bold;
     box-shadow: 0 4px 10px -2px rgba(0, 59, 115, 0.4);
     transform: scale(1.1);
 }
 
-/* Highlighted Red Day (Urgent) */
-::ng-deep .fc-day.red-day .fc-daygrid-day-number {
-    background-color: #ef4444; /* red-500 */
-    color: white !important;
-    box-shadow: 0 4px 10px -2px rgba(239, 68, 68, 0.4);
-}
-
-/* Remove Grid Border Lines for cleaner look */
+/* Remove Grid Border Lines */
 ::ng-deep .fc-theme-standard td, 
 ::ng-deep .fc-theme-standard th,
 ::ng-deep .fc-scrollgrid {
@@ -109,11 +96,11 @@
     display: none;
 }
 
-/* Navigation Buttons (< >) */
+/* Navigation Buttons */
 ::ng-deep .fc-button-primary {
-    background-color: #f8fafc !important; /* bg-slate-50 */
-    border: 1px solid #e2e8f0 !important; /* border-slate-200 */
-    color: #64748b !important; /* slate-500 */
+    background-color: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #64748b !important;
     padding: 0.2rem 0.4rem !important;
     border-radius: 0.5rem !important;
     box-shadow: none !important;
@@ -122,7 +109,7 @@
 
 ::ng-deep .fc-button-primary:hover {
     background-color: #f1f5f9 !important;
-    color: #003B73 !important; /* Blue hover */
+    color: #003B73 !important;
     border-color: #cbd5e1 !important;
 }
 
@@ -134,49 +121,205 @@
     font-size: 1rem !important;
 }
 
-/* WhatsApp Notifications Custom Scrollbar */
-.tech-notification-scroll::-webkit-scrollbar {
-  width: 4px;
-}
-.tech-notification-scroll::-webkit-scrollbar-track {
-  background: transparent;
-}
-.tech-notification-scroll::-webkit-scrollbar-thumb {
-  background: #dcfce7;
-  border-radius: 4px;
-}
-.tech-notification-scroll::-webkit-scrollbar-thumb:hover {
-  background: #bbf7d0;
+/* ─────────────────────────────────────────────────────────────
+   Animations
+   ───────────────────────────────────────────────────────────── */
+
+@keyframes pulse-slow {
+    0%, 100% { 
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 0.85;
+        transform: scale(0.98);
+    }
 }
 
-/* Emergency Pulse Animation */
-@keyframes pulse-red {
-    0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
-    70% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+.animate-pulse-slow {
+    animation: pulse-slow 3s ease-in-out infinite;
 }
 
-.emergency-pulse {
-    animation: pulse-red 2s infinite;
+/* ─────────────────────────────────────────────────────────────
+   Toast Notifications
+   ───────────────────────────────────────────────────────────── */
+
+.toast-container {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
 }
 
-/* Horizontal Scrollbar for Pending Section */
-.horizontal-scroll-thin::-webkit-scrollbar {
-    height: 4px;
+.toast-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1.25rem;
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid;
+    animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    min-width: 300px;
+    max-width: 400px;
 }
-.horizontal-scroll-thin::-webkit-scrollbar-track {
+
+.toast-item.success {
+    border-left-color: #10b981;
+}
+
+.toast-item.error {
+    border-left-color: #ef4444;
+}
+
+.toast-icon {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.toast-item.success .toast-icon {
+    background: #d1fae5;
+    color: #059669;
+}
+
+.toast-item.error .toast-icon {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.toast-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.toast-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.toast-message {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-top: 0.125rem;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Scrollbar Styling
+   ───────────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
     background: transparent;
 }
-.horizontal-scroll-thin::-webkit-scrollbar-thumb {
-    background: #fde68a; /* amber-200 */
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
     border-radius: 10px;
 }
-.horizontal-scroll-thin::-webkit-scrollbar-thumb:hover {
-    background: #fbbf24; /* amber-400 */
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
-.horizontal-scroll-thin {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: thin; /* Firefox */
+/* Vertical scroll for middle lists */
+.overflow-y-auto::-webkit-scrollbar {
+    width: 4px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+    background: #e2e8f0;
+    border-radius: 4px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background: #cbd5e1;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Detail Drawer - Slide-up from bottom
+   ───────────────────────────────────────────────────────────── */
+
+.detail-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    pointer-events: none;
+}
+
+.detail-drawer-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    animation: fadeInBackdrop 0.25s ease forwards;
+    pointer-events: all;
+}
+
+.detail-drawer-panel {
+    position: relative;
+    width: 100%;
+    max-width: 700px;
+    background: white;
+    border-radius: 1.5rem 1.5rem 0 0;
+    box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.15), 0 -2px 12px rgba(0, 0, 0, 0.08);
+    padding: 0.75rem 1.5rem 1.5rem;
+    max-height: 72vh;
+    overflow-y: auto;
+    pointer-events: all;
+    animation: slideUpDrawer 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.detail-drawer-handle {
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem 0 0.625rem;
+    cursor: pointer;
+}
+
+.detail-drawer-handle:hover > div {
+    background: #94a3b8;
+}
+
+@keyframes fadeInBackdrop {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUpDrawer {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
 }

@@ -12,12 +12,13 @@ import { MantenimientoFijoService } from '../services/mantenimiento-fijo.service
 import { Mantenimiento, MantenimientoFijo } from '../models/mantenimiento.interface';
 import { ProgramacionModalComponent } from './programacion-modal.component';
 import { MantenimientoFijoModalComponent } from './mantenimiento-fijo-modal/mantenimiento-fijo-modal.component';
+import { ConfirmModalComponent } from '../../../shared/components/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-maintenance-scheduling',
   standalone: true,
   imports: [CommonModule, FullCalendarModule, ProgramacionModalComponent, MantenimientoFijoModalComponent,
-    LucideAngularModule
+    ConfirmModalComponent, LucideAngularModule
   ],
   templateUrl: './maintenance-scheduling.component.html',
   styleUrl: './maintenance-scheduling.component.scss'
@@ -51,6 +52,8 @@ export class MaintenanceSchedulingComponent implements OnInit {
   deleteTargetId: number | null = null;
   deleteTargetName = '';
   isFixedDeletion = false;
+
+  private pendingOpenId: number | null = null;
 
   // Notification state
   notifiedTechsByDate = new Map<string, Set<number>>();
@@ -127,10 +130,16 @@ export class MaintenanceSchedulingComponent implements OnInit {
 
   ngOnInit(): void {
     const paramDate = this.route.snapshot.queryParamMap.get('date');
+    const paramId   = this.route.snapshot.queryParamMap.get('id');
+
     if (paramDate) {
       this.selectedFilterDate = paramDate;
       this.calendarOptions.initialDate = paramDate;
       this.cdr.detectChanges();
+    }
+
+    if (paramId) {
+      this.pendingOpenId = parseInt(paramId, 10);
     }
   }
 
@@ -192,6 +201,13 @@ export class MaintenanceSchedulingComponent implements OnInit {
         this.filteredMantenimientos.sort((a, b) => a.start.localeCompare(b.start));
         this.techniciansToNotify = this.getTechniciansForDay();
         this.isLoading = false;
+
+        if (this.pendingOpenId !== null) {
+          const target = this.filteredMantenimientos.find(m => m.id === this.pendingOpenId);
+          if (target) this.editMantenimiento(target);
+          this.pendingOpenId = null;
+        }
+
         this.cdr.detectChanges();
       },
       error: () => {

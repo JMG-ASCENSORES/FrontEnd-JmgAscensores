@@ -2,10 +2,11 @@
   class="flex flex-col h-screen bg-slate-800 border-r border-slate-700 transition-all duration-300 ease-in-out relative z-50 shadow-2xl">
 
   <!-- Logo Area -->
-  <div class="p-6 flex justify-center border-b border-slate-700/50 min-h-[100px] items-center overflow-hidden bg-slate-900/30">
+  <div [ngClass]="{'p-6': !isCollapsed, 'p-2': isCollapsed}"
+    class="flex justify-center border-b border-slate-700/50 min-h-[100px] items-center overflow-hidden bg-slate-900/30">
     <div class="transition-all duration-300 flex items-center justify-center">
       <img src="images/jmg_logo.png" alt="JMG Logo"
-        [ngClass]="{'max-h-14': !isCollapsed, 'max-h-10': isCollapsed}"
+        [ngClass]="{'max-h-24': !isCollapsed, 'max-h-16': isCollapsed}"
         class="w-auto object-contain transition-all duration-300 drop-shadow-lg">
       </div>
     </div>
@@ -17,8 +18,10 @@
           [routerLink]="item.route"
           routerLinkActive="active-link"
           [title]="isCollapsed ? item.label : ''"
-          class="flex items-center gap-4 px-4 py-3.5 text-slate-300 rounded-2xl transition-all duration-200 hover:bg-slate-700/50 hover:text-white group no-underline relative">
-          <lucide-icon [name]="item.icon" [size]="20" strokeWidth="1.5" class="flex-shrink-0 transition-colors group-hover:text-emerald-400"></lucide-icon>
+          class="nav-item flex items-center gap-4 px-4 py-3.5 text-slate-300 rounded-2xl transition-all duration-200 hover:bg-slate-700/50 hover:text-white group no-underline relative">
+          <div class="icon-wrapper flex-shrink-0 transition-all duration-200">
+            <lucide-icon [name]="item.icon" [size]="isCollapsed ? 22 : 20" [strokeWidth]="isCollapsed ? 2.25 : 1.75" class="transition-all duration-200 group-hover:text-emerald-400"></lucide-icon>
+          </div>
           <span class="text-[15px] font-semibold whitespace-nowrap transition-all duration-300"
             [ngClass]="{'opacity-100 w-auto': !isCollapsed, 'opacity-0 w-0 absolute': isCollapsed}">
             {{ item.label }}
@@ -31,8 +34,10 @@
     <div class="p-4 border-t border-slate-700/50 bg-slate-900/20">
       <button (click)="logout()"
         [title]="isCollapsed ? 'Cerrar Sesión' : ''"
-        class="flex items-center gap-4 w-full px-4 py-3.5 text-slate-400 rounded-2xl hover:bg-red-900/30 hover:text-red-400 transition-all duration-200 relative group">
-        <lucide-icon name="log-out" [size]="20" strokeWidth="1.5" class="flex-shrink-0 group-hover:scale-110 transition-transform"></lucide-icon>
+        class="nav-item flex items-center gap-4 w-full px-4 py-3.5 text-slate-400 rounded-2xl hover:bg-red-900/30 hover:text-red-400 transition-all duration-200 relative group">
+        <div class="icon-wrapper flex-shrink-0 transition-all duration-200">
+          <lucide-icon name="log-out" [size]="isCollapsed ? 22 : 20" [strokeWidth]="isCollapsed ? 2.25 : 1.75" class="group-hover:scale-110 transition-transform"></lucide-icon>
+        </div>
         <span class="text-[15px] font-semibold whitespace-nowrap transition-all duration-300"
           [ngClass]="{'opacity-100 w-auto': !isCollapsed, 'opacity-0 w-0 absolute': isCollapsed}">
           Cerrar Sesión
