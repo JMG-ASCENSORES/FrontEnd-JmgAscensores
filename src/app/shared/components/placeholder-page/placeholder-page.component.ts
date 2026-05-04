@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { LucideAngularModule } from 'lucide-angular';
 
-
 @Component({
   selector: 'app-placeholder-page',
   standalone: true,
@@ -13,7 +12,7 @@ import { LucideAngularModule } from 'lucide-angular';
       </div>
       <h2 class="text-3xl font-bold text-slate-900 mb-2">{{ title }}</h2>
       <p class="text-slate-500 max-w-md mx-auto leading-relaxed">
-        Estamos trabajando para traerte lo mejor en la sección de {{ title.toLowerCase() }}. 
+        Estamos trabajando para traerte lo mejor en la sección de {{ title.toLowerCase() }}.
         Muy pronto podrás gestionar todo desde aquí.
       </p>
       <div class="mt-8 flex gap-3">
