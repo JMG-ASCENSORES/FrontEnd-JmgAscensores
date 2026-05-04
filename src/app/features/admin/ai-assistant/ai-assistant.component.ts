@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PlaceholderPageComponent } from '../../../../shared/components/placeholder-page/placeholder-page.component';
+import { PlaceholderPageComponent } from '../../../shared/components/placeholder-page/placeholder-page.component';
 import { LucideAngularModule } from 'lucide-angular';
 
 @Component({

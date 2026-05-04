@@ -81,9 +81,9 @@ export class ProgrammingComponent implements OnInit {
   firstJobAvatarColor: string = 'bg-slate-300';
   timeline: TimelineItem[] = [];
 
-  upcoming: { id: number; date: string; type: string; clientName: string; originalData: Mantenimiento }[] = [];
-  techniciansToNotify: { tech: { id: number; nombre: string; apellido: string; especialidad: string }; services: Mantenimiento[] }[] = [];
-  clientsToNotify: { client: { cliente_id: number; nombre_comercial: string; contacto_nombre: string; distrito: string }; services: Mantenimiento[] }[] = [];
+  upcoming: { date: string; type: string; alert: boolean }[] = [];
+  techniciansToNotify: { tech: { trabajador_id: number; nombre: string; apellido: string; especialidad: string; telefono: string }; services: Mantenimiento[] }[] = [];
+  clientsToNotify: { client: { cliente_id: number; nombre_comercial: string; contacto_nombre: string; contacto_apellido?: string; distrito: string; contacto_telefono: string }; services: Mantenimiento[] }[] = [];
 
   // Notification state: date string -> set of notified technician IDs / client IDs
   notifiedTechIdsByDate = new Map<string, Set<number>>();
@@ -407,8 +407,8 @@ export class ProgrammingComponent implements OnInit {
       .sort((a, b) => (a.tech.nombre || '').localeCompare(b.tech.nombre || ''));
   }
 
-  getClientsFromSchedules(): { client: { cliente_id: number; nombre_comercial: string; contacto_nombre: string; distrito: string; contacto_telefono: string }; services: Mantenimiento[] }[] {
-    const clientGroups = new Map<number, { client: { cliente_id: number; nombre_comercial: string; contacto_nombre: string; distrito: string; contacto_telefono: string }; services: Mantenimiento[] }>();
+  getClientsFromSchedules(): { client: { cliente_id: number; nombre_comercial: string; contacto_nombre: string; contacto_apellido?: string; distrito: string; contacto_telefono: string }; services: Mantenimiento[] }[] {
+    const clientGroups = new Map<number, { client: { cliente_id: number; nombre_comercial: string; contacto_nombre: string; contacto_apellido?: string; distrito: string; contacto_telefono: string }; services: Mantenimiento[] }>();
 
     this.schedules.forEach(schedule => {
       const mant = schedule.originalData;
@@ -478,7 +478,7 @@ export class ProgrammingComponent implements OnInit {
     this.sendNotificationToClient(cliente, raw);
   }
 
-  sendWhatsAppClients(clientData: { client: { cliente_id: number; nombre_comercial: string; contacto_nombre: string; distrito: string; contacto_telefono: string }; services: Mantenimiento[] }): void {
+  sendWhatsAppClients(clientData: { client: { cliente_id: number; nombre_comercial: string; contacto_nombre: string; contacto_apellido?: string; distrito: string; contacto_telefono: string }; services: Mantenimiento[] }): void {
     const { client, services } = clientData;
 
     if (!client) {
@@ -499,13 +499,13 @@ export class ProgrammingComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  private sendNotificationToClient(cliente: { nombre_comercial?: string; contacto_nombre?: string; contacto_telefono?: string; distrito?: string }, mantenimiento: Mantenimiento): void {
+  private sendNotificationToClient(cliente: { nombre_comercial?: string; contacto_nombre?: string; contacto_apellido?: string; contacto_telefono?: string; telefono?: string; tipo_cliente?: string; distrito?: string }, mantenimiento: Mantenimiento): void {
     // Lógica robusta por tipo de cliente para obtener el teléfono
     let telefono = '';
     if (cliente.tipo_cliente === 'persona') {
-        telefono = cliente.telefono || cliente.contacto_telefono;
+        telefono = cliente.telefono || cliente.contacto_telefono || '';
     } else {
-        telefono = cliente.contacto_telefono || cliente.telefono;
+        telefono = cliente.contacto_telefono || cliente.telefono || '';
     }
 
     if (!telefono || telefono.trim() === '') {
