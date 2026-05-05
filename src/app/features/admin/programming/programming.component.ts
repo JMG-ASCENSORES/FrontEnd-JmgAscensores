@@ -10,7 +10,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { TechnicianService, Technician } from '../services/technician.service';
 import { MantenimientoService } from '../services/mantenimiento.service';
-import { Mantenimiento } from '../models/mantenimiento.interface';
+import { Mantenimiento, ClienteResumen, TrabajadorResumen, TechnicianNotification, ClientNotification } from '../models/mantenimiento.interface';
 
 interface Worker {
   id: number;
@@ -84,8 +84,8 @@ export class ProgrammingComponent implements OnInit {
   timeline: TimelineItem[] = [];
 
   upcoming: { date: string; type: string; alert: boolean }[] = [];
-  techniciansToNotify: { tech: { trabajador_id: number; nombre: string; apellido: string; especialidad: string; telefono: string }; services: Mantenimiento[] }[] = [];
-  clientsToNotify: { client: { cliente_id: number; nombre_comercial: string; contacto_nombre: string; contacto_apellido?: string; distrito: string; contacto_telefono: string; telefono?: string; tipo_cliente?: string }; services: Mantenimiento[] }[] = [];
+  techniciansToNotify: TechnicianNotification[] = [];
+  clientsToNotify: ClientNotification[] = [];
 
   // Notification state: date string -> set of notified technician IDs / client IDs
   notifiedTechIdsByDate = new Map<string, Set<number>>();
@@ -379,18 +379,18 @@ export class ProgrammingComponent implements OnInit {
 
   // ─── WhatsApp Integration ──────────────────────────────────────────────
 
-  getTechniciansFromSchedules(): { tech: { trabajador_id: number; nombre: string; apellido: string; especialidad: string; telefono: string }; services: Mantenimiento[] }[] {
-    const techGroups = new Map<number, { tech: { trabajador_id: number; nombre: string; apellido: string; especialidad: string; telefono: string }; services: Mantenimiento[] }>();
+  getTechniciansFromSchedules(): TechnicianNotification[] {
+    const techGroups = new Map<number, TechnicianNotification>();
 
     // We use originalData from schedules because it only contains today's filtered items
     this.schedules.forEach(schedule => {
       const mant = schedule.originalData;
-      let techs = (mant.extendedProps?.trabajadores || []).filter((t: any) => t && t.trabajador_id);
+      let techs = (mant.extendedProps?.trabajadores || []).filter((t: TrabajadorResumen) => t && t.trabajador_id);
       if (techs.length === 0 && mant.extendedProps?.trabajador?.trabajador_id) {
         techs = [mant.extendedProps.trabajador];
       }
 
-      techs.forEach((t: any) => {
+      techs.forEach((t: TrabajadorResumen) => {
         if (!techGroups.has(t.trabajador_id)) {
           techGroups.set(t.trabajador_id, { tech: t, services: [] });
         }
@@ -402,8 +402,8 @@ export class ProgrammingComponent implements OnInit {
       .sort((a, b) => (a.tech.nombre || '').localeCompare(b.tech.nombre || ''));
   }
 
-  getClientsFromSchedules(): { client: { cliente_id: number; nombre_comercial: string; contacto_nombre: string; contacto_apellido?: string; distrito: string; contacto_telefono: string; telefono?: string; tipo_cliente?: string }; services: Mantenimiento[] }[] {
-    const clientGroups = new Map<number, { client: { cliente_id: number; nombre_comercial: string; contacto_nombre: string; contacto_apellido?: string; distrito: string; contacto_telefono: string; telefono?: string; tipo_cliente?: string }; services: Mantenimiento[] }>();
+  getClientsFromSchedules(): ClientNotification[] {
+    const clientGroups = new Map<number, ClientNotification>();
 
     this.schedules.forEach(schedule => {
       const mant = schedule.originalData;
@@ -425,7 +425,7 @@ export class ProgrammingComponent implements OnInit {
       });
   }
 
-  sendWhatsAppRoute(techData: { tech: { trabajador_id: number; nombre: string; apellido: string; especialidad: string; telefono: string }; services: Mantenimiento[] }): void {
+  sendWhatsAppRoute(techData: TechnicianNotification): void {
     const { tech, services } = techData;
     if (!tech.telefono || tech.telefono.trim() === '') {
       this.showToast(`El técnico ${tech.nombre} no tiene un teléfono registrado.`, 'error', 'Datos incompletos');
@@ -473,7 +473,7 @@ export class ProgrammingComponent implements OnInit {
     this.sendNotificationToClient(cliente, raw);
   }
 
-  sendWhatsAppClients(clientData: { client: { cliente_id: number; nombre_comercial: string; contacto_nombre: string; contacto_apellido?: string; distrito: string; contacto_telefono: string; telefono?: string; tipo_cliente?: string }; services: Mantenimiento[] }): void {
+  sendWhatsAppClients(clientData: ClientNotification): void {
     const { client, services } = clientData;
 
     if (!client) {
@@ -494,7 +494,7 @@ export class ProgrammingComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  private sendNotificationToClient(cliente: { nombre_comercial?: string; contacto_nombre?: string; contacto_apellido?: string; contacto_telefono?: string; telefono?: string; tipo_cliente?: string; distrito?: string; [key: string]: any }, mantenimiento: Mantenimiento): void {
+  private sendNotificationToClient(cliente: ClienteResumen, mantenimiento: Mantenimiento): void {
     // Lógica robusta por tipo de cliente para obtener el teléfono
     let telefono = '';
     if (cliente.tipo_cliente === 'persona') {

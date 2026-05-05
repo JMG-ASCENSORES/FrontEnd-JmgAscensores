@@ -1,6 +1,7 @@
 export interface Client {
   cliente_id: number;
   tipo_cliente: string;
+  nombre_comercial?: string;
   codigo: string;
   ubicacion: string;
   ciudad: string;
