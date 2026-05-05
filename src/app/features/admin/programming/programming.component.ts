@@ -1,10 +1,10 @@
 import { LucideAngularModule } from 'lucide-angular';
 import { limaDateStr, formatDateLong, formatDateShort as formatDateDisplay, buildWhatsAppUrl } from '../../../shared/utils/date-lima.util';
 import { getSpecialtyIcon } from '../../../shared/utils/specialty.utils';
-import { Component, OnInit, inject, ChangeDetectorRef, signal } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router'; // Import RouterModule for routerLink
-import { FullCalendarModule } from '@fullcalendar/angular';
+import { FullCalendarModule, FullCalendarComponent } from '@fullcalendar/angular';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -51,6 +51,8 @@ interface TimelineItem {
   }
 })
 export class ProgrammingComponent implements OnInit {
+  @ViewChild('calendar') calendarRef!: FullCalendarComponent;
+
   private technicianService = inject(TechnicianService);
   private mantenimientoService = inject(MantenimientoService);
   private router = inject(Router);
@@ -191,19 +193,11 @@ export class ProgrammingComponent implements OnInit {
           next: (data) => {
               this.allMantenimientos = data || [];
               this.processSchedules();
-              
-              setTimeout(() => {
-                  this.calendarOptions = { 
-                      ...this.calendarOptions,
-                      dayCellClassNames: (arg) => {
-                          const d = arg.date;
-                          const localDateStr = [d.getFullYear(), String(d.getMonth() + 1).padStart(2, '0'), String(d.getDate()).padStart(2, '0')].join('-');
-                          const tiene = this.allMantenimientos.some(m => m.start && m.start.split('T')[0] === localDateStr);
-                          return tiene ? ['blue-day'] : [];
-                      }
-                  };
-                  this.cdr.detectChanges();
-              }, 0);
+              this.calendarRef?.getApi().setOption('dayCellClassNames', (arg: any) => {
+                  const d = arg.date;
+                  const localDateStr = [d.getFullYear(), String(d.getMonth() + 1).padStart(2, '0'), String(d.getDate()).padStart(2, '0')].join('-');
+                  return this.allMantenimientos.some(m => m.start && m.start.split('T')[0] === localDateStr) ? ['blue-day'] : [];
+              });
           },
           error: (err) => {
               console.error('Error loading schedules', err);
