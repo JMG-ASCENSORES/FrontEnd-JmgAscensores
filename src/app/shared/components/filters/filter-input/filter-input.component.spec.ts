@@ -29,8 +29,8 @@ describe('FilterInputComponent', () => {
     expect(component.placeholder).toBe('Buscar...');
   });
 
-  it('should have default iconClass "bi bi-search text-gray-400 text-lg"', () => {
-    expect(component.iconClass).toBe('bi bi-search text-gray-400 text-lg');
+  it('should have default icon "search"', () => {
+    expect(component.icon).toBe('search');
   });
 
   it('should have signal value initialized to empty string', () => {
@@ -49,9 +49,9 @@ describe('FilterInputComponent', () => {
     expect(component.placeholder).toBe('Ingrese un nombre...');
   });
 
-  it('should accept custom iconClass', () => {
-    component.iconClass = 'bi bi-person text-blue-500';
+  it('should accept custom icon', () => {
+    component.icon = 'user';
     fixture.detectChanges();
-    expect(component.iconClass).toBe('bi bi-person text-blue-500');
+    expect(component.icon).toBe('user');
   });
 });

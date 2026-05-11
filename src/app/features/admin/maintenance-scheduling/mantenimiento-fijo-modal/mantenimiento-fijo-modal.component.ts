@@ -62,13 +62,6 @@ export class MantenimientoFijoModalComponent implements OnInit {
       this.isEditMode = true;
       this.form.patchValue(this.mantenimientoFijo);
       
-      // If we have an elevator, we should try to pre-load the client
-      if (this.mantenimientoFijo.ascensor) {
-        this.selectedClient = this.mantenimientoFijo.ascensor.cliente;
-        if (this.selectedClient) {
-          this.loadElevatorsForClient(this.selectedClient.cliente_id);
-        }
-      }
     }
   }
 

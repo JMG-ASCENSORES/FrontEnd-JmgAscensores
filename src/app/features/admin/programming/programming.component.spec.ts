@@ -86,12 +86,12 @@ describe('ProgrammingComponent', () => {
   });
 
   it('getRoleColor() should return correct color for known specialty', () => {
-    expect(component.getRoleColor('Supervisor Técnico')).toBe('bg-purple-100 text-purple-600');
-    expect(component.getRoleColor('Técnico de Mantenimiento')).toBe('bg-teal-100 text-teal-600');
+    expect(component.getRoleColor('Supervisor Técnico')).toBe('bg-[#003B73]');
+    expect(component.getRoleColor('Técnico de Mantenimiento')).toBe('bg-blue-500');
   });
 
   it('getRoleColor() should return default color for unknown specialty', () => {
-    expect(component.getRoleColor('Desconocido')).toBe('bg-slate-100 text-slate-600');
+    expect(component.getRoleColor('Desconocido')).toBe('bg-slate-500');
   });
 
   it('getRoleIcon() should return correct icon for known specialty', () => {

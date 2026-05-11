@@ -25,8 +25,8 @@ describe('PlaceholderPageComponent', () => {
     expect(component.title).toBe('Próximamente');
   });
 
-  it('should have default icon "bi bi-tools"', () => {
-    expect(component.icon).toBe('bi bi-tools');
+  it('should have default icon "wrench"', () => {
+    expect(component.icon).toBe('wrench');
   });
 
   it('should accept custom title', () => {

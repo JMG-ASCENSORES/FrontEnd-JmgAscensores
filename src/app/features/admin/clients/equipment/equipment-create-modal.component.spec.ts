@@ -30,7 +30,7 @@ describe('EquipmentCreateModalComponent', () => {
   });
 
   it('tiene valores por defecto correctos en el formulario', () => {
-    expect(component.equipmentForm.get('estado')?.value).toBe('Activo');
+    expect(component.equipmentForm.get('estado')?.value).toBe('Operativo');
     expect(component.equipmentForm.get('tipo_equipo')?.value).toBe('Ascensor');
   });
 
