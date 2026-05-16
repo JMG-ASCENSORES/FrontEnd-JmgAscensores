@@ -1,54 +1,34 @@
-// ============= Tipos =============
+// ============= Tipos base =============
 
 export type SchedulerState =
   | 'idle'
   | 'loading'
-  | 'propuesta_lista'
+  | 'sugerencia_lista'
   | 'adjusting'
   | 'confirming'
   | 'confirmado';
 
 export type OrigenPropuesta = 'motor' | 'llm' | 'motor_fallback';
 
-export type FuenteTrabajo = 'mantenimiento_fijo' | 'programacion_pendiente';
+export type TipoTrabajo = 'mantenimiento' | 'reparacion' | 'inspeccion' | 'emergencia';
 
-// ============= Demanda =============
+// ============= Demanda (MantenimientosFijos vencidos — contexto informativo) =============
 
-export interface DemandInfo {
-  fecha: string;
-  total: number;
-  por_tipo: {
-    mantenimiento: number;
-    reparacion: number;
-    inspeccion: number;
-    emergencia: number;
-  };
-}
-
-export interface WorkItem {
-  mantenimiento_fijo_id: number | null;
-  programacion_id: number | null;
-  fuente: FuenteTrabajo;
+export interface MantenimientoVencido {
+  mantenimiento_fijo_id: number;
+  ascensor_id: number;
   cliente_id: number;
   nombre_cliente: string;
   distrito: string;
-  tipo_trabajo: string;
-  hora_preferida: string | null;
-  tecnico_preferido_id: number | null;
-  ascensor_id: number;
   tipo_equipo: string;
+  tipo_trabajo: 'mantenimiento';
+  hora_preferida: string | null;
 }
 
 export interface DemandResponse {
   fecha: string;
   total: number;
-  por_tipo: {
-    mantenimiento: number;
-    reparacion: number;
-    inspeccion: number;
-    emergencia: number;
-  };
-  trabajos: WorkItem[];
+  trabajos: MantenimientoVencido[];
 }
 
 // ============= Técnicos =============
@@ -72,85 +52,85 @@ export interface TecnicosResponse {
   tecnicos: TecnicoConCarga[];
 }
 
-// ============= Propuesta =============
+// ============= Trabajo enriquecido (devuelto por el backend) =============
 
-export interface TrabajoEnRuta {
-  programacion_id: number | null;
-  mantenimiento_fijo_id: number | null;
-  fuente: FuenteTrabajo;
+export interface WorkItemEnriquecido {
   cliente_id: number;
+  ascensor_id: number;
   nombre_cliente: string;
   distrito: string;
-  ascensor_id: number;
   tipo_equipo: string;
-  tipo_trabajo: string;
+  marca?: string;
+  tipo_trabajo: TipoTrabajo;
   duracion_min: number;
-  hora_inicio: string;
-  hora_fin: string;
-  traslado_desde_anterior: number;
-  tecnico_preferido_respetado: boolean;
-  overflow: boolean;
-  justificacion: string | null;
+  hora_preferida: string | null;
 }
 
-export interface TecnicoPropuesta {
+// ============= Sugerencia =============
+
+export interface SlotSugerido {
   trabajador_id: number;
   nombre: string;
   apellido: string;
   especialidad: string;
-  carga_minutos: number;
-  carga_horas: number;
-  trabajos: TrabajoEnRuta[];
-}
-
-export interface TrabajoOverflow {
-  programacion_id: number | null;
-  nombre_cliente: string;
-  distrito: string;
-  tipo_trabajo: string;
-  duracion_min: number;
-  trabajador_id_propuesto: number;
-  razon_overflow: string;
-  overflow: boolean;
+  hora_inicio: string;          // 'HH:MM'
+  hora_fin: string;             // 'HH:MM'
+  traslado_min: number;
+  carga_previa_horas: number;
   justificacion: string | null;
 }
 
-export interface Propuesta {
+export interface SugerenciaResponse {
   fecha: string;
   generado_en: string;
   origen: OrigenPropuesta;
   llm_model?: string;
-  version?: string;
-  tecnicos: TecnicoPropuesta[];
-  overflow: TrabajoOverflow[];
-  sin_elegible: TrabajoEnRuta[];
-  notas_overflow?: string;
   advertencias?: string[];
+  trabajo: WorkItemEnriquecido;
+  sugerencia: SlotSugerido | null;
+  alternativas: SlotSugerido[];
+  sin_elegible: boolean;
+  razon_sin_elegible: string | null;
+  notas_llm?: string | null;
 }
 
 // ============= Requests =============
 
 export interface GenerarRequest {
   fecha: string;
+  trabajo: {
+    cliente_id: number;
+    ascensor_id: number;
+    tipo_trabajo: TipoTrabajo;
+    hora_preferida?: string | null;
+  };
   tecnico_ids: number[];
   instruccion_admin?: string | null;
 }
 
 export interface AjustarRequest {
-  propuesta_actual: Propuesta;
+  sugerencia_actual: SugerenciaResponse;
   instruccion: string;
 }
 
 export interface ConfirmarRequest {
   fecha: string;
-  propuesta: Propuesta;
+  trabajo: {
+    cliente_id: number;
+    ascensor_id: number;
+    tipo_trabajo: TipoTrabajo;
+    nombre_cliente?: string;
+    hora_inicio: string;
+    hora_fin: string;
+    justificacion?: string | null;
+  };
+  tecnico_id: number;
+  mantenimiento_fijo_id?: number | null;
 }
 
 export interface ConfirmarResponse {
   ok: boolean;
-  programaciones_creadas: number;
-  programaciones_actualizadas: number;
-  rutas_generadas: number;
+  programacion_id: number;
 }
 
 // ============= Configuración =============
