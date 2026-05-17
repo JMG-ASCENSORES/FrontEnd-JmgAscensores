@@ -143,7 +143,7 @@ export class AiSchedulerFormComponent implements OnChanges {
   @Input() disabled = false;
 
   @Output() fechaChange = new EventEmitter<string>();
-  @Output() clienteChange = new EventEmitter<number>();
+  @Output() clienteChange = new EventEmitter<number | null>();
   @Output() ascensorChange = new EventEmitter<number | null>();
   @Output() tipoChange = new EventEmitter<TipoTrabajo>();
   @Output() horaChange = new EventEmitter<string>();

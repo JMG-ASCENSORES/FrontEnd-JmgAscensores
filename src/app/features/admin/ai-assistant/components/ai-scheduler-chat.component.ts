@@ -105,7 +105,7 @@ export interface ChatMessage {
         />
         <button
           (click)="onEnviar(chatInput); chatInput.value = ''"
-          [disabled]="adjusting() || !chatInput.value.trim()"
+          [disabled]="adjusting || !chatInput.value.trim()"
           class="px-4 py-2.5 bg-[#003B73] hover:bg-[#001f3f] text-white text-sm font-semibold
                  rounded-xl shadow-md shadow-[#003B73]/20
                  disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none

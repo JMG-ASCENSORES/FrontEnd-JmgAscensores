@@ -219,7 +219,7 @@ export class AIAssistantComponent implements OnInit {
     this.cargarContexto(nuevaFecha);
   }
 
-  onClienteChange(clienteId: number): void {
+  onClienteChange(clienteId: number | null): void {
     this.selectedClienteId.set(clienteId || null);
     this.selectedAscensorId.set(null);
     this.mantenimientoFijoIdContexto.set(null);
