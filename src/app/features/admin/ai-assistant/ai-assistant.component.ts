@@ -320,7 +320,7 @@ export class AIAssistantComponent implements OnInit {
     this.selectedClienteId.set(null);
     this.selectedAscensorId.set(null);
     this.selectedTipo.set('mantenimiento');
-    this.horaPreferida.set(null);
+    this.horaPreferida.set('');
     this.mantenimientoFijoIdContexto.set(null);
     this.state.set('idle');
     this.errorMessage.set(null);

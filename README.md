@@ -1,6 +1,17 @@
-# JmgAscensores
+# JMG Ascensores - Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.1.
+Angular 21 application for JMG Ascensores elevator management system.
+
+## Prerequisites
+
+- Node.js 18+
+- pnpm 11+ — install it once with: `npm install -g pnpm`
+
+## Setup
+
+```bash
+pnpm install
+```
 
 ## Development server
 
