@@ -29,12 +29,21 @@ import type {
     AiSchedulerChatComponent,
   ],
   template: `
-    <div class="min-h-screen bg-gray-50">
-
+    <div class="min-h-screen bg-slate-50">
       <!-- Header de página -->
-      <div class="bg-white border-b border-gray-200 px-4 py-3">
-        <h1 class="text-base font-semibold text-gray-900">Programador IA</h1>
-        <p class="text-xs text-gray-400 mt-0.5">Definí un trabajo y la IA sugiere el técnico óptimo</p>
+      <div class="bg-white border-b border-slate-200 px-6 py-4">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#003B73] to-[#001f3f] flex items-center justify-center shadow-lg shadow-[#003B73]/20 flex-shrink-0">
+            <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a4 4 0 0 1 4 4v1h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2V6a4 4 0 0 1 4-4z"/>
+              <path d="M9 18v-4"/><path d="M15 18v-4"/><path d="M9 10h.01"/><path d="M15 10h.01"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-xl font-bold text-slate-800 font-display tracking-tight">Programador IA</h1>
+            <p class="text-sm text-slate-500 mt-0.5">Definí un trabajo y Claude sugiere el técnico óptimo con su mejor horario</p>
+          </div>
+        </div>
       </div>
 
       <!-- Carga inicial -->
@@ -42,128 +51,211 @@ import type {
         <div class="flex items-center justify-center py-20">
           <div class="flex flex-col items-center gap-3 text-gray-400">
             <svg class="animate-spin h-8 w-8" viewBox="0 0 24 24" fill="none">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              />
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+              />
             </svg>
             <span class="text-sm">Cargando datos...</span>
           </div>
         </div>
       } @else {
-      <!-- Formulario de trabajo -->
-      @if (state() !== 'sugerencia_lista' && state() !== 'adjusting' && state() !== 'confirming' && state() !== 'confirmado') {
-        <app-ai-scheduler-form
-          [fecha]="selectedDate()"
-          [clienteId]="selectedClienteId()"
-          [ascensorId]="selectedAscensorId()"
-          [tipo]="selectedTipo()"
-          [horaPreferida]="horaPreferida()"
-          [clientes]="clientes()"
-          [ascensores]="ascensoresFiltrados()"
-          [disabled]="state() === 'loading'"
-          (fechaChange)="onFechaChange($event)"
-          (clienteChange)="onClienteChange($event)"
-          (ascensorChange)="onAscensorChange($event)"
-          (tipoChange)="onTipoChange($event)"
-          (horaChange)="horaPreferida.set($event)"
-          (generar)="onGenerar()"
-        />
-      }
+        <div class="max-w-3xl mx-auto p-4 md:p-6 space-y-4">
+          <!-- Error global -->
+          @if (errorMessage()) {
+            <div class="bg-red-50 border border-red-200 rounded-2xl p-4 flex items-start justify-between gap-3">
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-xl bg-red-100 flex items-center justify-center flex-shrink-0">
+                  <span class="text-red-500 text-sm font-bold">!</span>
+                </div>
+                <p class="text-sm text-red-700 font-medium mt-1">{{ errorMessage() }}</p>
+              </div>
+              <button type="button" (click)="errorMessage.set(null)"
+                      class="text-red-400 hover:text-red-600 transition-colors flex-shrink-0">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+          }
 
-      <!-- Mantenimientos vencidos (contexto — siempre visible excepto cuando hay sugerencia) -->
-      @if (state() !== 'sugerencia_lista' && state() !== 'adjusting' && state() !== 'confirming' && state() !== 'confirmado') {
-        <app-ai-scheduler-demand-context
-          [demanda]="demandaContexto()"
-          (prellenar)="onPrellenar($event)"
-        />
-      }
-
-      <!-- Error global -->
-      @if (errorMessage()) {
-        <div class="mx-4 mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-          <p class="text-sm text-red-700 font-medium">{{ errorMessage() }}</p>
-          <button
-            type="button"
-            (click)="errorMessage.set(null)"
-            class="mt-2 text-xs text-red-600 underline hover:text-red-800 focus:outline-none"
-          >
-            Cerrar
-          </button>
-        </div>
-      }
-
-      <!-- Spinner de carga -->
-      @if (state() === 'loading') {
-        <div class="flex flex-col items-center justify-center py-16 text-gray-500">
-          <div class="animate-spin inline-block w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full mb-4"></div>
-          <p class="text-base font-medium">Buscando técnico óptimo...</p>
-          <p class="text-sm text-gray-400 mt-1">Evaluando disponibilidad con IA</p>
-        </div>
-      }
-
-      <!-- Panel de sugerencia -->
-      @if ((state() === 'sugerencia_lista' || state() === 'adjusting' || state() === 'confirming') && sugerenciaActual()) {
-        <!-- Contexto del trabajo en la parte superior -->
-        <div class="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between gap-3">
-          <div class="flex flex-wrap items-center gap-2 text-sm">
-            <span class="font-medium text-gray-800">{{ sugerenciaActual()!.trabajo.nombre_cliente }}</span>
-            <span class="text-gray-400">—</span>
-            <span class="text-gray-600">{{ sugerenciaActual()!.trabajo.tipo_trabajo }}</span>
-            <span class="text-gray-400">—</span>
-            <span class="text-gray-500">{{ sugerenciaActual()!.fecha }}</span>
-          </div>
-          <button
-            type="button"
-            (click)="onDescartar()"
-            [disabled]="state() === 'confirming'"
-            class="text-xs text-gray-400 underline hover:text-gray-600 disabled:opacity-50 focus:outline-none flex-shrink-0"
-          >
-            ← Volver
-          </button>
-        </div>
-
-        <app-ai-scheduler-suggestion
-          [sugerencia]="sugerenciaActual()"
-          [state]="state()"
-          (confirmar)="onConfirmar($event)"
-          (descartar)="onDescartar()"
-        />
-
-        @if (state() === 'sugerencia_lista' || state() === 'adjusting') {
-          <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-5">
-            <app-ai-scheduler-chat
-              [adjusting]="state() === 'adjusting'"
-              (ajustar)="onAjustar($event)"
+          <!-- Formulario -->
+          @if (state() !== 'sugerencia_lista' && state() !== 'adjusting' && state() !== 'confirming' && state() !== 'confirmado') {
+            <app-ai-scheduler-form
+              [fecha]="selectedDate()"
+              [clienteId]="selectedClienteId()"
+              [ascensorId]="selectedAscensorId()"
+              [tipo]="selectedTipo()"
+              [horaPreferida]="horaPreferida()"
+              [clientes]="clientes()"
+              [ascensores]="ascensoresFiltrados()"
+              [disabled]="state() === 'loading'"
+              (fechaChange)="onFechaChange($event)"
+              (clienteChange)="onClienteChange($event)"
+              (ascensorChange)="onAscensorChange($event)"
+              (tipoChange)="onTipoChange($event)"
+              (horaChange)="horaPreferida.set($event)"
+              (generar)="onGenerar()"
             />
+
+            <app-ai-scheduler-demand-context
+              [demanda]="demandaContexto()"
+              (prellenar)="onPrellenar($event)"
+            />
+          }
+
+          <!-- Spinner de carga -->
+          @if (state() === 'loading') {
+            <div class="flex flex-col items-center justify-center py-20">
+              <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#003B73] to-[#001f3f] flex items-center justify-center shadow-lg shadow-[#003B73]/20 mb-5">
+                <svg class="animate-spin h-7 w-7 text-white" viewBox="0 0 24 24" fill="none">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                </svg>
+              </div>
+              <p class="text-base font-semibold text-slate-700 font-display">Buscando técnico óptimo...</p>
+              <p class="text-sm text-slate-400 mt-1">Evaluando disponibilidad con IA</p>
+            </div>
+          }
+
+          <!-- Panel de sugerencia -->
+          @if ((state() === 'sugerencia_lista' || state() === 'adjusting' || state() === 'confirming') && sugerenciaActual()) {
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-5">
+              <app-ai-scheduler-suggestion
+                [sugerencia]="sugerenciaActual()"
+                [state]="state()"
+                (confirmar)="onConfirmar($event)"
+                (descartar)="onDescartar()"
+              />
+            </div>
+
+            @if (state() === 'sugerencia_lista' || state() === 'adjusting') {
+              <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-5">
+                <app-ai-scheduler-chat
+                  [adjusting]="state() === 'adjusting'"
+                  (ajustar)="onAjustar($event)"
+                />
+              </div>
+            }
+          }
+
+          <!-- Estado confirmado -->
+          @if (state() === 'confirmado') {
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-12 flex flex-col items-center text-center">
+              <div class="w-20 h-20 rounded-full bg-emerald-100 flex items-center justify-center mb-5 shadow-md shadow-emerald-100">
+                <svg class="w-10 h-10 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </div>
+              <h2 class="text-xl font-bold text-slate-800 font-display">¡Programación creada!</h2>
+              @if (ultimaConfirmacion()) {
+                <p class="text-base text-slate-600 mt-2">
+                  {{ ultimaConfirmacion()!.nombre }} {{ ultimaConfirmacion()!.apellido }}
+                </p>
+                <p class="text-sm text-slate-400 mt-1">
+                  {{ ultimaConfirmacion()!.hora_inicio }} – {{ ultimaConfirmacion()!.hora_fin }}
+                </p>
+              }
+              <button type="button" (click)="onNuevoTrabajo()"
+                      class="mt-8 px-6 py-3 rounded-xl text-sm font-semibold text-[#003B73] border-2 border-[#003B73]/30
+                             hover:bg-[#003B73]/5 hover:border-[#003B73]/50 transition-all">
+                Programar otro trabajo
+              </button>
+            </div>
+          }
+        </div>
+      }
+
+    </div>
+        }
+
+        <!-- Spinner de carga -->
+        @if (state() === 'loading') {
+          <div class="flex flex-col items-center justify-center py-16 text-gray-500">
+            <div
+              class="animate-spin inline-block w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full mb-4"
+            ></div>
+            <p class="text-base font-medium">Buscando técnico óptimo...</p>
+            <p class="text-sm text-gray-400 mt-1">Evaluando disponibilidad con IA</p>
+          </div>
+        }
+
+        <!-- Panel de sugerencia -->
+        @if (
+          (state() === 'sugerencia_lista' || state() === 'adjusting' || state() === 'confirming') &&
+          sugerenciaActual()
+        ) {
+          <!-- Contexto del trabajo en la parte superior -->
+          <div
+            class="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between gap-3"
+          >
+            <div class="flex flex-wrap items-center gap-2 text-sm">
+              <span class="font-medium text-gray-800">{{
+                sugerenciaActual()!.trabajo.nombre_cliente
+              }}</span>
+              <span class="text-gray-400">—</span>
+              <span class="text-gray-600">{{ sugerenciaActual()!.trabajo.tipo_trabajo }}</span>
+              <span class="text-gray-400">—</span>
+              <span class="text-gray-500">{{ sugerenciaActual()!.fecha }}</span>
+            </div>
+            <button
+              type="button"
+              (click)="onDescartar()"
+              [disabled]="state() === 'confirming'"
+              class="text-xs text-gray-400 underline hover:text-gray-600 disabled:opacity-50 focus:outline-none flex-shrink-0"
+            >
+              ← Volver
+            </button>
+          </div>
+
+          <app-ai-scheduler-suggestion
+            [sugerencia]="sugerenciaActual()"
+            [state]="state()"
+            (confirmar)="onConfirmar($event)"
+            (descartar)="onDescartar()"
+          />
+
+          @if (state() === 'sugerencia_lista' || state() === 'adjusting') {
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-5">
+              <app-ai-scheduler-chat
+                [adjusting]="state() === 'adjusting'"
+                (ajustar)="onAjustar($event)"
+              />
+            </div>
+          }
+        }
+
+        <!-- Estado confirmado -->
+        @if (state() === 'confirmado') {
+          <div class="flex flex-col items-center justify-center py-16 px-4">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+              <span class="text-2xl">✅</span>
+            </div>
+            <p class="text-lg font-semibold text-green-700">¡Programación creada!</p>
+            @if (ultimaConfirmacion()) {
+              <p class="text-sm text-green-600 mt-1 text-center">
+                {{ ultimaConfirmacion()!.nombre }} {{ ultimaConfirmacion()!.apellido }} —
+                {{ ultimaConfirmacion()!.hora_inicio }}–{{ ultimaConfirmacion()!.hora_fin }}
+              </p>
+            }
+            <button
+              type="button"
+              (click)="onNuevoTrabajo()"
+              class="mt-6 px-5 py-2.5 rounded-lg text-sm font-semibold text-blue-600 border border-blue-300
+                   hover:bg-blue-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              Programar otro trabajo
+            </button>
           </div>
         }
       }
-
-      <!-- Estado confirmado -->
-      @if (state() === 'confirmado') {
-        <div class="flex flex-col items-center justify-center py-16 px-4">
-          <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-            <span class="text-2xl">✅</span>
-          </div>
-          <p class="text-lg font-semibold text-green-700">¡Programación creada!</p>
-          @if (ultimaConfirmacion()) {
-            <p class="text-sm text-green-600 mt-1 text-center">
-              {{ ultimaConfirmacion()!.nombre }} {{ ultimaConfirmacion()!.apellido }}
-              — {{ ultimaConfirmacion()!.hora_inicio }}–{{ ultimaConfirmacion()!.hora_fin }}
-            </p>
-          }
-          <button
-            type="button"
-            (click)="onNuevoTrabajo()"
-            class="mt-6 px-5 py-2.5 rounded-lg text-sm font-semibold text-blue-600 border border-blue-300
-                   hover:bg-blue-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            Programar otro trabajo
-          </button>
-        </div>
-      }
-
-      }
-
     </div>
   `,
 })
@@ -201,7 +293,7 @@ export class AIAssistantComponent implements OnInit {
   ascensoresFiltrados = computed(() => {
     const clienteId = this.selectedClienteId();
     if (!clienteId) return [];
-    return this.todosAscensores().filter(a => a.cliente_id === clienteId);
+    return this.todosAscensores().filter((a) => a.cliente_id === clienteId);
   });
 
   // ============= Lifecycle =============
@@ -252,7 +344,7 @@ export class AIAssistantComponent implements OnInit {
     const ascensorId = this.selectedAscensorId();
     if (!clienteId || !ascensorId) return;
 
-    const tecnicoIds = this.tecnicosInfo().map(t => t.trabajador_id);
+    const tecnicoIds = this.tecnicosInfo().map((t) => t.trabajador_id);
     if (tecnicoIds.length === 0) {
       this.errorMessage.set('No hay técnicos activos disponibles para esta fecha.');
       return;
@@ -261,26 +353,28 @@ export class AIAssistantComponent implements OnInit {
     this.errorMessage.set(null);
     this.state.set('loading');
 
-    this.schedulerService.generar({
-      fecha: this.selectedDate(),
-      trabajo: {
-        cliente_id: clienteId,
-        ascensor_id: ascensorId,
-        tipo_trabajo: this.selectedTipo(),
-        hora_preferida: this.horaPreferida() || null,
-      },
-      tecnico_ids: tecnicoIds,
-      instruccion_admin: null,
-    }).subscribe({
-      next: (sugerencia) => {
-        this.sugerenciaActual.set(sugerencia);
-        this.state.set('sugerencia_lista');
-      },
-      error: (err) => {
-        this.errorMessage.set(err.message || 'Error al buscar técnico óptimo');
-        this.state.set('idle');
-      },
-    });
+    this.schedulerService
+      .generar({
+        fecha: this.selectedDate(),
+        trabajo: {
+          cliente_id: clienteId,
+          ascensor_id: ascensorId,
+          tipo_trabajo: this.selectedTipo(),
+          hora_preferida: this.horaPreferida() || null,
+        },
+        tecnico_ids: tecnicoIds,
+        instruccion_admin: null,
+      })
+      .subscribe({
+        next: (sugerencia) => {
+          this.sugerenciaActual.set(sugerencia);
+          this.state.set('sugerencia_lista');
+        },
+        error: (err) => {
+          this.errorMessage.set(err.message || 'Error al buscar técnico óptimo');
+          this.state.set('idle');
+        },
+      });
   }
 
   // ============= Confirmar =============
@@ -292,29 +386,31 @@ export class AIAssistantComponent implements OnInit {
     this.state.set('confirming');
     this.errorMessage.set(null);
 
-    this.schedulerService.confirmar({
-      fecha: this.selectedDate(),
-      trabajo: {
-        cliente_id: sugerencia.trabajo.cliente_id,
-        ascensor_id: sugerencia.trabajo.ascensor_id,
-        tipo_trabajo: sugerencia.trabajo.tipo_trabajo,
-        nombre_cliente: sugerencia.trabajo.nombre_cliente,
-        hora_inicio: slot.hora_inicio,
-        hora_fin: slot.hora_fin,
-        justificacion: slot.justificacion,
-      },
-      tecnico_id: slot.trabajador_id,
-      mantenimiento_fijo_id: this.mantenimientoFijoIdContexto(),
-    }).subscribe({
-      next: () => {
-        this.ultimaConfirmacion.set(slot);
-        this.state.set('confirmado');
-      },
-      error: (err) => {
-        this.errorMessage.set(err.message || 'Error al confirmar la programación');
-        this.state.set('sugerencia_lista');
-      },
-    });
+    this.schedulerService
+      .confirmar({
+        fecha: this.selectedDate(),
+        trabajo: {
+          cliente_id: sugerencia.trabajo.cliente_id,
+          ascensor_id: sugerencia.trabajo.ascensor_id,
+          tipo_trabajo: sugerencia.trabajo.tipo_trabajo,
+          nombre_cliente: sugerencia.trabajo.nombre_cliente,
+          hora_inicio: slot.hora_inicio,
+          hora_fin: slot.hora_fin,
+          justificacion: slot.justificacion,
+        },
+        tecnico_id: slot.trabajador_id,
+        mantenimiento_fijo_id: this.mantenimientoFijoIdContexto(),
+      })
+      .subscribe({
+        next: () => {
+          this.ultimaConfirmacion.set(slot);
+          this.state.set('confirmado');
+        },
+        error: (err) => {
+          this.errorMessage.set(err.message || 'Error al confirmar la programación');
+          this.state.set('sugerencia_lista');
+        },
+      });
   }
 
   // ============= Ajustar (chat) =============
@@ -325,19 +421,21 @@ export class AIAssistantComponent implements OnInit {
 
     this.state.set('adjusting');
 
-    this.schedulerService.ajustar({
-      evaluacion_actual: actual,
-      instruccion_admin: instruccion,
-    }).subscribe({
-      next: (nueva) => {
-        this.sugerenciaActual.set(nueva);
-        this.state.set('sugerencia_lista');
-      },
-      error: (err) => {
-        this.errorMessage.set(err.message || 'Error al ajustar la sugerencia');
-        this.state.set('sugerencia_lista');
-      },
-    });
+    this.schedulerService
+      .ajustar({
+        evaluacion_actual: actual,
+        instruccion_admin: instruccion,
+      })
+      .subscribe({
+        next: (nueva) => {
+          this.sugerenciaActual.set(nueva);
+          this.state.set('sugerencia_lista');
+        },
+        error: (err) => {
+          this.errorMessage.set(err.message || 'Error al ajustar la sugerencia');
+          this.state.set('sugerencia_lista');
+        },
+      });
   }
 
   // ============= Descartar / Nuevo =============

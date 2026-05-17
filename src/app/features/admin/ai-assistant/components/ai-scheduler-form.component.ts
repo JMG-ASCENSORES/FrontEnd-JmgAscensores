@@ -4,106 +4,115 @@ import type { Client } from '../../services/client.service';
 import type { Elevator } from '../../../../core/models/elevator.model';
 import type { TipoTrabajo } from '../../models/ia-scheduler.interface';
 
-export interface FormValues {
-  fecha: string;
-  clienteId: number | null;
-  ascensorId: number | null;
-  tipo: TipoTrabajo;
-  horaPreferida: string;
-}
-
 @Component({
   selector: 'app-ai-scheduler-form',
   standalone: true,
   imports: [FormsModule],
   template: `
-    <div class="p-4 border-b border-gray-200 bg-white space-y-4">
-      <h2 class="text-sm font-semibold text-gray-800 uppercase tracking-wide">Nuevo trabajo</h2>
-
-      <!-- Fecha -->
-      <div class="flex items-center gap-3 flex-wrap">
-        <label class="text-sm font-medium text-gray-700 w-28 flex-shrink-0" for="sched-fecha">Fecha:</label>
-        <input
-          id="sched-fecha"
-          type="date"
-          [ngModel]="fecha"
-          (ngModelChange)="fechaChange.emit($event)"
-          [min]="tomorrowStr"
-          [disabled]="disabled"
-          class="border border-gray-300 rounded px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-        />
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 space-y-5">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#003B73] to-[#001f3f] flex items-center justify-center shadow-md shadow-[#003B73]/20">
+          <svg class="w-4.5 h-4.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+        </div>
+        <h2 class="text-lg font-bold text-slate-800 font-display">Nuevo trabajo</h2>
       </div>
 
-      <!-- Cliente -->
-      <div class="flex items-center gap-3 flex-wrap">
-        <label class="text-sm font-medium text-gray-700 w-28 flex-shrink-0" for="sched-cliente">Cliente:</label>
-        <select
-          id="sched-cliente"
-          [ngModel]="clienteId"
-          (ngModelChange)="clienteChange.emit($event ? +$event : null)"
-          [disabled]="disabled || clientes.length === 0"
-          class="border border-gray-300 rounded px-2 py-1.5 text-sm flex-1 min-w-0 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <option [value]="null">-- Seleccionar cliente --</option>
-          @for (c of clientes; track c.cliente_id) {
-            <option [value]="c.cliente_id">{{ c.nombre_comercial }}</option>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Fecha -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Fecha</label>
+          <input
+            type="date"
+            [ngModel]="fecha"
+            (ngModelChange)="fechaChange.emit($event)"
+            [min]="tomorrowStr"
+            [disabled]="disabled"
+            class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-700
+                   focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 transition-all outline-none
+                   disabled:opacity-50 disabled:cursor-not-allowed"
+          />
+        </div>
+
+        <!-- Hora preferida -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
+            Hora preferida <span class="text-slate-400 font-normal normal-case tracking-normal">(opcional)</span>
+          </label>
+          <input
+            type="time"
+            [ngModel]="horaPreferida"
+            (ngModelChange)="horaChange.emit($event)"
+            [disabled]="disabled"
+            min="08:30" max="18:00"
+            class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-700
+                   focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 transition-all outline-none
+                   disabled:opacity-50 disabled:cursor-not-allowed"
+          />
+        </div>
+
+        <!-- Cliente -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Cliente</label>
+          <select
+            [ngModel]="clienteId"
+            (ngModelChange)="clienteChange.emit($event ? +$event : null)"
+            [disabled]="disabled || clientes.length === 0"
+            class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-700
+                   focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 transition-all outline-none
+                   disabled:opacity-50 disabled:cursor-not-allowed appearance-none"
+            style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 fill=%22%2394A3B8%22><path d=%22M6 8L1 3h10z%22/></svg>'); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px;"
+          >
+            <option [ngValue]="null" disabled>Seleccionar cliente...</option>
+            @for (c of clientes; track c.cliente_id) {
+              <option [ngValue]="c.cliente_id">{{ c.nombre_comercial }}</option>
+            }
+          </select>
+        </div>
+
+        <!-- Ascensor -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Equipo</label>
+          <select
+            [ngModel]="ascensorId"
+            (ngModelChange)="ascensorChange.emit($event ? +$event : null)"
+            [disabled]="disabled || !clienteId || ascensores.length === 0"
+            class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-700
+                   focus:bg-white focus:border-jmg focus:ring-2 focus:ring-jmg/10 transition-all outline-none
+                   disabled:opacity-50 disabled:cursor-not-allowed appearance-none"
+            style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 fill=%22%2394A3B8%22><path d=%22M6 8L1 3h10z%22/></svg>'); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px;"
+          >
+            <option [ngValue]="null" disabled>Seleccionar equipo...</option>
+            @for (a of ascensores; track a.ascensor_id) {
+              <option [ngValue]="a.ascensor_id">{{ a.tipo_equipo }}{{ a.marca ? ' — ' + a.marca : '' }}</option>
+            }
+          </select>
+          @if (clienteId && ascensores.length === 0) {
+            <p class="text-xs text-slate-400 mt-1">Sin equipos registrados</p>
           }
-        </select>
-      </div>
+        </div>
 
-      <!-- Ascensor (filtrado por cliente) -->
-      <div class="flex items-center gap-3 flex-wrap">
-        <label class="text-sm font-medium text-gray-700 w-28 flex-shrink-0" for="sched-ascensor">Equipo:</label>
-        <select
-          id="sched-ascensor"
-          [ngModel]="ascensorId"
-          (ngModelChange)="ascensorChange.emit($event ? +$event : null)"
-          [disabled]="disabled || !clienteId || ascensores.length === 0"
-          class="border border-gray-300 rounded px-2 py-1.5 text-sm flex-1 min-w-0 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <option [value]="null">-- Seleccionar equipo --</option>
-          @for (a of ascensores; track a.ascensor_id) {
-            <option [value]="a.ascensor_id">
-              {{ a.tipo_equipo }}{{ a.marca ? ' — ' + a.marca : '' }}{{ a.modelo ? ' ' + a.modelo : '' }}
-            </option>
-          }
-        </select>
-        @if (clienteId && ascensores.length === 0) {
-          <span class="text-xs text-gray-400 italic">Sin equipos registrados</span>
-        }
-      </div>
-
-      <!-- Tipo de trabajo -->
-      <div class="flex items-center gap-3 flex-wrap">
-        <label class="text-sm font-medium text-gray-700 w-28 flex-shrink-0" for="sched-tipo">Tipo:</label>
-        <select
-          id="sched-tipo"
-          [ngModel]="tipo"
-          (ngModelChange)="tipoChange.emit($event)"
-          [disabled]="disabled"
-          class="border border-gray-300 rounded px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <option value="mantenimiento">Mantenimiento</option>
-          <option value="reparacion">Reparación</option>
-          <option value="inspeccion">Inspección</option>
-          <option value="emergencia">Emergencia</option>
-        </select>
-      </div>
-
-      <!-- Hora preferida (opcional) -->
-      <div class="flex items-center gap-3 flex-wrap">
-        <label class="text-sm font-medium text-gray-700 w-28 flex-shrink-0" for="sched-hora">Hora preferida:</label>
-        <input
-          id="sched-hora"
-          type="time"
-          [ngModel]="horaPreferida"
-          (ngModelChange)="horaChange.emit($event)"
-          [disabled]="disabled"
-          min="08:30"
-          max="18:00"
-          class="border border-gray-300 rounded px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-        />
-        <span class="text-xs text-gray-400">(opcional)</span>
+        <!-- Tipo de trabajo -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Tipo de trabajo</label>
+          <div class="grid grid-cols-2 gap-2">
+            @for (tipoOption of tipos; track tipoOption.value) {
+              <button
+                type="button"
+                (click)="tipoChange.emit(tipoOption.value)"
+                [disabled]="disabled"
+                [class]="tipo === tipoOption.value
+                  ? tipoOption.activeClass + ' border-transparent shadow-sm'
+                  : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300 hover:text-slate-700'"
+                class="px-3 py-2 rounded-xl border text-xs font-semibold transition-all
+                       disabled:opacity-50 disabled:cursor-not-allowed text-center">
+                {{ tipoOption.label }}
+              </button>
+            }
+          </div>
+        </div>
       </div>
 
       <!-- Botón generar -->
@@ -112,21 +121,23 @@ export interface FormValues {
           type="button"
           (click)="onGenerar()"
           [disabled]="!puedeGenerar() || disabled"
-          class="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors duration-200
-                 bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
-                 disabled:bg-gray-300 disabled:cursor-not-allowed"
+          class="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white
+                 bg-[#003B73] hover:bg-[#001f3f] shadow-lg shadow-[#003B73]/20
+                 disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none
+                 transition-all active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-jmg/30 focus:ring-offset-2"
         >
           @if (disabled) {
-            <span class="inline-flex items-center gap-2">
-              <span class="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span>
-              Buscando técnico...
-            </span>
+            <span class="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full inline-block"></span>
+            Buscando...
           } @else {
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
             Buscar técnico óptimo
           }
         </button>
         @if (!puedeGenerar() && !disabled) {
-          <span class="text-xs text-gray-400 italic">Seleccioná cliente y equipo para continuar</span>
+          <span class="text-xs text-slate-400">Seleccioná cliente y equipo</span>
         }
       </div>
     </div>
@@ -148,6 +159,13 @@ export class AiSchedulerFormComponent implements OnChanges {
   @Output() tipoChange = new EventEmitter<TipoTrabajo>();
   @Output() horaChange = new EventEmitter<string>();
   @Output() generar = new EventEmitter<void>();
+
+  tipos: { value: TipoTrabajo; label: string; activeClass: string }[] = [
+    { value: 'mantenimiento', label: 'Mantenimiento', activeClass: 'bg-blue-50 text-blue-700 border-blue-200' },
+    { value: 'reparacion',    label: 'Reparación',    activeClass: 'bg-orange-50 text-orange-700 border-orange-200' },
+    { value: 'inspeccion',    label: 'Inspección',    activeClass: 'bg-yellow-50 text-yellow-700 border-yellow-200' },
+    { value: 'emergencia',    label: 'Emergencia',    activeClass: 'bg-red-50 text-red-700 border-red-200' },
+  ];
 
   get tomorrowStr(): string {
     const tomorrow = new Date();
