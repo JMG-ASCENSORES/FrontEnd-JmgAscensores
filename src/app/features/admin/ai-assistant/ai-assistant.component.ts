@@ -129,10 +129,12 @@ import type {
         />
 
         @if (state() === 'sugerencia_lista' || state() === 'adjusting') {
-          <app-ai-scheduler-chat
-            [adjusting]="state() === 'adjusting'"
-            (ajustar)="onAjustar($event)"
-          />
+          <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-5">
+            <app-ai-scheduler-chat
+              [adjusting]="state() === 'adjusting'"
+              (ajustar)="onAjustar($event)"
+            />
+          </div>
         }
       }
 
