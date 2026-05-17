@@ -40,7 +40,7 @@ export interface FormValues {
         <select
           id="sched-cliente"
           [ngModel]="clienteId"
-          (ngModelChange)="clienteChange.emit(+$event)"
+          (ngModelChange)="clienteChange.emit($event ? +$event : null)"
           [disabled]="disabled || clientes.length === 0"
           class="border border-gray-300 rounded px-2 py-1.5 text-sm flex-1 min-w-0 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
         >
@@ -57,7 +57,7 @@ export interface FormValues {
         <select
           id="sched-ascensor"
           [ngModel]="ascensorId"
-          (ngModelChange)="ascensorChange.emit(+$event)"
+          (ngModelChange)="ascensorChange.emit($event ? +$event : null)"
           [disabled]="disabled || !clienteId || ascensores.length === 0"
           class="border border-gray-300 rounded px-2 py-1.5 text-sm flex-1 min-w-0 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
         >

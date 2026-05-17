@@ -109,7 +109,7 @@ import type { SugerenciaResponse, SlotSugerido, SchedulerState } from '../../mod
                   Aplicando...
                 </span>
               } @else {
-                Confirmar
+                Confirmar con {{ sugerencia!.sugerencia!.nombre }}
               }
             </button>
           </div>
