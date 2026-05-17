@@ -28,6 +28,7 @@ export interface MantenimientoVencido {
 export interface DemandResponse {
   fecha: string;
   total: number;
+  por_tipo: Record<TipoTrabajo, number>;
   trabajos: MantenimientoVencido[];
 }
 
@@ -109,8 +110,8 @@ export interface GenerarRequest {
 }
 
 export interface AjustarRequest {
-  sugerencia_actual: SugerenciaResponse;
-  instruccion: string;
+  evaluacion_actual: SugerenciaResponse;
+  instruccion_admin: string;
 }
 
 export interface ConfirmarRequest {
