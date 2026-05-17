@@ -144,7 +144,7 @@ export class AiSchedulerFormComponent implements OnChanges {
 
   @Output() fechaChange = new EventEmitter<string>();
   @Output() clienteChange = new EventEmitter<number>();
-  @Output() ascensorChange = new EventEmitter<number>();
+  @Output() ascensorChange = new EventEmitter<number | null>();
   @Output() tipoChange = new EventEmitter<TipoTrabajo>();
   @Output() horaChange = new EventEmitter<string>();
   @Output() generar = new EventEmitter<void>();
@@ -157,7 +157,7 @@ export class AiSchedulerFormComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['clienteId'] && !changes['clienteId'].currentValue) {
-      this.ascensorChange.emit(0);
+      this.ascensorChange.emit(null);
     }
   }
 

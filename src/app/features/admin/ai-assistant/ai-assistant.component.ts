@@ -35,6 +35,18 @@ import type {
         <p class="text-xs text-gray-400 mt-0.5">Definí un trabajo y la IA sugiere el técnico óptimo</p>
       </div>
 
+      <!-- Carga inicial -->
+      @if (inicializando()) {
+        <div class="flex items-center justify-center py-20">
+          <div class="flex flex-col items-center gap-3 text-gray-400">
+            <svg class="animate-spin h-8 w-8" viewBox="0 0 24 24" fill="none">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+            </svg>
+            <span class="text-sm">Cargando datos...</span>
+          </div>
+        </div>
+      } @else {
       <!-- Formulario de trabajo -->
       @if (state() !== 'sugerencia_lista' && state() !== 'confirming' && state() !== 'confirmado') {
         <app-ai-scheduler-form
@@ -139,6 +151,8 @@ import type {
         </div>
       }
 
+      }
+
     </div>
   `,
 })
@@ -149,6 +163,7 @@ export class AIAssistantComponent implements OnInit {
 
   // ============= State signals =============
   state = signal<SchedulerState>('idle');
+  inicializando = signal(true);
   errorMessage = signal<string | null>(null);
 
   // Formulario
@@ -199,7 +214,7 @@ export class AIAssistantComponent implements OnInit {
     this.mantenimientoFijoIdContexto.set(null);
   }
 
-  onAscensorChange(ascensorId: number): void {
+  onAscensorChange(ascensorId: number | null): void {
     this.selectedAscensorId.set(ascensorId || null);
     this.mantenimientoFijoIdContexto.set(null);
   }
@@ -226,10 +241,14 @@ export class AIAssistantComponent implements OnInit {
     const ascensorId = this.selectedAscensorId();
     if (!clienteId || !ascensorId) return;
 
+    const tecnicoIds = this.tecnicosInfo().map(t => t.trabajador_id);
+    if (tecnicoIds.length === 0) {
+      this.errorMessage.set('No hay técnicos activos disponibles para esta fecha.');
+      return;
+    }
+
     this.errorMessage.set(null);
     this.state.set('loading');
-
-    const tecnicoIds = this.tecnicosInfo().map(t => t.trabajador_id);
 
     this.schedulerService.generar({
       fecha: this.selectedDate(),
@@ -298,7 +317,10 @@ export class AIAssistantComponent implements OnInit {
   onNuevoTrabajo(): void {
     this.sugerenciaActual.set(null);
     this.ultimaConfirmacion.set(null);
+    this.selectedClienteId.set(null);
     this.selectedAscensorId.set(null);
+    this.selectedTipo.set('mantenimiento');
+    this.horaPreferida.set(null);
     this.mantenimientoFijoIdContexto.set(null);
     this.state.set('idle');
     this.errorMessage.set(null);
@@ -320,9 +342,11 @@ export class AIAssistantComponent implements OnInit {
         this.todosAscensores.set(ascensores);
         this.tecnicosInfo.set(tecnicos.tecnicos);
         this.demandaContexto.set(demanda);
+        this.inicializando.set(false);
       },
       error: (err) => {
         this.errorMessage.set(err.message || 'Error al cargar los datos iniciales');
+        this.inicializando.set(false);
       },
     });
   }
