@@ -6,6 +6,7 @@ import { ElevatorService } from '../services/elevator.service';
 import { AiSchedulerFormComponent } from './components/ai-scheduler-form.component';
 import { AiSchedulerDemandContextComponent } from './components/ai-scheduler-demand-context.component';
 import { AiSchedulerSuggestionComponent } from './components/ai-scheduler-suggestion.component';
+import { AiSchedulerChatComponent } from './components/ai-scheduler-chat.component';
 import type { Client } from '../services/client.service';
 import type { Elevator } from '../../../core/models/elevator.model';
 import type {
@@ -25,6 +26,7 @@ import type {
     AiSchedulerFormComponent,
     AiSchedulerDemandContextComponent,
     AiSchedulerSuggestionComponent,
+    AiSchedulerChatComponent,
   ],
   template: `
     <div class="min-h-screen bg-gray-50">
@@ -48,7 +50,7 @@ import type {
         </div>
       } @else {
       <!-- Formulario de trabajo -->
-      @if (state() !== 'sugerencia_lista' && state() !== 'confirming' && state() !== 'confirmado') {
+      @if (state() !== 'sugerencia_lista' && state() !== 'adjusting' && state() !== 'confirming' && state() !== 'confirmado') {
         <app-ai-scheduler-form
           [fecha]="selectedDate()"
           [clienteId]="selectedClienteId()"
@@ -68,7 +70,7 @@ import type {
       }
 
       <!-- Mantenimientos vencidos (contexto — siempre visible excepto cuando hay sugerencia) -->
-      @if (state() !== 'sugerencia_lista' && state() !== 'confirming' && state() !== 'confirmado') {
+      @if (state() !== 'sugerencia_lista' && state() !== 'adjusting' && state() !== 'confirming' && state() !== 'confirmado') {
         <app-ai-scheduler-demand-context
           [demanda]="demandaContexto()"
           (prellenar)="onPrellenar($event)"
@@ -99,7 +101,7 @@ import type {
       }
 
       <!-- Panel de sugerencia -->
-      @if ((state() === 'sugerencia_lista' || state() === 'confirming') && sugerenciaActual()) {
+      @if ((state() === 'sugerencia_lista' || state() === 'adjusting' || state() === 'confirming') && sugerenciaActual()) {
         <!-- Contexto del trabajo en la parte superior -->
         <div class="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between gap-3">
           <div class="flex flex-wrap items-center gap-2 text-sm">
@@ -125,6 +127,13 @@ import type {
           (confirmar)="onConfirmar($event)"
           (descartar)="onDescartar()"
         />
+
+        @if (state() === 'sugerencia_lista' || state() === 'adjusting') {
+          <app-ai-scheduler-chat
+            [adjusting]="state() === 'adjusting'"
+            (ajustar)="onAjustar($event)"
+          />
+        }
       }
 
       <!-- Estado confirmado -->
@@ -301,6 +310,29 @@ export class AIAssistantComponent implements OnInit {
       },
       error: (err) => {
         this.errorMessage.set(err.message || 'Error al confirmar la programación');
+        this.state.set('sugerencia_lista');
+      },
+    });
+  }
+
+  // ============= Ajustar (chat) =============
+
+  onAjustar(instruccion: string): void {
+    const actual = this.sugerenciaActual();
+    if (!actual) return;
+
+    this.state.set('adjusting');
+
+    this.schedulerService.ajustar({
+      evaluacion_actual: actual,
+      instruccion_admin: instruccion,
+    }).subscribe({
+      next: (nueva) => {
+        this.sugerenciaActual.set(nueva);
+        this.state.set('sugerencia_lista');
+      },
+      error: (err) => {
+        this.errorMessage.set(err.message || 'Error al ajustar la sugerencia');
         this.state.set('sugerencia_lista');
       },
     });
