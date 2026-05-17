@@ -22,7 +22,7 @@ export interface ChatMessage {
             </span>
           </div>
         }
-        @if (adjusting()) {
+        @if (adjusting) {
           <div class="text-left">
             <span class="inline-block bg-gray-100 text-gray-500 px-3 py-1 rounded-lg text-sm animate-pulse">
               Ajustando sugerencia...
@@ -35,7 +35,7 @@ export interface ChatMessage {
                (keydown.enter)="onEnviar(chatInput); chatInput.value = ''"
                placeholder="Ej: no me des a Carlos, está saturado hoy..."
                class="flex-1 border rounded px-3 py-2 text-sm"
-               [disabled]="adjusting()"/>
+               [disabled]="adjusting"/>
         <button (click)="onEnviar(chatInput); chatInput.value = ''"
                 [disabled]="adjusting() || !chatInput.value.trim()"
                 class="px-4 py-2 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 disabled:bg-gray-300 transition-colors">
