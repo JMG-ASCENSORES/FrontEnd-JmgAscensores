@@ -99,7 +99,7 @@ import type { SugerenciaResponse, SlotSugerido, SchedulerState } from '../../mod
             <button
               type="button"
               (click)="confirmar.emit(sugerencia!.sugerencia!)"
-              [disabled]="state === 'confirming'"
+              [disabled]="state === 'confirming' || state === 'adjusting'"
               class="flex-shrink-0 px-4 py-2 rounded-lg text-sm font-semibold text-white bg-green-600
                      hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
             >
@@ -146,7 +146,7 @@ import type { SugerenciaResponse, SlotSugerido, SchedulerState } from '../../mod
                 <button
                   type="button"
                   (click)="confirmar.emit(alt)"
-                  [disabled]="state === 'confirming'"
+                  [disabled]="state === 'confirming' || state === 'adjusting'"
                   class="flex-shrink-0 px-3 py-1.5 rounded text-xs font-medium text-blue-600
                          border border-blue-200 hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors focus:outline-none"
                 >

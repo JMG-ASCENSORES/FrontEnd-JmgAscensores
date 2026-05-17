@@ -1,5 +1,4 @@
 import { Component, Input, output, signal } from '@angular/core';
-import type { SugerenciaResponse } from '../../models/ia-scheduler.interface';
 
 export interface ChatMessage {
   role: 'user' | 'system';
@@ -46,7 +45,6 @@ export interface ChatMessage {
   `,
 })
 export class AiSchedulerChatComponent {
-  @Input() sugerencia: SugerenciaResponse | null = null;
   @Input() adjusting = false;
   ajustar = output<string>();
 
