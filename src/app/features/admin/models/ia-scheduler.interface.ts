@@ -134,6 +134,13 @@ export interface ConfirmarResponse {
   programacion_id: number;
 }
 
+// ============= Status indicator =============
+
+export interface StatusStep {
+  label: string;
+  status: 'pending' | 'active' | 'done' | 'error';
+}
+
 // ============= Configuración =============
 
 export interface ConfigItem {

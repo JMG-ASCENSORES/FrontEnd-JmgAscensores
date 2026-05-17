@@ -1,12 +1,14 @@
-import { Component, OnInit, signal, inject, computed } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, signal, computed, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { forkJoin } from 'rxjs';
+import { LucideAngularModule } from 'lucide-angular';
 import { IaSchedulerService } from '../../../core/services/ia-scheduler.service';
 import { ClientService } from '../services/client.service';
 import { ElevatorService } from '../services/elevator.service';
-import { AiSchedulerFormComponent } from './components/ai-scheduler-form.component';
-import { AiSchedulerDemandContextComponent } from './components/ai-scheduler-demand-context.component';
-import { AiSchedulerSuggestionComponent } from './components/ai-scheduler-suggestion.component';
-import { AiSchedulerChatComponent } from './components/ai-scheduler-chat.component';
+import { SuggestionCardComponent } from './components/suggestion-card/suggestion-card.component';
+import { DemandCardComponent } from './components/demand-card/demand-card.component';
+import { ConfirmationCardComponent } from './components/confirmation-card/confirmation-card.component';
+import { StatusIndicatorComponent } from './components/status-indicator/status-indicator.component';
 import type { Client } from '../services/client.service';
 import type { Elevator } from '../../../core/models/elevator.model';
 import type {
@@ -17,327 +19,168 @@ import type {
   SugerenciaResponse,
   SlotSugerido,
   MantenimientoVencido,
+  StatusStep,
 } from '../models/ia-scheduler.interface';
 
 @Component({
   selector: 'app-ai-assistant',
   standalone: true,
   imports: [
-    AiSchedulerFormComponent,
-    AiSchedulerDemandContextComponent,
-    AiSchedulerSuggestionComponent,
-    AiSchedulerChatComponent,
+    FormsModule,
+    LucideAngularModule,
+    SuggestionCardComponent,
+    DemandCardComponent,
+    ConfirmationCardComponent,
+    StatusIndicatorComponent,
   ],
-  template: `
-    <div class="min-h-screen bg-slate-50">
-      <!-- Header de página -->
-      <div class="bg-white border-b border-slate-200 px-6 py-4">
-        <div class="flex items-center gap-4">
-          <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#003B73] to-[#001f3f] flex items-center justify-center shadow-lg shadow-[#003B73]/20 flex-shrink-0">
-            <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2a4 4 0 0 1 4 4v1h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2V6a4 4 0 0 1 4-4z"/>
-              <path d="M9 18v-4"/><path d="M15 18v-4"/><path d="M9 10h.01"/><path d="M15 10h.01"/>
-            </svg>
-          </div>
-          <div>
-            <h1 class="text-xl font-bold text-slate-800 font-display tracking-tight">Programador IA</h1>
-            <p class="text-sm text-slate-500 mt-0.5">Definí un trabajo y Claude sugiere el técnico óptimo con su mejor horario</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Carga inicial -->
-      @if (inicializando()) {
-        <div class="flex items-center justify-center py-20">
-          <div class="flex flex-col items-center gap-3 text-gray-400">
-            <svg class="animate-spin h-8 w-8" viewBox="0 0 24 24" fill="none">
-              <circle
-                class="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                stroke-width="4"
-              />
-              <path
-                class="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-              />
-            </svg>
-            <span class="text-sm">Cargando datos...</span>
-          </div>
-        </div>
-      } @else {
-        <div class="max-w-3xl mx-auto p-4 md:p-6 space-y-4">
-          <!-- Error global -->
-          @if (errorMessage()) {
-            <div class="bg-red-50 border border-red-200 rounded-2xl p-4 flex items-start justify-between gap-3">
-              <div class="flex items-start gap-3">
-                <div class="w-8 h-8 rounded-xl bg-red-100 flex items-center justify-center flex-shrink-0">
-                  <span class="text-red-500 text-sm font-bold">!</span>
-                </div>
-                <p class="text-sm text-red-700 font-medium mt-1">{{ errorMessage() }}</p>
-              </div>
-              <button type="button" (click)="errorMessage.set(null)"
-                      class="text-red-400 hover:text-red-600 transition-colors flex-shrink-0">
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-              </button>
-            </div>
-          }
-
-          <!-- Formulario -->
-          @if (state() !== 'sugerencia_lista' && state() !== 'adjusting' && state() !== 'confirming' && state() !== 'confirmado') {
-            <app-ai-scheduler-form
-              [fecha]="selectedDate()"
-              [clienteId]="selectedClienteId()"
-              [ascensorId]="selectedAscensorId()"
-              [tipo]="selectedTipo()"
-              [horaPreferida]="horaPreferida()"
-              [clientes]="clientes()"
-              [ascensores]="ascensoresFiltrados()"
-              [disabled]="state() === 'loading'"
-              (fechaChange)="onFechaChange($event)"
-              (clienteChange)="onClienteChange($event)"
-              (ascensorChange)="onAscensorChange($event)"
-              (tipoChange)="onTipoChange($event)"
-              (horaChange)="horaPreferida.set($event)"
-              (generar)="onGenerar()"
-            />
-
-            <app-ai-scheduler-demand-context
-              [demanda]="demandaContexto()"
-              (prellenar)="onPrellenar($event)"
-            />
-          }
-
-          <!-- Spinner de carga -->
-          @if (state() === 'loading') {
-            <div class="flex flex-col items-center justify-center py-20">
-              <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#003B73] to-[#001f3f] flex items-center justify-center shadow-lg shadow-[#003B73]/20 mb-5">
-                <svg class="animate-spin h-7 w-7 text-white" viewBox="0 0 24 24" fill="none">
-                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
-                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
-                </svg>
-              </div>
-              <p class="text-base font-semibold text-slate-700 font-display">Buscando técnico óptimo...</p>
-              <p class="text-sm text-slate-400 mt-1">Evaluando disponibilidad con IA</p>
-            </div>
-          }
-
-          <!-- Panel de sugerencia -->
-          @if ((state() === 'sugerencia_lista' || state() === 'adjusting' || state() === 'confirming') && sugerenciaActual()) {
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-5">
-              <app-ai-scheduler-suggestion
-                [sugerencia]="sugerenciaActual()"
-                [state]="state()"
-                (confirmar)="onConfirmar($event)"
-                (descartar)="onDescartar()"
-              />
-            </div>
-
-            @if (state() === 'sugerencia_lista' || state() === 'adjusting') {
-              <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-5">
-                <app-ai-scheduler-chat
-                  [adjusting]="state() === 'adjusting'"
-                  (ajustar)="onAjustar($event)"
-                />
-              </div>
-            }
-          }
-
-          <!-- Estado confirmado -->
-          @if (state() === 'confirmado') {
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-12 flex flex-col items-center text-center">
-              <div class="w-20 h-20 rounded-full bg-emerald-100 flex items-center justify-center mb-5 shadow-md shadow-emerald-100">
-                <svg class="w-10 h-10 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="20 6 9 17 4 12"/>
-                </svg>
-              </div>
-              <h2 class="text-xl font-bold text-slate-800 font-display">¡Programación creada!</h2>
-              @if (ultimaConfirmacion()) {
-                <p class="text-base text-slate-600 mt-2">
-                  {{ ultimaConfirmacion()!.nombre }} {{ ultimaConfirmacion()!.apellido }}
-                </p>
-                <p class="text-sm text-slate-400 mt-1">
-                  {{ ultimaConfirmacion()!.hora_inicio }} – {{ ultimaConfirmacion()!.hora_fin }}
-                </p>
-              }
-              <button type="button" (click)="onNuevoTrabajo()"
-                      class="mt-8 px-6 py-3 rounded-xl text-sm font-semibold text-[#003B73] border-2 border-[#003B73]/30
-                             hover:bg-[#003B73]/5 hover:border-[#003B73]/50 transition-all">
-                Programar otro trabajo
-              </button>
-            </div>
-          }
-        </div>
-      }
-
-    </div>
-        }
-
-        <!-- Spinner de carga -->
-        @if (state() === 'loading') {
-          <div class="flex flex-col items-center justify-center py-16 text-gray-500">
-            <div
-              class="animate-spin inline-block w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full mb-4"
-            ></div>
-            <p class="text-base font-medium">Buscando técnico óptimo...</p>
-            <p class="text-sm text-gray-400 mt-1">Evaluando disponibilidad con IA</p>
-          </div>
-        }
-
-        <!-- Panel de sugerencia -->
-        @if (
-          (state() === 'sugerencia_lista' || state() === 'adjusting' || state() === 'confirming') &&
-          sugerenciaActual()
-        ) {
-          <!-- Contexto del trabajo en la parte superior -->
-          <div
-            class="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between gap-3"
-          >
-            <div class="flex flex-wrap items-center gap-2 text-sm">
-              <span class="font-medium text-gray-800">{{
-                sugerenciaActual()!.trabajo.nombre_cliente
-              }}</span>
-              <span class="text-gray-400">—</span>
-              <span class="text-gray-600">{{ sugerenciaActual()!.trabajo.tipo_trabajo }}</span>
-              <span class="text-gray-400">—</span>
-              <span class="text-gray-500">{{ sugerenciaActual()!.fecha }}</span>
-            </div>
-            <button
-              type="button"
-              (click)="onDescartar()"
-              [disabled]="state() === 'confirming'"
-              class="text-xs text-gray-400 underline hover:text-gray-600 disabled:opacity-50 focus:outline-none flex-shrink-0"
-            >
-              ← Volver
-            </button>
-          </div>
-
-          <app-ai-scheduler-suggestion
-            [sugerencia]="sugerenciaActual()"
-            [state]="state()"
-            (confirmar)="onConfirmar($event)"
-            (descartar)="onDescartar()"
-          />
-
-          @if (state() === 'sugerencia_lista' || state() === 'adjusting') {
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-5">
-              <app-ai-scheduler-chat
-                [adjusting]="state() === 'adjusting'"
-                (ajustar)="onAjustar($event)"
-              />
-            </div>
-          }
-        }
-
-        <!-- Estado confirmado -->
-        @if (state() === 'confirmado') {
-          <div class="flex flex-col items-center justify-center py-16 px-4">
-            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-              <span class="text-2xl">✅</span>
-            </div>
-            <p class="text-lg font-semibold text-green-700">¡Programación creada!</p>
-            @if (ultimaConfirmacion()) {
-              <p class="text-sm text-green-600 mt-1 text-center">
-                {{ ultimaConfirmacion()!.nombre }} {{ ultimaConfirmacion()!.apellido }} —
-                {{ ultimaConfirmacion()!.hora_inicio }}–{{ ultimaConfirmacion()!.hora_fin }}
-              </p>
-            }
-            <button
-              type="button"
-              (click)="onNuevoTrabajo()"
-              class="mt-6 px-5 py-2.5 rounded-lg text-sm font-semibold text-blue-600 border border-blue-300
-                   hover:bg-blue-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              Programar otro trabajo
-            </button>
-          </div>
-        }
-      }
-    </div>
-  `,
+  templateUrl: './ai-assistant.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AIAssistantComponent implements OnInit {
   private schedulerService = inject(IaSchedulerService);
   private clientService = inject(ClientService);
   private elevatorService = inject(ElevatorService);
 
-  // ============= State signals =============
+  // ── Core state ──
   state = signal<SchedulerState>('idle');
-  inicializando = signal(true);
+  initializing = signal(true);
   errorMessage = signal<string | null>(null);
 
-  // Formulario
-  selectedDate = signal<string>(this.getTomorrow());
+  // ── Form fields ──
+  selectedDate = signal(this.getTomorrow());
   selectedClienteId = signal<number | null>(null);
   selectedAscensorId = signal<number | null>(null);
   selectedTipo = signal<TipoTrabajo>('mantenimiento');
-  horaPreferida = signal<string>('');
+  horaPreferida = signal('');
   mantenimientoFijoIdContexto = signal<number | null>(null);
 
-  // Datos de selects
+  // ── Data ──
   clientes = signal<Client[]>([]);
   todosAscensores = signal<Elevator[]>([]);
   tecnicosInfo = signal<TecnicoConCarga[]>([]);
-
-  // Contexto informativo
   demandaContexto = signal<DemandResponse | null>(null);
 
-  // Resultado
+  // ── Result ──
   sugerenciaActual = signal<SugerenciaResponse | null>(null);
   ultimaConfirmacion = signal<SlotSugerido | null>(null);
 
-  // Ascensores filtrados por cliente seleccionado
+  // ── Chat de ajuste (inline input) ──
+  chatAjusteInput = '';
+
+  // ── Combobox de cliente ──
+  clienteDropdownOpen = signal(false);
+  clienteSearchQuery = signal('');
+
+  // ── Computed ──
   ascensoresFiltrados = computed(() => {
     const clienteId = this.selectedClienteId();
     if (!clienteId) return [];
     return this.todosAscensores().filter((a) => a.cliente_id === clienteId);
   });
 
-  // ============= Lifecycle =============
+  isProcessing = computed(() =>
+    this.state() === 'loading' || this.state() === 'adjusting' || this.state() === 'confirming'
+  );
+
+  loadingSteps = computed<StatusStep[]>(() => [
+    { label: 'Evaluando disponibilidad de técnicos', status: 'active' },
+    { label: 'Validando con IA', status: 'pending' },
+    { label: 'Generando sugerencia óptima', status: 'pending' },
+  ]);
+
+  clientesFiltrados = computed(() => {
+    const query = this.clienteSearchQuery().toLowerCase().trim();
+    if (!query) return this.clientes();
+    return this.clientes().filter((c) =>
+      (c.nombre_comercial?.toLowerCase().includes(query)) ||
+      (c.contacto_nombre?.toLowerCase().includes(query)) ||
+      (c.contacto_apellido?.toLowerCase().includes(query))
+    );
+  });
+
+  clienteSeleccionado = computed(() => {
+    const id = this.selectedClienteId();
+    if (!id) return null;
+    return this.clientes().find((c) => c.cliente_id === id) ?? null;
+  });
+
+  // Context strip metrics (OpenCode/Cursor-style)
+  tecnicosCount = computed(() => this.tecnicosInfo().length);
+  vencidosCount = computed(() => this.demandaContexto()?.trabajos?.length ?? 0);
+  fechaFormateada = computed(() => {
+    const fecha = this.selectedDate();
+    if (!fecha) return '';
+    const months = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+    const d = new Date(fecha + 'T00:00:00');
+    return `${d.getDate()} ${months[d.getMonth()]}`;
+  });
+
+  // ── Static config ──
+  readonly tipos: { value: TipoTrabajo; label: string; activeClass: string }[] = [
+    { value: 'mantenimiento', label: 'Mantenimiento', activeClass: 'bg-blue-50 text-blue-700 border-blue-200' },
+    { value: 'reparacion', label: 'Reparación', activeClass: 'bg-orange-50 text-orange-700 border-orange-200' },
+    { value: 'inspeccion', label: 'Inspección', activeClass: 'bg-yellow-50 text-yellow-700 border-yellow-200' },
+    { value: 'emergencia', label: 'Emergencia', activeClass: 'bg-red-50 text-red-700 border-red-200' },
+  ];
+
+  readonly quickChips = [
+    'Excluir a este técnico',
+    'Prefiero alguien de la zona',
+    'Menor carga horaria',
+    'El más cercano',
+  ];
+
+  get tomorrowStr(): string {
+    return this.getTomorrow();
+  }
 
   ngOnInit(): void {
     this.cargarDatosIniciales();
   }
 
-  // ============= Handlers de formulario =============
+  // ══════════════════════════════════════════
+  //  DATA LOADING
+  // ══════════════════════════════════════════
 
-  onFechaChange(nuevaFecha: string): void {
-    this.selectedDate.set(nuevaFecha);
-    this.sugerenciaActual.set(null);
-    this.state.set('idle');
-    this.cargarContexto(nuevaFecha);
+  private cargarDatosIniciales(): void {
+    forkJoin({
+      clientes: this.clientService.getClients({ estado_activo: true }),
+      ascensores: this.elevatorService.getElevators(),
+      tecnicos: this.schedulerService.getTecnicos(this.selectedDate()),
+      demanda: this.schedulerService.getDemand(this.selectedDate()),
+    }).subscribe({
+      next: ({ clientes, ascensores, tecnicos, demanda }) => {
+        this.clientes.set(clientes);
+        this.todosAscensores.set(ascensores);
+        this.tecnicosInfo.set(tecnicos.tecnicos);
+        this.demandaContexto.set(demanda);
+        this.initializing.set(false);
+      },
+      error: (err) => {
+        this.errorMessage.set(err.message || 'Error al cargar los datos iniciales');
+        this.initializing.set(false);
+      },
+    });
   }
 
-  onClienteChange(clienteId: number | null): void {
-    this.selectedClienteId.set(clienteId || null);
-    this.selectedAscensorId.set(null);
-    this.mantenimientoFijoIdContexto.set(null);
+  private cargarContexto(fecha: string): void {
+    forkJoin({
+      tecnicos: this.schedulerService.getTecnicos(fecha),
+      demanda: this.schedulerService.getDemand(fecha),
+    }).subscribe({
+      next: ({ tecnicos, demanda }) => {
+        this.tecnicosInfo.set(tecnicos.tecnicos);
+        this.demandaContexto.set(demanda);
+      },
+      error: (err) => {
+        console.error('Error al cargar contexto:', err);
+      },
+    });
   }
 
-  onAscensorChange(ascensorId: number | null): void {
-    this.selectedAscensorId.set(ascensorId || null);
-    this.mantenimientoFijoIdContexto.set(null);
-  }
-
-  onTipoChange(tipo: TipoTrabajo): void {
-    this.selectedTipo.set(tipo);
-  }
-
-  // ============= Prellenado desde contexto de mantenimientos =============
-
-  onPrellenar(item: MantenimientoVencido): void {
-    this.selectedClienteId.set(item.cliente_id);
-    this.selectedAscensorId.set(item.ascensor_id);
-    this.selectedTipo.set('mantenimiento');
-    this.horaPreferida.set(item.hora_preferida ?? '');
-    this.mantenimientoFijoIdContexto.set(item.mantenimiento_fijo_id);
-    this.errorMessage.set(null);
-  }
-
-  // ============= Generar sugerencia =============
+  // ══════════════════════════════════════════
+  //  HANDLERS — FORM SUBMIT
+  // ══════════════════════════════════════════
 
   onGenerar(): void {
     const clienteId = this.selectedClienteId();
@@ -371,20 +214,38 @@ export class AIAssistantComponent implements OnInit {
           this.state.set('sugerencia_lista');
         },
         error: (err) => {
-          this.errorMessage.set(err.message || 'Error al buscar técnico óptimo');
           this.state.set('idle');
+          this.errorMessage.set(err.message || 'Error al buscar técnico óptimo');
         },
       });
   }
 
-  // ============= Confirmar =============
+  // ══════════════════════════════════════════
+  //  HANDLERS — DEMAND CARD PRE-FILL
+  // ══════════════════════════════════════════
+
+  onPrellenar(item: MantenimientoVencido): void {
+    this.selectedClienteId.set(item.cliente_id);
+    this.selectedAscensorId.set(item.ascensor_id);
+    this.selectedTipo.set('mantenimiento');
+    this.horaPreferida.set(item.hora_preferida ?? '');
+    this.mantenimientoFijoIdContexto.set(item.mantenimiento_fijo_id);
+    this.errorMessage.set(null);
+
+    if (item.cliente_id && item.ascensor_id) {
+      setTimeout(() => this.onGenerar(), 100);
+    }
+  }
+
+  // ══════════════════════════════════════════
+  //  HANDLERS — CONFIRM
+  // ══════════════════════════════════════════
 
   onConfirmar(slot: SlotSugerido): void {
     const sugerencia = this.sugerenciaActual();
     if (!sugerencia) return;
 
     this.state.set('confirming');
-    this.errorMessage.set(null);
 
     this.schedulerService
       .confirmar({
@@ -413,11 +274,14 @@ export class AIAssistantComponent implements OnInit {
       });
   }
 
-  // ============= Ajustar (chat) =============
+  // ══════════════════════════════════════════
+  //  HANDLERS — CHAT ADJUST
+  // ══════════════════════════════════════════
 
-  onAjustar(instruccion: string): void {
+  onAjustar(): void {
+    const instruccion = this.chatAjusteInput.trim();
     const actual = this.sugerenciaActual();
-    if (!actual) return;
+    if (!instruccion || !actual) return;
 
     this.state.set('adjusting');
 
@@ -429,22 +293,49 @@ export class AIAssistantComponent implements OnInit {
       .subscribe({
         next: (nueva) => {
           this.sugerenciaActual.set(nueva);
+          this.chatAjusteInput = '';
           this.state.set('sugerencia_lista');
         },
         error: (err) => {
-          this.errorMessage.set(err.message || 'Error al ajustar la sugerencia');
           this.state.set('sugerencia_lista');
+          this.errorMessage.set(err.message || 'Error al ajustar la sugerencia');
         },
       });
   }
 
-  // ============= Descartar / Nuevo =============
+  // ══════════════════════════════════════════
+  //  HANDLERS — FORM FIELD CHANGES
+  // ══════════════════════════════════════════
 
-  onDescartar(): void {
+  onFechaChange(nuevaFecha: string): void {
+    this.selectedDate.set(nuevaFecha);
     this.sugerenciaActual.set(null);
     this.state.set('idle');
-    this.errorMessage.set(null);
+    this.cargarContexto(nuevaFecha);
   }
+
+  onClienteChange(clienteId: number | null): void {
+    this.selectedClienteId.set(clienteId || null);
+    this.selectedAscensorId.set(null);
+    this.mantenimientoFijoIdContexto.set(null);
+  }
+
+  onAscensorChange(ascensorId: number | null): void {
+    this.selectedAscensorId.set(ascensorId || null);
+    this.mantenimientoFijoIdContexto.set(null);
+  }
+
+  onTipoChange(tipo: TipoTrabajo): void {
+    this.selectedTipo.set(tipo);
+  }
+
+  onHoraChange(hora: string): void {
+    this.horaPreferida.set(hora);
+  }
+
+  // ══════════════════════════════════════════
+  //  HANDLERS — RESET
+  // ══════════════════════════════════════════
 
   onNuevoTrabajo(): void {
     this.sugerenciaActual.set(null);
@@ -454,49 +345,74 @@ export class AIAssistantComponent implements OnInit {
     this.selectedTipo.set('mantenimiento');
     this.horaPreferida.set('');
     this.mantenimientoFijoIdContexto.set(null);
+    this.chatAjusteInput = '';
     this.state.set('idle');
     this.errorMessage.set(null);
-    // Recargar contexto de mantenimientos por si cambió
     this.cargarContexto(this.selectedDate());
   }
 
-  // ============= Carga de datos =============
-
-  private cargarDatosIniciales(): void {
-    forkJoin({
-      clientes: this.clientService.getClients({ estado_activo: true }),
-      ascensores: this.elevatorService.getElevators(),
-      tecnicos: this.schedulerService.getTecnicos(this.selectedDate()),
-      demanda: this.schedulerService.getDemand(this.selectedDate()),
-    }).subscribe({
-      next: ({ clientes, ascensores, tecnicos, demanda }) => {
-        this.clientes.set(clientes);
-        this.todosAscensores.set(ascensores);
-        this.tecnicosInfo.set(tecnicos.tecnicos);
-        this.demandaContexto.set(demanda);
-        this.inicializando.set(false);
-      },
-      error: (err) => {
-        this.errorMessage.set(err.message || 'Error al cargar los datos iniciales');
-        this.inicializando.set(false);
-      },
-    });
+  onDescartar(): void {
+    this.sugerenciaActual.set(null);
+    this.chatAjusteInput = '';
+    this.state.set('idle');
+    this.errorMessage.set(null);
   }
 
-  private cargarContexto(fecha: string): void {
-    forkJoin({
-      tecnicos: this.schedulerService.getTecnicos(fecha),
-      demanda: this.schedulerService.getDemand(fecha),
-    }).subscribe({
-      next: ({ tecnicos, demanda }) => {
-        this.tecnicosInfo.set(tecnicos.tecnicos);
-        this.demandaContexto.set(demanda);
-      },
-      error: (err) => {
-        console.error('Error al cargar contexto:', err);
-      },
-    });
+  puedeGenerar(): boolean {
+    return !!this.selectedClienteId() && !!this.selectedAscensorId();
   }
+
+  clienteDisplayName(c: Client): string {
+    return (
+      c.nombre_comercial ||
+      `${c.contacto_nombre || ''} ${c.contacto_apellido || ''}`.trim() ||
+      'Cliente sin nombre'
+    );
+  }
+
+  // ══════════════════════════════════════════
+  //  HANDLERS — CLIENTE COMBOBOX
+  // ══════════════════════════════════════════
+
+  toggleClienteDropdown(): void {
+    if (this.isProcessing() || this.clientes().length === 0) return;
+    const opening = !this.clienteDropdownOpen();
+    this.clienteDropdownOpen.set(opening);
+    if (opening) {
+      this.clienteSearchQuery.set('');
+      setTimeout(() => document.getElementById('cliente-search-input')?.focus(), 0);
+    }
+  }
+
+  closeClienteDropdown(): void {
+    this.clienteDropdownOpen.set(false);
+    this.clienteSearchQuery.set('');
+  }
+
+  selectCliente(id: number): void {
+    this.onClienteChange(id);
+    this.closeClienteDropdown();
+  }
+
+  clienteOptionClass(c: Client): string {
+    return this.selectedClienteId() === c.cliente_id
+      ? 'bg-[#003B73]/5 text-[#003B73] font-semibold'
+      : 'text-slate-700 hover:bg-slate-50';
+  }
+
+  clienteTriggerClass(): string {
+    const base =
+      'w-full px-3 py-2.5 rounded-xl border text-sm text-left flex items-center justify-between gap-2 ' +
+      'disabled:opacity-50 disabled:cursor-not-allowed transition-all outline-none ' +
+      'enabled:hover:bg-white enabled:hover:border-slate-300';
+    return this.clienteDropdownOpen()
+      ? `${base} bg-white border-[#003B73] ring-2 ring-[#003B73]/10`
+      : `${base} bg-slate-50 border-slate-200 focus:bg-white focus:border-[#003B73] focus:ring-2 focus:ring-[#003B73]/10`;
+  }
+
+  // ══════════════════════════════════════════
+  //  HELPERS
+  // ══════════════════════════════════════════
 
   private getTomorrow(): string {
     const tomorrow = new Date();

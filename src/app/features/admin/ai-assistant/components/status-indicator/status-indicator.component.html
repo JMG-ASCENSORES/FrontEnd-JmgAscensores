@@ -1,0 +1,46 @@
+<!-- Status Indicator — inline step progress with AI shimmer -->
+<div class="space-y-3">
+
+  <!-- Shimmer bar — visible only when there's an active step (AI is thinking) -->
+  @if (hasActiveStep()) {
+    <div class="h-0.5 w-full rounded-full overflow-hidden bg-slate-100">
+      <div class="h-full w-full bg-[length:200%_100%] animate-shimmer
+                  bg-gradient-to-r from-transparent via-ai to-transparent"></div>
+    </div>
+  }
+
+  <div class="flex flex-col gap-1.5">
+    @for (step of steps; track step.label) {
+      <div class="flex items-center gap-2 text-sm transition-colors"
+           [class]="stepStatusClass(step.status)">
+
+        @switch (step.status) {
+          @case ('done') {
+            <span class="inline-flex w-4 h-4 rounded-full bg-emerald-100 items-center justify-center">
+              <lucide-icon name="check" [size]="10" strokeWidth="3" class="text-emerald-600"></lucide-icon>
+            </span>
+          }
+          @case ('active') {
+            <span class="relative inline-flex w-4 h-4 rounded-full bg-ai/15 items-center justify-center">
+              <span class="absolute inset-0 rounded-full bg-ai/40 animate-glow-pulse"></span>
+              <lucide-icon name="loader-2" [size]="10" strokeWidth="2.5" class="relative text-ai-dark animate-spin"></lucide-icon>
+            </span>
+          }
+          @case ('pending') {
+            <span class="inline-flex w-4 h-4 rounded-full border border-slate-200 bg-white"></span>
+          }
+          @case ('error') {
+            <span class="inline-flex w-4 h-4 rounded-full bg-red-100 items-center justify-center">
+              <lucide-icon name="x" [size]="10" strokeWidth="3" class="text-red-600"></lucide-icon>
+            </span>
+          }
+        }
+
+        <span>{{ step.label }}</span>
+        @if (step.status === 'active') {
+          <span class="text-ai-dark/60">...</span>
+        }
+      </div>
+    }
+  </div>
+</div>

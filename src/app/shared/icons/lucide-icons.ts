@@ -15,5 +15,6 @@ export {
   Search, ShieldCheck, Shield, Gauge, Tag, Phone,
   Wrench, Trash, Trash2, MessageCircle, X, XCircle, ScanSearch,
   Contact, DoorOpen, BarChart2, Bot,
-  Sun, Send
+  Sun, Send,
+  ListChecks, Loader2, Circle, Lightbulb, Sparkles
 } from 'lucide-angular';

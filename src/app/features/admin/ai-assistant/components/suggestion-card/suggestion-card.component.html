@@ -1,0 +1,243 @@
+<!-- ══════════════════════════════════════════════════════════════
+     SuggestionCard — rich structured card inside a chat thread
+     ══════════════════════════════════════════════════════════════ -->
+<div class="space-y-3">
+
+  <!-- ─── 1. Work summary bar ──────────────────────────────────── -->
+  <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
+    <div class="flex flex-wrap items-center gap-2 mb-1.5">
+      <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Trabajo</span>
+      <span [class]="tipoBadgeClass(sugerencia.trabajo.tipo_trabajo)"
+            class="px-2 py-0.5 rounded-full text-[11px] font-semibold uppercase tracking-wide">
+        {{ sugerencia.trabajo.tipo_trabajo }}
+      </span>
+      <span class="text-xs text-slate-400">{{ sugerencia.trabajo.duracion_min }}min</span>
+    </div>
+    <p class="text-sm font-semibold text-slate-800">{{ sugerencia.trabajo.nombre_cliente }}</p>
+    <p class="text-xs text-slate-500 mt-0.5">
+      {{ sugerencia.trabajo.distrito }} · {{ sugerencia.trabajo.tipo_equipo }}
+      @if (sugerencia.trabajo.hora_preferida) {
+        · preferida {{ sugerencia.trabajo.hora_preferida }}
+      }
+    </p>
+  </div>
+
+  <!-- ─── 4. Sin elegible — red error card ──────────────────────── -->
+  @if (sugerencia.sin_elegible) {
+    <div class="bg-red-50 border border-red-200 rounded-xl p-4">
+      <div class="flex items-start gap-3">
+        <div class="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center flex-shrink-0">
+          <lucide-icon name="x-circle" [size]="18" strokeWidth="1.5" class="text-red-500"></lucide-icon>
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-red-700">Ningún técnico disponible</p>
+          @if (sugerencia.razon_sin_elegible) {
+            <p class="text-xs text-red-600 mt-1">{{ sugerencia.razon_sin_elegible }}</p>
+          }
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- ─── 2. Main suggestion (hero card) ───────────────────────── -->
+  @if (sugerencia.sugerencia; as slot) {
+    <div class="relative bg-white rounded-2xl border border-emerald-200 shadow-md shadow-emerald-500/5 overflow-hidden">
+      <!-- Gradient accent bar (emerald → AI cyan) -->
+      <div class="h-1 bg-gradient-to-r from-emerald-500 via-emerald-400 to-ai"></div>
+
+      <div class="p-5">
+        <!-- Verified-by-AI tag -->
+        <div class="flex items-center justify-between gap-2 mb-3">
+          <span class="inline-flex items-center gap-1.5 text-[10px] font-semibold text-ai-dark
+                       bg-ai-muted px-2 py-0.5 rounded-full uppercase tracking-widest border border-ai/15">
+            <lucide-icon name="sparkles" [size]="10" strokeWidth="2"></lucide-icon>
+            Sugerencia óptima
+          </span>
+          <span class="text-[11px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full uppercase tracking-wide">
+            {{ slot.especialidad }}
+          </span>
+        </div>
+
+        <!-- HERO: technician name -->
+        <div class="flex items-start gap-3 mb-4">
+          <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-500 to-ai-dark flex items-center justify-center shadow-lg shadow-emerald-500/20 flex-shrink-0">
+            <lucide-icon name="check" [size]="22" strokeWidth="2.5" class="text-white"></lucide-icon>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-0.5">Técnico recomendado</p>
+            <h3 class="font-display text-2xl md:text-3xl font-bold tracking-tight leading-tight
+                       bg-gradient-to-br from-slate-900 via-slate-800 to-ai-dark
+                       bg-clip-text text-transparent">
+              {{ slot.nombre }} {{ slot.apellido }}
+            </h3>
+          </div>
+        </div>
+
+        <!-- Time + meta block -->
+        <div class="flex items-center gap-2 mb-4 flex-wrap">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100">
+            <lucide-icon name="clock" [size]="14" strokeWidth="1.5" class="text-slate-400"></lucide-icon>
+            <span class="text-sm font-mono font-semibold text-slate-700">
+              {{ slot.hora_inicio }} – {{ slot.hora_fin }}
+            </span>
+          </span>
+          @if (slot.traslado_min > 0) {
+            <span class="inline-flex items-center gap-1 text-xs text-amber-700 bg-amber-50 px-2 py-1 rounded-lg">
+              <lucide-icon name="map-pin" [size]="12" strokeWidth="1.5"></lucide-icon>
+              +{{ slot.traslado_min }}min traslado
+            </span>
+          }
+          <span class="inline-flex items-center gap-1 text-xs text-slate-500 bg-slate-50 px-2 py-1 rounded-lg">
+            {{ slot.carga_previa_horas.toFixed(1) }}h previas
+          </span>
+        </div>
+
+        <!-- Justification -->
+        @if (slot.justificacion) {
+          <div class="bg-gradient-to-r from-ai-muted to-transparent border-l-2 border-ai rounded-r-lg pl-3 py-2 mb-4">
+            <p class="text-[10px] font-semibold text-ai-dark uppercase tracking-widest mb-1 flex items-center gap-1">
+              <lucide-icon name="sparkles" [size]="10" strokeWidth="2"></lucide-icon>
+              Razonamiento de la IA
+            </p>
+            <p class="text-sm text-slate-600 leading-relaxed">{{ slot.justificacion }}</p>
+          </div>
+        }
+
+        <!-- Confirm button (full width) -->
+        <button
+          type="button"
+          (click)="confirmar.emit(slot)"
+          [disabled]="isActionDisabled()"
+          class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold text-white
+                 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700
+                 shadow-lg shadow-emerald-500/25
+                 disabled:from-slate-200 disabled:to-slate-200 disabled:text-slate-400 disabled:shadow-none
+                 transition-all active:scale-[0.98]">
+          @if (state === 'confirming') {
+            <lucide-icon name="loader-2" [size]="16" strokeWidth="2" class="animate-spin"></lucide-icon>
+            Aplicando...
+          } @else {
+            <lucide-icon name="check" [size]="16" strokeWidth="2.5"></lucide-icon>
+            Confirmar asignación
+          }
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- ─── 3. Fallback warning (subtle amber badge) ─────────────── -->
+  @if (sugerencia.origen === 'motor_fallback') {
+    <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-50 border border-amber-200">
+      <lucide-icon name="alert-triangle" [size]="14" strokeWidth="1.5" class="text-amber-500"></lucide-icon>
+      <span class="text-xs text-amber-700">Sugerencia base del motor — validación IA no disponible</span>
+    </div>
+  }
+
+  <!-- ─── 5. Advertencias (small amber list) ────────────────────── -->
+  @if (sugerencia.advertencias && sugerencia.advertencias!.length > 0) {
+    <div class="bg-amber-50/60 border border-amber-200 rounded-xl p-3">
+      <div class="flex items-center gap-1.5 mb-1.5">
+        <lucide-icon name="alert-triangle" [size]="13" strokeWidth="1.5" class="text-amber-500"></lucide-icon>
+        <span class="text-xs font-semibold text-amber-700">Correcciones automáticas</span>
+      </div>
+      <ul class="list-disc list-inside text-xs text-amber-600 space-y-0.5 ml-1">
+        @for (adv of sugerencia.advertencias; track $index) {
+          <li>{{ adv }}</li>
+        }
+      </ul>
+    </div>
+  }
+
+  <!-- ─── 6. Alternatives (progressive disclosure) ──────────────── -->
+  @if (sugerencia.alternativas.length > 0) {
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
+      <!-- Toggle -->
+      <button
+        type="button"
+        (click)="toggleAlternatives()"
+        class="w-full flex items-center justify-between px-4 py-3 text-left
+               hover:bg-slate-50 transition-colors">
+        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">
+          @if (showAlternatives()) {
+            Ocultar opciones
+          } @else {
+            Ver otras {{ sugerencia.alternativas.length }} opciones
+          }
+        </span>
+        <lucide-icon
+          [name]="showAlternatives() ? 'chevron-up' : 'chevron-right'"
+          [size]="16"
+          strokeWidth="1.5"
+          class="text-slate-400 transition-transform">
+        </lucide-icon>
+      </button>
+
+      <!-- Expanded list -->
+      @if (showAlternatives()) {
+        <div class="border-t border-slate-100">
+          @for (alt of sugerencia.alternativas; track alt.trabajador_id) {
+            <div class="flex items-center justify-between gap-3 px-4 py-3
+                        border-b border-slate-50 last:border-b-0
+                        hover:bg-slate-50/80 transition-colors group">
+              <div class="flex-1 min-w-0">
+                <!-- Name + specialty -->
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="text-sm font-semibold text-slate-700">{{ alt.nombre }} {{ alt.apellido }}</span>
+                  <span class="text-[11px] font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">
+                    {{ alt.especialidad }}
+                  </span>
+                </div>
+                <!-- Time + traslado + carga -->
+                <div class="flex items-center gap-2 mt-1 flex-wrap">
+                  <span class="text-xs font-mono font-medium text-slate-600">
+                    {{ alt.hora_inicio }} – {{ alt.hora_fin }}
+                  </span>
+                  @if (alt.traslado_min > 0) {
+                    <span class="text-xs text-amber-600">+{{ alt.traslado_min }}min</span>
+                  }
+                  <span class="text-xs text-slate-400">{{ alt.carga_previa_horas.toFixed(1) }}h previas</span>
+                </div>
+                <!-- Justification -->
+                @if (alt.justificacion) {
+                  <p class="text-xs text-slate-400 italic mt-1 line-clamp-2">{{ alt.justificacion }}</p>
+                }
+              </div>
+
+              <!-- Elegir button (appears on hover) -->
+              <button
+                type="button"
+                (click)="confirmar.emit(alt)"
+                [disabled]="isActionDisabled()"
+                class="flex-shrink-0 px-3 py-1.5 rounded-xl text-xs font-semibold text-[#003B73]
+                       border border-[#003B73]/30 hover:bg-[#003B73]/5
+                       disabled:opacity-40 disabled:cursor-not-allowed transition-all
+                       opacity-0 group-hover:opacity-100">
+                Elegir
+              </button>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  <!-- ─── 7. LLM Notes (small blue bubble) ─────────────────────── -->
+  @if (sugerencia.notas_llm) {
+    <div class="bg-blue-50 border border-blue-200 rounded-xl p-3">
+      <div class="flex items-start gap-2">
+        <lucide-icon name="lightbulb" [size]="15" strokeWidth="1.5" class="text-blue-400 mt-0.5 flex-shrink-0"></lucide-icon>
+        <p class="text-xs text-blue-700 italic leading-relaxed">{{ sugerencia.notas_llm }}</p>
+      </div>
+    </div>
+  }
+
+  <!-- ─── 8. Descartar link ────────────────────────────────────── -->
+  <div class="text-center pt-1">
+    <button
+      type="button"
+      (click)="descartar.emit()"
+      class="text-[11px] text-slate-400 underline hover:text-slate-600 transition-colors">
+      Cancelar y volver
+    </button>
+  </div>
+</div>

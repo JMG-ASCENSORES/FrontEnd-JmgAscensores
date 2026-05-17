@@ -1,0 +1,45 @@
+<!-- Confirmation Card — success inline in the thread after confirmation -->
+<div class="border-l-[4px] border-emerald-500 bg-emerald-50/50 rounded-xl border border-emerald-200 p-5">
+
+  <!-- Header: check icon + title -->
+  <div class="flex items-center gap-3 mb-4">
+    <div class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0">
+      <lucide-icon name="check-circle" [size]="22" strokeWidth="1.5" class="text-emerald-600"></lucide-icon>
+    </div>
+    <p class="text-base font-bold text-emerald-800 font-display">Programación confirmada</p>
+  </div>
+
+  <!-- Technician info -->
+  <div class="space-y-1.5">
+    <!-- Name + specialty badge -->
+    <div class="flex items-center gap-2 flex-wrap">
+      <span class="text-sm font-semibold text-slate-800">{{ slot.nombre }} {{ slot.apellido }}</span>
+      <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wide"
+            [class]="tipoBadgeClass(trabajo.tipo_trabajo)">
+        {{ trabajo.tipo_trabajo }}
+      </span>
+    </div>
+
+    <!-- Time + date -->
+    <div class="flex items-center gap-2 text-sm text-slate-600">
+      <lucide-icon name="clock" [size]="14" strokeWidth="1.5" class="text-slate-400"></lucide-icon>
+      <span class="font-mono font-medium">{{ slot.hora_inicio }} – {{ slot.hora_fin }}</span>
+      <span class="text-slate-300">·</span>
+      <span>{{ formatDate(fecha) }}</span>
+    </div>
+
+    <!-- Location -->
+    <div class="flex items-center gap-2 text-sm text-slate-600">
+      <lucide-icon name="map-pin" [size]="14" strokeWidth="1.5" class="text-slate-400"></lucide-icon>
+      <span>{{ trabajo.nombre_cliente }}</span>
+      <span class="text-slate-300">·</span>
+      <span>{{ trabajo.distrito }}</span>
+    </div>
+  </div>
+
+  <!-- Footer hint -->
+  <div class="mt-4 flex items-center gap-2 bg-emerald-100/60 rounded-lg px-3 py-2">
+    <lucide-icon name="lightbulb" [size]="14" strokeWidth="1.5" class="text-emerald-600"></lucide-icon>
+    <p class="text-xs font-medium text-emerald-700">¡Ya podés programar otro trabajo!</p>
+  </div>
+</div>
