@@ -113,57 +113,63 @@
         </div>
 
         <div class="flex flex-col gap-3 overflow-y-auto flex-1 pr-2 -mr-2">
-          @if (schedules.length === 0) {
+          @if (isLoadingSchedules) {
+            <div class="flex flex-col items-center justify-center py-12">
+              <div class="animate-spin rounded-full h-8 w-8 border-2 border-b-2 border-[#003B73] mb-2"></div>
+              <p class="text-xs text-slate-400 animate-pulse">Cargando programaciones...</p>
+            </div>
+          } @else if (schedules.length === 0) {
             <div class="flex flex-col items-center justify-center py-12 text-slate-300">
               <lucide-icon name="calendar-x" [size]="48" strokeWidth="1" class="mb-3"></lucide-icon>
               <p class="text-base font-medium text-slate-400">No hay programaciones para hoy</p>
               <p class="text-xs text-slate-400 mt-1">Dirígete a Mantenimientos para crear una nueva</p>
             </div>
-          }
-          @for (schedule of schedules; track schedule.id) {
-            <div
-              (click)="selectSchedule(schedule)"
-              class="group shrink-0 p-4 rounded-2xl border-2 transition-all cursor-pointer"
-              [ngClass]="selectedSchedule?.id === schedule.id 
-                ? 'bg-[#003B73]/5 border-[#003B73] shadow-md shadow-[#003B73]/10' 
-                : 'bg-slate-50/50 border-transparent hover:bg-white hover:border-slate-200 hover:shadow-sm'"
-              tabindex="0" (keydown.enter)="selectSchedule(schedule)">
-              
-              <div class="flex items-start gap-4">
-                <!-- Avatar -->
-                <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-white font-black text-lg shrink-0 shadow-md"
-                  [ngClass]="schedule.type === 'Emergencia' ? 'bg-red-500 animate-pulse' : schedule.avatarColor">
-                  {{schedule.clientName.substring(0, 1)}}
-                </div>
+          } @else {
+            @for (schedule of schedules; track schedule.id) {
+              <div
+                (click)="selectSchedule(schedule)"
+                class="group shrink-0 p-4 rounded-2xl border-2 transition-all cursor-pointer"
+                [ngClass]="selectedSchedule?.id === schedule.id 
+                  ? 'bg-[#003B73]/5 border-[#003B73] shadow-md shadow-[#003B73]/10' 
+                  : 'bg-slate-50/50 border-transparent hover:bg-white hover:border-slate-200 hover:shadow-sm'"
+                tabindex="0" (keydown.enter)="selectSchedule(schedule)">
                 
-                <!-- Info -->
-                <div class="flex-1 min-w-0">
-                  <div class="flex items-start justify-between gap-2">
-                    <div>
-                      <h3 class="font-bold text-slate-800 text-base truncate group-hover:text-[#003B73] transition-colors" [title]="schedule.clientName">
-                        {{schedule.clientName}}
-                      </h3>
-                      <p class="text-sm text-slate-500 mt-0.5">
-                        <span [ngClass]="schedule.type === 'Emergencia' ? 'text-red-600 font-semibold' : ''">{{schedule.type}}</span>
-                        <span class="mx-2 text-slate-300">|</span>
-                        <span>{{schedule.time}}</span>
-                      </p>
-                    </div>
-                    <span class="px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wide shrink-0"
-                      [ngClass]="schedule.type === 'Emergencia' 
-                        ? 'bg-red-100 text-red-700' 
-                        : 'bg-slate-100 text-slate-600'">
-                      {{schedule.time}}
-                    </span>
+                <div class="flex items-start gap-4">
+                  <!-- Avatar -->
+                  <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-white font-black text-lg shrink-0 shadow-md"
+                    [ngClass]="schedule.type === 'Emergencia' ? 'bg-red-500 animate-pulse' : schedule.avatarColor">
+                    {{schedule.clientName.substring(0, 1)}}
                   </div>
                   
-                  <div class="mt-2 flex items-center gap-2 text-xs text-slate-400">
-                    <lucide-icon name="user" [size]="12" strokeWidth="1.5"></lucide-icon>
-                    <span class="font-medium truncate" [title]="schedule.technicianName">{{schedule.technicianName}}</span>
+                  <!-- Info -->
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-start justify-between gap-2">
+                      <div>
+                        <h3 class="font-bold text-slate-800 text-base truncate group-hover:text-[#003B73] transition-colors" [title]="schedule.clientName">
+                          {{schedule.clientName}}
+                        </h3>
+                        <p class="text-sm text-slate-500 mt-0.5">
+                          <span [ngClass]="schedule.type === 'Emergencia' ? 'text-red-600 font-semibold' : ''">{{schedule.type}}</span>
+                          <span class="mx-2 text-slate-300">|</span>
+                          <span>{{schedule.time}}</span>
+                        </p>
+                      </div>
+                      <span class="px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wide shrink-0"
+                        [ngClass]="schedule.type === 'Emergencia' 
+                          ? 'bg-red-100 text-red-700' 
+                          : 'bg-slate-100 text-slate-600'">
+                        {{schedule.time}}
+                      </span>
+                    </div>
+                    
+                    <div class="mt-2 flex items-center gap-2 text-xs text-slate-400">
+                      <lucide-icon name="user" [size]="12" strokeWidth="1.5"></lucide-icon>
+                      <span class="font-medium truncate" [title]="schedule.technicianName">{{schedule.technicianName}}</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            }
           }
         </div>
       </div>
