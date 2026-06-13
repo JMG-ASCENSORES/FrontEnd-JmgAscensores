@@ -67,6 +67,7 @@ export class ProgrammingComponent implements OnInit {
 
   workers: Worker[] = [];
   isLoading = true;
+  isLoadingSchedules = true;
 
   allMantenimientos: Mantenimiento[] = [];
   schedules: Schedule[] = [];
@@ -189,6 +190,7 @@ export class ProgrammingComponent implements OnInit {
   }
 
   loadSchedules() {
+      this.isLoadingSchedules = true;
       this.mantenimientoService.listar(undefined, undefined, undefined, true).subscribe({
           next: (data) => {
               this.allMantenimientos = data || [];
@@ -198,9 +200,13 @@ export class ProgrammingComponent implements OnInit {
                   const localDateStr = [d.getFullYear(), String(d.getMonth() + 1).padStart(2, '0'), String(d.getDate()).padStart(2, '0')].join('-');
                   return this.allMantenimientos.some(m => m.start && m.start.split('T')[0] === localDateStr) ? ['blue-day'] : [];
               });
+              this.isLoadingSchedules = false;
+              this.cdr.detectChanges();
           },
           error: (err) => {
               console.error('Error loading schedules', err);
+              this.isLoadingSchedules = false;
+              this.cdr.detectChanges();
           }
       });
   }

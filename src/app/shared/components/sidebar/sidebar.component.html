@@ -22,8 +22,8 @@
           <div class="icon-wrapper flex-shrink-0 transition-all duration-200">
             <lucide-icon [name]="item.icon" [size]="isCollapsed ? 22 : 20" [strokeWidth]="isCollapsed ? 2.25 : 1.75" class="transition-all duration-200 group-hover:text-emerald-400"></lucide-icon>
           </div>
-          <span class="text-[15px] font-semibold whitespace-nowrap transition-all duration-300"
-            [ngClass]="{'opacity-100 w-auto': !isCollapsed, 'opacity-0 w-0 absolute': isCollapsed}">
+          <span class="text-[15px] font-semibold transition-all duration-300 leading-tight"
+            [ngClass]="{'opacity-100 w-auto whitespace-normal': !isCollapsed, 'opacity-0 w-0 absolute whitespace-nowrap overflow-hidden': isCollapsed}">
             {{ item.label }}
           </span>
         </a>
