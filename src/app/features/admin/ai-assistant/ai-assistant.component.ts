@@ -71,6 +71,10 @@ export class AIAssistantComponent implements OnInit {
   clienteDropdownOpen = signal(false);
   clienteSearchQuery = signal('');
 
+  // ── Loading progression (simulated — backend is single HTTP call) ──
+  currentStep = signal(0);
+  private stepTimers: ReturnType<typeof setTimeout>[] = [];
+
   // ── Computed ──
   ascensoresFiltrados = computed(() => {
     const clienteId = this.selectedClienteId();
@@ -82,11 +86,18 @@ export class AIAssistantComponent implements OnInit {
     this.state() === 'loading' || this.state() === 'adjusting' || this.state() === 'confirming'
   );
 
-  loadingSteps = computed<StatusStep[]>(() => [
-    { label: 'Evaluando disponibilidad de técnicos', status: 'active' },
-    { label: 'Validando con IA', status: 'pending' },
-    { label: 'Generando sugerencia óptima', status: 'pending' },
-  ]);
+  loadingSteps = computed<StatusStep[]>(() => {
+    const current = this.currentStep();
+    const labels = [
+      'Evaluando disponibilidad de técnicos',
+      'Validando con IA',
+      'Generando sugerencia óptima',
+    ];
+    return labels.map((label, i) => ({
+      label,
+      status: i < current ? 'done' : i === current ? 'active' : 'pending',
+    }));
+  });
 
   clientesFiltrados = computed(() => {
     const query = this.clienteSearchQuery().toLowerCase().trim();
@@ -195,6 +206,7 @@ export class AIAssistantComponent implements OnInit {
 
     this.errorMessage.set(null);
     this.state.set('loading');
+    this.startLoadingProgression();
 
     this.schedulerService
       .generar({
@@ -210,14 +222,28 @@ export class AIAssistantComponent implements OnInit {
       })
       .subscribe({
         next: (sugerencia) => {
+          this.clearLoadingProgression();
           this.sugerenciaActual.set(sugerencia);
           this.state.set('sugerencia_lista');
         },
         error: (err) => {
+          this.clearLoadingProgression();
           this.state.set('idle');
           this.errorMessage.set(err.message || 'Error al buscar técnico óptimo');
         },
       });
+  }
+
+  private startLoadingProgression(): void {
+    this.clearLoadingProgression();
+    this.currentStep.set(0);
+    this.stepTimers.push(setTimeout(() => this.currentStep.set(1), 1500));
+    this.stepTimers.push(setTimeout(() => this.currentStep.set(2), 3500));
+  }
+
+  private clearLoadingProgression(): void {
+    this.stepTimers.forEach(clearTimeout);
+    this.stepTimers = [];
   }
 
   // ══════════════════════════════════════════
