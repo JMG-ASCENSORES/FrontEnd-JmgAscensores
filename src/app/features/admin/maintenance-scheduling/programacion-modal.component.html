@@ -257,6 +257,14 @@
                           placeholder="Detalles adicionales sobre la programación..."
                         ></textarea>
                       </div>
+                      <!-- Audit Info -->
+                      @if (isEditMode && mantenimiento && authService.isAdmin()) {
+                        <app-audit-info
+                          [usuarioCreacion]="auditUsuarioCreacion"
+                          [usuarioModificacion]="auditUsuarioModificacion"
+                        />
+                      }
+
                       <!-- Footer -->
                       <div class="modal-footer">
                         <button type="button" class="btn-secondary" (click)="onClose()" [disabled]="isSaving">

@@ -1,3 +1,5 @@
+import { AuditActor } from '../../../core/models/audit.model';
+
 export interface ClienteResumen {
   cliente_id: number;
   nombre_comercial?: string;
@@ -63,6 +65,8 @@ export interface Mantenimiento {
     orden_id?: number;
     informe_id?: number;
     mantenimiento_fijo_id?: number;
+    usuario_creacion?: AuditActor;
+    usuario_modificacion?: AuditActor;
   };
 }
 
@@ -75,6 +79,10 @@ export interface MantenimientoFijo {
   frecuencia: 'mensual' | 'bimestral' | 'trimestral';
   activo: boolean;
   ascensor?: AscensorResumen;
+  fecha_creacion?: string;
+  fecha_actualizacion?: string;
+  usuario_creacion?: AuditActor;
+  usuario_modificacion?: AuditActor;
 }
 
 export interface CrearMantenimientoFijoDTO {

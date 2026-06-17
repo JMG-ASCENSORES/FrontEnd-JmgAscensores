@@ -1,3 +1,5 @@
+import { AuditActor } from './audit.model';
+
 export interface Client {
   cliente_id: number;
   tipo_cliente: string;
@@ -14,4 +16,6 @@ export interface Client {
   estado_activo: boolean;
   fecha_creacion: string;
   fecha_actualizacion?: string;
+  usuario_creacion?: AuditActor;
+  usuario_modificacion?: AuditActor;
 }

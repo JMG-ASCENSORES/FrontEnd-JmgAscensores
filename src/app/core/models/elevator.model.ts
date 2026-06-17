@@ -1,3 +1,5 @@
+import { AuditActor } from './audit.model';
+
 export interface Elevator {
   ascensor_id: number;
   cliente_id: number;
@@ -16,4 +18,6 @@ export interface Elevator {
 
   // Transient/UI properties
   cliente_nombre?: string;
+  usuario_creacion?: AuditActor;
+  usuario_modificacion?: AuditActor;
 }

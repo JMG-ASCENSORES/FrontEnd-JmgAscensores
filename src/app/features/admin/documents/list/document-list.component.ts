@@ -11,6 +11,7 @@ import { TechnicianService, Technician } from '../../services/technician.service
 import { DocumentFormComponent } from '../form/document-form.component';
 import { DocumentDeleteComponent } from '../delete/document-delete.component';
 import { PdfPreviewComponent } from '../preview/pdf-preview.component';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-document-list',
@@ -26,6 +27,7 @@ export class DocumentListComponent implements OnInit {
   private clientService = inject(ClientService);
   private technicianService = inject(TechnicianService);
   private sanitizer = inject(DomSanitizer);
+  protected authService = inject(AuthService);
 
   // Filters Signals
   searchQuery = signal('');

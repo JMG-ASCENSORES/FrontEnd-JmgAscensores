@@ -215,6 +215,18 @@
       </form>
     </div>
 
+    <!-- Audit Info -->
+    @if (isEditMode && mantenimientoFijo && authService.isAdmin()) {
+      <div class="px-4 pb-2">
+        <app-audit-info
+          [fechaCreacion]="mantenimientoFijo.fecha_creacion"
+          [fechaActualizacion]="mantenimientoFijo.fecha_actualizacion"
+          [usuarioCreacion]="mantenimientoFijo.usuario_creacion"
+          [usuarioModificacion]="mantenimientoFijo.usuario_modificacion"
+        />
+      </div>
+    }
+
     <!-- Footer -->
     <div class="modal-footer p-4 border-t border-slate-200 rounded-b-xl flex justify-end gap-3 bg-white">
       <button

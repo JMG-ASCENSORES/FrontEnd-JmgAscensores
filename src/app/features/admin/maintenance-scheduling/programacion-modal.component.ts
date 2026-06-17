@@ -8,6 +8,9 @@ import { Mantenimiento, CrearMantenimientoDTO } from '../models/mantenimiento.in
 import { TechnicianService } from '../services/technician.service';
 import { ClientService } from '../services/client.service';
 import { ElevatorService } from '../services/elevator.service';
+import { AuditInfoComponent } from '../../../shared/components/audit-info/audit-info.component';
+import { AuthService } from '../../../core/services/auth.service';
+import { AuditActor } from '../../../core/models/audit.model';
 
 interface Trabajador {
   usuario_id: number;
@@ -39,7 +42,7 @@ interface Ascensor {
   selector: 'app-programacion-modal',
   standalone: true,
   imports: [FormsModule,
-    LucideAngularModule
+    LucideAngularModule, AuditInfoComponent
   ],
   templateUrl: './programacion-modal.component.html',
   styleUrl: './programacion-modal.component.scss'
@@ -55,6 +58,7 @@ export class ProgramacionModalComponent implements OnInit, OnChanges {
   private clientService = inject(ClientService);
   private elevatorService = inject(ElevatorService);
   private cdr = inject(ChangeDetectorRef);
+  protected authService = inject(AuthService);
 
   // Form data
   formData = {
@@ -397,6 +401,15 @@ export class ProgramacionModalComponent implements OnInit, OnChanges {
         error: handleError
       });
     }
+  }
+
+  // ─── Audit actors (DELTA 1: fields live in extendedProps, not at root) ───────
+  get auditUsuarioCreacion(): AuditActor | null {
+    return this.mantenimiento?.extendedProps?.usuario_creacion ?? null;
+  }
+
+  get auditUsuarioModificacion(): AuditActor | null {
+    return this.mantenimiento?.extendedProps?.usuario_modificacion ?? null;
   }
 
   // ─── Close ───────────────────────────────────────────────────────────────────

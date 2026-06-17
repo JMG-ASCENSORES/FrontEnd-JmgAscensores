@@ -4,6 +4,12 @@ import { Observable, map, catchError, throwError } from 'rxjs';
 import { MantenimientoFijo, CrearMantenimientoFijoDTO } from '../models/mantenimiento.interface';
 import { environment } from '../../../../environments/environment';
 
+interface ApiListResponse<T> {
+  success: boolean;
+  data: T;
+  message?: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,7 +21,13 @@ export class MantenimientoFijoService {
     let params = new HttpParams();
     if (ascensor_id) params = params.set('ascensor_id', ascensor_id.toString());
 
-    return this.http.get<MantenimientoFijo[]>(this.apiUrl, { params });
+    return this.http.get<ApiListResponse<MantenimientoFijo[]>>(this.apiUrl, { params }).pipe(
+      map(response => response.data ?? []),
+      catchError(error => {
+        const message = error.error?.message || 'Error al listar mantenimientos fijos.';
+        return throwError(() => new Error(message));
+      })
+    );
   }
 
   crear(data: CrearMantenimientoFijoDTO): Observable<any> {

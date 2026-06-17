@@ -1,3 +1,5 @@
+import { AuditActor } from './audit.model';
+
 export interface Evidence {
   evidencia_id: number;
   informe_id: number;
@@ -50,5 +52,7 @@ export interface Report {
   Cliente?: any;
   Trabajador?: any;
   OrdenTrabajo?: WorkOrder;
+  usuario_creacion?: AuditActor;
+  usuario_modificacion?: AuditActor;
 }
 

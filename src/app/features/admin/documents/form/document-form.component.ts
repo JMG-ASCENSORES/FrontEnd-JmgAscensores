@@ -9,12 +9,14 @@ import { SearchableSelectComponent } from '../../../../shared/components/searcha
 import { MaintenanceChecklistComponent } from '../../../../shared/components/maintenance-checklist/maintenance-checklist.component';
 import { ModalWrapperComponent } from '../../../../shared/components/modal-wrapper/modal-wrapper.component';
 import { Report } from '../../../../core/models/report.model';
+import { AuditInfoComponent } from '../../../../shared/components/audit-info/audit-info.component';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-document-form',
   standalone: true,
   imports: [ReactiveFormsModule, SearchableSelectComponent, MaintenanceChecklistComponent, ModalWrapperComponent,
-    LucideAngularModule
+    LucideAngularModule, AuditInfoComponent
   ],
   templateUrl: './document-form.component.html',
   styleUrl: './document-form.component.scss'
@@ -30,6 +32,7 @@ export class DocumentFormComponent implements OnInit {
   private clientService = inject(ClientService);
   private technicianService = inject(TechnicianService);
   private reportService = inject(ReportService);
+  protected authService = inject(AuthService);
 
   form: FormGroup;
   isSubmitting = signal(false);

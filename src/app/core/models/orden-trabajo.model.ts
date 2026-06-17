@@ -1,3 +1,5 @@
+import { AuditActor } from './audit.model';
+
 export interface TareaMaestra {
   tarea_maestra_id: number;
   tipo_equipo: string;
@@ -32,4 +34,6 @@ export interface OrdenTrabajo {
   Programacion?: any; // You can import Programacion model if you have it
   Cliente?: any;
   Ascensor?: any;
+  usuario_creacion?: AuditActor;
+  usuario_modificacion?: AuditActor;
 }

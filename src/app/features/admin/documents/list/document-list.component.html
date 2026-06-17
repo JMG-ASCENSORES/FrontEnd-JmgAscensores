@@ -280,6 +280,11 @@
                 <span class="text-sm text-slate-400 whitespace-nowrap">
                   {{ formatDateTime(report.fecha_actualizacion!) }}
                 </span>
+                @if (authService.isAdmin() && report.usuario_modificacion) {
+                  <p class="text-xs text-jmg-muted mt-0.5">
+                    por {{ report.usuario_modificacion.nombre_completo }}
+                  </p>
+                }
               </td>
               <!-- Acciones -->
               <td class="px-6 py-4">

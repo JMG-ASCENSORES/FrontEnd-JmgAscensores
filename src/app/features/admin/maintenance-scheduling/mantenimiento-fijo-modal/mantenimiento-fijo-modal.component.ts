@@ -8,12 +8,14 @@ import { ElevatorService } from '../../services/elevator.service';
 import { ClientService } from '../../services/client.service';
 import { MantenimientoFijo } from '../../models/mantenimiento.interface';
 import { Subject, debounceTime, distinctUntilChanged, switchMap, finalize, of } from 'rxjs';
+import { AuditInfoComponent } from '../../../../shared/components/audit-info/audit-info.component';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-mantenimiento-fijo-modal',
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule,
-    LucideAngularModule
+    LucideAngularModule, AuditInfoComponent
   ],
   templateUrl: './mantenimiento-fijo-modal.component.html',
   styleUrl: './mantenimiento-fijo-modal.component.scss'
@@ -29,6 +31,7 @@ export class MantenimientoFijoModalComponent implements OnInit {
   private clientService = inject(ClientService);
   private cdr = inject(ChangeDetectorRef);
   private fb = inject(FormBuilder);
+  protected authService = inject(AuthService);
 
   form: FormGroup = this.fb.group({
     ascensor_id: [null, Validators.required],

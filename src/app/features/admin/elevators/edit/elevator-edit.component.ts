@@ -5,12 +5,14 @@ import { FormsModule } from '@angular/forms';
 import { ElevatorService } from '../../services/elevator.service';
 import { ClientService, Client } from '../../services/client.service';
 import { Elevator } from '../../../../core/models/elevator.model';
+import { AuditInfoComponent } from '../../../../shared/components/audit-info/audit-info.component';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-elevator-edit',
   standalone: true,
   imports: [FormsModule,
-    LucideAngularModule
+    LucideAngularModule, AuditInfoComponent
   ],
   templateUrl: './elevator-edit.component.html',
   styleUrl: './elevator-edit.component.scss'
@@ -22,6 +24,7 @@ export class ElevatorEditComponent implements OnInit {
 
   private elevatorService = inject(ElevatorService);
   private clientService = inject(ClientService);
+  protected authService = inject(AuthService);
 
   clients = signal<Client[]>([]);
   isSubmitting = signal(false);

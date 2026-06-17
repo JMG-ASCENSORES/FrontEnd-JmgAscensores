@@ -141,6 +141,16 @@
       </div>
     </div>
 
+    <!-- Audit Info (edit mode only) -->
+    @if (mode === 'edit' && report && authService.isAdmin()) {
+      <app-audit-info
+        [fechaCreacion]="report.fecha_creacion"
+        [fechaActualizacion]="report.fecha_actualizacion"
+        [usuarioCreacion]="report.usuario_creacion"
+        [usuarioModificacion]="report.usuario_modificacion"
+      />
+    }
+
     <!-- Footer Actions -->
     <div class="flex items-center justify-end gap-3 pt-6 border-t border-slate-100">
       <button type="button" (click)="onClose()" class="px-6 py-2.5 rounded-xl text-slate-600 font-bold hover:bg-slate-100 transition-colors">

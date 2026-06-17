@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, map, of, throwError } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { AuditActor } from '../../../core/models/audit.model';
 
 export interface Client {
   cliente_id: number;
@@ -21,6 +22,8 @@ export interface Client {
   estado_activo?: boolean;
   fecha_creacion?: string;
   fecha_actualizacion?: string;
+  usuario_creacion?: AuditActor;
+  usuario_modificacion?: AuditActor;
   nombre_comercial?: string; // Mapped from response or fallback
 
   // Equipment counts provided by the optimized backend API

@@ -3,6 +3,7 @@ import { limaDateStr, limaTimeStr } from '../../../shared/utils/date-lima.util';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { AuditActor } from '../../../core/models/audit.model';
 
 // ============= INTERFACES =============
 
@@ -26,6 +27,8 @@ export interface ProgramacionAPI {
     trabajador?: Trabajador;
     cliente?: Cliente;
     ascensor?: Ascensor;
+    usuario_creacion?: AuditActor;
+    usuario_modificacion?: AuditActor;
   };
 }
 
@@ -48,6 +51,8 @@ export interface Programacion {
   trabajador?: Trabajador;
   cliente?: Cliente;
   ascensor?: Ascensor;
+  usuario_creacion?: AuditActor;
+  usuario_modificacion?: AuditActor;
 }
 
 export interface Trabajador {
@@ -173,7 +178,9 @@ export class ProgramacionService {
       descripcion: apiProg.extendedProps.descripcion,
       trabajador: apiProg.extendedProps.trabajador,
       cliente: apiProg.extendedProps.cliente,
-      ascensor: apiProg.extendedProps.ascensor
+      ascensor: apiProg.extendedProps.ascensor,
+      usuario_creacion: apiProg.extendedProps.usuario_creacion,
+      usuario_modificacion: apiProg.extendedProps.usuario_modificacion
     };
   }
 
