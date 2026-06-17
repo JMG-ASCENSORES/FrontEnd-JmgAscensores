@@ -5,12 +5,14 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ClientService, Client } from '../../services/client.service';
 import { ModalWrapperComponent } from '../../../../shared/components/modal-wrapper/modal-wrapper.component';
+import { AuditInfoComponent } from '../../../../shared/components/audit-info/audit-info.component';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-client-edit',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, ModalWrapperComponent,
-    LucideAngularModule
+    LucideAngularModule, AuditInfoComponent
   ],
   templateUrl: './client-edit.component.html',
 })
@@ -22,6 +24,7 @@ export class ClientEditComponent implements OnInit {
   private fb = inject(FormBuilder);
   private clientService = inject(ClientService);
   private sanitizer = inject(DomSanitizer);
+  protected authService = inject(AuthService);
 
   isSubmitting = signal(false);
   errorMessage = signal<string | null>(null);
@@ -59,8 +62,9 @@ export class ClientEditComponent implements OnInit {
         rucControl?.clearValidators();
         nombreControl?.clearValidators();
       } else {
-        rucControl?.setValidators([Validators.required, Validators.pattern(/^\d{11}$/)]);
-        nombreControl?.setValidators([Validators.required, Validators.minLength(2)]);
+        // Relajado: sin 'required' para no bloquear edición de clientes legacy.
+        rucControl?.clearValidators();
+        nombreControl?.setValidators([Validators.minLength(2)]);
       }
       rucControl?.updateValueAndValidity();
       nombreControl?.updateValueAndValidity();
@@ -88,19 +92,23 @@ export class ClientEditComponent implements OnInit {
   }
 
   initForm() {
+    // Validación RELAJADA para edición: no ser más estricto que el backend
+    // (updateClientSchema es permisivo). Sin 'required' salvo el tipo; los
+    // patrones de formato solo disparan cuando hay valor. Permite editar/guardar
+    // clientes con data legacy o incompleta sin que el form nazca inválido.
     this.clientForm = this.fb.group({
       tipo_cliente: [this.client.tipo_cliente || 'empresa', Validators.required],
-      nombre_comercial: [this.client.nombre_comercial || '', [Validators.required, Validators.minLength(2)]],
-      dni: [this.client.dni || '', [Validators.required, Validators.pattern(/^\d{8}$/)]],
-      ruc: [this.client.ruc || '', [Validators.required, Validators.pattern(/^\d{11}$/)]],
-      ubicacion: [this.client.ubicacion || '', Validators.required],
+      nombre_comercial: [this.client.nombre_comercial || '', [Validators.minLength(2)]],
+      dni: [this.client.dni || '', [Validators.pattern(/^\d{8,20}$/)]],
+      ruc: [this.client.ruc || ''],
+      ubicacion: [this.client.ubicacion || ''],
       distrito: [this.client.distrito || ''],
       latitud: [this.client.latitud ?? null],
       longitud: [this.client.longitud ?? null],
-      contacto_telefono: [this.client.contacto_telefono || this.client.telefono || '', [Validators.required, Validators.pattern(/^9\d{8}$/)]],
-      contacto_nombre: [this.client.contacto_nombre || '', Validators.required],
+      contacto_telefono: [this.client.contacto_telefono || this.client.telefono || ''],
+      contacto_nombre: [this.client.contacto_nombre || ''],
       contacto_apellido: [this.client.contacto_apellido || ''],
-      contacto_correo: [this.client.contacto_correo || '', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
+      contacto_correo: [this.client.contacto_correo || '', [Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
       estado_activo: [this.client.estado_activo !== false] // Handle undefined as true just in case
     });
   }

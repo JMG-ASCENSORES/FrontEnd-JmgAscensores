@@ -208,6 +208,16 @@
                               </div>
                             </div>
                           </div>
+                          <!-- Audit Info -->
+                          @if (authService.isAdmin()) {
+                            <app-audit-info
+                              [fechaCreacion]="client.fecha_creacion"
+                              [fechaActualizacion]="client.fecha_actualizacion"
+                              [usuarioCreacion]="client.usuario_creacion"
+                              [usuarioModificacion]="client.usuario_modificacion"
+                            />
+                          }
+
                           <!-- Actions -->
                           <div class="flex items-center justify-end gap-3 pt-6 border-t border-slate-100">
                             <button type="button" (click)="onClose()"
