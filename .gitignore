@@ -6,6 +6,9 @@
 /out-tsc
 /bazel-out
 
+# Generated API docs (compodoc) — build artifact, not source
+/documentation
+
 # Node
 /node_modules
 npm-debug.log
