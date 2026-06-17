@@ -38,6 +38,11 @@ export class DocumentFormComponent implements OnInit {
   isSubmitting = signal(false);
   error = signal<string | null>(null);
 
+  // Display text for the searchable-selects on edit (the widget shows its own
+  // search text, not the form control value).
+  selectedClientName = signal('');
+  selectedTechName = signal('');
+
   // Data Sources
   clients = signal<Client[]>([]);
   technicians = signal<Technician[]>([]);
@@ -167,7 +172,10 @@ export class DocumentFormComponent implements OnInit {
         this.clients.set(data);
         if (this.mode === 'edit' && this.report) {
           const client = data.find(c => c.cliente_id === this.report!.cliente_id);
-          if (client) this.form.get('cliente_id')?.setValue(client.cliente_id);
+          if (client) {
+            this.form.get('cliente_id')?.setValue(client.cliente_id);
+            this.selectedClientName.set(this.displayClient(client));
+          }
         }
       },
       error: (err) => console.error('Error loading clients', err)
@@ -178,7 +186,10 @@ export class DocumentFormComponent implements OnInit {
         this.technicians.set(data);
         if (this.mode === 'edit' && this.report) {
           const tech = data.find(t => t.id === this.report!.trabajador_id);
-          if (tech) this.form.get('trabajador_id')?.setValue(tech.id);
+          if (tech) {
+            this.form.get('trabajador_id')?.setValue(tech.id);
+            this.selectedTechName.set(this.displayTech(tech));
+          }
         }
       },
       error: (err) => console.error('Error loading technicians', err)
@@ -213,6 +224,12 @@ export class DocumentFormComponent implements OnInit {
       fecha_informe: dateStr,
       hora_informe: reportData.hora_informe || '12:00'
     });
+
+    // Pre-fill the searchable-select displays from the included associations.
+    const cli = (reportData as any).Cliente;
+    if (cli) this.selectedClientName.set(this.displayClient(cli));
+    const tech = (reportData as any).Trabajador;
+    if (tech) this.selectedTechName.set(this.displayTech(tech));
   }
 
   selectClient(client: Client) {

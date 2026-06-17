@@ -22,6 +22,7 @@
         [options]="clients()"
         [displayFn]="displayClient"
         [subDisplayFn]="displayClientID"
+        [initialSearchValue]="selectedClientName()"
         (onSelect)="selectClient($event)"
       ></app-searchable-select>
 
@@ -55,6 +56,7 @@
         [options]="technicians()"
         [displayFn]="displayTech"
         [subDisplayFn]="displayTechSpecialty"
+        [initialSearchValue]="selectedTechName()"
         (onSelect)="selectTechnician($event)"
       ></app-searchable-select>
 

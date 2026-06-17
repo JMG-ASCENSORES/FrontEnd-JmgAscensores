@@ -19,7 +19,11 @@ export class SearchableSelectComponent {
 
   @Input() displayFn: (item: any) => string = (item) => item.nombre || '';
   @Input() subDisplayFn?: (item: any) => string;
-  @Input() initialSearchValue: string = '';
+  // @Input values are NOT available in the constructor, so reading it there was
+  // always empty. A setter applies the value whenever it arrives (e.g. on edit).
+  @Input() set initialSearchValue(val: string) {
+    if (val) this.searchTerm.set(val);
+  }
 
   @Output() onSelect = new EventEmitter<any>();
 
@@ -38,12 +42,7 @@ export class SearchableSelectComponent {
     });
   });
 
-  constructor(private eRef: ElementRef) {
-    // Inicializar el valor de búsqueda si se provee
-    if (this.initialSearchValue) {
-        this.searchTerm.set(this.initialSearchValue);
-    }
-  }
+  constructor(private eRef: ElementRef) {}
 
   onInput(event: Event) {
     const val = (event.target as HTMLInputElement).value;
